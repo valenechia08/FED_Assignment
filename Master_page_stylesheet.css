@@ -1,23 +1,73 @@
 body {
-    margin: 0px;
+  margin: 0;
 }
 
-.rectangle{
-    background-color:#E47329;
-    width:200px;
-    height:900px;
-    display:flex;
-    flex-direction: column;
-    justify-content: center; 
+.navrectangle {
+  background-color: #e47329;
+  width: 220px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-.navBar{
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
-    font-size: 20px;
-    font-family: Arial, Helvetica, sans-serif;
-    list-style: none;
-    gap: 25px;
+header {
+  font-size: 36px;
+  color: white;
+  font-style: italic;
+  font-family: 'Kodchasan', Arial, sans-serif;
+  padding: 30px 20px;
+}
+
+.navBar {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+}
+
+/* MAIN ITEMS */
+.navBar li.main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 20px;
+  font-weight: bold;
+}
+
+/* SUB ITEMS */
+.subpoint {
+  padding: 8px 40px;
+  font-size: 14px;
+  position: relative;
+}
+
+.subpoint::before {
+  content: "•";
+  position: absolute;
+  left: 25px;
+}
+
+/* DIVIDER LINE */
+.divider {
+  height: 1px;
+  background-color: rgba(0, 0, 0, 0.3);
+  margin: 10px 0;
+}
+
+/* ARROW */
+.arrow {
+  font-size: 14px;
+}
+
+/* LOGOUT */
+.logout {
+  padding-bottom: 20px;
+}
+
+/* HOVER EFFECT */
+.navBar li:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  cursor: pointer;
 }
