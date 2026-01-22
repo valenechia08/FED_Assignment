@@ -3,11 +3,12 @@ body {
 }
 
 .navrectangle {
-  background-color: #e47329;
-  width: 220px;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
+    background-color: #e47329;
+    width: 220px;
+    height: 900px;
+    display: flex;
+    flex-direction: column;
+    
 }
 
 header {
@@ -15,7 +16,7 @@ header {
   color: white;
   font-style: italic;
   font-family: 'Kodchasan', Arial, sans-serif;
-  padding: 30px 20px;
+  padding: 40px 20px;
 }
 
 .navBar {
@@ -71,3 +72,45 @@ header {
   background-color: rgba(255, 255, 255, 0.1);
   cursor: pointer;
 }
+
+
+.welcome-text {
+    position: absolute;
+    top: 45px;
+    left: 310px;
+    color: black;
+    margin: 0;
+    font-family: 'Kodchasan',Arial, Helvetica, sans-serif;
+}
+
+.searchBar {
+        position: absolute;   
+        top: 40px;
+        left: 570px;
+        /* adjust based on sidebar width */
+        display: flex;
+        align-items: center;
+        width: 550px;
+        background-color: #e0e0e0;
+        border-radius: 999px;
+        padding: 6px 10px;
+    }
+
+    /* Input */
+    .search-input {
+        flex: 1;
+        border: none;
+        outline: none;
+        background: transparent;
+        padding: 10px 14px;
+        font-size: 14px;
+    }
+
+    /* Button */
+    .search-btn {
+        border: none;
+        background: transparent;
+        cursor: pointer;
+        font-size: 30px;
+        margin-right: 10px;
+    }
