@@ -1,4 +1,6 @@
-
+body {
+    margin: 0px;
+}
 
 .rectangle{
     background-color:#E47329;
@@ -8,6 +10,14 @@
     flex-direction: column;
     justify-content: center; 
 }
-body{
-    margin:0px;
+
+.navBar{
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    font-size: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    list-style: none;
+    gap: 25px;
 }
