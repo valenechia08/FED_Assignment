@@ -1,0 +1,13 @@
+@media (min-width=992px){
+    .rectangle{
+        background-color: orange;
+        width:100px;
+        height:30px;
+    }
+}
+
+@media (min-width=576px){
+    .rectangle{
+        background-color: white;
+    }
+}
