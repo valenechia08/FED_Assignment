@@ -2,6 +2,12 @@
 
 .rectangle{
     background-color:#E47329;
-    width:600px;
-    height:100px;
+    width:200px;
+    height:900px;
+    display:flex;
+    flex-direction: column;
+    justify-content: center; 
+}
+body{
+    margin:0px;
 }
