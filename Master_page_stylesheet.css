@@ -1,13 +1,7 @@
-@media (min-width=992px){
-    .rectangle{
-        background-color: orange;
-        width:100px;
-        height:30px;
-    }
-}
 
-@media (min-width=576px){
-    .rectangle{
-        background-color: white;
-    }
+
+.rectangle{
+    background-color:#E47329;
+    width:600px;
+    height:100px;
 }
