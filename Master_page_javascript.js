@@ -49,3 +49,44 @@ document.querySelectorAll('.toggle').forEach(mainItem => {
           }
         });
       });
+
+
+
+// Grab all cuisine cards
+const cuisines = document.querySelectorAll(".cuisine");
+
+// Grab all stall cards
+const stalls = document.querySelectorAll(".stall-card");
+
+cuisines.forEach(cuisine => {
+  cuisine.addEventListener("click", () => {
+    // check if this cuisine is already selected
+    const isSelected = cuisine.classList.contains("selected");
+
+    // remove 'selected' from all cuisines
+    cuisines.forEach(c => c.classList.remove("selected"));
+
+    if (isSelected) {
+      // if clicked again, deselect and show all stalls
+      stalls.forEach(stall => {
+        stall.style.display = "block";
+      });
+    } else {
+      // otherwise, select this cuisine
+      cuisine.classList.add("selected");
+
+      // get the cuisine class (e.g. "malay", "chinese", "indian", "other")
+      let chosenCuisine = cuisine.querySelector("span").className;
+      console.log("Chosen cuisine:", chosenCuisine);
+
+      // filter stalls based on class
+      stalls.forEach(stall => {
+        if (stall.classList.contains(chosenCuisine)) {
+          stall.style.display = "block";   // show matching stalls
+        } else {
+          stall.style.display = "none";    // hide non-matching stalls
+        }
+      });
+    }
+  });
+});

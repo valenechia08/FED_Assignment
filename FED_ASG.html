@@ -10,114 +10,122 @@
       href="https://fonts.googleapis.com/css2?family=Kodchasan:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
       rel="stylesheet"
     />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="Master_page_stylesheet.css" />
   </head>
   <body>
-    <nav class="navrectangle">
-      <header>ShiokLah!</header>
+    <section class="container">
+      <nav class="navrectangle">
+        <header>ShiokLah!</header>
 
-      <ul class="navBar">
-        <li class="main toggle">
-          <span>🏠 Home</span>
-          <span class="arrow">v</span>
-        </li>
-        <ul class="submenu">
-          <li class="subpoint">Start Order</li>
+        <ul class="navBar">
+          <li class="main toggle">
+            <span>🏠 Home</span>
+            <span class="arrow">v</span>
+          </li>
+          <ul class="submenu">
+            <li class="subpoint">Start Order</li>
+          </ul>
+
+          <li class="divider"></li>
+
+          <li class="main toggle">
+            <span>📄 Order History</span>
+            <span class="arrow">v</span>
+          </li>
+          <ul class="submenu">
+            <li class="subpoint">Past Orders</li>
+          </ul>
+
+          <li class="divider"></li>
+
+          <li class="main toggle">
+            <span>👤 Profile</span>
+            <span class="arrow">v</span>
+          </li>
+          <ul class="submenu">
+            <li class="subpoint">Analytics & Reporting</li>
+            <li class="subpoint">Customer Feedback</li>
+            <li class="subpoint">Regulatory & Compliance</li>
+            <li class="subpoint">Favourites</li>
+            <li class="subpoint">Rewards</li>
+          </ul>
+
+          <li class="divider"></li>
+          <li class="subpoint logout">Log out</li>
         </ul>
+      </nav>
 
-        <li class="divider"></li>
+      <!-- Welcome text -->
+      <section class="home">
+        <h1 class="welcome-text">Welcome!</h1>
 
-        <li class="main toggle">
-          <span>📄 Order History</span>
-          <span class="arrow">v</span>
-        </li>
-        <ul class="submenu">
-          <li class="subpoint">Past Orders</li>
-        </ul>
+        <!-- Search Bar -->
+        <div class="searchBar">
+          <input
+            type="text"
+            placeholder="What would you like to eat?"
+            class="search-input"
+          />
+          <button class="search-btn">⌕</button>
+        </div>
+      </section>
+      <main class="cuisines">
+        <section class="cuisine">
+          <img src="images/Malay Cuisine Picture.jpg" alt="Malay Cuisine" />
+          <span class="malay">Malay</span>
+        </section>
+        <section class="cuisine">
+          <img src="images/Chinese Cuisine Picture.jpg" alt="Chinese Cuisine" />
+          <span class="chinese">Chinese</span>
+        </section>
+        <section class="cuisine">
+          <img src="images/Indian Cuisine Picture.webp" alt="Indian Cuisine" />
+          <span class="indian">Indian</span>
+        </section>
+        <section class="cuisine">
+          <img src="images/Other Cuisines Picture.webp" alt="Other Cuisine" />
+          <span class="others">Others</span>
+        </section>
+      </main>
+      <!-- Stall Grid -->
+      <section class="stall-grid">
+        <div class="stall-card malay">
+          <img src="images/Banana Leaf Nasi Lemak Picture.jpg" />
+          <h4>Banana Leaf Nasi Lemak</h4>
+          <p>⭐ 4.0 (200) · Malay</p>
+        </div>
 
-        <li class="divider"></li>
+        <div class="stall-card chinese">
+          <img src="images/Boon Lay Lu Wei Picture.jpg" />
+          <h4>Boon Lay Lu Wei</h4>
+          <p>⭐ 4.2 (243) · Chinese</p>
+        </div>
 
-        <li class="main toggle">
-          <span>👤 Profile</span>
-          <span class="arrow">v</span>
-        </li>
-        <ul class="submenu">
-          <li class="subpoint">Analytics & Reporting</li>
-          <li class="subpoint">Customer Feedback</li>
-          <li class="subpoint">Regulatory & Compliance</li>
-          <li class="subpoint">Favourites</li>
-          <li class="subpoint">Rewards</li>
-        </ul>
+        <div class="stall-card indian">
+          <img src="images/I.Mohamed Ismail Food Stall Picture.jpg" />
+          <h4>I. Mohamed Ismail Food Stall</h4>
+          <p>⭐ 4.5 (531) · Indian</p>
+        </div>
 
-        <li class="divider"></li>
-        <li class="subpoint logout">Log out</li>
-      </ul>
-    </nav>
+        <div class="stall-card chinese">
+          <img
+            src="images/Boon Lay Fried Carrot Cake & Kway Teow Mee Picture.jpg"
+          />
+          <h4>Boon Lay Fried Carrot Cake</h4>
+          <p>⭐ 4.2 (340) · Chinese</p>
+        </div>
 
-    <!-- Welcome text -->
-    <section class="home">
-      <h1 class="welcome-text">Welcome!</h1>
-
-      <!-- Search Bar -->
-      <div class="searchBar">
-        <input
-          type="text"
-          placeholder="What would you like to eat?"
-          class="search-input"
-        />
-        <button class="search-btn">⌕</button>
-      </div>
+        <div class="stall-card others">
+          <img src="images/Big Daddy's Chicken & Noodle Picture.webp" />
+          <h4>Big Daddy's Chicken & Noodle Stall</h4>
+          <p>⭐ 4.5 (408) · Others</p>
+        </div>
+      </section>
     </section>
-    <main class="cuisines">
-      <section class="cuisine">
-        <img src="malay.jpg" alt="Malay Cuisine" />
-        <span class="malay">Malay</span>
-      </section>
-      <section class="cuisine">
-        <img src="chinese.jpg" alt="Chinese Cuisine" />
-        <span class="chinese">Chinese</span>
-      </section>
-      <section class="cuisine">
-        <img src="indian.jpg" alt="Indian Cuisine" />
-        <span class="indian">Indian</span>
-      </section>
-      <section class="cuisine">
-        <img src="others.jpg" alt="Other Cuisine" />
-        <span class="other">Other</span>
-      </section>
-    </main>
-    <!-- Stall Grid -->
-    <div class="stall-grid">
-      <div class="stall-card">
-        <img src="bananaleaf.jpg" />
-        <h4>Banana Leaf Nasi Lemak</h4>
-        <p>⭐ 4.0 (200) · Malay</p>
-      </div>
-
-      <div class="stall-card">
-        <img src="boonlay.jpg" />
-        <h4>Boon Lay Lu Wei</h4>
-        <p>⭐ 4.2 (243) · Chinese</p>
-      </div>
-
-      <div class="stall-card">
-        <img src="indianstall.jpg" />
-        <h4>I. Mohamed Ismail Food Stall</h4>
-        <p>⭐ 4.5 (531) · Indian</p>
-      </div>
-
-      <div class="stall-card">
-        <img src="carrotcake.jpg" />
-        <h4>Boon Lay Fried Carrot Cake</h4>
-        <p>⭐ 4.2 (340) · Chinese</p>
-      </div>
-
-      <div class="stall-card">
-        <img src="chicken.jpg" />
-        <h4>Big Daddy's Chicken & Noodle Stall</h4>
-        <p>⭐ 4.5 (408) · Others</p>
-      </div>
-    </div>
 
     <script type="module" src="Master_page_javascript.js"></script>
   </body>
