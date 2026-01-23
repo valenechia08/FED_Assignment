@@ -74,8 +74,6 @@ header {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
-
-
 .welcome-text {
     position: absolute;
     top: 45px;
@@ -116,3 +114,114 @@ header {
         font-size: 30px;
         margin-right: 10px;
     }
+
+.cuisines{
+  display:flex;
+  flex-direction:row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: start;
+  gap: 50px;
+  padding: 20px;
+  left: 310px;
+  color: black;
+  margin: 0;
+  border-bottom: 400px,bold,darkgrey;
+  font-family: 'Kodchasan',Arial, Helvetica, sans-serif;
+}
+
+.cuisine {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 120px;
+}
+
+.cuisine img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%; /* makes the image circular */
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.cuisine span {
+  margin-top: 8px;
+  font-weight: bold;
+  text-align: center;
+}
+section .home{
+  display: flex;
+  flex-direction: row;
+  margin: 5px;
+}
+.stall-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 25px;
+}
+
+.stall-card {
+  background: white;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.stall-card img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+
+.stall-card h4 {
+  margin: 10px;
+}
+
+.stall-card p {
+  margin: 0 10px 10px;
+  font-size: 14px;
+  color: gray;
+}
+@media (max-width: 992px) {
+  .navrectangle{
+  display: flex;
+  flex-direction: row;
+  align-items:end;
+  }
+  /* .cuisines{
+  display:flex;
+  flex-direction:row;
+  position: absolute;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+    top: 45px;
+    left: 310px;
+    color: black;
+    margin: 0;
+    font-family: 'Kodchasan',Arial, Helvetica, sans-serif;
+}
+
+.cuisine {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 120px;
+}
+
+.cuisine img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%; /* makes the image circular */
+  /* box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.cuisine span {
+  margin-top: 8px;
+  font-weight: bold;
+  text-align: center;
+} */ 
+}

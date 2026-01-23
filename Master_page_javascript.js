@@ -33,6 +33,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
+
 //Navigation Dropdown
 document.querySelectorAll('.toggle').forEach(mainItem => {
         mainItem.addEventListener('click', () => {
