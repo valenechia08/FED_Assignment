@@ -3,12 +3,11 @@ body {
 }
 
 .navrectangle {
-    background-color: #e47329;
-    width: 220px;
-    height: 900px;
-    display: flex;
-    flex-direction: column;
-    
+  background-color: #e47329;
+  width: 220px;
+  height: 900px;
+  display: flex;
+  flex-direction: column;
 }
 
 header {
@@ -25,32 +24,32 @@ header {
   margin: 0;
   color: white;
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 16px;
 }
 
 /* MAIN ITEMS */
-.navBar li.main {
+.main {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 14px 20px;
   font-weight: bold;
+  cursor: pointer;
 }
 
-/* SUB ITEMS */
+/* SUB MENU */
+.submenu {
+  list-style-type: disc;
+  padding-left: 50px;
+  margin: 0;
+  display: none; /* hidden by default */
+}
+
 .subpoint {
-  padding: 8px 40px;
   font-size: 14px;
-  position: relative;
+  padding: 15px 0; 
 }
 
-.subpoint::before {
-  content: "•";
-  position: absolute;
-  left: 25px;
-}
-
-/* DIVIDER LINE */
+/* DIVIDER */
 .divider {
   height: 1px;
   background-color: rgba(0, 0, 0, 0.3);
@@ -60,18 +59,21 @@ header {
 /* ARROW */
 .arrow {
   font-size: 14px;
+  transition: transform 0.2s ease;
 }
 
 /* LOGOUT */
 .logout {
-  padding-bottom: 20px;
+  padding: 20px;
+  list-style: none;
 }
 
-/* HOVER EFFECT */
-.navBar li:hover {
+/* HOVER */
+.main:hover,
+.subpoint:hover {
   background-color: rgba(255, 255, 255, 0.1);
-  cursor: pointer;
 }
+
 
 
 .welcome-text {
