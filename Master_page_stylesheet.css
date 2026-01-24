@@ -5,7 +5,7 @@ body {
 .navrectangle {
   background-color: #e47329;
   width: 220px;
-  height: 900px;
+  height: 1000px;
   display: flex;
   flex-direction: column;
 }
@@ -122,11 +122,14 @@ header {
   justify-content: center;
   align-items: start;
   gap: 50px;
-  padding: 20px;
-  left: 310px;
+  padding: 25px;
+  position: absolute;
+  left: 17.5%;
+  top: 100px; 
   color: black;
   margin: 0;
-  border-bottom: 400px,bold,darkgrey;
+  width: 80%;
+  border-bottom: 10px solid #EFEFEF;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   
 }
@@ -135,13 +138,14 @@ header {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 120px;
+  width: 150px;
+  margin: 15px;
 }
 
 .cuisine img {
   height: 139px;
   object-fit:cover;
-  max-width:150px;
+  width:180px;
   margin:5px;
   border-radius:10%;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
@@ -164,16 +168,24 @@ section .home{
   margin: 5px;
 }
 .stall-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  display: flex;
+  flex-wrap: wrap;              /* allow multiple rows */
+  justify-content: flex-start;
   gap: 25px;
+  position: absolute;
+  top: 60%;
+  left: 25%;
+  width: 80%;
 }
 
 .stall-card {
   background: white;
-  border-radius: 15px;
   overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  width: 250px;
+  margin-right: 4%;
+  margin-top: 5%;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  text-align: center;
 }
 
 .stall-card img {
@@ -181,6 +193,7 @@ section .home{
   width: 100%;
   height: 160px;
   object-fit: cover;
+  border-radius: 15px;
 }
 
 .stall-card h4 {
