@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="Master_page_stylesheet.css" />
   </head>
   <body>
-    <section class="container">
+    <section class="container hidden">
       <nav class="navrectangle">
         <header>ShiokLah!</header>
 
@@ -126,6 +126,111 @@
         </div>
       </section>
     </section>
+
+    <!-- Vendor Home -->
+     <section class="container vendornav">
+      <nav class="navrectangle">
+        <header>ShiokLah!</header>
+
+        <ul class="navBar">
+          <li class="main">
+            <span>🏠 Home</span>
+          </li>
+
+          <li class="divider"></li>
+
+          <li class="main">
+            <!-- <img src="images/WhiteEditMenu.png" alt="Edit Menu icon"> -->
+            <span>🍽️ Edit Menu</span>
+          </li>
+
+          <li class="divider"></li>
+
+          <li class="main toggle">
+            <span>👤 Profile</span>
+            <span class="arrow">v</span>
+          </li>
+          <ul class="submenu">
+            <li class="subpoint">Stall Hygiene Grades</li>
+            <li class="subpoint">Performance Dashboard</li>
+            <li class="subpoint">My Rental Agreements</li>
+            <li class="subpoint">Customer Feedback</li>
+            <li class="subpoint">Settings</li>
+          </ul>
+
+          <li class="divider"></li>
+          <li class="subpoint logout">Log out</li>
+        </ul>
+      </nav>
+  <main class="contents">
+
+    <header class="page-header">
+      <h1>Incoming Orders</h1>
+      <div class="order limit">
+        Order Limit: <span>10</span>
+      </div>
+    </header>
+
+    <section class="order grid">
+
+      <section class="order box">
+        <h2 class="order header">Pending Orders</h2>
+        <div class="order scroll">
+          <!-- Order Card -->
+          <article class="order card">
+            <h3>Order #00001</h3>
+            <p>Today · 9:16am</p>
+            <p>Set Meal A   $5.00 ×2  $10.00</p>
+            <div class="actions">
+              <button class="accept">Accept</button>
+              <button class="reject">Reject</button>
+            </div>
+          </article>
+
+          <article class="order card">
+            <h3>Order #00002</h3>
+            <p>Today · 9:22am</p>
+            <p>Set Meal B   $4.00 ×1  $4.00</p>
+            <div class="actions">
+              <button class="accept">Accept</button>
+              <button class="reject">Reject</button>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="order box">
+        <h2 class="green order header">Accepted Orders</h2>
+        <div class="order scroll"></div>
+        <div class="order scroll">
+          <!-- Order Card Hidden-->
+          <article class="order card hidden">
+            <h3>Order #00002</h3>
+            <p>Today · 9:22am</p>
+            <p>Set Meal B  $4.00 ×1  $4.00</p>
+            <div class="actions">
+              <button class="accept">Accept</button>
+              <button class="reject">Reject</button>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="order box">
+        <h2 class="order header">Completed Orders</h2>
+        <div class="order scroll"></div>
+      </section>
+
+      <section class="order box">
+        <h2 class="red order header">Cancelled Orders</h2>
+        <div class="orders scroll"></div>
+      </section>
+
+    </section>
+  </main>
+
+      
+
 
     <script type="module" src="Master_page_javascript.js"></script>
   </body>

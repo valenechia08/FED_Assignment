@@ -1,7 +1,7 @@
+/*General Styling*/
 body {
   margin: 0;
 }
-
 .navrectangle {
   background-color: #e47329;
   width: 220px;
@@ -10,7 +10,7 @@ body {
   flex-direction: column;
 }
 
-header {
+.navrectangle header {
   font-size: 36px;
   color: white;
   font-style: italic;
@@ -24,6 +24,11 @@ header {
   margin: 0;
   color: white;
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/*Hides layouts*/
+.hidden {
+  display: none;
 }
 
 /* MAIN ITEMS */
@@ -74,11 +79,12 @@ header {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
+/*Customer Styling*/
 .welcome-text {
     position: absolute;
     top: 45px;
     left: 310px;
-    color: black;
+    /* color: black; */
     margin: 0;
     font-family: 'Kodchasan',Arial, Helvetica, sans-serif;
 }
@@ -205,6 +211,115 @@ section .home{
   font-size: 14px;
   color: gray;
 }
+
+/*Vendor Style*/
+
+/* .vendornav img {
+  width: 20px;
+  height: 20px;
+  margin:0;
+} */
+
+.contents {
+  position: absolute;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  display:flex;
+  flex-wrap: wrap;
+  padding-left:25px;
+  left: 17.5%;
+  top: 0; 
+  flex: 1;
+  background: #f7f7f7;
+}
+
+/* HEADER */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  color:black;
+}
+
+/* GRID */
+.order.grid {
+  display: grid;
+  justify-content: center;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  padding: 1.5rem;
+}
+
+/* BOX */
+.order.box {
+  background: white;
+  border-radius: 10px;
+  padding: 1rem;
+  height: 320px;
+  display: flex;
+  flex-direction: column;
+}
+.order.limit{
+  color:black;
+}
+.order.box h2 {
+  margin-bottom: 0.5rem;
+}
+
+.green { color: green; }
+.red { color: red; }
+
+/* SCROLLABLE CONTENT */
+.order.scroll {
+  overflow-y: auto;
+  flex: 1;
+  padding-right: 5px;
+}
+
+/*Texts*/
+.order.scroll h3 {
+  font-size: 25px;
+}
+.order.scroll p {
+  font-size: 20px;
+}
+
+
+/* ORDER CARD */
+.order.card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 0.8rem;
+  margin-bottom: 0.8rem;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 0.5rem;
+}
+
+.actions button{
+  width:110px;
+  height:35px;
+}
+.accept {
+  background: #e06b2d;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 5px;
+}
+
+.reject {
+  background: #7a2d1c;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 5px;
+}
+
+/*Mobile View*/
 @media (max-width: 992px) {
   .navrectangle{
   display: flex;
