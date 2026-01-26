@@ -1,43 +1,109 @@
+/*General Styling*/
 body {
-    margin: 0px;
+  margin: 0;
+}
+.navrectangle {
+  background-color: #FF7A18;
+  width: 220px;
+  height: 1000px;
+  display: flex;
+  flex-direction: column;
 }
 
-.rectangle{
-    background-color:#E47329;
-    width:200px;
-    height:900px;
-    display:flex;
-    flex-direction: column;
-    justify-content: center; 
+.navrectangle header {
+  font-size: 36px;
+  color: white;
+  font-style: italic;
+  font-family: 'Kodchasan', Arial, sans-serif;
+  padding: 40px 20px;
+
 }
+
+.navBar {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/*Hides layouts*/
+.hidden {
+  display: none;
+}
+
+/* MAIN ITEMS */
+.main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 20px;
+  font-weight: bold;
+  cursor: pointer;
+  margin: 0 15px;
+}
+
+/* SUB MENU */
+.submenu {
+  list-style-type: none;
+  padding-left: 18px;
+  margin: 0;
+  display: none; /* hidden by default */
+}
+
+.subpoint {
+  font-size: 14px;
+  padding: 15px 5px;
+  margin:0 15px; 
+}
+
+
+/* DIVIDER */
+.divider {
+  height: 1.3px;
+  width:100%;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+
+
+/* ARROW */
+.arrow {
+  font-size: 14px;
+  transition: transform 0.2s ease;
+}
+
+/* LOGOUT */
+.logout {
+  padding: 20px;
+  list-style: none;
+}
+
+/* HOVER */
+.main:hover,
+.subpoint:hover {
+  /* background-color: rgba(255, 255, 255, 0.2); */
+  background-color: #FF8C3A;
+}
+
+/*Customer Styling*/
 .welcome-text {
     position: absolute;
     top: 45px;
-    left: 280px;
-    color: black;
+    left: 310px;
+    /* color: black; */
     margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-}
-.navBar{
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
-    font-size: 20px;
-    font-family: Arial, Helvetica, sans-serif;
-    list-style-type: none;
-    gap: 25px;
+    font-family: 'Kodchasan',Arial, Helvetica, sans-serif;
 }
 
 .searchBar {
         position: absolute;   
-        top: 30px;
-        left: 500px;
+        top: 40px;
+        left: 570px;
         /* adjust based on sidebar width */
         display: flex;
         align-items: center;
-        width: 500px;
-        height:40px;
+        width: 550px;
         background-color: #e0e0e0;
         border-radius: 999px;
         padding: 6px 10px;
@@ -59,5 +125,281 @@ body {
         background: transparent;
         cursor: pointer;
         font-size: 30px;
-        margin-right:10px;
+        margin-right: 10px;
     }
+
+.cuisines{
+  display:flex;
+  flex-direction:row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: start;
+  gap: 50px;
+  padding: 25px;
+  position: absolute;
+  left: 17.5%;
+  top: 100px; 
+  color: black;
+  margin: 0;
+  width: 80%;
+  border-bottom: 10px solid #EFEFEF;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  
+}
+
+.cuisine {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 150px;
+  margin: 15px;
+}
+
+.cuisine img {
+  height: 139px;
+  object-fit:cover;
+  width:180px;
+  margin:5px;
+  border-radius:10%;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.cuisine span {
+  margin-top: 8px;
+  font-weight: bold;
+  text-align: center;
+}
+
+/*If cuisine is selected, img will have green border*/
+.cuisine.selected img{
+  border: 5px solid #4CAF50; /* highlight selected */
+}
+
+section .home{
+  display: flex;
+  flex-direction: row;
+  margin: 5px;
+}
+.stall-grid {
+  display: flex;
+  flex-wrap: wrap;              /* allow multiple rows */
+  justify-content: flex-start;
+  gap: 25px;
+  position: absolute;
+  top: 60%;
+  left: 25%;
+  width: 80%;
+}
+
+.stall-card {
+  background: white;
+  overflow: hidden;
+  width: 250px;
+  margin-right: 4%;
+  margin-top: 5%;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  text-align: center;
+}
+
+.stall-card img {
+  /* max-width:292px; */
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 15px;
+}
+
+.stall-card h4 {
+  margin: 10px;
+}
+
+.stall-card p {
+  margin: 0 10px 10px;
+  font-size: 14px;
+  color: gray;
+}
+
+/*Vendor Style*/
+
+/* .vendornav img {
+  width: 20px;
+  height: 20px;
+  margin:0;
+} */
+
+.contents {
+  position: absolute;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  display:flex;
+  flex-wrap: wrap; 
+  padding-left:25px;
+  left: 17.5%;
+  top: 0; 
+  flex: 1;
+  background: #f7f7f7;
+}
+
+/* HEADER */
+.page-header {
+  margin-bottom: 0.1rem; 
+  color:black;
+  width:100%;
+  flex-basis: 100%;
+  
+}
+.header-row {
+  display: flex;
+  /* justify-content: flex-start; left & right */
+  width:100%;
+  align-items: center;
+  gap:300px;
+  padding-top: 20px;
+  /* flex-wrap: nowrap; */
+}
+.title-block {
+  /* display: flex;
+  flex-direction: column;
+  width: fit-content; */
+  position: relative;
+  display: inline-block;
+}
+.title-block h1 {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;   /* makes it thicker */
+}
+.title-block .divider {
+  position: absolute;
+  padding:0;
+}
+.order.limit {
+  margin-left: auto; 
+  margin-left: 20px; 
+  /* white-space: nowrap; */
+}
+/* .page-header .order.limit {
+  margin-left:200px;
+} */
+
+/* GRID */
+.order.grid {
+  display: grid;
+  justify-content: center;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  padding-top: 0.5rem;
+  flex-basis: 100%;
+}
+
+/* BOX */
+.order.box {
+  background: white;
+  border-radius: 10px;
+  padding: 1rem;
+  height: 320px;
+  display: flex;
+  flex-direction: column;
+}
+.order.limit{
+  color:black;
+}
+.order.box h2 {
+  margin-bottom: 0.5rem;
+}
+
+.green { color: green; }
+.red { color: red; }
+
+/* SCROLLABLE CONTENT */
+.order.scroll {
+  overflow-y: auto;
+  flex: 1;
+  padding-right: 5px;
+}
+
+/*Texts*/
+.order.scroll h3 {
+  font-size: 25px;
+}
+.order.scroll p {
+  font-size: 20px;
+}
+
+
+/* ORDER CARD */
+.order.card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 0.8rem;
+  margin-bottom: 0.8rem;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 0.5rem;
+}
+
+.actions button{
+  width:110px;
+  height:35px;
+  border-radius:11px;
+}
+.accept {
+  background: #FF7A18;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 5px;
+}
+
+.reject {
+  background: #7a2d1c;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 5px;
+}
+
+/*Mobile View*/
+@media (max-width: 992px) {
+  .navrectangle{
+  display: flex;
+  flex-direction: row;
+  align-items:end;
+  }
+  /* .cuisines{
+  display:flex;
+  flex-direction:row;
+  position: absolute;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+    top: 45px;
+    left: 310px;
+    color: black;
+    margin: 0;
+    font-family: 'Kodchasan',Arial, Helvetica, sans-serif;
+}
+
+.cuisine {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 120px;
+}
+
+.cuisine img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%; /* makes the image circular */
+  /* box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.cuisine span {
+  margin-top: 8px;
+  font-weight: bold;
+  text-align: center;
+} */ 
+}
