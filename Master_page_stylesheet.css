@@ -3,7 +3,7 @@ body {
   margin: 0;
 }
 .navrectangle {
-  background-color: #e47329;
+  background-color: #FF7A18;
   width: 220px;
   height: 1000px;
   display: flex;
@@ -16,6 +16,7 @@ body {
   font-style: italic;
   font-family: 'Kodchasan', Arial, sans-serif;
   padding: 40px 20px;
+
 }
 
 .navBar {
@@ -39,19 +40,21 @@ body {
   padding: 24px 20px;
   font-weight: bold;
   cursor: pointer;
+  margin: 0 15px;
 }
 
 /* SUB MENU */
 .submenu {
-  list-style-type: disc;
-  padding-left: 50px;
+  list-style-type: none;
+  padding-left: 18px;
   margin: 0;
   display: none; /* hidden by default */
 }
 
 .subpoint {
   font-size: 14px;
-  padding: 15px 0; 
+  padding: 15px 5px;
+  margin:0 15px; 
 }
 
 
@@ -79,7 +82,8 @@ body {
 /* HOVER */
 .main:hover,
 .subpoint:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  /* background-color: rgba(255, 255, 255, 0.2); */
+  background-color: #FF8C3A;
 }
 
 /*Customer Styling*/
@@ -340,7 +344,7 @@ section .home{
   height:35px;
 }
 .accept {
-  background: #e06b2d;
+  background: #FF7A18;
   color: white;
   border: none;
   padding: 6px 12px;
