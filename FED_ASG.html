@@ -3,241 +3,40 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ShiokLah!</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Kodchasan:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
-      rel="stylesheet"
-    />
+    <title>ShiokLah</title>
     <link rel="stylesheet" href="Master_page_stylesheet.css" />
   </head>
+
   <body>
-    <section class="container">
-      <nav class="navrectangle">
-        <header>ShiokLah!</header>
+    <!-- Orange sidebar rectangle -->
+    <div class="rectangle"></div>
 
-        <ul class="navBar">
-          <li class="main toggle">
-            <span>🏠 Home</span>
-            <span class="arrow">v</span>
-          </li>
-          <ul class="submenu">
-            <li class="subpoint">• Start Order</li>
-          </ul>
+    <!-- Welcome text -->
+    <h1 class="welcome-text">Welcome!</h1>
 
-          <li class="divider"></li>
+    <!-- Search Bar -->
+    <div class="searchBar">
+      <input
+        type="text"
+        placeholder="What would you like to eat?"
+        class="search-input"
+      />
+      <button class="search-btn">⌕</button>
+    </div>
 
-          <li class="main toggle">
-            <span>📄 Order History</span>
-            <span class="arrow">v</span>
-          </li>
-          <ul class="submenu">
-            <li class="subpoint">• Past Orders</li>
-          </ul>
-
-          <li class="divider"></li>
-
-          <li class="main toggle">
-            <span>👤 Profile</span>
-            <span class="arrow">v</span>
-          </li>
-          <ul class="submenu">
-            <li class="subpoint">• Analytics & Reporting</li>
-            <li class="subpoint">• Customer Feedback</li>
-            <li class="subpoint">• Regulatory & Compliance</li>
-            <li class="subpoint">• Favourites</li>
-            <li class="subpoint">• Rewards</li>
-          </ul>
-
-          <li class="divider"></li>
-          <li class="subpoint logout">Log out</li>
-        </ul>
-      </nav>
-
-      <!-- Welcome text -->
-      <section class="home">
-        <h1 class="welcome-text">Welcome!</h1>
-
-        <!-- Search Bar -->
-        <div class="searchBar">
-          <input
-            type="text"
-            placeholder="What would you like to eat?"
-            class="search-input"
-          />
-          <button class="search-btn">⌕</button>
-        </div>
-      </section>
-      <main class="cuisines">
-        <section class="cuisine">
-          <img src="images/Malay Cuisine Picture.jpg" alt="Malay Cuisine" />
-          <span class="malay">Malay</span>
-        </section>
-        <section class="cuisine">
-          <img src="images/Chinese Cuisine Picture.jpg" alt="Chinese Cuisine" />
-          <span class="chinese">Chinese</span>
-        </section>
-        <section class="cuisine">
-          <img src="images/Indian Cuisine Picture.webp" alt="Indian Cuisine" />
-          <span class="indian">Indian</span>
-        </section>
-        <section class="cuisine">
-          <img src="images/Other Cuisines Picture.webp" alt="Other Cuisine" />
-          <span class="others">Others</span>
-        </section>
-      </main>
-      <!-- Stall Grid -->
-      <section class="stall-grid">
-        <div class="stall-card malay">
-          <img src="images/Banana Leaf Nasi Lemak Picture.jpg" />
-          <h4>Banana Leaf Nasi Lemak</h4>
-          <p>⭐ 4.0 (200) · Malay</p>
-        </div>
-
-        <div class="stall-card chinese">
-          <img src="images/Boon Lay Lu Wei Picture.jpg" />
-          <h4>Boon Lay Lu Wei</h4>
-          <p>⭐ 4.2 (243) · Chinese</p>
-        </div>
-
-        <div class="stall-card indian">
-          <img src="images/I.Mohamed Ismail Food Stall Picture.jpg" />
-          <h4>I. Mohamed Ismail Food Stall</h4>
-          <p>⭐ 4.5 (531) · Indian</p>
-        </div>
-
-        <div class="stall-card chinese">
-          <img
-            src="images/Boon Lay Fried Carrot Cake & Kway Teow Mee Picture.jpg"
-          />
-          <h4>Boon Lay Fried Carrot Cake</h4>
-          <p>⭐ 4.2 (340) · Chinese</p>
-        </div>
-
-        <div class="stall-card others">
-          <img src="images/Big Daddy's Chicken & Noodle Picture.webp" />
-          <h4>Big Daddy's Chicken & Noodle Stall</h4>
-          <p>⭐ 4.5 (408) · Others</p>
-        </div>
-      </section>
-    </section>
-
-    <!-- Vendor Home -->
-     <section class="container vendornav hidden">
-      <nav class="navrectangle">
-        <header>ShiokLah!</header>
-
-        <ul class="navBar">
-          <li class="main">
-            <span>🏠 Home</span>
-          </li>
-
-          <!-- <li class="divider"></li> -->
-
-          <li class="main">
-            <!-- <img src="images/WhiteEditMenu.png" alt="Edit Menu icon"> -->
-            <span>🍽️ Edit Menu</span>
-          </li>
-
-          <!-- <li class="divider"></li> -->
-
-          <li class="main toggle">
-            <span>👤 Profile</span>
-            <span class="arrow">v</span>
-          </li>
-          <ul class="submenu">
-            <li class="subpoint">• Stall Hygiene Grades</li>
-            <li class="subpoint">• Performance Dashboard</li>
-            <li class="subpoint">• My Rental Agreements</li>
-            <li class="subpoint">• Customer Feedback</li>
-            <li class="subpoint">• Settings</li>
-          </ul>
-
-          <!-- <li class="divider"></li> -->
-          <li class="subpoint logout">Log out</li>
-        </ul>
-      </nav>
-  <main class="contents">
-
-    <header class="page-header">
-      <div class="header-row">
-        <div class="title-block">
-          <h1>Incoming Orders</h1>
-          <!-- <div class="divider"></div> -->
-        </div>
-
-        <div class="order limit">
-          Order Limit: <span>10</span>
-        </div>
-      </div>
-    </header>
-
-    <section class="order grid">
-
-      <section class="order box">
-        <h2 class="order header">Pending Orders</h2>
-        <div class="order scroll">
-          <!-- Order Card -->
-          <article class="order card">
-            <h3>Order #00001</h3>
-            <p>Today · 9:16am</p>
-            <p>Set Meal A   $5.00 ×2  $10.00</p>
-            <div class="actions">
-              <button class="accept">Accept</button>
-              <button class="reject">Reject</button>
-            </div>
-          </article>
-
-          <article class="order card">
-            <h3>Order #00002</h3>
-            <p>Today · 9:22am</p>
-            <p>Set Meal B   $4.00 ×1  $4.00</p>
-            <div class="actions">
-              <button class="accept">Accept</button>
-              <button class="reject">Reject</button>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <section class="order box">
-        <h2 class="green order header">Accepted Orders</h2>
-        <div class="order scroll"></div>
-        <div class="order scroll">
-          <!-- Order Card Hidden-->
-          <article class="order card hidden">
-            <h3>Order #00002</h3>
-            <p>Today · 9:22am</p>
-            <p>Set Meal B  $4.00 ×1  $4.00</p>
-            <div class="actions">
-              <button class="accept">Accept</button>
-              <button class="reject">Reject</button>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <section class="order box">
-        <h2 class="order header">Completed Orders</h2>
-        <div class="order scroll"></div>
-      </section>
-
-      <section class="order box">
-        <h2 class="red order header">Cancelled Orders</h2>
-        <div class="orders scroll"></div>
-      </section>
-
-    </section>
-  </main>
-
-      
-
-
-    <script type="module" src="Master_page_javascript.js"></script>
+    <!-- Navigation -->
+    <ul class="navBar">
+      <li>Home</li>
+      <li>Start Order</li>
+      <li>Order History</li>
+      <li>Past Orders</li>
+      <li>Profile</li>
+      <li>Analytics & Reporting</li>
+      <li>Customer Feedback</li>
+      <li>Regulatory & Compliance</li>
+      <li>Favourites</li>
+      <li>Rewards</li>
+      <li>Log Out</li>
+    </ul>
   </body>
 </html>
