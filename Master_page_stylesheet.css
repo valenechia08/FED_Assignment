@@ -52,7 +52,7 @@ body {
 }
 
 .subpoint {
-  font-size: 14px;
+  font-size: 13px;
   padding: 15px 5px;
   margin:0 15px; 
 }
@@ -367,6 +367,7 @@ section .home{
   flex-direction: row;
   align-items:end;
   }
+}
   /* .cuisines{
   display:flex;
   flex-direction:row;
@@ -402,4 +403,3 @@ section .home{
   font-weight: bold;
   text-align: center;
 } */ 
-}
