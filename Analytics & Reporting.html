@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ShiokLah! Dashboard (HTML + CSS Only)</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f4f4f4;
+      color: #333;
+    }
+    header {
+      background: #ff4d4d;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+      font-size: 1.5rem;
+    }
+    .container {
+      display: grid;
+      grid-template-columns: 250px 1fr;
+    }
+    nav {
+      background: #fff;
+      padding: 1rem;
+      border-right: 1px solid #ccc;
+    }
+    nav ul {
+      list-style: none;
+      padding: 0;
+    }
+    nav li {
+      margin: 1rem 0;
+      cursor: pointer;
+    }
+    main {
+      padding: 2rem;
+    }
+    section {
+      background: white;
+      margin-bottom: 2rem;
+      padding: 1rem 2rem;
+      border-radius: 8px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+    h2 {
+      margin-top: 0;
+      color: #ff4d4d;
+    }
+    /* Simple bar chart simulation */
+    .bar {
+      height: 20px;
+      margin: 5px 0;
+      background: #ddd;
+      position: relative;
+      width: 300px;
+    }
+    .bar span {
+      display: block;
+      height: 100%;
+      color: white;
+      text-align: right;
+      padding-right: 5px;
+      line-height: 20px;
+    }
+    .pink { background: #ff66b2; }
+    .blue { background: #66b2ff; }
+    .teal { background: #33cccc; }
+    /* Fake pie chart using flex */
+    .pie {
+      display: flex;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin: 1rem 0;
+    }
+    .pie div {
+      flex: 1;
+    }
+    .pie .one { background: #ff6666; }
+    .pie .two { background: #ff9966; }
+    .pie .three { background: #ffcc66; }
+    .pie .four { background: #99cc66; }
+    .pie .five { background: #66cc99; }
+  </style>
+</head>
+<body>
+  <header>ShiokLah! Analytics Dashboard</header>
+  <div class="container">
+    <nav>
+      <ul>
+        <li>Home</li>
+        <li>Order History</li>
+        <li>Profile</li>
+        <li><strong>Analytics & Reporting</strong></li>
+        <li>Customer Feedback</li>
+        <li>Regulatory & Compliance</li>
+        <li>Favourites</li>
+        <li>Rewards</li>
+        <li>Log out</li>
+      </ul>
+    </nav>
+    <main>
+      <section>
+        <h2>Sales Analytics</h2>
+        <p><strong>Top 3 Food Items by Total Sales</strong></p>
+        <div class="bar"><span class="pink" style="width: 50%;">Chicken Rice (50)</span></div>
+        <div class="bar"><span class="blue" style="width: 40%;">Laksa (40)</span></div>
+        <div class="bar"><span class="teal" style="width: 12%;">Hokkien Mee (12)</span></div>
+      </section>
+
+      <section>
+        <h2>Customer Feedback</h2>
+        <p><strong>Monthly Ratings Breakdown</strong></p>
+        <div class="pie">
+          <div class="one"></div>
+          <div class="two"></div>
+          <div class="three"></div>
+          <div class="four"></div>
+          <div class="five"></div>
+        </div>
+        <p>Total Feedback: 88</p>
+        <p>Avg Rating: 3.73 ★★★★☆</p>
+        <p>Positive Ratings (4/5★): 62.5%</p>
+        <p>Bad Ratings (1/2★): 14.8%</p>
+      </section>
+
+      <section>
+        <h2>Hygiene & Inspections</h2>
+        <p>July: Grade C</p>
+        <p>Aug: Grade B</p>
+        <p>Sep: Grade A</p>
+        <p>Oct: Grade A</p>
+        <p>Nov: Grade A</p>
+        <p>Dec: Grade B</p>
+        <p>Passed Grade: 5 / Failed Grade: 1</p>
+        <p>Avg Grade: B</p>
+        <p>Avg Score: 83.3%</p>
+        <p>⚠️ Hygiene has steadily improved over time</p>
+      </section>
+
+      <section>
+        <h2>Overview</h2>
+        <p><strong>Popular Food:</strong> Chicken Rice</p>
+        <p><strong>Peak Hour:</strong> 6–8 PM</p>
+        <p><strong>Current Grade:</strong> B</p>
+        <p><strong>Avg Hygiene Rating:</strong> 3.5</p>
+        <p><strong>Top Complaint:</strong> Slow service</p>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
