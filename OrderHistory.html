@@ -145,9 +145,26 @@
               background-color: #FF8C3A;     /* darker orange on hover */
           
             }
-            .main:hover,
+            .main.toggle:hover,
             .subpoint:hover {
               /* background-color: rgba(255, 255, 255, 0.2); */
+              background-color: #FF8C3A;
+            }
+            .subpoint {
+              font-size: 14px;
+              padding: 15px 5px;
+              margin:0 15px; 
+              display: block;
+              background-color: transparent; /* removes grey box */
+              color: white;                  /* matches orange theme text */
+              padding: 10px 15px;
+              text-decoration: none;
+              font-size: 16px;
+              border: none;
+              cursor: pointer;
+            }
+            .main.toggle.logout:hover
+            .subpoint:hover {
               background-color: #FF8C3A;
             }
 
@@ -168,7 +185,11 @@
             <span class="arrow">v</span>
           </li>
           <ul class="submenu">
-            <li class="subpoint">• Start Order</li>
+            <li>
+              <button onclick="window.location.href='FED_ASG.html';" class="subpoint">
+                • Start Order
+              </button>
+            </li>
           </ul>
 
           <!-- <li class="divider"></li> -->
@@ -178,7 +199,11 @@
             <span class="arrow">v</span>
           </li>
           <ul class="submenu">
-            <li class="subpoint past-orders">• Past Orders</li>
+            <li>
+              <button onclick="window.location.href='OrderHistory.html';" class="subpoint past-orders">
+                • Start Order
+              </button>
+            </li>
           </ul>
 
           <!-- <li class="divider"></li> -->
@@ -196,8 +221,14 @@
             <li class="subpoint">• Rewards</li>
           </ul>
 
-          <!-- <li class="divider"></li> -->
-          <li class="main toggle logout">Log out</li>
+          <!-- <li class="main toggle logout">Log out</li> -->
+          <ul class="main toggle"></li>
+            <li>
+              <button onclick="window.location.href='login.html';" class="main toggle logout">
+                Log Out
+              </button>
+            </li>
+          </ul>
         </ul>
       </nav>
         <div class="OrderHistory">

@@ -61,6 +61,18 @@ body {
   font-size: 14px;
   padding: 15px 5px;
   margin:0 15px; 
+  display: block;
+  background-color: transparent; /* removes grey box */
+  color: white;                  /* matches orange theme text */
+  padding: 10px 15px;
+  text-decoration: none;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.subpoint:hover {
+  background-color: #ddd;
 }
 
 
