@@ -241,8 +241,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 //SEARCHING FOR STALLS
 function searchStalls(){
-  document.getElementsByClassName("search-btn").addEventListener("click", () => {
-  const query = document.getElementById("searchInput").value.toLowerCase();
+  document.getElementsByClassName("search-input").addEventListener("input", () => {
+  const query = document.getElementsByClassName("search-input").value.toLowerCase();
   const stalls = document.querySelectorAll(".stall-card");
 
   stalls.forEach(stall => {
