@@ -1,156 +1,127 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Member Login</title>
-
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kodchasan:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
+      rel="stylesheet"
+    />
     <style>
-        * {
-            box-sizing: border-box;
-            font-family: "Segoe UI", Arial, sans-serif;
-        }
+      * .container {
+        display: flex;
+        height: 100vh;
+      }
 
-        body {
-            min-height: 100vh;
-            margin: 0;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+      .left-pane {
+        flex: 1;
+        background-image: url("images/Noodles.jpeg");
+        background-size: cover;
+        background-position: center;
+      }
 
-        .card {
-            width: 380px;
-            background: #ffffff;
-            border-radius: 12px;
-            padding: 28px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-        }
+      .right-pane {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #fff;
+      }
 
-        .card h2 {
-            text-align: center;
-            margin-bottom: 8px;
-            color: #333;
-        }
+      .card {
+        width: 80%;
+        max-width: 400px;
+        display: flex;
+        flex-direction: column;
+        font-family:
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          Oxygen,
+          Ubuntu,
+          Cantarell,
+          "Open Sans",
+          "Helvetica Neue",
+          sans-serif;
+        position: relative;
+        padding-bottom: 50%;
+      }
+      .group {
+        position: absolute;
+        top: 30%;
+      }
+      #username,
+      #password {
+        width: 100%;
+        margin-top: 5%;
+      }
+      .card input {
+        margin: 10px 0;
+        padding: 10px;
+      }
 
-        .subtitle {
-            text-align: center;
-            margin: 0 0 18px;
-            color: #666;
-            font-size: 13px;
-        }
+      .links {
+        position: absolute;
+        bottom: 4rem; /* above the login button */
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: space-between;
+        padding: 0 1rem;
+        font-size: 0.9em;
+      }
 
-        .group {
-            margin-bottom: 14px;
-        }
-
-        .group label {
-            display: block;
-            font-size: 13px;
-            color: #555;
-            margin-bottom: 4px;
-        }
-
-        .group input {
-            width: 100%;
-            padding: 10px 12px;
-            border-radius: 6px;
-            border: 1px solid #ccc;
-            font-size: 14px;
-            transition: border 0.2s, box-shadow 0.2s;
-        }
-
-        .group input:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 2px rgba(102,126,234,0.2);
-        }
-
-        button {
-            width: 100%;
-            margin-top: 10px;
-            padding: 12px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            font-size: 15px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: transform 0.1s, box-shadow 0.1s;
-        }
-
-        button:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-        }
-
-        button:active {
-            transform: translateY(0);
-            box-shadow: none;
-        }
-
-        .message {
-            margin-top: 14px;
-            text-align: center;
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        .links {
-            margin-top: 14px;
-            text-align: center;
-            font-size: 13px;
-            color: #666;
-        }
-
-        .links a {
-            color: #667eea;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .links a:hover {
-            text-decoration: underline;
-        }
-
-        .footer {
-            margin-top: 12px;
-            text-align: center;
-            font-size: 12px;
-            color: #888;
-        }
+      .card button {
+        display: flex;
+        background-color: #E47329;
+        color: white;
+        padding: 10px;
+        border: none;
+        margin-top: 10px;
+        cursor: pointer;
+        position: absolute;
+        bottom: 0%;
+        width: 60%;
+        right: 20%;
+        justify-content: center;
+        align-items: center;
+        height: 10%;
+        border-radius: 30px;
+      }
+      h1 {
+        display: flex;
+        font-family: "Kodchasan", Arial, sans-serif;
+        justify-content: center;
+        font-size: 80px;
+        font-style: italic;
+        font-weight: 600;
+        position: relative;
+        top: 20%;
+        margin: 0;
+      }
     </style>
-</head>
-<body>
-
-<div class="card">
-    <h2>Welcome Back</h2>
-    <p class="subtitle">Login Page</p>
-
-    <div class="group">
-        <label for="username">Username</label>
-        <input type="text" id="username" placeholder="john_tan">
+  </head>
+  <body>
+    <div class="container">
+      <div class="left-pane"></div>
+      <div class="right-pane">
+        <div class="card">
+          <h1>ShiokLah!</h1>
+          <div class="group">
+            <input type="text" id="username" placeholder="Email" />
+            <input type="password" id="password" placeholder="Password" />
+          </div>
+          <div class="links">
+            <a href="register.html">Sign up here!</a>
+            <a href="#">Forgot Password?</a>
+          </div>
+          <button id="loginBtn">Log in</button>
+        </div>
+      </div>
     </div>
 
-    <div class="group">
-        <label for="password">Password</label>
-        <input type="password" id="password" placeholder="Enter your password">
-    </div>
-
-    <button id="loginBtn">Login</button>
-
-    <div class="message" id="message"></div>
-
-    <div class="links">
-        No account? <a href="register.html">Register here</a>
-    </div>
-
-    <div class="footer">
-        Demo - Login Page
-    </div>
-</div>
-
-<script type="module" src="Master_page_javascript.js"></script>
-</body>
+    <script type="module" src="Master_page_javascript.js"></script>
+  </body>
 </html>
