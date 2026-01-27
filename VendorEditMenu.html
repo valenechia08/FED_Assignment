@@ -17,36 +17,36 @@
     <link rel="stylesheet" href="Master_page_stylesheet.css" />
   </head>
   <body>
-     <!-- Vendor Home -->
-     <section class="container vendornav hidden">
+    <!-- Vendor Home -->
+     <section class="container vendornav">
       <nav class="navrectangle">
         <header class="brand">ShiokLah!</header>
 
         <ul class="navBar">
-          <li class="main">
+          <li class="main ven-home">
             <span>🏠 Home</span>
           </li>
 
           <!-- <li class="divider"></li> -->
 
-          <li class="main">
+          <li class="main ven-edit-menu">
             <!-- <img src="images/WhiteEditMenu.png" alt="Edit Menu icon"> -->
             <span>🍽️ Edit Menu</span>
           </li>
 
           <!-- <li class="divider"></li> -->
 
-          <li class="main toggle">
+          <li class="main toggle ven-profile">
             <span>👤 Profile</span>
             <span class="usernameDisplay"></span>
             <span class="arrow">v</span>
           </li>
           <ul class="submenu">
-            <li class="subpoint">• Stall Hygiene Grades</li>
-            <li class="subpoint">• Performance Dashboard</li>
-            <li class="subpoint">• My Rental Agreements</li>
-            <li class="subpoint">• Customer Feedback</li>
-            <li class="subpoint">• Settings</li>
+            <li class="subpoint stall-hygiene">• Stall Hygiene Grades</li>
+            <li class="subpoint performance-dashboard">• Performance Dashboard</li>
+            <li class="subpoint rental-agreement">• My Rental Agreements</li>
+            <li class="subpoint feedback">• Customer Feedback</li>
+            <li class="subpoint settings">• Settings</li>
           </ul>
 
           <!-- <li class="divider"></li> -->
@@ -55,17 +55,17 @@
       </nav>
 
       <nav class="mobile-nav vendornav">
-        <div class="mobile-nav-item active">
+        <div class="mobile-nav-item active ven-home">
           <span>🏠</span>
           <small>Home</small>
         </div>
 
-        <div class="mobile-nav-item">
+        <div class="mobile-nav-item ven-edit-menu">
           <span>🍽️</span>
           <small>Edit Menu</small>
         </div>
 
-        <div class="mobile-nav-item">
+        <div class="mobile-nav-item ven-profile">
           <span>👤</span>
           <small>Profile</small>
         </div>
@@ -151,27 +151,6 @@
 
     </section>
   </main>
-    <script>
-      //LOGOUT & Login
-      // Check login
-      document.addEventListener("DOMContentLoaded", () => {
-      const username = sessionStorage.getItem("loggedInUser");
-
-        if (!username) {
-          // Not logged in
-          window.location.href = "login.html";
-        } 
-        else {
-          document.querySelector(".usernameDisplay").textContent =`${username}`;
-        }
-
-        // Logout
-        document.querySelector(".logout").addEventListener("click", () => {
-        sessionStorage.removeItem("loggedInUser");
-        window.location.href = "login.html";
-      });
-    })
-    </script>
     <script type="module" src="Master_page_javascript.js"></script>
   </body>
 </html>
