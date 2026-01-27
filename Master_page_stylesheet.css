@@ -408,7 +408,6 @@ section .home{
 /*Mobile View*/
 @media (max-width: 992px) {
     .navrectangle{display:none;}
-.welcome-text,
   .searchBar,
   .cuisines,
   .stall-grid {
@@ -417,9 +416,8 @@ section .home{
     top: auto;
     width: 100%;
   }
-
-  body {
-    background-color: #ffe9d3;
+  .welcome-text{
+    display: none;
   }
   .home{
     padding-top:50px;
@@ -432,8 +430,9 @@ section .home{
 
   /* 4️⃣ Search bar */
   .searchBar {
-    margin: 10px 16px;
-    width: auto;
+    margin: 10px;
+    width: 100%;
+    margin-left: 11%;
   }
 
   .search-btn {
