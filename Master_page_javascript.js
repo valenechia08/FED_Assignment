@@ -51,7 +51,6 @@ document.querySelectorAll('.toggle').forEach(mainItem => {
       });
 
 
-
 // Grab all cuisine cards
 const cuisines = document.querySelectorAll(".cuisine");
 
@@ -69,20 +68,20 @@ cuisines.forEach(cuisine => {
     if (isSelected) {
       // if clicked again, deselect and show all stalls
       stalls.forEach(stall => {
-        stall.style.display = "block";
+        stall.style.display = "flex";
       });
     } else {
       // otherwise, select this cuisine
       cuisine.classList.add("selected");
 
       // get the cuisine class (e.g. "malay", "chinese", "indian", "other")
-      let chosenCuisine = cuisine.querySelector("span").className;
+      let chosenCuisine = cuisine.querySelector("span").classList[0];
       console.log("Chosen cuisine:", chosenCuisine);
 
       // filter stalls based on class
       stalls.forEach(stall => {
         if (stall.classList.contains(chosenCuisine)) {
-          stall.style.display = "block";   // show matching stalls
+          stall.style.display = "flex";   // show matching stalls
         } else {
           stall.style.display = "none";    // hide non-matching stalls
         }

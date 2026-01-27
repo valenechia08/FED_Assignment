@@ -425,7 +425,6 @@ section .home{
   /* 6️⃣ Stall list (card → horizontal row) */
   .stall-grid {
     display: flex;
-    flex-direction: row;
     padding: 16px;
     gap: 16px;
   }
@@ -465,6 +464,24 @@ section .home{
   /* 7️⃣ Space for bottom nav (important) */
   .stall-grid {
     padding-bottom: 90px;
+  }
+  .stall-card {
+    display: flex ;
+    flex-direction: row ;
+    align-items: center;
+  }
+
+  /* Prevent image from centering or moving */
+  .stall-card img {
+    display: block;
+    margin: 0;
+  }
+
+  /* Ensure text stays beside image */
+  .stall-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
     .mobile-nav {
     position: fixed;
