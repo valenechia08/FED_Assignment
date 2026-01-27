@@ -50,6 +50,28 @@ document.querySelectorAll('.toggle').forEach(mainItem => {
         });
       });
 
+/*Search Bar to search up stalls*/
+  const searchInput = document.querySelector(".search-input");
+  const stallCards = document.querySelectorAll(".stall-card");
+
+  // Listen for typing
+  searchInput.addEventListener("keyup", function () {
+    const query = this.value.toLowerCase();
+
+    stallCards.forEach(card => {
+      const name = card.querySelector("h4").textContent.toLowerCase();
+      const info = card.querySelector("p").textContent.toLowerCase();
+
+      // Show if query matches name or info
+      if (name.includes(query) || info.includes(query)) {
+        card.style.display = "";
+      } else {
+        card.style.display = "none";
+      }
+    });
+  });
+
+
 
 
 // Grab all cuisine cards
