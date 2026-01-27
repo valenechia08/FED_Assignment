@@ -20,8 +20,6 @@
         min-height: 100vh; /* full height layout */
 
       }
-     
-
 
       .mobile-nav {
         display: none;
@@ -30,11 +28,14 @@
       /* SIDEBAR */
       .navrectangle {
         background-color: #FF7A18;
-        
         width: 220px;
         min-height: 100vh;   /* matches the viewport height */
         /* display: flex;
         flex-direction: column; */
+        flex-shrink: 0; /* Sidebar stays fixed width */
+        
+        position: relative;
+        z-index: 1000;
       }
 
       .navrectangle header {
@@ -157,12 +158,12 @@
 
         /* ORDER HISTORY CONTENT */
         .OrderHistory {
-          margin-left: 25px;   /* moves content to right of sidebar */
-          padding: 30px 20px;    /* space from top */
-          color: black;
+          background: #fff;
           flex: 1;
-          min-height: 100vh;
-
+          margin-left: 25px;
+          padding: 30px 20px;
+          position: relative;
+          z-index: 1;     /* Content stays behind sidebar */
         }
 
         .OrderHistory-title {
@@ -213,15 +214,7 @@
 
 
     </style>
-</head>
-<body>
-    <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ShiokLah! Order History</title>
-  <link rel="stylesheet" href="styles.css" />
+
 </head>
 <body>
   <section class="container">
@@ -338,13 +331,12 @@
       document.querySelectorAll('.main.toggle').forEach(mainItem => {
         const submenu = mainItem.querySelector('.submenu');
         const arrow = mainItem.querySelector('.arrow');
+        const titleRow = mainItem.querySelector('.title-row, .profile-title');
 
-        // Skip items without submenu (e.g. Logout)
-        if (!submenu || !arrow) return;
+        if (!submenu || !arrow || !titleRow) return;
 
-        mainItem.addEventListener('click', () => {
+        titleRow.addEventListener('click', () => {
           const isOpen = submenu.style.display === 'block';
-
           submenu.style.display = isOpen ? 'none' : 'block';
           arrow.textContent = isOpen ? 'v' : '^';
         });
@@ -355,6 +347,8 @@
       document.getElementById("empty-state").style.display = userStatus === "empty" ? "block" : "none";
       document.getElementById("guest-state").style.display = userStatus === "guest" ? "block" : "none";
       document.getElementById("history-table").style.display = userStatus === "registered" ? "block" : "none";
+      showState(); // showState() hides the extra blocks, it stops them from overlapping the sidebar. Once only one state is shown, the sidebar is no longer blocked, so the nav works.
+
 
       // Navigation Dropdown
       document.querySelectorAll('.main.toggle').forEach(mainItem => {
