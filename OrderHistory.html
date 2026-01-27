@@ -10,209 +10,250 @@
     />
     <style>
         
-        body{
-            margin: 0;
+        /* General Styling */
+      body {
+        margin: 0;
+      }
+      .container {
+        display: flex;
+        align-items: stretch;
+        min-height: 100vh; /* full height layout */
+
+      }
+
+      .mobile-nav {
+        display: none;
+      }
+
+      /* SIDEBAR */
+      .navrectangle {
+        background-color: #FF7A18;
+        width: 220px;
+        min-height: 100vh;   /* matches the viewport height */
+        /* display: flex;
+        flex-direction: column; */
+        flex-shrink: 0; /* Sidebar stays fixed width */
+        
+        position: relative;
+        z-index: 1000;
+      }
+
+      .navrectangle header {
+        font-size: 36px;
+        color: white;
+        font-style: italic;
+        font-family: 'Kodchasan', Arial, sans-serif;
+        padding: 60px 20px 30px;
+      }
+
+      /* NAV LIST */
+      .navBar {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        color: white;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      /* MAIN ITEMS */
+      .main {
+        position: relative;          /* 🔑 required for absolute submenu */
+        display: flex;
+        flex-direction: column;      /* stack title + submenu vertically */
+        margin: 0 15px;
+      }
+      
+      /* PROFILE TITLE STACK */
+      /* Title row (text + arrow) */
+      .profile-title,
+      .title-row {
+        display: grid;
+        grid-template-columns: 1fr auto;  /* label left, arrow right */
+        align-items: center;
+        padding: 24px 20px;
+        font-weight: bold;
+        /* text-align: left; */
+      }
+
+      
+
+      .usernameDisplay {
+        font-size: 12px;
+        margin-left: 5px;
+      }
+
+      /* SUB MENU */
+      .submenu {
+        /* position: absolute; */
+        display: none;
+        list-style: none;          /* removes bullet points */
+        padding: 0;
+        
+        margin: 0;
+        top: 100%;              /* directly below main item */
+        left: 0;
+        width: 100%;
+        background-color: #FF7A18;
+        /* padding: 8px 0;
+        z-index: 10; */
+      }
+
+      .subpoint {
+        display: block;
+        background-color: transparent;
+        color: white;
+        border: none;
+        padding: 12px 47px;     /* indent to the left */
+        
+        text-align: left;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      
+
+      /* DIVIDER */
+      .divider {
+        height: 1.3px;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.3);
+      }
+
+      /* ARROW */
+      .arrow {
+        font-size: 14px;
+        transition: transform 0.2s ease;
+      }
+
+      /* LOGOUT */
+      /* .logout {
+        padding: 0;
+        font-size: 100px; 
+      } */
+      /* Log Out button */
+      .logout button {
+        font-size: 15px;   /* match submenu or main items */
+      }
+
+
+      .logout button {
+        width: 100%;
+        background: none;
+        border: none;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        padding: 24px 20px;
+        text-align: left;
+      }
+
+      /* HOVER */
+      .title-row:hover,
+      .logout button:hover,
+      .profile-title:hover,
+      .subpoint:hover {
+        background-color: #FF8C3A;
+        border-radius: 6px;
+      }
+
+
+        /* ORDER HISTORY CONTENT */
+        .OrderHistory {
+          background: #fff;
+          flex: 1;
+          margin-left: 25px;
+          padding: 30px 20px;
+          position: relative;
+          z-index: 1;     /* Content stays behind sidebar */
         }
-        .navrectangle {
-            background-color: #FF7A18;
-            /*Added 25 px padding at the top for ShiokLah brand*/
-            /* padding-top:25px; */
-            width: 220px;
-            height: 1000px;
-            display: flex;
-            flex-direction: column;
-            }
 
-            .navrectangle header {
-            font-size: 36px;
-            color: white;
-            font-style: italic;
-            font-family: 'Kodchasan', Arial, sans-serif;
-            padding: 60px 20px;
-            padding-bottom: 30px;
+        .OrderHistory-title {
+          text-decoration: underline;
+          font-size: 35px;
+          font-weight: bold;
+          font-family: system-ui,   Arial, serif;
+        }
 
-            }
+        /* EMPTY STATE BOX */
+        .rectangle-box {
+          width: 900px;
+          height: auto;
+          border: 1px solid black;
+          border-radius: 6px;
+          padding: 30px;
+          margin: 20px auto;
+          background-color: #fff;
+          font-size: 26px;
+          text-align: center;
+        }
 
-            .navBar {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            color: white;
-            font-family: Arial, Helvetica, sans-serif;
-            }
+        .rectangle-box.text-content {
+          padding-top: 100px;
+          font-family: system-ui,   Arial, serif;
+        }
 
-            /*Hides layouts*/
-            .hidden {
-            display: none;
-            }
+        /* START ORDER BUTTON */
+        .start-ordering {
+          background-color: #FF7A18;
+          color: white;
+          /* position: absolute; */
+          padding: 15px 40px;
+          font-size: 16px;
+          cursor: pointer;
+          /* margin-left: 400px; */
+          border: 1px solid black;
+          border-radius: 20px;
+          display: block;
+          margin: 30px auto; /* centers horizontally */
 
-            /* MAIN ITEMS */
-            .main {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 24px 20px;
-            font-weight: bold;
-            cursor: pointer;
-            margin: 0 15px;
-            }
+        }
 
-            /* SUB MENU */
-            .submenu {
-            list-style-type: none;
-            padding-left: 18px;
-            margin: 0;
-            display: none; /* hidden by default */
-            }
-
-            .subpoint {
-            font-size: 14px;
-            padding: 15px 5px;
-            margin:0 15px; 
-            }
-
-
-            /* DIVIDER */
-            .divider {
-            height: 1.3px;
-            width:100%;
-            background-color: rgba(0, 0, 0, 0.3);
-            }
-
-            .usernameDisplay{
-            font-size:12px;
-            }
-
-            /* ARROW */
-            .arrow {
-            font-size: 14px;
-            transition: transform 0.2s ease;
-            }
-
-            /* LOGOUT */
-            .logout {
-            padding: 20px;
-            list-style: none;
-            }
-
-            /* HOVER */;
-            .main:hover,
-            .subpoint:hover {
-            /* background-color: rgba(255, 255, 255, 0.2); */
-            background-color: #FF8C3A;
-            }
-            .OrderHistory{
-                position:absolute;
-                left:20%;
-                top: 66px; 
-                color: black;
-                margin: 0;
-            }
-            .OrderHistory-title {
-                text-decoration: underline;
-                color: black;
-                font-size: 35px;
-                font-weight: bold;
-                font-family: system-ui, Arial, 'Times New Roman', Times, serif;
-            }
-            .rectangle-box {
-                width: 900px;            /* set width */
-                height: 200px;           /* set height */
-                border: 1px solid black; /* black outline */
-                border-radius: 6px;      /* optional: rounded corners */
-                padding: 30px;           /* space inside the box */
-                margin: 20px auto;       /* space outside + center horizontally */
-                background-color: #fff;  /* optional: white background */
-                font-family: system-ui, Arial, 'Times New Roman', Times, serif;
-                font-size: 26px;
-                text-align: center;
-            }
-            .rectangle-box.text-content{
-              padding-top: 100px;
-            }
-            .start-ordering{
-              background-color:#FF7A18;
-              color:white;
-              position: absolute;      /* take it out of normal flow */
-              padding: 15px 40px;
-              font-size: 16px;
-              cursor: pointer;
-              margin-left:400px;
-              border: 1px solid black; 
-              border-radius: 20px;      /* optional: rounded corners */
-            }
-            .start-ordering:hover {
-              background-color: #FF8C3A;     /* darker orange on hover */
-          
-            }
-            .main.toggle:hover,
-            .subpoint:hover {
-              /* background-color: rgba(255, 255, 255, 0.2); */
-              background-color: #FF8C3A;
-            }
-            .subpoint {
-              font-size: 14px;
-              padding: 15px 5px;
-              margin:0 15px; 
-              display: block;
-              background-color: transparent; /* removes grey box */
-              color: white;                  /* matches orange theme text */
-              padding: 10px 15px;
-              text-decoration: none;
-              font-size: 16px;
-              border: none;
-              cursor: pointer;
-            }
-            .main.toggle.logout:hover
-            .subpoint:hover {
-              background-color: #FF8C3A;
-            }
-
-
-
+        .start-ordering:hover {
+          background-color: #FF8C3A;
+        }
+        
 
 
     </style>
+
 </head>
 <body>
-    <section class="container">
-      <nav class="navrectangle">
-        <header class="brand">ShiokLah!</header>
-
-        <ul class="navBar">
-          <li class="main toggle">
+  <section class="container">
+    <!-- Sidebar Navigation -->
+    <nav class="navrectangle">
+      <header class="brand">ShiokLah!</header>
+      <ul class="navBar">
+        <!-- Home -->
+        <li class="main toggle">
+          <div class="title-row">
             <span>🏠 Home</span>
             <span class="arrow">v</span>
-          </li>
+          </div>
           <ul class="submenu">
             <li>
-              <button onclick="window.location.href='FED_ASG.html';" class="subpoint">
-                • Start Order
-              </button>
+              <button onclick="window.location.href='FED_ASG.html';" class="subpoint">• Start Order</button>
             </li>
           </ul>
+        </li>
 
-          <!-- <li class="divider"></li> -->
-
-          <li class="main toggle">
+        <!-- Order History -->
+        <li class="main toggle">
+          <div class="title-row">
             <span>📄 Order History</span>
             <span class="arrow">v</span>
-          </li>
+          </div>
           <ul class="submenu">
             <li>
-              <button onclick="window.location.href='OrderHistory.html';" class="subpoint past-orders">
-                • Start Order
-              </button>
+              <button onclick="window.location.href='OrderHistory.html';" class="subpoint past-orders">• Past Orders</button>
             </li>
           </ul>
+        </li>
 
-          <!-- <li class="divider"></li> -->
-
-          <li class="main toggle">
-            <span>👤 Profile</span><br>
-            <span class="usernameDisplay"></span>
+        <!-- Profile -->
+        <li class="main toggle">
+          <div class="profile-title">
+            <span class="profile-label">👤 Profile <span class="usernameDisplay"></span></span>
             <span class="arrow">v</span>
-          </li>
+          </div>
           <ul class="submenu">
             <li class="subpoint">• Analytics & Reporting</li>
             <li class="subpoint">• Customer Feedback</li>
@@ -220,52 +261,112 @@
             <li class="subpoint">• Favourites</li>
             <li class="subpoint">• Rewards</li>
           </ul>
+        </li>
 
-          <!-- <li class="main toggle logout">Log out</li> -->
-          <ul class="main toggle"></li>
-            <li>
-              <button onclick="window.location.href='login.html';" class="main toggle logout">
-                Log Out
-              </button>
-            </li>
-          </ul>
-        </ul>
-      </nav>
-        <div class="OrderHistory">
-            <h1 class="OrderHistory-title">Order History</h1>
-            <div class="rectangle-box text-content"><b>
-            🛒 No orders yet.</b> <br />
-            Place your first order to see it here.
-        </div>
+        <!-- Log Out -->
+        <li class="main toggle logout">
+          <button onclick="window.location.href='login.html';" class="subpoint">Log Out</button>
+        </li>
+      </ul>
+    </nav>
 
+    <!-- Main Content -->
+    <div class="OrderHistory">
+      <h1 class="OrderHistory-title">Order History</h1>
+
+      <!-- STATE 1: Empty Order History -->
+      <div class="rectangle-box text-content" id="empty-state">
+        <b>🛒 No orders yet.</b><br />
+        Place your first order to see it here.
         <button onclick="window.location.href='FED_ASG.html';" class="start-ordering">Start Ordering</button>
+      </div>
 
+      <!-- STATE 2: Guest User Warning -->
+      <div class="rectangle-box text-content" id="guest-state" style="display: none;">
+        <b>No records saved</b><br />
+        Log in or create an account to save your past orders and reorder easily.<br /><br />
+        ⚠️ <b>Guest User</b><br />
+        Orders will be lost if you clear browser data.<br />
+        Log in to save orders permanently.
+        <button onclick="window.location.href='login.html';" class="start-ordering">Login / Sign Up</button>
+      </div>
+
+      <!-- STATE 3: Registered User with Past Orders -->
+      <div id="history-table" style="display: none;">
+        <div style="display: flex; justify-content: space-between; margin: 20px 0;">
+          <input type="text" placeholder="Search Order ID" style="padding: 10px; font-size: 16px;" />
+          <select style="padding: 10px; font-size: 16px;">
+            <option value="">Filter by Date</option>
+            <option value="2025-10">October 2025</option>
+            <option value="2025-09">September 2025</option>
+          </select>
         </div>
 
-    </section>
+        <table style="width: 100%; border-collapse: collapse; font-size: 18px;">
+          <thead>
+            <tr style="background-color: #FF7A18; color: white;">
+              <th style="padding: 12px; border: 1px solid black;">Order ID</th>
+              <th style="padding: 12px; border: 1px solid black;">Date</th>
+              <th style="padding: 12px; border: 1px solid black;">Total</th>
+              <th style="padding: 12px; border: 1px solid black;">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="padding: 12px; border: 1px solid black;">#10234</td>
+              <td style="padding: 12px; border: 1px solid black;">10 Oct 2025</td>
+              <td style="padding: 12px; border: 1px solid black;">$4.50</td>
+              <td style="padding: 12px; border: 1px solid black;">🟢 Completed</td>
+            </tr>
+            <!-- Add more rows as needed -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
 
 
-    <script>
-        //Navigation Dropdown
-        document.querySelectorAll('.toggle').forEach(mainItem => {
-                mainItem.addEventListener('click', () => {
-                const submenu = mainItem.nextElementSibling;
-                const arrow = mainItem.querySelector('.arrow');
+  <script>
+      //Navigation Dropdown
+      document.querySelectorAll('.main.toggle').forEach(mainItem => {
+        const submenu = mainItem.querySelector('.submenu');
+        const arrow = mainItem.querySelector('.arrow');
+        const titleRow = mainItem.querySelector('.title-row, .profile-title');
 
-                if (submenu.style.display === 'block') {
-                    submenu.style.display = 'none';
-                    arrow.textContent = 'v';
-                } else {
-                    submenu.style.display = 'block';
-                    arrow.textContent = '^';
-                }
-                });
-            });
-        // go to home page
-      //   document.querySelector(".start-ordering").onclick = function() {
-      //   window.location.href = "FED_ASG.html"; 
-      // };
+        if (!submenu || !arrow || !titleRow) return;
 
-    </script>
+        titleRow.addEventListener('click', () => {
+          const isOpen = submenu.style.display === 'block';
+          submenu.style.display = isOpen ? 'none' : 'block';
+          arrow.textContent = isOpen ? 'v' : '^';
+        });
+      });
+      // Example logic to toggle views
+      const userStatus = "registered"; // Change to "empty", "guest", or "registered"
+
+      document.getElementById("empty-state").style.display = userStatus === "empty" ? "block" : "none";
+      document.getElementById("guest-state").style.display = userStatus === "guest" ? "block" : "none";
+      document.getElementById("history-table").style.display = userStatus === "registered" ? "block" : "none";
+      showState(); // showState() hides the extra blocks, it stops them from overlapping the sidebar. Once only one state is shown, the sidebar is no longer blocked, so the nav works.
+
+
+      // Navigation Dropdown
+      document.querySelectorAll('.main.toggle').forEach(mainItem => {
+        const submenu = mainItem.querySelector('.submenu');
+        const arrow = mainItem.querySelector('.arrow');
+        if (!submenu || !arrow) return;
+        mainItem.addEventListener('click', () => {
+          const isOpen = submenu.style.display === 'block';
+          submenu.style.display = isOpen ? 'none' : 'block';
+          arrow.textContent = isOpen ? 'v' : '^';
+        });
+      });
+
+      // go to home page
+    //   document.querySelector(".start-ordering").onclick = function() {
+    //   window.location.href = "FED_ASG.html"; 
+    // };
+    
+  </script>
 </body>
 </html>
