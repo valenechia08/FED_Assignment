@@ -5,39 +5,67 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>ShiokLah! Dashboard (HTML + CSS Only)</title>
   <style>
+    /* General Styling */
     body {
-      font-family: Arial, sans-serif;
       margin: 0;
+      font-family: Arial, sans-serif;
       background: #f4f4f4;
       color: #333;
     }
-    header {
-      background: #ff4d4d;
-      color: white;
-      padding: 1rem;
-      text-align: center;
-      font-size: 1.5rem;
-    }
+
     .container {
-      display: grid;
-      grid-template-columns: 250px 1fr;
+      display: flex;
+      align-items: stretch;
+      min-height: 100vh; /* full height layout */
     }
-    nav {
-      background: #fff;
-      padding: 1rem;
-      border-right: 1px solid #ccc;
+
+    .mobile-nav {
+      display: none;
     }
-    nav ul {
-      list-style: none;
+
+    /* SIDEBAR */
+    .navrectangle {
+      background-color: #FF7A18;
+      width: 220px;
+      min-height: 100vh;   /* matches the viewport height */
+      flex-shrink: 0;      /* Sidebar stays fixed width */
+      position: relative;
+      z-index: 1000;
+    }
+
+    .navrectangle header {
+      font-size: 36px;
+      color: white;
+      font-style: italic;
+      font-family: 'Kodchasan', Arial, sans-serif;
+      padding: 60px 20px 30px;
+    }
+
+    /* NAV LIST */
+    .navBar {
+      list-style-type: none;
       padding: 0;
+      margin: 0;
+      color: white;
+      font-family: Arial, Helvetica, sans-serif;
     }
-    nav li {
-      margin: 1rem 0;
+
+    .navBar li {
+      padding: 15px 20px;
       cursor: pointer;
+      transition: background 0.3s;
     }
+
+    .navBar li:hover {
+      background: rgba(255,255,255,0.2);
+    }
+
+    /* MAIN CONTENT */
     main {
+      flex: 1;
       padding: 2rem;
     }
+
     section {
       background: white;
       margin-bottom: 2rem;
@@ -45,10 +73,12 @@
       border-radius: 8px;
       box-shadow: 0 0 5px rgba(0,0,0,0.1);
     }
+
     h2 {
       margin-top: 0;
-      color: #ff4d4d;
+      color: #FF7A18;
     }
+
     /* Simple bar chart simulation */
     .bar {
       height: 20px;
@@ -57,6 +87,7 @@
       position: relative;
       width: 300px;
     }
+
     .bar span {
       display: block;
       height: 100%;
@@ -65,9 +96,11 @@
       padding-right: 5px;
       line-height: 20px;
     }
+
     .pink { background: #ff66b2; }
     .blue { background: #66b2ff; }
     .teal { background: #33cccc; }
+
     /* Fake pie chart using flex */
     .pie {
       display: flex;
@@ -88,10 +121,12 @@
   </style>
 </head>
 <body>
-  <header>ShiokLah! Analytics Dashboard</header>
   <div class="container">
-    <nav>
-      <ul>
+    
+    <!-- Sidebar -->
+    <aside class="navrectangle">
+      <header>ShiokLah!</header>
+      <ul class="navBar">
         <li>Home</li>
         <li>Order History</li>
         <li>Profile</li>
@@ -102,7 +137,9 @@
         <li>Rewards</li>
         <li>Log out</li>
       </ul>
-    </nav>
+    </aside>
+
+    <!-- Main Content -->
     <main>
       <section>
         <h2>Sales Analytics</h2>
@@ -114,14 +151,6 @@
 
       <section>
         <h2>Customer Feedback</h2>
-        <p><strong>Monthly Ratings Breakdown</strong></p>
-        <div class="pie">
-          <div class="one"></div>
-          <div class="two"></div>
-          <div class="three"></div>
-          <div class="four"></div>
-          <div class="five"></div>
-        </div>
         <p>Total Feedback: 88</p>
         <p>Avg Rating: 3.73 ★★★★☆</p>
         <p>Positive Ratings (4/5★): 62.5%</p>
@@ -130,12 +159,6 @@
 
       <section>
         <h2>Hygiene & Inspections</h2>
-        <p>July: Grade C</p>
-        <p>Aug: Grade B</p>
-        <p>Sep: Grade A</p>
-        <p>Oct: Grade A</p>
-        <p>Nov: Grade A</p>
-        <p>Dec: Grade B</p>
         <p>Passed Grade: 5 / Failed Grade: 1</p>
         <p>Avg Grade: B</p>
         <p>Avg Score: 83.3%</p>
@@ -152,5 +175,6 @@
       </section>
     </main>
   </div>
+
 </body>
 </html>
