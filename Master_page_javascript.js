@@ -12,6 +12,10 @@ import {
     remove,
     child
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+import { serverTimestamp } from "firebase/firestore";
+
+orderedAt: serverTimestamp()
+
 
 /* ================================
    Firebase configuration
@@ -207,6 +211,63 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+//LOGOUT & Login
+// Check login
+document.addEventListener("DOMContentLoaded", () => {
+const username = sessionStorage.getItem("loggedInUser");
+
+  if (!username) {
+    // Not logged in
+    window.location.href = "login.html";
+  } 
+  else {
+    document.querySelector(".usernameDisplay").textContent =`${username}`;
+  }
+
+  // Logout
+  document.querySelector(".logout").addEventListener("click", () => {
+  sessionStorage.removeItem("loggedInUser");
+  window.location.href = "login.html";
+});
+})
+
+//Timer
+document.addEventListener("DOMContentLoaded", () => {
+  startElapsedTimers();
+  updateQuota();
+});
+
+function startOrderTimer(timerEl, orderedAtMs) {
+  setInterval(() => {
+    const elapsedSeconds = Math.floor(
+      (Date.now() - orderedAtMs) / 1000
+    );
+
+    if (elapsedSeconds < 0) {
+      timerEl.textContent = "00:00";
+      return;
+    }
+
+    const mins = Math.floor(elapsedSeconds / 60);
+    const secs = elapsedSeconds % 60;
+
+    timerEl.textContent = `${mins}:${secs
+      .toString()
+      .padStart(2, "0")}`;
+  }, 1000);
+}
+
+if (order.orderedAt) {
+  const timerEl = card.querySelector(".timer");
+  const orderedAtMs = order.orderedAt.toMillis();
+  startOrderTimer(timerEl, order.orderedAt.toMillis());
+  if (mins >= 15) timerEl.style.color = "red";
+  else if (mins >= 10) timerEl.style.color = "orange";
+}
+// startOrderTimer(timerEl, orderedAtMs);
+
+
+
 //Navigation Dropdown
 document.querySelectorAll('.toggle').forEach(mainItem => {
         mainItem.addEventListener('click', () => {
@@ -222,6 +283,7 @@ document.querySelectorAll('.toggle').forEach(mainItem => {
           }
         });
       });
+
 
 /*Search Bar to search up stalls*/
   const searchInput = document.querySelector(".search-input");
@@ -244,6 +306,41 @@ document.querySelectorAll('.toggle').forEach(mainItem => {
     });
   });
 
+
+//Navigation for Vendor
+// const edit_menu_nav=document.querySelector(".ven-edit-menu");
+//   edit_menu_nav.addEventListener("click",()=>{
+//   // edit_menu_nav.classList.add("selected");
+//   window.location.href = "VendorEditMenu.html";
+// })
+
+/*Try 2*/
+document.addEventListener("DOMContentLoaded", () => {
+  // Utility: add click handler safely
+function addNavHandler(selector, targetUrl) {
+    const el = document.querySelector(selector);
+    if (el) {
+      el.addEventListener("click", () => {
+        // highlight selected
+        document.querySelectorAll(".navBar .main, .mobile-nav-item")
+          .forEach(item => item.classList.remove("selected", "active"));
+
+        el.classList.add("selected");
+        // redirect
+        window.location.href = targetUrl;
+      });
+  }
+}
+});
+  // Desktop navigation
+  addNavHandler(".ven-home", "VendorHome.html");
+  addNavHandler(".ven-edit-menu", "VendorEditMenu.html");
+  // addNavHandler(".ven-profile", "VendorProfile.html");
+
+  // Mobile navigation
+  addNavHandler(".mobile-nav .ven-home", "VendorHome.html");
+  addNavHandler(".mobile-nav .ven-edit-menu", "VendorEditMenu.html");
+  // addNavHandler(".mobile-nav .ven-profile", "VendorProfile.html");
 
 
 // Grab all cuisine cards
