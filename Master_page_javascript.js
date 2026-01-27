@@ -33,6 +33,179 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
+/* =========================
+   HELPERS
+========================= */
+function $(id) {
+  return document.getElementById(id);
+}
+
+function showMessage(text, color = "red") {
+  const msg = $("message");
+  if (!msg) return;
+  msg.style.color = color;
+  msg.textContent = text;
+}
+
+function normalizeUsername(u) {
+  return (u ?? "").trim().toLowerCase();
+}
+
+function isValidUsername(u) {
+  // Avoid characters that can cause key issues. Keep it simple.
+  // Allowed: letters, numbers, dot, underscore
+  return /^[a-z0-9._]+$/.test(u);
+}
+
+async function sha256(text) {
+  const enc = new TextEncoder().encode(text);
+  const buf = await crypto.subtle.digest("SHA-256", enc);
+  return Array.from(new Uint8Array(buf))
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
+}
+
+function clearIfExists(ids) {
+  ids.forEach((id) => {
+    const el = $(id);
+    if (el) el.value = "";
+  });
+}
+
+/* =========================
+   REGISTRATION
+========================= */
+async function registerMember() {
+  const name = ($("name")?.value ?? "").trim();
+  const username = normalizeUsername($("username")?.value ?? "");
+  const email = ($("email")?.value ?? "").trim();
+  const age = Number(($("age")?.value ?? "").trim());
+  const password = $("password")?.value ?? "";
+  const confirmPassword = $("confirmPassword")?.value ?? "";
+
+  // Basic checks
+  if (!name || !username || !email || !age || !password || !confirmPassword) {
+    showMessage("Please fill in all fields.", "red");
+    return;
+  }
+
+  if (!isValidUsername(username)) {
+    showMessage("Username can only contain letters, numbers, dot (.) and underscore (_).", "red");
+    return;
+  }
+
+  if (password.length < 6) {
+    showMessage("Password must be at least 6 characters.", "red");
+    return;
+  }
+
+  if (password !== confirmPassword) {
+    showMessage("Passwords do not match.", "red");
+    return;
+  }
+
+  try {
+    const memberRef = ref(db, `members/${username}`);
+
+    // Ensure username is unique
+    const snap = await get(memberRef);
+    if (snap.exists()) {
+      showMessage("Username already taken. Please choose another.", "red");
+      return;
+    }
+
+    // Store password hash (not plaintext)
+    const passwordHash = await sha256(password);
+
+    await set(memberRef, {
+      name,
+      username,
+      email,
+      age,
+      passwordHash,
+      createdAt: Date.now()
+    });
+
+    showMessage("Registration successful! ✅", "green");
+    clearIfExists(["name", "username", "email", "age", "password", "confirmPassword"]);
+  } catch (err) {
+    console.error(err);
+    showMessage(`Registration failed: ${err?.message ?? "Unknown error"}`, "red");
+  }
+}
+
+/* =========================
+   LOGIN
+========================= */
+async function loginMember() {
+  const username = normalizeUsername($("username")?.value ?? "");
+  const password = $("password")?.value ?? "";
+
+  if (!username || !password) {
+    showMessage("Please enter username and password.", "red");
+    return;
+  }
+
+  if (!isValidUsername(username)) {
+    showMessage("Invalid username format.", "red");
+    return;
+  }
+
+  try {
+    const memberRef = ref(db, `members/${username}`);
+    const snap = await get(memberRef);
+
+    if (!snap.exists()) {
+      showMessage("User not found.", "red");
+      return;
+    }
+
+    const data = snap.val();
+    const inputHash = await sha256(password);
+
+    if (inputHash !== data.passwordHash) {
+      showMessage("Incorrect password.", "red");
+      return;
+    }
+
+    // Save session + redirect
+    sessionStorage.setItem("loggedInUser", username);
+    showMessage("Login successful! 🎉", "green");
+    window.location.href = "FED_ASG.html";
+  } catch (err) {
+    console.error(err);
+    showMessage(`Login failed: ${err?.message ?? "Unknown error"}`, "red");
+  }
+}
+
+/* =========================
+   AUTO-BIND EVENTS (based on page)
+========================= */
+document.addEventListener("DOMContentLoaded", () => {
+  // Register page
+  if ($("registerBtn")) {
+    $("registerBtn").addEventListener("click", registerMember);
+  }
+
+  // Login page
+  if ($("loginBtn")) {
+    $("loginBtn").addEventListener("click", loginMember);
+  }
+
+  // Optional: allow Enter key to submit on login page
+  if ($("loginBtn") && $("password")) {
+    $("password").addEventListener("keydown", (e) => {
+      if (e.key === "Enter") loginMember();
+    });
+  }
+
+  // Optional: allow Enter key to submit on register page
+  if ($("registerBtn") && $("confirmPassword")) {
+    $("confirmPassword").addEventListener("keydown", (e) => {
+      if (e.key === "Enter") registerMember();
+    });
+  }
+});
 
 //Navigation Dropdown
 document.querySelectorAll('.toggle').forEach(mainItem => {

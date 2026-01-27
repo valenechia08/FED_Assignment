@@ -43,7 +43,8 @@
           <!-- <li class="divider"></li> -->
 
           <li class="main toggle">
-            <span>👤 Profile</span>
+            <span>👤 Profile</span><br>
+            <span class="usernameDisplay"></span>
             <span class="arrow">v</span>
           </li>
           <ul class="submenu">
@@ -55,7 +56,7 @@
           </ul>
 
           <!-- <li class="divider"></li> -->
-          <li class="main toggle">Log out</li>
+          <li class="main toggle logout">Log out</li>
         </ul>
       </nav>
 
@@ -174,6 +175,7 @@
 
           <li class="main toggle">
             <span>👤 Profile</span>
+            <span class="usernameDisplay"></span>
             <span class="arrow">v</span>
           </li>
           <ul class="submenu">
@@ -286,7 +288,27 @@
 
     </section>
   </main>
+    <script>
+      //LOGOUT & Login
+      // Check login
+      document.addEventListener("DOMContentLoaded", () => {
+      const username = sessionStorage.getItem("loggedInUser");
 
+        if (!username) {
+          // Not logged in
+          window.location.href = "login.html";
+        } 
+        else {
+          document.querySelector(".usernameDisplay").textContent =`${username}`;
+        }
+
+        // Logout
+        document.querySelector(".logout").addEventListener("click", () => {
+        sessionStorage.removeItem("loggedInUser");
+        window.location.href = "login.html";
+      });
+    })
+    </script>
     <script type="module" src="Master_page_javascript.js"></script>
   </body>
 </html>
