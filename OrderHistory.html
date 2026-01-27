@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order History</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Kodchasan:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
+        rel="stylesheet"
+    />
+    <style>
+        
+        body{
+            margin: 0;
+        }
+        .navrectangle {
+            background-color: #FF7A18;
+            /*Added 25 px padding at the top for ShiokLah brand*/
+            /* padding-top:25px; */
+            width: 220px;
+            height: 1000px;
+            display: flex;
+            flex-direction: column;
+            }
+
+            .navrectangle header {
+            font-size: 36px;
+            color: white;
+            font-style: italic;
+            font-family: 'Kodchasan', Arial, sans-serif;
+            padding: 60px 20px;
+            padding-bottom: 30px;
+
+            }
+
+            .navBar {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            color: white;
+            font-family: Arial, Helvetica, sans-serif;
+            }
+
+            /*Hides layouts*/
+            .hidden {
+            display: none;
+            }
+
+            /* MAIN ITEMS */
+            .main {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 20px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 0 15px;
+            }
+
+            /* SUB MENU */
+            .submenu {
+            list-style-type: none;
+            padding-left: 18px;
+            margin: 0;
+            display: none; /* hidden by default */
+            }
+
+            .subpoint {
+            font-size: 14px;
+            padding: 15px 5px;
+            margin:0 15px; 
+            }
+
+
+            /* DIVIDER */
+            .divider {
+            height: 1.3px;
+            width:100%;
+            background-color: rgba(0, 0, 0, 0.3);
+            }
+
+            .usernameDisplay{
+            font-size:12px;
+            }
+
+            /* ARROW */
+            .arrow {
+            font-size: 14px;
+            transition: transform 0.2s ease;
+            }
+
+            /* LOGOUT */
+            .logout {
+            padding: 20px;
+            list-style: none;
+            }
+
+            /* HOVER */;
+            .main:hover,
+            .subpoint:hover {
+            /* background-color: rgba(255, 255, 255, 0.2); */
+            background-color: #FF8C3A;
+            }
+            .OrderHistory{
+                position:absolute;
+                left:20%;
+                top: 66px; 
+                color: black;
+                margin: 0;
+            }
+            .OrderHistory-title {
+                text-decoration: underline;
+                color: black;
+                font-size: 35px;
+                font-weight: bold;
+                font-family: system-ui, Arial, 'Times New Roman', Times, serif;
+            }
+            .rectangle-box {
+                width: 900px;            /* set width */
+                height: 200px;           /* set height */
+                border: 1px solid black; /* black outline */
+                border-radius: 6px;      /* optional: rounded corners */
+                padding: 30px;           /* space inside the box */
+                margin: 20px auto;       /* space outside + center horizontally */
+                background-color: #fff;  /* optional: white background */
+                font-family: system-ui, Arial, 'Times New Roman', Times, serif;
+                font-size: 26px;
+                text-align: center;
+            }
+            .rectangle-box.text-content{
+              padding-top: 100px;
+            }
+            .start-ordering{
+              background-color:#FF7A18;
+              color:white;
+              position: absolute;      /* take it out of normal flow */
+              padding: 15px 40px;
+              font-size: 16px;
+              cursor: pointer;
+              margin-left:400px;
+              border: 1px solid black; 
+              border-radius: 20px;      /* optional: rounded corners */
+            }
+            .start-ordering:hover {
+              background-color: #FF8C3A;     /* darker orange on hover */
+          
+            }
+            .main:hover,
+            .subpoint:hover {
+              /* background-color: rgba(255, 255, 255, 0.2); */
+              background-color: #FF8C3A;
+            }
+
+
+
+
+
+    </style>
+</head>
+<body>
+    <section class="container">
+      <nav class="navrectangle">
+        <header class="brand">ShiokLah!</header>
+
+        <ul class="navBar">
+          <li class="main toggle">
+            <span>🏠 Home</span>
+            <span class="arrow">v</span>
+          </li>
+          <ul class="submenu">
+            <li class="subpoint">• Start Order</li>
+          </ul>
+
+          <!-- <li class="divider"></li> -->
+
+          <li class="main toggle">
+            <span>📄 Order History</span>
+            <span class="arrow">v</span>
+          </li>
+          <ul class="submenu">
+            <li class="subpoint past-orders">• Past Orders</li>
+          </ul>
+
+          <!-- <li class="divider"></li> -->
+
+          <li class="main toggle">
+            <span>👤 Profile</span><br>
+            <span class="usernameDisplay"></span>
+            <span class="arrow">v</span>
+          </li>
+          <ul class="submenu">
+            <li class="subpoint">• Analytics & Reporting</li>
+            <li class="subpoint">• Customer Feedback</li>
+            <li class="subpoint">• Regulatory & Compliance</li>
+            <li class="subpoint">• Favourites</li>
+            <li class="subpoint">• Rewards</li>
+          </ul>
+
+          <!-- <li class="divider"></li> -->
+          <li class="main toggle logout">Log out</li>
+        </ul>
+      </nav>
+        <div class="OrderHistory">
+            <h1 class="OrderHistory-title">Order History</h1>
+            <div class="rectangle-box text-content"><b>
+            🛒 No orders yet.</b> <br />
+            Place your first order to see it here.
+        </div>
+
+        <button onclick="window.location.href='FED_ASG.html';" class="start-ordering">Start Ordering</button>
+
+        </div>
+
+    </section>
+
+
+    <script>
+        //Navigation Dropdown
+        document.querySelectorAll('.toggle').forEach(mainItem => {
+                mainItem.addEventListener('click', () => {
+                const submenu = mainItem.nextElementSibling;
+                const arrow = mainItem.querySelector('.arrow');
+
+                if (submenu.style.display === 'block') {
+                    submenu.style.display = 'none';
+                    arrow.textContent = 'v';
+                } else {
+                    submenu.style.display = 'block';
+                    arrow.textContent = '^';
+                }
+                });
+            });
+        // go to home page
+      //   document.querySelector(".start-ordering").onclick = function() {
+      //   window.location.href = "FED_ASG.html"; 
+      // };
+
+    </script>
+</body>
+</html>
