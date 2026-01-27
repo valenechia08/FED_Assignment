@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ShiokLah!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kodchasan:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="Master_page_stylesheet.css" />
+  </head>
+  <body>
+     <!-- Vendor Home -->
+     <section class="container vendornav hidden">
+      <nav class="navrectangle">
+        <header class="brand">ShiokLah!</header>
+
+        <ul class="navBar">
+          <li class="main">
+            <span>🏠 Home</span>
+          </li>
+
+          <!-- <li class="divider"></li> -->
+
+          <li class="main">
+            <!-- <img src="images/WhiteEditMenu.png" alt="Edit Menu icon"> -->
+            <span>🍽️ Edit Menu</span>
+          </li>
+
+          <!-- <li class="divider"></li> -->
+
+          <li class="main toggle">
+            <span>👤 Profile</span>
+            <span class="usernameDisplay"></span>
+            <span class="arrow">v</span>
+          </li>
+          <ul class="submenu">
+            <li class="subpoint">• Stall Hygiene Grades</li>
+            <li class="subpoint">• Performance Dashboard</li>
+            <li class="subpoint">• My Rental Agreements</li>
+            <li class="subpoint">• Customer Feedback</li>
+            <li class="subpoint">• Settings</li>
+          </ul>
+
+          <!-- <li class="divider"></li> -->
+          <li class="subpoint logout">Log out</li>
+        </ul>
+      </nav>
+
+      <nav class="mobile-nav vendornav">
+        <div class="mobile-nav-item active">
+          <span>🏠</span>
+          <small>Home</small>
+        </div>
+
+        <div class="mobile-nav-item">
+          <span>🍽️</span>
+          <small>Edit Menu</small>
+        </div>
+
+        <div class="mobile-nav-item">
+          <span>👤</span>
+          <small>Profile</small>
+        </div>
+      </nav>
+  <main class="contents">
+
+    <header class="page-header">
+      <div class="header-row">
+        <div class="title-block">
+          <h1>Incoming Orders</h1>
+          <!-- <div class="divider"></div> -->
+        </div>
+
+        <div class="order limit">
+          Order Limit: <span>10</span>
+        </div>
+      </div>
+    </header>
+
+    <section class="order grid">
+
+      <section class="order box">
+        <h2 class="order status">Pending Orders</h2>
+        <div class="order scroll">
+          <!-- Order Card -->
+          <article class="order card">
+            <h3>Order #00001</h3>
+            <section class="order header">
+            <p>Today · 9:16am</p>
+            <p class="timer">Timer: 15:00</p>
+            </section>
+            <p>Set Meal A   $5.00 ×2  $10.00</p>
+            <div class="actions">
+              <button class="accept">Accept</button>
+              <button class="reject">Reject</button>
+            </div>
+          </article>
+
+          <article class="order card">
+            <h3>Order #00002</h3>
+            <section class="order header">          
+            <p>Today · 9:22am</p>
+            <p class="timer">Timer: 15:00</p>
+            </section>
+            <p>Set Meal B   $4.00 ×1  $4.00</p>
+            <div class="actions">
+              <button class="accept">Accept</button>
+              <button class="reject">Reject</button>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="order box">
+        <h2 class="green order status">Accepted Orders</h2>
+        <div class="order scroll"></div>
+        <div class="order scroll">
+          <!-- Order Card Hidden-->
+          <article class="order card hidden">
+            <h3>Order #00002</h3>
+            <section class="order header">
+            <p>Today · 9:22am</p>
+            <p class="timer">Timer: 15:00</p>
+            </section>
+            <p>Set Meal B  $4.00 ×1  $4.00</p>
+            <div class="actions">
+              <button class="accept">Accept</button>
+              <button class="reject">Reject</button>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="order box">
+        <h2 class="order status">Completed Orders</h2>
+        <div class="order scroll"></div>
+      </section>
+
+      <section class="order box">
+        <h2 class="red order status">Cancelled Orders</h2>
+        <div class="orders scroll"></div>
+      </section>
+
+    </section>
+  </main>
+    <script>
+      //LOGOUT & Login
+      // Check login
+      document.addEventListener("DOMContentLoaded", () => {
+      const username = sessionStorage.getItem("loggedInUser");
+
+        if (!username) {
+          // Not logged in
+          window.location.href = "login.html";
+        } 
+        else {
+          document.querySelector(".usernameDisplay").textContent =`${username}`;
+        }
+
+        // Logout
+        document.querySelector(".logout").addEventListener("click", () => {
+        sessionStorage.removeItem("loggedInUser");
+        window.location.href = "login.html";
+      });
+    })
+    </script>
+    <script type="module" src="Master_page_javascript.js"></script>
+  </body>
+</html>
