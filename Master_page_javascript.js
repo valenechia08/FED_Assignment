@@ -3,30 +3,30 @@
 ================================ */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import {
-    getDatabase,
-    ref,
-    push,
-    set,
-    get,
-    update,
-    remove,
-    child
+  getDatabase,
+  ref,
+  push,
+  set,
+  get,
+  update,
+  remove,
+  child,
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
-
 
 /* ================================
    Firebase configuration
    (REPLACE with your own config) DONE
 ================================ */
 const firebaseConfig = {
-    apiKey: "AIzaSyCoYoGP4NYJPHqA-kV_swajQ4LSQYdyWV4",
-    authDomain: "grp3fedapp.firebaseapp.com",
-    databaseURL: "https://grp3fedapp-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "grp3fedapp",
-    storageBucket: "grp3fedapp.firebasestorage.app",
-    messagingSenderId: "791146838729",
-    appId: "1:791146838729:web:446baee191feeb036e2b18"
-  };
+  apiKey: "AIzaSyCoYoGP4NYJPHqA-kV_swajQ4LSQYdyWV4",
+  authDomain: "grp3fedapp.firebaseapp.com",
+  databaseURL:
+    "https://grp3fedapp-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "grp3fedapp",
+  storageBucket: "grp3fedapp.firebasestorage.app",
+  messagingSenderId: "791146838729",
+  appId: "1:791146838729:web:446baee191feeb036e2b18",
+};
 
 /* ================================
    Initialize Firebase
@@ -91,7 +91,10 @@ async function registerMember() {
   }
 
   if (!isValidUsername(username)) {
-    showMessage("Username can only contain letters, numbers, dot (.) and underscore (_).", "red");
+    showMessage(
+      "Username can only contain letters, numbers, dot (.) and underscore (_).",
+      "red",
+    );
     return;
   }
 
@@ -104,7 +107,7 @@ async function registerMember() {
     showMessage("Passwords do not match.", "red");
     return;
   }
-
+  
   try {
     const memberRef = ref(db, `members/${username}`);
 
@@ -124,14 +127,24 @@ async function registerMember() {
       email,
       age,
       passwordHash,
-      createdAt: Date.now()
+      createdAt: Date.now(),
     });
 
     showMessage("Registration successful! ✅", "green");
-    clearIfExists(["name", "username", "email", "age", "password", "confirmPassword"]);
+    clearIfExists([
+      "name",
+      "username",
+      "email",
+      "age",
+      "password",
+      "confirmPassword",
+    ]);
   } catch (err) {
     console.error(err);
-    showMessage(`Registration failed: ${err?.message ?? "Unknown error"}`, "red");
+    showMessage(
+      `Registration failed: ${err?.message ?? "Unknown error"}`,
+      "red",
+    );
   }
 }
 
@@ -179,7 +192,6 @@ async function loginMember() {
   }
 }
 
-
 /* =========================
    AUTO-BIND EVENTS (based on page)
 ========================= */
@@ -212,22 +224,20 @@ document.addEventListener("DOMContentLoaded", () => {
 //LOGOUT & Login
 // Check login
 document.addEventListener("DOMContentLoaded", () => {
-const username = sessionStorage.getItem("loggedInUser");
+  const username = sessionStorage.getItem("loggedInUser");
 
-  if (!username) {
-    // Not logged in
-    window.location.href = "login.html";
-  } 
-  else {
-    document.querySelector(".usernameDisplay").textContent =`${username}`;
-  }
+  // if (!username || !password) {
+  //   document.querySelector(".message").textContent="Please enter both username and password.";
+  // } else {
+    document.querySelector(".usernameDisplay").textContent = `${username}`;
+  // }
 
   // Logout
   document.querySelector(".logout").addEventListener("click", () => {
-  sessionStorage.removeItem("loggedInUser");
-  window.location.href = "login.html";
+    sessionStorage.removeItem("loggedInUser");
+    window.location.href = "login.html";
+  });
 });
-})
 
 //Timer
 // document.addEventListener("DOMContentLoaded", () => {
@@ -264,53 +274,49 @@ const username = sessionStorage.getItem("loggedInUser");
 // }
 // startOrderTimer(timerEl, orderedAtMs);
 
-
-
 //Navigation Dropdown
-document.querySelectorAll('.toggle').forEach(mainItem => {
-        mainItem.addEventListener('click', () => {
-          const submenu = mainItem.nextElementSibling;
-          const arrow = mainItem.querySelector('.arrow');
+document.querySelectorAll(".toggle").forEach((mainItem) => {
+  mainItem.addEventListener("click", () => {
+    const submenu = mainItem.nextElementSibling;
+    const arrow = mainItem.querySelector(".arrow");
 
-          if (submenu.style.display === 'block') {
-            submenu.style.display = 'none';
-            arrow.textContent = 'v';
-          } else {
-            submenu.style.display = 'block';
-            arrow.textContent = '^';
-          }
-        });
-      });
-
+    if (submenu.style.display === "block") {
+      submenu.style.display = "none";
+      arrow.textContent = "v";
+    } else {
+      submenu.style.display = "block";
+      arrow.textContent = "^";
+    }
+  });
+});
 
 /*Search Bar to search up stalls*/
-  const searchInput = document.querySelector(".search-input");
-  const stallCards = document.querySelectorAll(".stall-card");
+const searchInput = document.querySelector(".search-input");
+const stallCards = document.querySelectorAll(".stall-card");
 
-  // Listen for typing
-  searchInput.addEventListener("keyup", function () {
-    const query = this.value.toLowerCase();
+// Listen for typing
+searchInput.addEventListener("keyup", function () {
+  const query = this.value.toLowerCase();
 
-    stallCards.forEach(card => {
-      const name = card.querySelector("h4").textContent.toLowerCase();
-      const info = card.querySelector("p").textContent.toLowerCase();
+  stallCards.forEach((card) => {
+    const name = card.querySelector("h4").textContent.toLowerCase();
+    const info = card.querySelector("p").textContent.toLowerCase();
 
-      // Show if query matches name or info
-      if (name.includes(query) || info.includes(query)) {
-        card.style.display = "";
-      } else {
-        card.style.display = "none";
-      }
-    });
+    // Show if query matches name or info
+    if (name.includes(query) || info.includes(query)) {
+      card.style.display = "";
+    } else {
+      card.style.display = "none";
+    }
   });
-
+});
 
 //Navigation for Vendor
-const edit_menu_nav=document.querySelector(".ven-edit-menu");
-  edit_menu_nav.addEventListener("click",()=>{
+const edit_menu_nav = document.querySelector(".ven-edit-menu");
+edit_menu_nav.addEventListener("click", () => {
   // edit_menu_nav.classList.add("selected");
   window.location.href = "VendorEditMenu.html";
-})
+});
 
 /*Try 2*/
 // document.addEventListener("DOMContentLoaded", () => {
@@ -330,16 +336,15 @@ const edit_menu_nav=document.querySelector(".ven-edit-menu");
 //   }
 // }
 // });
-  // Desktop navigation
-  // addNavHandler(".ven-home", "VendorHome.html");
-  // addNavHandler(".ven-edit-menu", "VendorEditMenu.html");
-  // // addNavHandler(".ven-profile", "VendorProfile.html");
+// Desktop navigation
+// addNavHandler(".ven-home", "VendorHome.html");
+// addNavHandler(".ven-edit-menu", "VendorEditMenu.html");
+// // addNavHandler(".ven-profile", "VendorProfile.html");
 
-  // // Mobile navigation
-  // addNavHandler(".mobile-nav .ven-home", "VendorHome.html");
-  // addNavHandler(".mobile-nav .ven-edit-menu", "VendorEditMenu.html");
-  // // addNavHandler(".mobile-nav .ven-profile", "VendorProfile.html");
-
+// // Mobile navigation
+// addNavHandler(".mobile-nav .ven-home", "VendorHome.html");
+// addNavHandler(".mobile-nav .ven-edit-menu", "VendorEditMenu.html");
+// // addNavHandler(".mobile-nav .ven-profile", "VendorProfile.html");
 
 // Grab all cuisine cards
 const cuisines = document.querySelectorAll(".cuisine");
@@ -347,17 +352,17 @@ const cuisines = document.querySelectorAll(".cuisine");
 // Grab all stall cards
 const stalls = document.querySelectorAll(".stall-card");
 
-cuisines.forEach(cuisine => {
+cuisines.forEach((cuisine) => {
   cuisine.addEventListener("click", () => {
     // check if this cuisine is already selected
     const isSelected = cuisine.classList.contains("selected");
 
     // remove 'selected' from all cuisines
-    cuisines.forEach(c => c.classList.remove("selected"));
+    cuisines.forEach((c) => c.classList.remove("selected"));
 
     if (isSelected) {
       // if clicked again, deselect and show all stalls
-      stalls.forEach(stall => {
+      stalls.forEach((stall) => {
         stall.style.display = "flex";
       });
     } else {
@@ -369,11 +374,11 @@ cuisines.forEach(cuisine => {
       console.log("Chosen cuisine:", chosenCuisine);
 
       // filter stalls based on class
-      stalls.forEach(stall => {
+      stalls.forEach((stall) => {
         if (stall.classList.contains(chosenCuisine)) {
-          stall.style.display = "flex";   // show matching stalls
+          stall.style.display = "flex"; // show matching stalls
         } else {
-          stall.style.display = "none";    // hide non-matching stalls
+          stall.style.display = "none"; // hide non-matching stalls
         }
       });
     }
