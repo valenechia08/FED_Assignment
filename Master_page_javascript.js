@@ -77,15 +77,12 @@ function clearIfExists(ids) {
    REGISTRATION
 ========================= */
 async function registerMember() {
-  const name = ($("name")?.value ?? "").trim();
-  const username = normalizeUsername($("username")?.value ?? "");
-  const email = ($("email")?.value ?? "").trim();
-  const age = Number(($("age")?.value ?? "").trim());
+  const username = normalizeUsername($("username")?.value ?? "").trim();
+  // const email = ($("email")?.value ?? "").trim();
   const password = $("password")?.value ?? "";
-  const confirmPassword = $("confirmPassword")?.value ?? "";
 
   // Basic checks
-  if (!name || !username || !email || !age || !password || !confirmPassword) {
+  if (!username || !password) {
     showMessage("Please fill in all fields.", "red");
     return;
   }
@@ -103,11 +100,6 @@ async function registerMember() {
     return;
   }
 
-  if (password !== confirmPassword) {
-    showMessage("Passwords do not match.", "red");
-    return;
-  }
-  
   try {
     const memberRef = ref(db, `members/${username}`);
 
@@ -122,23 +114,13 @@ async function registerMember() {
     const passwordHash = await sha256(password);
 
     await set(memberRef, {
-      name,
       username,
-      email,
-      age,
       passwordHash,
       createdAt: Date.now(),
     });
 
     showMessage("Registration successful! ✅", "green");
-    clearIfExists([
-      "name",
-      "username",
-      "email",
-      "age",
-      "password",
-      "confirmPassword",
-    ]);
+    clearIfExists(["username", "email", "password"]);
   } catch (err) {
     console.error(err);
     showMessage(
@@ -154,7 +136,6 @@ async function registerMember() {
 async function loginMember() {
   const username = normalizeUsername($("username")?.value ?? "");
   const password = $("password")?.value ?? "";
-
   if (!username || !password) {
     showMessage("Please enter username and password.", "red");
     return;
@@ -214,8 +195,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Optional: allow Enter key to submit on register page
-  if ($("registerBtn") && $("confirmPassword")) {
-    $("confirmPassword").addEventListener("keydown", (e) => {
+  if ($("registerBtn")) {
+    $("registerBtn").addEventListener("keydown", (e) => {
       if (e.key === "Enter") registerMember();
     });
   }
@@ -229,34 +210,17 @@ document.addEventListener("DOMContentLoaded", () => {
   // if (!username || !password) {
   //   document.querySelector(".message").textContent="Please enter both username and password.";
   // } else {
-    if (username) {
-    document.querySelector(".usernameDisplay").textContent = `${username}`;//Displays username under profile
-    }
+  if (username) {
+    document.querySelector(".usernameDisplay").textContent = `${username}`; //Displays username under profile
+  }
   // }
 
   // Logout
-    document.querySelector(".logout").addEventListener("click", () => {
+  document.querySelector(".logout").addEventListener("click", () => {
     sessionStorage.removeItem("loggedInUser");
     window.location.href = "login.html";
   });
 });
-
-//SEARCHING FOR STALLS
-function searchStalls(){
-  document.getElementsByClassName("search-input").addEventListener("input", () => {
-  const query = document.getElementsByClassName("search-input").value.toLowerCase();
-  const stalls = document.querySelectorAll(".stall-card");
-
-  stalls.forEach(stall => {
-    const text = stall.textContent.toLowerCase();
-    if (text.includes(query)) {
-      stall.style.display = "flex";   // show matching stall
-    } else {
-      stall.style.display = "none";   // hide non-matching stall
-    }
-  });
-});
-}
 
 //Navigation Dropdown
 document.querySelectorAll(".toggle").forEach((mainItem) => {
@@ -275,15 +239,14 @@ document.querySelectorAll(".toggle").forEach((mainItem) => {
 });
 
 /*Mobile Navigation*/
-document.querySelectorAll(".mobile-nav-item").forEach(item => {
-    item.addEventListener("click", () => {
-      const target = item.getAttribute("data-link");
-      if (target) {
-        window.location.href = target;
-      }
-    });
+document.querySelectorAll(".mobile-nav-item").forEach((item) => {
+  item.addEventListener("click", () => {
+    const target = item.getAttribute("data-link");
+    if (target) {
+      window.location.href = target;
+    }
   });
-
+});
 
 /*Search Bar to search up stalls*/
 const searchInput = document.querySelector(".search-input");
