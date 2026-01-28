@@ -31,7 +31,6 @@
           "Open Sans",
           "Helvetica Neue",
           sans-serif;
-        position: relative;
       }
       .register-form {
         flex: 1; /* take the other half */
@@ -46,7 +45,7 @@
         margin-bottom: 5px;
         color: #333;
         font-size: 48px;
-        width: 50%;
+        width: 60%;
         text-align: left;
       }
 
@@ -54,11 +53,8 @@
         font-size: 14px;
         color: #666;
         margin-bottom: 20px;
-        /* width: 50%;
-        text-align: left; */
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
+        width: 60%;
+        text-align: left;
       }
 
       .register-form input {
@@ -69,6 +65,8 @@
         border: 1px solid #ccc;
         border-radius: 4px;
         width: 150%;
+        position: relative;
+        right: 32%;
       }
 
       .register-form .inputs {
@@ -78,13 +76,13 @@
       .register-form button {
         width: 100%;
         padding: 12px;
-        background-color: #ff7a18;
+        background-color: #e47329;
         color: white;
-        font-weight: bold;
         border: none;
-        border-radius: 4px;
+        border-radius: 30px;
         cursor: pointer;
         width: 50%;
+        height: 45px;
       }
 
       .divider {
@@ -101,6 +99,9 @@
         text-decoration: none;
         font-size: 14px;
       }
+      .message {
+        margin-bottom: 10px;
+      }
     </style>
   </head>
   <body>
@@ -116,20 +117,18 @@
             Enter the mobile number or email which you can be contacted. No one
             will see this on your profile.
           </p>
+          <div class="message" id="message"></div>
           <div class="inputs">
-            <input
-              type="text"
-              id="contactInput"
-              placeholder="Phone number or email"
-            />
-            <input type="password" id="passwordInput" placeholder="Password" />
+            <input type="username" id="username" placeholder="Email" />
+            <input type="password" id="password" placeholder="Password" />
           </div>
-          <button id="createAccountBtn">Create account</button>
+          <button id="registerBtn">Create account</button>
 
           <div class="divider">OR</div>
           <a href="login.html" class="login-link">I already have an account</a>
         </div>
       </div>
     </div>
+    <script type="module" src="Master_page_javascript.js"></script>
   </body>
 </html>
