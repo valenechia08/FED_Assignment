@@ -4,61 +4,112 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>ShiokLah! Dashboard (HTML + CSS Only)</title>
+  <link
+        href="https://fonts.googleapis.com/css2?family=Kodchasan:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
+        rel="stylesheet"
+    />
   <style>
-    /* General Styling */
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f4f4f4;
-      color: #333;
-    }
+      /* General Styling */
+      body {
+        margin: 0;
+      }
+      .container {
+        display: flex;
+        align-items: stretch;
+        min-height: 100vh; /* full height layout */
 
-    .container {
-      display: flex;
-      align-items: stretch;
-      min-height: 100vh; /* full height layout */
-    }
+      }
 
-    .mobile-nav {
-      display: none;
-    }
+      .mobile-nav {
+        display: none;
+      }
 
-    /* SIDEBAR */
-    .navrectangle {
-      background-color: #FF7A18;
-      width: 220px;
-      min-height: 100vh;   /* matches the viewport height */
-      flex-shrink: 0;      /* Sidebar stays fixed width */
-      position: relative;
-      z-index: 1000;
-    }
+      /* SIDEBAR */
+      .navrectangle {
+        background-color: #FF7A18;
+        width: 220px;
+        min-height: 100vh;   /* matches the viewport height */
+        /* display: flex;
+        flex-direction: column; */
+        flex-shrink: 0; /* Sidebar stays fixed width */
+        
+        position: relative;
+        z-index: 1000;
+      }
 
-    .navrectangle header {
-      font-size: 36px;
-      color: white;
-      font-style: italic;
-      font-family: 'Kodchasan', Arial, sans-serif;
-      padding: 60px 20px 30px;
-    }
+      .navrectangle header {
+        font-size: 36px;
+        color: white;
+        font-style: italic;
+        font-family: 'Kodchasan', Arial, sans-serif;
+        padding: 60px 20px 30px;
+      }
 
-    /* NAV LIST */
-    .navBar {
-      list-style-type: none;
-      padding: 0;
-      margin: 0;
-      color: white;
-      font-family: Arial, Helvetica, sans-serif;
-    }
+      /* NAV LIST */
+      .navBar {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        color: white;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      /* MAIN ITEMS */
+      .main {
+        position: relative;          /* 🔑 required for absolute submenu */
+        display: flex;
+        flex-direction: column;      /* stack title + submenu vertically */
+        margin: 0 15px;
+      }
+      /* SUB MENU */
+      .submenu {
+        /* position: absolute; */
+        display: none;
+        list-style: none;          /* removes bullet points */
+        padding: 0;
+        
+        margin: 0;
+        top: 100%;              /* directly below main item */
+        left: 0;
+        width: 100%;
+        background-color: #FF7A18;
+        /* padding: 8px 0;
+        z-index: 10; */
+      }
 
-    .navBar li {
-      padding: 15px 20px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    .navBar li:hover {
-      background: rgba(255,255,255,0.2);
-    }
+      .subpoint {
+        display: block;
+        background-color: transparent;
+        color: white;
+        border: none;
+        padding: 12px 47px;     /* indent to the left */
+        
+        text-align: left;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      /* PROFILE TITLE STACK */
+      /* Title row (text + arrow) */
+      .profile-title,
+      .title-row {
+        display: grid;
+        grid-template-columns: 1fr auto;  /* label left, arrow right */
+        align-items: center;
+        padding: 24px 20px;
+        font-weight: bold;
+        /* text-align: left; */
+      }
+      .arrow {
+        font-size: 14px;
+        transition: transform 0.2s ease;
+      }
+      /* HOVER */
+      .title-row:hover,
+      .logout button:hover,
+      .profile-title:hover,
+      .subpoint:hover {
+        background-color: #FF8C3A;
+        border-radius: 6px;
+      }
 
     /* MAIN CONTENT */
     main {
@@ -93,8 +144,9 @@
       height: 100%;
       color: white;
       text-align: right;
-      padding-right: 5px;
+      padding-right:5px;
       line-height: 20px;
+      font-size: 12px;
     }
 
     .pink { background: #ff66b2; }
@@ -118,63 +170,402 @@
     .pie .three { background: #ffcc66; }
     .pie .four { background: #99cc66; }
     .pie .five { background: #66cc99; }
+
+    /* for dashboard */
+    .dashboard-container {
+      padding: 2rem;
+      font-family: 'Kodchasan', sans-serif;
+      background-color: #f9f9f9;
+    }
+
+    section {
+      background: white;
+      margin-bottom: 2rem;
+      padding: 1rem 2rem;
+      border-radius: 8px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .toggle-arrow {
+      cursor: pointer;
+      font-size: 18px;
+      transition: transform 0.2s ease;
+    }
+
+    label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+
+    select {
+      margin-bottom: 1rem;
+      padding: 6px;
+      font-size: 14px;
+    }
+
+    .expandable {
+      display: none;
+      margin-top: 1rem;
+    }
+
+    ul {
+      padding-left: 1rem;
+    }
+
+    p {
+      margin: 0.5rem 0;
+    }
+
   </style>
 </head>
 <body>
   <div class="container">
     
-    <!-- Sidebar -->
-    <aside class="navrectangle">
-      <header>ShiokLah!</header>
+    <!-- Sidebar Navigation -->
+    <nav class="navrectangle">
+      <header class="brand">ShiokLah!</header>
       <ul class="navBar">
-        <li>Home</li>
-        <li>Order History</li>
-        <li>Profile</li>
-        <li><strong>Analytics & Reporting</strong></li>
-        <li>Customer Feedback</li>
-        <li>Regulatory & Compliance</li>
-        <li>Favourites</li>
-        <li>Rewards</li>
-        <li>Log out</li>
+        <!-- Home -->
+        <li class="main toggle">
+          <div class="title-row">
+            <span>🏠 Home</span>
+            <span class="arrow">v</span>
+          </div>
+          <ul class="submenu">
+            <li>
+              <button onclick="window.location.href='FED_ASG.html';" class="subpoint">• Start Order</button>
+            </li>
+          </ul>
+        </li>
+
+        <!-- Order History -->
+        <li class="main toggle">
+          <div class="title-row">
+            <span>📄 Order History</span>
+            <span class="arrow">v</span>
+          </div>
+          <ul class="submenu">
+            <li>
+              <button onclick="window.location.href='OrderHistory.html';" class="subpoint past-orders">• Past Orders</button>
+            </li>
+          </ul>
+        </li>
+
+        <!-- Profile -->
+        <li class="main toggle">
+          <div class="profile-title">
+            <span class="profile-label">👤 Profile <span class="usernameDisplay"></span></span>
+            <span class="arrow">v</span>
+          </div>
+          <ul class="submenu">
+            <li class="subpoint">• Analytics & Reporting</li>
+            <li class="subpoint">• Customer Feedback</li>
+            <li class="subpoint">• Regulatory & Compliance</li>
+            <li class="subpoint">• Favourites</li>
+            <li class="subpoint">• Rewards</li>
+          </ul>
+        </li>
+
+        <!-- Log Out -->
+        <li class="main toggle logout">
+          <button onclick="window.location.href='login.html';" class="subpoint">Log Out</button>
+        </li>
       </ul>
-    </aside>
+    </nav>
 
     <!-- Main Content -->
     <main>
-      <section>
-        <h2>Sales Analytics</h2>
-        <p><strong>Top 3 Food Items by Total Sales</strong></p>
-        <div class="bar"><span class="pink" style="width: 50%;">Chicken Rice (50)</span></div>
-        <div class="bar"><span class="blue" style="width: 40%;">Laksa (40)</span></div>
-        <div class="bar"><span class="teal" style="width: 12%;">Hokkien Mee (12)</span></div>
-      </section>
+      <div class="dashboard-container">
 
-      <section>
-        <h2>Customer Feedback</h2>
-        <p>Total Feedback: 88</p>
-        <p>Avg Rating: 3.73 ★★★★☆</p>
-        <p>Positive Ratings (4/5★): 62.5%</p>
-        <p>Bad Ratings (1/2★): 14.8%</p>
-      </section>
+        <!-- Sales Analytics Section -->
+        <section>
+          <div class="section-header">
+            <h2>Sales Analytics</h2>
+            <span id="salesArrow" class="toggle-arrow">▼</span>
+          </div>
 
-      <section>
-        <h2>Hygiene & Inspections</h2>
-        <p>Passed Grade: 5 / Failed Grade: 1</p>
-        <p>Avg Grade: B</p>
-        <p>Avg Score: 83.3%</p>
-        <p>⚠️ Hygiene has steadily improved over time</p>
-      </section>
+          <!-- Filter dropdown -->
+          <label for="salesFilter"><strong>Filter by:</strong></label>
+          <select id="salesFilter">
+            <option value="month">This Month</option>
+            <option value="3months">Last 3 Months</option>
+            <option value="6months">Last 6 Months</option>
+          </select>
 
-      <section>
-        <h2>Overview</h2>
-        <p><strong>Popular Food:</strong> Chicken Rice</p>
-        <p><strong>Peak Hour:</strong> 6–8 PM</p>
-        <p><strong>Current Grade:</strong> B</p>
-        <p><strong>Avg Hygiene Rating:</strong> 3.5</p>
-        <p><strong>Top Complaint:</strong> Slow service</p>
-      </section>
+          <div id="salesStats">
+            <p><strong>Top 3 Food Items by Total Sales</strong></p>
+            <p>Chicken Rice: 50 orders</p>
+            <p>Laksa: 40 orders</p>
+            <p>Hokkien Mee: 12 orders</p>
+          </div>
+
+          <div id="expandedSales" class="expandable">
+            <p><strong>Insights:</strong></p>
+            <ul id="salesBreakdown">
+              <li>Most popular item: Chicken Rice</li>
+              <li>Sales peak between 6–8 PM</li>
+              <li>Consider promoting low-selling items</li>
+            </ul>
+            <p id="salesInsight"><strong>Note:</strong> Evening demand surge requires more staff allocation.</p>
+          </div>
+        </section>
+
+        <!-- Customer Feedback Section -->
+        <section>
+          <div class="section-header">
+            <h2>Customer Feedback</h2>
+            <span id="feedbackArrow" class="toggle-arrow">▼</span>
+          </div>
+
+          <label for="feedbackFilter"><strong>Filter by:</strong></label>
+          <select id="feedbackFilter">
+            <option value="month">This Month</option>
+            <option value="3months">Last 3 Months</option>
+            <option value="6months">Last 6 Months</option>
+          </select>
+
+          <div id="feedbackStats">
+            <p>Total Feedback: 88</p>
+            <p>Avg Rating: 3.73 ★★★★☆</p>
+            <p>Positive Ratings (4/5★): 62.5%</p>
+            <p>Bad Ratings (1/2★): 14.8%</p>
+          </div>
+
+          <div id="expandedFeedback" class="expandable">
+            <p><strong>Customer Satisfaction Breakdown:</strong></p>
+            <ul id="feedbackBreakdown">
+              <li>1 Star: 3.4%</li>
+              <li>2 Star: 11.4%</li>
+              <li>3 Star: 22.7%</li>
+              <li>4 Star: 34.1%</li>
+              <li>5 Star: 28.4%</li>
+            </ul>
+            <p id="feedbackInsight"><strong>Insight:</strong> Customer satisfaction remains generally stable this month.</p>
+          </div>
+        </section>
+
+        <!-- Hygiene & Inspections Section -->
+        <section>
+          <div class="section-header">
+            <h2>Hygiene & Inspections</h2>
+            <span id="hygieneArrow" class="toggle-arrow">▼</span>
+          </div>
+
+          <label for="hygieneFilter"><strong>Filter by:</strong></label>
+          <select id="hygieneFilter">
+            <option value="month">This Month</option>
+            <option value="6months">Last 6 Months</option>
+            <option value="year">This Year</option>
+          </select>
+
+          <div id="hygieneStats">
+            <p>Passed Grade: 1</p>
+            <p>Avg Grade: B</p>
+            <p>Avg Score: 83.3%</p>
+            <p>⚠️ Hygiene standards are good but not at the highest level</p>
+          </div>
+
+          <div id="expandedHygiene" class="expandable">
+            <p><strong>Inspection Trends:</strong></p>
+            <ul id="hygieneBreakdown">
+              <li>12/25: Grade B</li>
+            </ul>
+            <p id="hygieneInsight"><strong>Insight:</strong> Hygiene standards are good but not at the highest level.</p>
+          </div>
+        </section>
+
+      </div>
     </main>
-  </div>
 
+  <script>
+    //Navigation Dropdown
+      document.querySelectorAll('.main.toggle').forEach(mainItem => {
+        const submenu = mainItem.querySelector('.submenu');
+        const arrow = mainItem.querySelector('.arrow');
+        const titleRow = mainItem.querySelector('.title-row, .profile-title');
+
+        if (!submenu || !arrow || !titleRow) return;
+
+        titleRow.addEventListener('click', () => {
+          const isOpen = submenu.style.display === 'block';
+          submenu.style.display = isOpen ? 'none' : 'block';
+          arrow.textContent = isOpen ? 'v' : '^';
+        });
+      });
+
+      // Toggle for Sales Analytics
+      document.getElementById('salesArrow').addEventListener('click', function () {
+        const expanded = document.getElementById('expandedSales');
+        const isVisible = expanded.style.display === 'block';
+        expanded.style.display = isVisible ? 'none' : 'block';
+        this.textContent = isVisible ? '▼' : '▲';
+      });
+
+      document.getElementById('feedbackArrow').addEventListener('click', function () {
+        const expanded = document.getElementById('expandedFeedback');
+        const isVisible = expanded.style.display === 'block';
+        expanded.style.display = isVisible ? 'none' : 'block';
+        this.textContent = isVisible ? '▼' : '▲';
+      });
+
+      document.getElementById('hygieneArrow').addEventListener('click', function () {
+        const expanded = document.getElementById('expandedHygiene');
+        const isVisible = expanded.style.display === 'block';
+        expanded.style.display = isVisible ? 'none' : 'block';
+        this.textContent = isVisible ? '▼' : '▲';
+      });
+
+
+      // -------------------- Sales Analytics --------------------
+      document.getElementById('salesFilter').addEventListener('change', function () {
+        const stats = document.getElementById('salesStats');
+        const breakdown = document.getElementById('salesBreakdown');
+        const insight = document.getElementById('salesInsight');
+
+        if (this.value === 'month') {
+          stats.innerHTML = `
+            <p><strong>Top 3 Food Items by Total Sales</strong></p>
+            <p>Chicken Rice: 50 orders</p>
+            <p>Laksa: 40 orders</p>
+            <p>Hokkien Mee: 12 orders</p>`;
+          breakdown.innerHTML = `
+            <li>Most popular item: Chicken Rice</li>
+            <li>Sales peak between 6–8 PM</li>
+            <li>Consider promoting low-selling items</li>`;
+          insight.textContent = "Note: Evening demand surge requires more staff allocation.";
+        } else if (this.value === '3months') {
+          stats.innerHTML = `
+            <p><strong>Top 3 Food Items by Total Sales</strong></p>
+            <p>Chicken Rice: 150 orders</p>
+            <p>Laksa: 120 orders</p>
+            <p>Hokkien Mee: 40 orders</p>`;
+          breakdown.innerHTML = `
+            <li>Chicken Rice dominates sales</li>
+            <li>Weekend evenings show highest demand</li>
+            <li>Promotions could boost Hokkien Mee</li>`;
+          insight.textContent = "Quarterly trend: Strong evening demand, consistent top item preference.";
+        } else if (this.value === '6months') {
+          stats.innerHTML = `
+            <p><strong>Top 3 Food Items by Total Sales</strong></p>
+            <p>Chicken Rice: 300 orders</p>
+            <p>Laksa: 250 orders</p>
+            <p>Hokkien Mee: 90 orders</p>`;
+          breakdown.innerHTML = `
+            <li>Chicken Rice remains top seller</li>
+            <li>Festive seasons boost Laksa sales</li>
+            <li>Hokkien Mee shows gradual improvement</li>`;
+          insight.textContent = "Half-year trend: Chicken Rice consistently leads, Laksa steady, Hokkien Mee improving.";
+        }
+      });
+
+
+      // -------------------- Customer Feedback --------------------
+      document.getElementById('feedbackFilter').addEventListener('change', function () {
+        const stats = document.getElementById('feedbackStats');
+        const breakdown = document.getElementById('feedbackBreakdown');
+        const insight = document.getElementById('feedbackInsight');
+
+        if (this.value === 'month') {
+          stats.innerHTML = `
+            <p>Total Feedback: 88</p>
+            <p>Avg Rating: 3.73 ★★★★☆</p>
+            <p>Positive Ratings (4/5★): 62.5%</p>
+            <p>Bad Ratings (1/2★): 14.8%</p>`;
+          breakdown.innerHTML = `
+            <li>1 Star: 3.4%</li>
+            <li>2 Star: 11.4%</li>
+            <li>3 Star: 22.7%</li>
+            <li>4 Star: 34.1%</li>
+            <li>5 Star: 28.4%</li>`;
+          insight.textContent = "Customer satisfaction remains generally stable this month.";
+        } else if (this.value === '3months') {
+          stats.innerHTML = `
+            <p>Total Feedback: 98</p>
+            <p>Avg Rating: 3.55 ★★★☆☆</p>
+            <p>Positive Ratings (4/5★): 56.1%</p>
+            <p>Bad Ratings (1/2★): 13.3%</p>`;
+          breakdown.innerHTML = `
+            <li>1 Star: 8.2%</li>
+            <li>2 Star: 5.1%</li>
+            <li>3 Star: 30.6%</li>
+            <li>4 Star: 35.7%</li>
+            <li>5 Star: 20.4%</li>`;
+          insight.textContent = "Top complaint: Slow service based on 1–2 star feedback.";
+        } else if (this.value === '6months') {
+          stats.innerHTML = `
+            <p>Total Feedback: 87</p>
+            <p>Avg Rating: 3.59 ★★★☆☆</p>
+            <p>Positive Ratings (4/5★): 57.5%</p>
+            <p>Bad Ratings (1/2★): 19.5%</p>`;
+          breakdown.innerHTML = `
+            <li>1 Star: 2.3%</li>
+            <li>2 Star: 17.2%</li>
+            <li>3 Star: 23%</li>
+            <li>4 Star: 34.5%</li>
+            <li>5 Star: 23%</li>`;
+          insight.textContent = "Top complaint: Long waiting time based on 1–2 star feedback.";
+        }
+      });
+
+
+      // -------------------- Hygiene & Inspections --------------------
+      document.getElementById('hygieneFilter').addEventListener('change', function () {
+        const stats = document.getElementById('hygieneStats');
+        const breakdown = document.getElementById('hygieneBreakdown');
+        const insight = document.getElementById('hygieneInsight');
+
+        if (this.value === 'month') {
+          stats.innerHTML = `
+            <p>Passed Grade: 1</p>
+            <p>Avg Grade: B</p>
+            <p>Avg Score: 83.3%</p>
+            <p>⚠️ Hygiene standards are good but not at the highest level</p>`;
+          breakdown.innerHTML = `<li>12/25: Grade B</li>`;
+          insight.textContent = "Hygiene standards are good but not at the highest level.";
+        } else if (this.value === '6months') {
+          stats.innerHTML = `
+            <p>Passed Grade: 5 / Failed Grade: 1</p>
+            <p>Avg Grade: B</p>
+            <p>Avg Score: 83.3%</p>
+            <p>⚠️ Hygiene has steadily improved over time</p>`;
+          breakdown.innerHTML = `
+            <li>07/25: Grade C</li>
+            <li>08/25: Grade B</li>
+            <li>09/25: Grade A</li>
+            <li>10/25: Grade A</li>
+            <li>11/25: Grade A</li>
+            <li>12/25: Grade B</li>`;
+          insight.textContent = "Hygiene has steadily improved over the last 6 months.";
+        } else if (this.value === 'year') {
+          stats.innerHTML = `
+            <p>Passed Grade: 10 / Failed Grade: 2</p>
+            <p>Avg Grade: B</p>
+            <p>Avg Score: 74.7%</p>
+            <p>⚠️ This year’s inspections show strong hygiene performance overall</p>`;
+          breakdown.innerHTML = `
+            <li>01/25: Grade B</li>
+            <li>02/25: Grade B</li>
+            <li>03/25: Grade C</li>
+            <li>04/25: Grade B</li>
+            <li>05/25: Grade A</li>
+            <li>06/25: Grade B</li>
+            <li>07/25: Grade C</li>
+            <li>08/25: Grade B</li>
+            <li>09/25: Grade A</li>
+            <li>10/25: Grade A</li>
+            <li>11/25: Grade A</li>
+            <li>12/25: Grade B</li>`;
+          insight.textContent = "This year’s inspections show strong hygiene performance overall.";
+        }
+      });
+
+  </script>
 </body>
 </html>

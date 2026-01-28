@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UserProfile</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Kodchasan:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
+        rel="stylesheet"
+    />
+    <style>
+        /* General Styling */
+        body {
+        margin: 0;
+        }
+        .container {
+            display: flex;
+            align-items: stretch;
+            min-height: 100vh; /* full height layout */
+
+        }
+
+        .mobile-nav {
+            display: none;
+        }
+
+        /* SIDEBAR */
+        .navrectangle {
+            background-color: #FF7A18;
+            width: 220px;
+            min-height: 100vh;   /* matches the viewport height */
+            /* display: flex;
+            flex-direction: column; */
+            flex-shrink: 0; /* Sidebar stays fixed width */
+            
+            position: relative;
+            z-index: 1000;
+        }
+
+        .navrectangle header {
+            font-size: 36px;
+            color: white;
+            font-style: italic;
+            font-family: 'Kodchasan', Arial, sans-serif;
+            padding: 60px 20px 30px;
+        }
+
+        /* NAV LIST */
+        .navBar {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            color: white;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        /* MAIN ITEMS */
+        .main {
+            position: relative;          /* 🔑 required for absolute submenu */
+            display: flex;
+            flex-direction: column;      /* stack title + submenu vertically */
+            margin: 0 15px;
+        }
+        
+        /* PROFILE TITLE STACK */
+        /* Title row (text + arrow) */
+        .profile-title,
+        .title-row {
+            display: grid;
+            grid-template-columns: 1fr auto;  /* label left, arrow right */
+            align-items: center;
+            padding: 24px 20px;
+            font-weight: bold;
+            /* text-align: left; */
+        }
+
+        
+
+        .usernameDisplay {
+            font-size: 12px;
+            margin-left: 5px;
+        }
+
+        /* SUB MENU */
+        .submenu {
+            /* position: absolute; */
+            display: none;
+            list-style: none;          /* removes bullet points */
+            padding: 0;
+            
+            margin: 0;
+            top: 100%;              /* directly below main item */
+            left: 0;
+            width: 100%;
+            background-color: #FF7A18;
+            /* padding: 8px 0;
+            z-index: 10; */
+        }
+
+        .subpoint {
+            display: block;
+            background-color: transparent;
+            color: white;
+            border: none;
+            padding: 12px 47px;     /* indent to the left */
+            
+            text-align: left;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        
+
+        /* DIVIDER */
+        .divider {
+            height: 1.3px;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+
+        /* ARROW */
+        .arrow {
+            font-size: 14px;
+            transition: transform 0.2s ease;
+        }
+
+        /* LOGOUT */
+        /* .logout {
+            padding: 0;
+            font-size: 100px; 
+        } */
+        /* Log Out button */
+        .logout button {
+            font-size: 15px;   /* match submenu or main items */
+        }
+
+
+        .logout button {
+            width: 100%;
+            background: none;
+            border: none;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            padding: 24px 20px;
+            text-align: left;
+        }
+
+        /* HOVER */
+        .title-row:hover,
+        .logout button:hover,
+        .profile-title:hover,
+        .subpoint:hover {
+            background-color: #FF8C3A;
+            border-radius: 6px;
+        }
+    
+
+        .profile-container {
+            display: flex;
+            height: 100vh;
+        }
+
+        .sidebar {
+        width: 220px;
+        background-color: #fff;
+        padding: 1rem;
+        box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        }
+
+        .sidebar h2 {
+        font-size: 20px;
+        margin-bottom: 1rem;
+        }
+
+        .sidebar ul {
+        list-style: none;
+        padding: 0;
+        }
+
+        .sidebar li {
+        margin: 0.5rem 0;
+        font-weight: 500;
+        cursor: pointer;
+        }
+
+        .sidebar li.active {
+        color: #ff6600;
+        }
+
+        .sidebar ul ul {
+        margin-left: 1rem;
+        font-weight: 400;
+        }
+
+        .profile-content {
+            flex: 1;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;   /* stack header, info, actions vertically */
+            justify-content: flex-start;
+
+            background-color: #fff;
+        }
+
+        .profile-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 25px;
+            margin-bottom: 0.2rem;
+        }
+
+        .avatar {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        }
+
+        .profile-details {
+        margin-top: 1.5rem;
+        font-size: 16px;
+        }
+
+        .profile-details p {
+        margin: 0.5rem 0;
+        }
+       
+
+        .profile-actions,
+        .guest-actions {
+        margin-top: 2rem;
+        display: flex;              /* use flexbox for alignment */
+        justify-content: center;  /* push buttons to the right */
+        }
+
+        .profile-actions button,
+        .guest-actions button {
+        padding: 20px 25px;
+        margin-left: 30px;          /* spacing between buttons */
+        background-color: #ff6600;
+        color: white;
+        border: none;
+        border-radius: 40px;
+        cursor: pointer;
+        }
+
+        .profile-actions .logout {
+        background-color: #999;
+        }
+
+        .guest-info {
+            margin-top: 0.2rem;              /* spacing from avatar/username */
+            padding: 1rem;                 /* inner spacing */
+            background-color: #f9f9f9;       /* light background for contrast */
+            border-radius: 10px;             /* rounded corners */
+            border: 1px solid #ddd;          /* subtle border */
+            font-family: Arial, Helvetica, sans-serif;
+            line-height: 1.6;
+            }
+
+            .guest-info h4 {
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            color: #ff6600;                  /* highlight title in brand color */
+            font-size: 20px;
+            font-weight: bold;
+            
+            }
+
+            .guest-info p {
+            margin: 0.5rem 0;
+            font-size: 15px;
+            color: #333;
+            }
+
+            .guest-info ul {
+            margin: 0.75rem 0;
+            padding-left: 1.5rem;            /* indent list items */
+            }
+
+            .guest-info li {
+            margin-bottom: 0.5rem;
+            font-size: 14px;
+            color: #444;
+            }
+
+            .guest-actions button:hover{
+                background-color: #FF8C3A;
+            }
+            .profile-view {
+                background-color: #f0f0f0;   /* light gray background */
+                padding: 200px;               /* bigger padding for spacious look */
+                border-radius: 12px;         /* rounded corners */
+                max-width: 90%;              /* take up most of the screen width */
+                margin: 20px auto;           /* center it with margin */
+                box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+
+
+            }
+
+            .profile-header {
+                text-align: center;
+                margin-bottom: 20px;
+            }
+
+            .avatar {
+                width: 80px;
+                height: 80px;
+                border-radius: 50%;
+            }
+
+            .username {
+                margin-top: 10px;
+                font-size: 1.2em;
+            }
+
+            .profile-details .detail-item span {
+                margin-bottom: 10px;
+                background-color: #F5F5F5;
+                color:#999;
+                border: 1px solid #ccc;
+                padding: 12px;
+                border-radius: 8px;
+
+            }
+
+            .detail-item label {
+                font-weight: bold;
+                display: block;
+            }
+
+            .detail-item span {
+                display: block;
+                margin-top: 4px;
+            }
+
+            .profile-actions {
+                display: flex;
+                gap: 12px;
+                margin-top: 20px;
+                }
+
+                .profile-actions .reset-password {
+                background-color: #007bff; /* Blue */
+                color: white;
+                padding: 10px 16px;
+                font-size: 14px;
+                border: none;
+                border-radius: 6px;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+                }
+
+                .profile-actions .reset-password:hover {
+                background-color: #0056b3;
+                }
+
+                .profile-actions .profile-logout {
+                background-color: #dc3545; /* Red */
+                color: white;
+                padding: 10px 16px;
+                font-size: 14px;
+                border: none;
+                border-radius: 6px;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+                }
+
+                .profile-actions .profile-logout:hover {
+                background-color: #a71d2a;
+                }
+
+         
+
+ 
+
+
+    </style>
+</head>
+<body>
+    <section class="container">
+        <!-- Sidebar Navigation -->
+        <nav class="navrectangle">
+        <header class="brand">ShiokLah!</header>
+        <ul class="navBar">
+            <!-- Home -->
+            <li class="main toggle">
+            <div class="title-row">
+                <span>🏠 Home</span>
+                <span class="arrow">v</span>
+            </div>
+            <ul class="submenu">
+                <li>
+                <button onclick="window.location.href='FED_ASG.html';" class="subpoint">• Start Order</button>
+                </li>
+            </ul>
+            </li>
+
+            <!-- Order History -->
+            <li class="main toggle">
+            <div class="title-row">
+                <span>📄 Order History</span>
+                <span class="arrow">v</span>
+            </div>
+            <ul class="submenu">
+                <li>
+                <button onclick="window.location.href='OrderHistory.html';" class="subpoint past-orders">• Past Orders</button>
+                </li>
+            </ul>
+            </li>
+
+            <!-- Profile -->
+            <li class="main toggle">
+            <div class="profile-title">
+                <span class="profile-label">👤 Profile <span class="usernameDisplay"></span></span>
+                <span class="arrow">v</span>
+            </div>
+            <ul class="submenu">
+                <li class="subpoint">• Analytics & Reporting</li>
+                <li class="subpoint">• Customer Feedback</li>
+                <li class="subpoint">• Regulatory & Compliance</li>
+                <li class="subpoint">• Favourites</li>
+                <li class="subpoint">• Rewards</li>
+            </ul>
+            </li>
+
+            <!-- Log Out -->
+            <li class="main toggle logout">
+            <button onclick="window.location.href='login.html';" class="subpoint">Log Out</button>
+            </li>
+        </ul>
+        </nav>
+        <!-- Profile Content -->
+        <section class="profile-content">
+        <!-- Guest Profile -->
+        <div id="guestProfile" class="profile-view">
+            <div class="profile-header">
+            <img src="images/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-illustration-vector.jpg" alt="Guest Avatar" class="avatar" /> 
+            <h3>Guest01234567</h3>
+            </div>
+
+            <!-- Extra content for guest ABOVE buttons -->
+            <div class="guest-info">
+            <h4>Welcome to ShiokLah!</h4>
+            <p>As a guest, you can browse menus and explore features, but logging in gives you more:</p>
+            <ul>
+                <li>Track your past orders</li>
+                <li>Save your favourite dishes</li>
+                <li>Earn rewards and discounts</li>
+                <li>Access personalized analytics</li>
+            </ul>
+            <p><strong>Tip:</strong> Sign up today to unlock the full ShiokLah! experience.</p>
+            </div>
+
+            <!-- Guest buttons now BELOW the info -->
+            <div class="guest-actions">
+            <button>Log In / Sign Up</button>
+            <button>Analytics & Reporting</button>
+            <button>Customer Feedback</button>
+            <button>Regulatory & Compliance</button>
+            </div>
+        </div>
+
+        <!-- Logged-in User Profile -->
+        <div id="userProfile" class="profile-view" style="display: block;">
+            <div class="profile-header">
+                <img src="images/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-illustration-vector.jpg" alt="User Avatar" class="avatar" />
+                <h3 class="username">User01234567</h3>
+            </div>
+
+            <div class="profile-details">
+                <div class="detail-item">
+                    <label>Phone Number:</label>
+                    <span>12345678</span>
+                </div>
+                <div class="detail-item">
+                    <label>Email:</label>
+                    <span>user01234567@gmail.com</span>
+                </div>
+                <div class="detail-item">
+                    <label>Password:</label>
+                    <span>•••••••••</span>
+                </div>
+            </div>
+
+            <div class="profile-actions">
+                <button class="reset-password">Reset Password</button>
+                <button class="profile-logout">Log Out</button>
+            </div>
+            </div>
+
+    </section>
+    <script>
+        //Navigation Dropdown
+        document.querySelectorAll('.main.toggle').forEach(mainItem => {
+            const submenu = mainItem.querySelector('.submenu');
+            const arrow = mainItem.querySelector('.arrow');
+            const titleRow = mainItem.querySelector('.title-row, .profile-title');
+
+            if (!submenu || !arrow || !titleRow) return;
+
+            titleRow.addEventListener('click', () => {
+            const isOpen = submenu.style.display === 'block';
+            submenu.style.display = isOpen ? 'none' : 'block';
+            arrow.textContent = isOpen ? 'v' : '^';
+            });
+        });
+        
+        // Example logic to toggle views
+
+        // Simulated check: replace this with your actual login logic
+        // For example, you might check localStorage, a cookie, or a backend API
+        function isUserLoggedIn() {
+            return localStorage.getItem("isRegisteredUser") === "true";
+        }
+        localStorage.setItem("isRegisteredUser", "true");  // change to "false" for guest
+
+        function updateProfileView() {
+            const guestProfile = document.getElementById("guestProfile");
+            const userProfile = document.getElementById("userProfile");
+
+            if (isUserLoggedIn()) {
+                userProfile.style.display = "block";
+                guestProfile.style.display = "none";
+            } else {
+                guestProfile.style.display = "block";
+                userProfile.style.display = "none";
+            }
+        }
+
+        // Run once on page load
+        document.addEventListener("DOMContentLoaded", updateProfileView);
+
+        // Example buttons to test switching
+        function setGuest() {
+            localStorage.setItem("isRegisteredUser", "false");
+            updateProfileView();
+        }
+
+        function setUser() {
+            localStorage.setItem("isRegisteredUser", "true");
+            updateProfileView();
+        }
+
+
+
+    </script>
+</body>
+</html>

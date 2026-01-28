@@ -13,6 +13,7 @@
         /* General Styling */
       body {
         margin: 0;
+        
       }
       .container {
         display: flex;
@@ -211,6 +212,90 @@
           background-color: #FF8C3A;
         }
         
+        /* for profile */
+        .profile-container {
+          display: flex;
+          height: 100vh;
+        }
+
+        .sidebar {
+          width: 220px;
+          background-color: #fff;
+          padding: 1rem;
+          box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        }
+
+        .sidebar h2 {
+          font-size: 20px;
+          margin-bottom: 1rem;
+        }
+
+        .sidebar ul {
+          list-style: none;
+          padding: 0;
+        }
+
+        .sidebar li {
+          margin: 0.5rem 0;
+          font-weight: 500;
+          cursor: pointer;
+        }
+
+        .sidebar li.active {
+          color: #ff6600;
+        }
+
+        .sidebar ul ul {
+          margin-left: 1rem;
+          font-weight: 400;
+        }
+
+        .profile-content {
+          flex: 1;
+          padding: 2rem;
+          background-color: #fff;
+        }
+
+        .profile-header {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+        }
+
+        .avatar {
+          width: 100px;
+          height: 100px;
+          border-radius: 50%;
+        }
+
+        .profile-details {
+          margin-top: 1.5rem;
+          font-size: 16px;
+        }
+
+        .profile-details p {
+          margin: 0.5rem 0;
+        }
+
+        .profile-actions,
+        .guest-actions {
+          margin-top: 2rem;
+        }
+
+        .profile-actions button,
+        .guest-actions button {
+          padding: 0.5rem 1rem;
+          margin-right: 1rem;
+          background-color: #ff6600;
+          color: white;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+        }
+
+        .profile-actions .logout {
+          background-color: #999;
+        }
 
 
     </style>
@@ -325,7 +410,6 @@
     </div>
   </section>
 
-
   <script>
       //Navigation Dropdown
       document.querySelectorAll('.main.toggle').forEach(mainItem => {
@@ -362,10 +446,24 @@
         });
       });
 
-      // go to home page
-    //   document.querySelector(".start-ordering").onclick = function() {
-    //   window.location.href = "FED_ASG.html"; 
-    // };
+
+      // Simulated login status
+      const isGuest = true; // Change to false to show user profile
+
+      // Toggle profile view
+      document.addEventListener("DOMContentLoaded", function () {
+        const guestView = document.getElementById("guestProfile");
+        const userView = document.getElementById("userProfile");
+
+        if (isGuest) {
+          guestView.style.display = "block";
+          userView.style.display = "none";
+        } else {
+          guestView.style.display = "none";
+          userView.style.display = "block";
+        }
+      });
+
     
   </script>
 </body>
