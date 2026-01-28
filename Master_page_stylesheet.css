@@ -2,6 +2,11 @@
 body {
   margin: 0;
 }
+.container{
+  display: flex;
+  align-items: stretch;
+  min-height:100vh;
+}
 .chosen{
   background-color:white;
   color:#FF7A18;
@@ -287,7 +292,7 @@ section .home{
   /* padding-left:25px; */
   padding:25px 30px 30px 30px;
   left: 17.5%;
-  top: 0; 
+  top: 0;
   flex: 1;
   background: #f7f7f7;
 }
