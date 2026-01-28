@@ -306,7 +306,7 @@ section .home{
   width:100%;
   align-items: center;
   gap:300px;
-  /* padding-top: 20px; */
+  padding-top: 10px;
   /* flex-wrap: nowrap; */
 }
 .title-block {
