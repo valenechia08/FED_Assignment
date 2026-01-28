@@ -15,6 +15,80 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="Master_page_stylesheet.css" />
+    <style>
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .cuisine-dropdown{
+      display: flex;
+      gap: 10px;
+    }
+          select {
+      padding: 6px 10px;
+    }
+
+    .add-btn {
+      font-size: 20px;
+      border: none;
+      /* background: white; */
+      cursor: pointer;
+    }
+
+    /* TABLE */
+    .table-header {
+      display: grid;
+      grid-template-columns: 125px 1fr 125px 200px;
+      font-weight: 600;
+      margin-top: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid black;
+    }
+
+    .menu-list {
+      margin-top: 10px;
+    }
+
+    .menu-card {
+      display: grid;
+      grid-template-columns: 100px 1fr 100px 120px;
+      align-items: center;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      background: #FFDCC5;
+    }
+
+    .menu-card.light {
+      background: #FFF0E6;
+    }
+
+    .menu-card img {
+      width: 70px;
+      height: 70px;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      background-size: contain;
+    }
+    .actions img{
+      width: 30%;
+      height: auto;   /* keeps proportions */
+      object-fit: contain; 
+    }
+    /* .add-btn button{
+      width: 50px;
+      height: 50px;
+
+    } */
+    </style>
   </head>
   <body>
     <!-- Vendor Home -->
@@ -90,7 +164,7 @@
           <small>Profile</small>
         </div>
       </nav>
-
+    <!--Contents-->
   <main class="contents">
 
     <header class="page-header">
@@ -99,78 +173,111 @@
           <h1>Edit Menu</h1>
           <!-- <div class="divider"></div> -->
         </div>
+        <div class="cuisine-dropdown">
+      <select>
+        <option>Malay</option>
+        <option>Chinese</option>
+        <option>Indian</option>
+      </select>
+      <!-- <button class="add-btn">
+        <img src="images/add.png" alt="Add Menu">
+      </button> -->
+     <button onclick="window.location.href='FED_ASG.html'" class="add-btn">
+      
+      <svg width="24" height="24" viewBox="0 0 24 24"
+      fill="none" xmlns="http://www.w3.org/2000/svg"
+      class="add-icon">
+      <circle cx="12" cy="12" r="11" stroke="#000" stroke-width="2"/>
+      <line x1="12" y1="7" x2="12" y2="17" stroke="#000" stroke-width="2"/>
+      <line x1="7" y1="12" x2="17" y2="12" stroke="#000" stroke-width="2"/>
+    </svg>
 
-        <div class="order limit">
-          Order Limit: <span>10</span>
-        </div>
+    </button>
+
+    </div>
+  </div>
       </div>
     </header>
 
-        <section class="order grid">
+  <!-- TABLE HEADER -->
+  <section class="menu">
+  <div class="table-header">
+    <span>Image</span>
+    <span>Item</span>
+    <span>Price</span>
+    <span>Actions</span>
+  </div>
 
-      <section class="order box">
-        <h2 class="order status">Pending Orders</h2>
-        <div class="order scroll">
-          <!-- Order Card -->
-          <article class="order card">
-            <h3>Order #00001</h3>
-            <section class="order header">
-            <p>Today · 9:16am</p>
-            <p class="timer">Timer: 15:00</p>
-            </section>
-            <p>Set Meal A   $5.00 ×2  $10.00</p>
-            <div class="actions">
-              <button class="accept">Accept</button>
-              <button class="reject">Reject</button>
-            </div>
-          </article>
+  <!-- MENU LIST -->
+  <div class="menu-list">
 
-          <article class="order card">
-            <h3>Order #00002</h3>
-            <section class="order header">          
-            <p>Today · 9:22am</p>
-            <p class="timer">Timer: 15:00</p>
-            </section>
-            <p>Set Meal B   $4.00 ×1  $4.00</p>
-            <div class="actions">
-              <button class="accept">Accept</button>
-              <button class="reject">Reject</button>
-            </div>
-          </article>
-        </div>
-      </section>
+    <div class="menu-card">
+      <img src="images/">
+      <span>Set Meal A</span>
+      <span>5.00</span>
+      <div class="actions">
+      <img src="images/edit.png" alt="Edit" class="icon">
+      <img src="images/delete.png" alt="Delete" class="icon delete">
+      <img src="images/view.png" alt="View" class="icon">
+      </div>
+    </div>
 
-      <section class="order box">
-        <h2 class="green order status">Accepted Orders</h2>
-        <div class="order scroll"></div>
-        <div class="order scroll">
-          <!-- Order Card Hidden-->
-          <article class="order card hidden">
-            <h3>Order #00002</h3>
-            <section class="order header">
-            <p>Today · 9:22am</p>
-            <p class="timer">Timer: 15:00</p>
-            </section>
-            <p>Set Meal B  $4.00 ×1  $4.00</p>
-            <div class="actions">
-              <button class="accept">Accept</button>
-              <button class="reject">Reject</button>
-            </div>
-          </article>
-        </div>
-      </section>
+    <div class="menu-card light">
+      <img src="https://via.placeholder.com/80">
+      <span>Set Meal B</span>
+      <span>4.00</span>
+      <div class="actions">
+      <img src="images/edit.png" alt="Edit" class="icon">
+      <img src="images/delete.png" alt="Delete" class="icon delete">
+      <img src="images/view.png" alt="View" class="icon">
+      </div>
+    </div>
 
-      <section class="order box">
-        <h2 class="order status">Completed Orders</h2>
-        <div class="order scroll"></div>
-      </section>
+    <div class="menu-card">
+      <img src="https://via.placeholder.com/80">
+      <span>Set Meal C</span>
+      <span>4.00</span>
+      <div class="actions">
+      <img src="images/edit.png" alt="Edit" class="icon">
+      <img src="images/delete.png" alt="Delete" class="icon delete">
+      <img src="images/view.png" alt="View" class="icon">
+      </div>
+    </div>
 
-      <section class="order box">
-        <h2 class="red order status">Cancelled Orders</h2>
-        <div class="orders scroll"></div>
-      </section>
+    <div class="menu-card light">
+      <img src="https://via.placeholder.com/80">
+      <span>Set Meal D</span>
+      <span>3.50</span>
+      <div class="actions">
+      <img src="images/edit.png" alt="Edit" class="icon">
+      <img src="images/delete.png" alt="Delete" class="icon delete">
+      <img src="images/view.png" alt="View" class="icon">
+      </div>
+    </div>
 
+    <div class="menu-card">
+      <img src="https://via.placeholder.com/80">
+      <span>1 pcs Spicy Fish Otah</span>
+      <span>1.50</span>
+      <div class="actions">
+      <img src="images/edit.png" alt="Edit" class="icon">
+      <img src="images/delete.png" alt="Delete" class="icon delete">
+      <img src="images/view.png" alt="View" class="icon">
+      </div>
+    </div>
+
+    <div class="menu-card light">
+      <img src="https://via.placeholder.com/80">
+      <span>5 pcs Spicy Fish Otah</span>
+      <span>7.50</span>
+      <div class="actions">
+      <img src="images/edit.png" alt="Edit" class="icon">
+      <img src="images/delete.png" alt="Delete" class="icon delete">
+      <img src="images/view.png" alt="View" class="icon">
+      </div>
+    </div>
     </section>
+
   </main>
     <script type="module" src="Master_page_javascript.js"></script>
   </body>
