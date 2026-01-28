@@ -239,6 +239,22 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+//SEARCHING FOR STALLS
+function searchStalls(){
+  document.getElementsByClassName("search-input").addEventListener("input", () => {
+  const query = document.getElementsByClassName("search-input").value.toLowerCase();
+  const stalls = document.querySelectorAll(".stall-card");
+
+  stalls.forEach(stall => {
+    const text = stall.textContent.toLowerCase();
+    if (text.includes(query)) {
+      stall.style.display = "flex";   // show matching stall
+    } else {
+      stall.style.display = "none";   // hide non-matching stall
+    }
+  });
+});
+}
 //Timer
 // document.addEventListener("DOMContentLoaded", () => {
 //   startElapsedTimers();
