@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UserProfile</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Kodchasan:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
+        rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="Master_page_stylesheet.css" />
+</head>
+
+<body>
+    <nav class="navrectangle">
+        <header class="brand">ShiokLah!</header>
+
+        <ul class="navBar">
+          <li class="main toggle">
+            <span>🏠 Home</span>
+            <span class="arrow">v</span>
+          </li>
+          <ul class="submenu">
+            <button onclick="window.location.href='FED_ASG.html';" class="subpoint">
+                • Start Order
+              </button>
+          </ul>
+
+          <!-- <li class="divider"></li> -->
+
+          <li class="main toggle">
+            <span>📄 Order History</span>
+            <span class="arrow">v</span>
+          </li>
+          <ul class="submenu">
+            <li>
+              <button onclick="window.location.href='OrderHistory.html';" class="subpoint">
+                • Past Orders
+              </button>
+            </li>
+          </ul>
+
+          <!-- <li class="divider"></li> -->
+
+          <li class="main toggle">
+            <span>👤 Profile</span><br>
+            <span class="usernameDisplay"></span>
+            <span class="arrow">v</span>
+          </li>
+          <ul class="submenu">
+            <li class="subpoint">• Analytics & Reporting</li>
+            <li class="subpoint">• Customer Feedback</li>
+            <li class="subpoint">• Regulatory & Compliance</li>
+            <li class="subpoint">• Favourites</li>
+            <li class="subpoint">• Rewards</li>
+          </ul>
+
+          <!-- <li class="divider"></li> -->
+          <li class="main toggle logout">Log out</li>
+        </ul>
+      </nav>
+      <script type="module" src="Master_page_javascript.js"></script>
+
+      
+</body>

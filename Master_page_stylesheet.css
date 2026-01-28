@@ -47,6 +47,8 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  text-decoration: none; /*Remove underline*/
+  color:white;
   padding: 24px 20px;
   font-weight: bold;
   cursor: pointer;
@@ -59,6 +61,17 @@ body {
   padding-left: 18px;
   margin: 0;
   display: none; /* hidden by default */
+}
+.nav-button {
+  display: block;
+  background-color: #d3d3d3; /* light gray */
+  color: black;
+  font-weight: bold;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 8px;
+  margin-bottom: 10px;
 }
 
 .subpoint {
@@ -293,7 +306,7 @@ section .home{
   width:100%;
   align-items: center;
   gap:300px;
-  /* padding-top: 20px; */
+  padding-top: 10px;
   /* flex-wrap: nowrap; */
 }
 .title-block {
