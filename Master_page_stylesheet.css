@@ -2,6 +2,10 @@
 body {
   margin: 0;
 }
+.chosen{
+  background-color:white;
+  color:#FF7A18;
+}
 .mobile-nav{
     display:none;
 }
