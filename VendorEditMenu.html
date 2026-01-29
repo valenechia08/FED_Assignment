@@ -24,17 +24,19 @@
 
     .cuisine-dropdown{
       display: flex;
+      max-width:auto;
+      height:50px;
       gap: 10px;
     }
-          select {
+    select {
       padding: 6px 10px;
     }
 
-    .add-btn {
-      font-size: 20px;
+     .add-btn {
+      background-color: transparent;
       border: none;
-      /* background: white; */
       cursor: pointer;
+      padding: 0;
     }
 
     /* TABLE */
@@ -83,11 +85,83 @@
       height: auto;   /* keeps proportions */
       object-fit: contain; 
     }
-    /* .add-btn button{
+    .add-icon{
+      background-color: transparent;
       width: 50px;
       height: 50px;
+    }
+    .add-btn button{
+      background-color: transparent;
+      width: 50px;
+      height: 50px;
+    }
 
-    } */
+   .menu-form {
+  /* max-width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+   */
+   position: absolute;
+  top: 20px;       /* distance from top */
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  z-index: 1000; 
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+}
+
+.menu-form label {
+  display: block;
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+.menu-form input[type="text"],
+.menu-form input[type="number"],
+.menu-form input[type="file"],
+.menu-form textarea {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+.menu-form textarea {
+  resize: vertical;
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.confirm-btn, .cancel-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.confirm-btn {
+  background-color: #E47329;
+  color: white;
+}
+
+.cancel-btn {
+  background-color: #763322;
+  color: white;
+}
     </style>
   </head>
   <body>
@@ -175,6 +249,7 @@
         </div>
         <div class="cuisine-dropdown">
       <select>
+        <option>Select specialized cuisine</option>
         <option>Malay</option>
         <option>Chinese</option>
         <option>Indian</option>
@@ -182,22 +257,40 @@
       <!-- <button class="add-btn">
         <img src="images/add.png" alt="Add Menu">
       </button> -->
-     <button onclick="window.location.href='FED_ASG.html'" class="add-btn">
-      
+     <button id="addMenuBtn" class="add-btn">
       <svg width="24" height="24" viewBox="0 0 24 24"
-      fill="none" xmlns="http://www.w3.org/2000/svg"
-      class="add-icon">
-      <circle cx="12" cy="12" r="11" stroke="#000" stroke-width="2"/>
-      <line x1="12" y1="7" x2="12" y2="17" stroke="#000" stroke-width="2"/>
-      <line x1="7" y1="12" x2="17" y2="12" stroke="#000" stroke-width="2"/>
-    </svg>
-
+          fill="none" xmlns="http://www.w3.org/2000/svg"
+          class="add-icon">
+        <circle cx="12" cy="12" r="11" stroke="#000" stroke-width="2"/>
+        <line x1="12" y1="7" x2="12" y2="17" stroke="#000" stroke-width="2"/>
+        <line x1="7" y1="12" x2="17" y2="12" stroke="#000" stroke-width="2"/>
+      </svg>
     </button>
-
     </div>
   </div>
       </div>
     </header>
+        <form class="addMenuForm editMenuForm menu-form">
+      <label for="itemName">Item:</label>
+      <input type="text" class="itemName" name="itemName" placeholder="Edit menu item">
+
+      <label for="price">Price:</label>
+      <input type="number" class="price" name="price" placeholder="Enter price" step="0.01">
+
+      <label for="ewt">EWT:</label>
+      <input type="number" class="ewt" name="ewt" placeholder="Enter estimated waiting time">
+
+      <label for="imageUpload">Upload Image:</label>
+      <input type="file" class="imageUpload" name="imageUpload" accept="image/*">
+
+      <label for="description">Description:</label>
+      <textarea id="description" class="description" rows="3" placeholder="Enter a description of your food"></textarea>
+
+      <div class="form-buttons">
+        <button type="submit" class="confirm-btn">Confirm</button>
+        <button type="button" class="cancel-btn">Cancel</button>
+      </div>
+    </form>
 
   <!-- TABLE HEADER -->
   <section class="menu">
@@ -212,7 +305,7 @@
   <div class="menu-list">
 
     <div class="menu-card">
-      <img src="images/">
+      <img src="images/Set Meal A Picture.jpg" alt="Set Meal A">
       <span>Set Meal A</span>
       <span>5.00</span>
       <div class="actions">
@@ -223,7 +316,7 @@
     </div>
 
     <div class="menu-card light">
-      <img src="https://via.placeholder.com/80">
+      <img src="images/Set Meal B Picture.jpg" alt="Set Meal B">
       <span>Set Meal B</span>
       <span>4.00</span>
       <div class="actions">
@@ -234,7 +327,7 @@
     </div>
 
     <div class="menu-card">
-      <img src="https://via.placeholder.com/80">
+      <img src="images/Set Meal C Picture.png" alt="Set Meal C">
       <span>Set Meal C</span>
       <span>4.00</span>
       <div class="actions">
@@ -245,7 +338,7 @@
     </div>
 
     <div class="menu-card light">
-      <img src="https://via.placeholder.com/80">
+      <img src="images/Set Meal D Picture.jpg" alt="Set Meal D">
       <span>Set Meal D</span>
       <span>3.50</span>
       <div class="actions">
@@ -256,7 +349,7 @@
     </div>
 
     <div class="menu-card">
-      <img src="https://via.placeholder.com/80">
+      <img src="images/Otah Picture.webp" alt="1 pcs Spicy Fish Otah">
       <span>1 pcs Spicy Fish Otah</span>
       <span>1.50</span>
       <div class="actions">
@@ -267,7 +360,7 @@
     </div>
 
     <div class="menu-card light">
-      <img src="https://via.placeholder.com/80">
+      <img src="images/Otah Picture.webp" alt="5 pcs Spicy Fish Otah">
       <span>5 pcs Spicy Fish Otah</span>
       <span>7.50</span>
       <div class="actions">
@@ -275,10 +368,18 @@
       <img src="images/delete.png" alt="Delete" class="icon delete">
       <img src="images/view.png" alt="View" class="icon">
       </div>
+
     </div>
     </section>
 
   </main>
+    <script>
+    document.getElementById("addMenuBtn").addEventListener("click", () => {
+    const form = document.querySelector(".addMenuForm");
+    // Toggle visibility
+    form.style.display = (form.style.display === "none") ? "block" : "none";
+    });
+  </script>
     <script type="module" src="Master_page_javascript.js"></script>
   </body>
 </html>
