@@ -103,7 +103,6 @@
             color: white;
             border: none;
             padding: 12px 47px;     /* indent to the left */
-            
             text-align: left;
             font-size: 16px;
             cursor: pointer;
@@ -412,22 +411,23 @@
 
             <!-- Profile -->
             <li class="main toggle">
-            <div class="profile-title">
-                <span class="profile-label">👤 Profile <span class="usernameDisplay"></span></span>
-                <span class="arrow">v</span>
-            </div>
-            <ul class="submenu">
-                <li class="subpoint">• Analytics & Reporting</li>
-                <li class="subpoint">• Customer Feedback</li>
-                <li class="subpoint">• Regulatory & Compliance</li>
-                <li class="subpoint">• Favourites</li>
-                <li class="subpoint">• Rewards</li>
-            </ul>
+                <div class="profile-title">
+                    <span class="profile-label">👤 Profile <span class="usernameDisplay"></span></span>
+                    <span class="arrow">v</span>
+                </div>
+                <ul class="submenu">
+                    <li><button onclick="window.location.href='userProfile.html';" class="subpoint">• Profile</button></li>
+                    <li><button onclick="window.location.href='Analytics.html';" class="subpoint">• Analytics & Reporting</button></li>
+                    <li><button class="subpoint">• Customer Feedback</button></li>
+                    <li><button class="subpoint">• Regulatory & Compliance</button></li>
+                    <li><button class="subpoint">• Favourites</button></li>
+                    <li><button class="subpoint">• Rewards</button></li>
+                </ul>
             </li>
 
             <!-- Log Out -->
             <li class="main toggle logout">
-            <button onclick="window.location.href='login.html';" class="subpoint">Log Out</button>
+                <button onclick="window.location.href='login.html';" class="subpoint">Log Out</button>
             </li>
         </ul>
         </nav>

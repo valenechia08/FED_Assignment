@@ -1,7 +1,31 @@
 /*General Styling*/
+:root {
+  --primary: #FF7A18;
+  --primary-hover: #FF8C3A;
+  --bg: #f5f6fa;
+  --card: #ffffff;
+  --text-dark: #333;
+  --muted: #777;
+  --shadow: 0 6px 20px rgba(0,0,0,0.08);
+  --radius: 14px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
+  font-family: system-ui, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text-dark);
 }
+/* ================= LAYOUT ================= */
+    .container {
+      display: flex;
+      min-height: 100vh;
+    }
+
 
 .chosen {
   background-color: white;
@@ -12,126 +36,99 @@ body {
   display: none;
 }
 
-.navrectangle {
-  background-color: #FF7A18;
-  /*Added 25 px padding at the top for ShiokLah brand*/
-  /* padding-top:25px; */
-  width: 220px;
-  height: 1000px;
-  display: flex;
-  flex-direction: column;
-}
+/* SIDEBAR */
+    .navrectangle {
+      background-color: #f5f6fa;
+      width: 220px;
+      min-height: 100vh;
+      border-right: 1px solid #eee;
+      flex-shrink: 0;
+    }
 
-.navrectangle header {
-  font-size: 36px;
-  color: white;
-  font-style: italic;
-  font-family: 'Kodchasan', Arial, sans-serif;
-  padding: 60px 20px;
-  padding-bottom: 30px;
+    /* Brand */
+    .navrectangle header {
+      font-size: 32px;
+      color: #FF7A18;
+      font-style: italic;
+      font-family: 'Kodchasan', Arial, sans-serif;
+      padding: 50px 20px 30px;
+    }
 
-}
+    /* NAV TEXT */
+    .navBar {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-family: system-ui, Arial, sans-serif;
+    }
 
-.navBar {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  color: white;
-  font-family: Arial, Helvetica, sans-serif;
-}
+    /* MAIN MENU ITEM */
+    .title-row,
+    .profile-title,
+    .logout button {
+      color: #333;
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 600;
+      cursor: pointer;
+      transition: color 0.2s ease, background 0.2s ease;
+    }
 
-/*Hides layouts*/
-.hidden {
-  display: none;
-}
+    /* HOVER */
+    .title-row:hover,
+    .profile-title:hover,
+    .logout button:hover {
+      color: #FF7A18;
+      background: rgba(255, 122, 24, 0.08);
+      border-radius: 8px;
+    }
 
-/* MAIN ITEMS */
-.main {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  text-decoration: none;
-  /*Remove underline*/
-  color: white;
-  padding: 24px 20px;
-  font-weight: bold;
-  cursor: pointer;
-  margin: 0 15px;
-}
+    /* ACTIVE / OPEN STATE */
+    .main.active > .title-row,
+    .main.active > .profile-title {
+      color: #FF7A18;
+    }
 
-/* SUB MENU */
-.submenu {
-  list-style-type: none;
-  padding-left: 18px;
-  margin: 0;
-  display: none;
-  /* hidden by default */
-}
+    /* ARROW */
+    .arrow {
+      transition: transform 0.25s ease;
+      font-size: 14px;
+    }
 
-.nav-button {
-  display: block;
-  background-color: #d3d3d3;
-  /* light gray */
-  color: black;
-  font-weight: bold;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  border-radius: 8px;
-  margin-bottom: 10px;
-}
+    /* Rotate arrow when open */
+    .main.active .arrow {
+      transform: rotate(180deg);
+    }
 
-.subpoint {
-  font-size: 14px;
-  margin: 0 15px;
-  display: block;
-  background-color: transparent;
-  /* removes grey box */
-  color: white;
-  /* matches orange theme text */
-  padding: 10px 30px;
-  padding-right: 46px;
-  text-decoration: none;
-  font-size: 16px;
-  border: none;
-  cursor: pointer;
-  text-align: left;
-}
+    /* SUBMENU */
+    .submenu {
+      display: none;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
 
-.subpoint:hover {
-  background-color: #ddd;
-}
+    /* SUBMENU ITEMS */
+    .subpoint {
+      width: 100%;
+      padding: 12px 45px;
+      background: none;
+      border: none;
+      text-align: left;
+      font-size: 15px;
+      cursor: pointer;
+      color: #555;
+      transition: color 0.2s ease, background 0.2s ease;
+    }
 
+    /* SUBMENU HOVER */
+    .subpoint:hover {
+      color: #FF7A18;
+      background: rgba(255, 122, 24, 0.08);
+    }
 
-/* DIVIDER */
-.divider {
-  height: 1.3px;
-  width: 100%;
-  background-color: rgba(0, 0, 0, 0.3);
-}
-
-.usernameDisplay {
-  font-size: 12px;
-}
-
-/* ARROW */
-.arrow {
-  font-size: 14px;
-  transition: transform 0.2s ease;
-}
-
-/* LOGOUT */
-.logout {
-  padding: 20px;
-  list-style: none;
-}
-
-/* HOVER */
-.main:hover,
-.subpoint:hover {
-  /* background-color: rgba(255, 255, 255, 0.2); */
-  background-color: #FF8C3A;
-}
 
 /*Customer Styling*/
 .welcome-text {
@@ -243,7 +240,7 @@ section .home {
   width: 80%;
 
 }
-
+.hidden{display: none;}
 .stall-card {
   display: flex;
   flex-direction: column;
@@ -287,11 +284,11 @@ section .home {
 
 /*Vendor Style*/
 
-/* .vendornav img {
-  width: 20px;
-  height: 20px;
-  margin:0;
-} */
+.brand img{
+  padding:0;
+  width:auto;
+  height:150px;
+}
 
 .contents {
   position: absolute;
@@ -312,7 +309,6 @@ section .home {
   color: black;
   width: 100%;
   flex-basis: 100%;
-
 }
 
 .header-row {
@@ -334,7 +330,6 @@ section .home {
 }
 
 .title-block h1 {
-  text-decoration: underline;
   text-decoration-thickness: 2px;
   /* makes it thicker */
 }

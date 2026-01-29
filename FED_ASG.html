@@ -17,59 +17,40 @@
     <link rel="stylesheet" href="Master_page_stylesheet.css" />
   </head>
   <body>
+    <section class="hidden container">
     <section class="container">
       <nav class="navrectangle">
         <header class="brand">ShiokLah!</header>
 
-        <ul class="navBar">
-          <li class="main toggle">
-            <span>🏠 Home</span>
-            <span class="arrow">v</span>
-          </li>
+      <ul class="navBar">
+        <li class="main toggle">
+          <div class="title-row">🏠 Home <span>v</span></div>
           <ul class="submenu">
-            <button onclick="window.location.href='FED_ASG.html';" class="subpoint">
-                • Start Order
-              </button>
+            <li><button class="subpoint">• Start Order</button></li>
           </ul>
+        </li>
 
-          <!-- <li class="divider"></li> -->
-
-          <li class="main toggle">
-            <span>📄 Order History</span>
-            <span class="arrow">v</span>
-          </li>
+        <li class="main toggle">
+          <div class="title-row">📄 Order History <span>v</span></div>
           <ul class="submenu">
-            <li>
-              <button onclick="window.location.href='OrderHistory.html';" class="subpoint">
-                • Past Orders
-              </button>
-            </li>
+            <li><button class="subpoint">• Past Orders</button></li>
           </ul>
+        </li>
 
-          <!-- <li class="divider"></li> -->
-
-          <li class="main toggle">
-            <span>👤 Profile</span><br>
-            <span class="usernameDisplay"></span>
-            <span class="arrow">v</span>
-          </li>
+        <li class="main toggle">
+          <div class="profile-title">👤 Profile <span>v</span></div>
           <ul class="submenu">
-            <li class="subpoint">• Analytics & Reporting</li>
-            <li class="subpoint">• Customer Feedback</li>
-            <li>
-              <button onclick="window.location.href='Regulatory&Complianceinfo.html';" class="subpoint">
-                • Regulatory & Compliance
-                </button>
-              </li>
-            <!-- <li class="subpoint">• Regulatory & Compliance</li> -->
-            <li class="subpoint">• Favourites</li>
-            <li class="subpoint">• Rewards</li>
+            <li><button class="subpoint">• Profile</button></li>
+            <li><button class="subpoint">• Favourites</button></li>
+            <li><button class="subpoint">• Rewards</button></li>
           </ul>
+        </li>
 
-          <!-- <li class="divider"></li> -->
-          <li class="main toggle logout">Log out</li>
-        </ul>
-      </nav>
+        <li class="main toggle logout">
+          <button onclick="window.location.href='login.html';" class="subpoint">Log Out</button>
+        </li>
+      </ul>
+    </nav>
 
       <!-- Welcome text -->
       <section class="home">
@@ -167,64 +148,54 @@
     </section>
 
     <!-- Vendor Home -->
-     <section class="hidden container vendornav">
+     <section class="container vendornav">
+     <section class="container vendornav hidden">
       <nav class="navrectangle">
-        <header class="brand">ShiokLah!</header>
+        <header class="brand">
+          <img src="images/ShiokLah.jpeg" alt="ShiokLah" class="icon">
+        </header>
 
         <ul class="navBar">
-          <li>
-            <a href="FED_ASG.html" class="main toggle">
-              🏠 Home
-            </a>
+
+          <li class="main">
+            <div class="title-row" onclick="location.href='PerformanceDashboard.html'">
+              🏠 Dashboard
+            </div>
           </li>
 
-          <!-- <li class="divider"></li> -->
-
-           <li>
-            <a href="VendorEditMenu.html" class="main toggle">
+          <li class="main">
+            <div class="title-row" onclick="location.href='VendorEditMenu.html'">
               🍽️ Edit Menu
-            </a>
+            </div>
           </li>
 
-          <!-- <li class="divider"></li> -->
+          <li class="main toggle">
+            <div class="title-row">
+              <span>👤 Profile <span class="usernameDisplay"></span></span>
+              <span class="arrow">v</span>
+            </div>
 
-          <li class="main toggle ven-profile">
-            <span>👤 Profile</span>
-            <span class="usernameDisplay"></span>
-            <span class="arrow">v</span>
+            <ul class="submenu">
+              <li><button class="subpoint">Stall Hygiene Grades</button></li>
+              <li><button class="subpoint">Performance Dashboard</button></li>
+              <li><button class="subpoint">My Rental Agreements</button></li>
+              <li><button class="subpoint">Customer Feedback</button></li>
+              <li><button class="subpoint">Settings</button></li>
+            </ul>
           </li>
-          <ul class="submenu">
-            <li>
-              <button onclick="window.location.href='StallHygieneGrades.html';" class="subpoint">
-               • Stall Hygiene Grades
-              </button>
-            </li>
-            <li>
-             <button onclick="window.location.href='PerformanceDashboard.html';" class="subpoint">
-               • Performance Dashboard
-              </button>
-            </li>
-            <li>
-              <button onclick="window.location.href='RentalAgreement.html';" class="subpoint">
-              • My Rental Agreements
-              </button>
-            </li>
 
-            <li>
-            <button onclick="window.location.href='CustomerFeedBack.html';" class="subpoint">
-              • Customer Feedback
-              </button>
-            </li>
-            <li class="subpoint settings">• Settings</li>
-          </ul>
+          <li class="main">
+            <div class="title-row" onclick="location.href='login.html'">
+              🚪 Log Out
+            </div>
+          </li>
 
-          <!-- <li class="divider"></li> -->
-          <li class="subpoint logout">Log out</li>
         </ul>
       </nav>
 
+
       <nav class="mobile-nav vendornav">
-        <div class="mobile-nav-item active" data-link="FED_ASG.html">
+        <div class="mobile-nav-item active" data-link="PerformanceDashboard.html">
           <span>🏠</span>
           <small>Home</small>
         </div>
@@ -239,22 +210,6 @@
           <small>Profile</small>
         </div>
       </nav>
-
-  <main class="contents">
-
-    <header class="page-header">
-      <div class="header-row">
-        <div class="title-block">
-          <h1>Incoming Orders</h1>
-          <!-- <div class="divider"></div> -->
-        </div>
-
-        <div class="order limit">
-          Order Limit: <span>10</span>
-        </div>
-      </div>
-    </header>
-
         <section class="order grid">
 
       <section class="order box">
