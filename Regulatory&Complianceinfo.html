@@ -12,40 +12,47 @@
     <link rel="stylesheet" href="Master_page_stylesheet.css" />
 
     <style>
+        .content {
+          flex: 1;
+          padding: 40px;
+        }
 
-      .text{
-        padding:10px;
-      }
-      .create-account-background {
-        background: #e47329;
-        border-radius: 5px;
-        width: 947px;
-        height: 170.95px;
-        /* position: absolute; */
-        /* left: 401px;
-        top: 405px; */
-      }
-      .inspections-by-nea-find-out-upcoming-routine-checks-or-the-results-of-past-ones {
-      color: #ffffff;
-      text-align: left;
-      /* position: absolute; */
-      /* left: 439px;
-      top: 451px; */
-      width: 759px;
-      height: 54px;
-    }
-    .inspections-by-nea-find-out-upcoming-routine-checks-or-the-results-of-past-ones-span {
-      font-family: "Inter-Bold", sans-serif;
-      font-size: 32px;
-      font-weight: 700;
+        .content h1 {
+          margin-top: 0;
+          font-size: 28px;
+        }
 
-    }
-    .inspections-by-nea-find-out-upcoming-routine-checks-or-the-results-of-past-ones-span2 {
-      font-family: "Inter-Regular", sans-serif;
-      font-size: 24px;
-      font-weight: 400;
+        /* Buttons */
+        .button-list {
+          margin-top: 30px;
+          max-width: 700px;
+        }
 
-    }
+        .action-button {
+          display: block;
+          background-color: #FF8C3A;
+          color: #fff;
+          text-decoration: none;
+          padding: 20px;
+          border-radius: 4px;
+          margin-bottom: 20px;
+          transition: background-color 0.2s ease, transform 0.1s ease;
+        }
+
+        .action-button:hover {
+          background-color: #FF8C3A;;
+        }
+
+        .action-button h3 {
+          margin: 0 0 6px 0;
+          font-size: 18px;
+        }
+
+        .action-button p {
+          margin: 0;
+          font-size: 14px;
+          opacity: 0.95;
+        }
     </style> 
 </head>
 
@@ -89,7 +96,11 @@
           <ul class="submenu">
             <li class="subpoint">• Analytics & Reporting</li>
             <li class="subpoint">• Customer Feedback</li>
-            <li class="subpoint">• Regulatory & Compliance</li>
+            <li>
+              <button onclick="window.location.href='Regulatory&Complianceinfo.html';" class="subpoint">
+                • Regulatory & Compliance
+                </button>
+              </li>
             <li class="subpoint">• Favourites</li>
             <li class="subpoint">• Rewards</li>
           </ul>
@@ -103,26 +114,32 @@
         <header class="page-header">
           <div class="header-row">
             <div class="title-block">
-              <h1>Regulatory & Compliance Information</h1>
-              <section class="menu">
-              <div class="create-account-background">
-              <div class="inspections-by-nea-find-out-upcoming-routine-checks-or-the-results-of-past-ones"
-  >
-              <span class="text">
-                <span
-                  class="inspections-by-nea-find-out-upcoming-routine-checks-or-the-results-of-past-ones-span"
-                >
-                  Inspections by NEA
-                  <br />
-                </span>
-                <span class="inspections-by-nea-find-out-upcoming-routine-checks-or-the-results-of-past-ones-span2">
-                  Find out upcoming routine checks or the results of past ones
-                </span>
-              </span>
+               <main class="content">
+            <h1>Regulatory and Compliance Information</h1>
+            </header>
+                
+
+            <div class="button-list">
+              <a href="R&C inspection log all.html" class="action-button">
+                <h3>Inspections by NEA</h3>
+                <p>Find out upcoming routine checks or the results of past ones</p>
+              </a>
+
+              <a href="#" class="action-button">
+                <h3>Stall hygiene grades history</h3>
+                <p>Log in as a vendor to view your stall records</p>
+              </a>
+
+              <a href="#" class="action-button">
+                <h3>Inspection results of stalls</h3>
+                <p>
+                  View how stalls have fared in terms of cleanliness, handling
+                  methods and other factors
+                </p>
+              </a>
             </div>
-            </div>
-            </div>  
-        </header>
+          </main>
+        
     </section>
     <script type="module" src="Master_page_javascript.js"></script> 
 </body>
