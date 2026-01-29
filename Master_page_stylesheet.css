@@ -35,9 +35,10 @@ body {
 .mobile-nav {
   display: none;
 }
+
 /* SIDEBAR */
     .navrectangle {
-      background-color: #ffffff;
+      background-color: #f5f6fa;
       width: 220px;
       min-height: 100vh;
       border-right: 1px solid #eee;

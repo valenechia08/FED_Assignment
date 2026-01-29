@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="Master_page_stylesheet.css" />
   </head>
   <body>
-    <section class="container">
+    <section class="container hidden">
       <nav class="navrectangle">
         <header class="brand">ShiokLah!</header>
 
@@ -150,60 +150,47 @@
      <section class="container vendornav">
       <nav class="navrectangle">
         <header class="brand">
-          <img src="images/ShiokLah.jpeg" alt="Edit" class="icon">
+          <img src="images/ShiokLah.jpeg" alt="ShiokLah" class="icon">
         </header>
 
         <ul class="navBar">
-          <li>
-            <a href="PerformanceDashboard.html" class="main toggle">
+
+          <li class="main">
+            <div class="title-row" onclick="location.href='PerformanceDashboard.html'">
               🏠 Dashboard
-            </a>
+            </div>
           </li>
 
-          <!-- <li class="divider"></li> -->
-
-           <li>
-            <a href="VendorEditMenu.html" class="main toggle">
+          <li class="main">
+            <div class="title-row" onclick="location.href='VendorEditMenu.html'">
               🍽️ Edit Menu
-            </a>
+            </div>
           </li>
 
-          <!-- <li class="divider"></li> -->
+          <li class="main toggle">
+            <div class="title-row">
+              <span>👤 Profile <span class="usernameDisplay"></span></span>
+              <span class="arrow">v</span>
+            </div>
 
-          <li class="main toggle ven-profile">
-            <span>👤 Profile</span>
-            <span class="usernameDisplay"></span>
-            <span class="arrow">v</span>
+            <ul class="submenu">
+              <li><button class="subpoint">Stall Hygiene Grades</button></li>
+              <li><button class="subpoint">Performance Dashboard</button></li>
+              <li><button class="subpoint">My Rental Agreements</button></li>
+              <li><button class="subpoint">Customer Feedback</button></li>
+              <li><button class="subpoint">Settings</button></li>
+            </ul>
           </li>
-          <ul class="submenu">
-            <li>
-              <button onclick="window.location.href='StallHygieneGrades.html';" class="subpoint">
-               • Stall Hygiene Grades
-              </button>
-            </li>
-            <li>
-             <button onclick="window.location.href='FED_ASG.html';" class="subpoint">
-               • Performance Dashboard
-              </button>
-            </li>
-            <li>
-              <button onclick="window.location.href='RentalAgreement.html';" class="subpoint">
-              • My Rental Agreements
-              </button>
-            </li>
 
-            <li>
-            <button onclick="window.location.href='CustomerFeedBack.html';" class="subpoint">
-              • Customer Feedback
-              </button>
-            </li>
-            <li class="subpoint settings">• Settings</li>
-          </ul>
+          <li class="main">
+            <div class="title-row" onclick="location.href='login.html'">
+              🚪 Log Out
+            </div>
+          </li>
 
-          <!-- <li class="divider"></li> -->
-          <li class="subpoint logout">Log out</li>
         </ul>
       </nav>
+
 
       <nav class="mobile-nav vendornav">
         <div class="mobile-nav-item active" data-link="PerformanceDashboard.html">
