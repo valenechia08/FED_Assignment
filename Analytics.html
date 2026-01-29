@@ -98,6 +98,18 @@
         font-weight: bold;
         /* text-align: left; */
       }
+      
+      .logout button {
+        font-size: 15px;
+        width: 100%;
+        background: none;
+        border: none;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        padding: 24px 20px;
+        text-align: left;
+      }
       .arrow {
         font-size: 14px;
         transition: transform 0.2s ease;
@@ -265,7 +277,16 @@
             <span class="arrow">v</span>
           </div>
           <ul class="submenu">
-            <li class="subpoint">• Analytics & Reporting</li>
+            <li>
+              <button onclick="window.location.href='userProfile.html';" class="subpoint">
+                • Profile
+              </button> 
+            </li>
+            <li>
+              <button onclick="window.location.href='Analytics.html';" class="subpoint">
+                • Analytics & Reporting
+              </button> 
+            </li>
             <li class="subpoint">• Customer Feedback</li>
             <li class="subpoint">• Regulatory & Compliance</li>
             <li class="subpoint">• Favourites</li>

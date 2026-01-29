@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="Master_page_stylesheet.css" />
   </head>
   <body>
-    <section class="container hidden">
+    <section class="container">
       <nav class="navrectangle">
         <header class="brand">ShiokLah!</header>
 
@@ -54,7 +54,16 @@
             <span class="arrow">v</span>
           </li>
           <ul class="submenu">
-            <li class="subpoint">• Analytics & Reporting</li>
+            <li>
+              <button onclick="window.location.href='userProfile.html';" class="subpoint">
+                • Profile
+              </button> 
+            </li>
+            <li>
+              <button onclick="window.location.href='Analytics.html';" class="subpoint">
+                • Analytics & Reporting
+              </button>
+            </li>
             <li class="subpoint">• Customer Feedback</li>
             <li>
               <button onclick="window.location.href='Regulatory&Complianceinfo.html';" class="subpoint">
@@ -167,7 +176,7 @@
     </section>
 
     <!-- Vendor Home -->
-     <section class="container vendornav">
+     <section class="container vendornav hidden">
       <nav class="navrectangle">
         <header class="brand">
           <img src="images/edit.png" alt="Edit" class="icon">

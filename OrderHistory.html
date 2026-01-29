@@ -131,12 +131,13 @@
         font-size: 100px; 
       } */
       /* Log Out button */
-      .logout button {
+      /* .logout button {
         font-size: 15px;   /* match submenu or main items */
-      }
+      
 
 
       .logout button {
+        font-size: 15px;
         width: 100%;
         background: none;
         border: none;
@@ -335,11 +336,17 @@
 
         <!-- Profile -->
         <li class="main toggle">
+          
           <div class="profile-title">
             <span class="profile-label">👤 Profile <span class="usernameDisplay"></span></span>
             <span class="arrow">v</span>
           </div>
           <ul class="submenu">
+            <li>
+              <button onclick="window.location.href='userProfile.html';" class="subpoint">
+                • Profile
+              </button> 
+            </li>
             <li class="subpoint">• Analytics & Reporting</li>
             <li class="subpoint">• Customer Feedback</li>
             <li class="subpoint">• Regulatory & Compliance</li>
