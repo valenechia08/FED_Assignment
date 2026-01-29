@@ -250,9 +250,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // if (!username || !password) {
   //   document.querySelector(".message").textContent="Please enter both username and password.";
   // } else {
-  if (username) {
-    document.querySelector(".usernameDisplay").textContent = `${username}`; //Displays username under profile
-  }
+  // if (username) {
+  //   document.querySelector(".usernameDisplay").textContent = `${username}`; //Displays username under profile
+  // }
   // }
 
   // Logout
