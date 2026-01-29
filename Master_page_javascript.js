@@ -256,10 +256,13 @@ document.addEventListener("DOMContentLoaded", () => {
   // }
 
   // Logout
-  document.querySelector(".logout").addEventListener("click", () => {
-    sessionStorage.removeItem("loggedInUser");
-    window.location.href = "login.html";
-  });
+const logoutBtn = document.querySelector(".logout");
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", () => {
+      sessionStorage.removeItem("loggedInUser");
+      window.location.href = "login.html";
+    });
+  }
 });
 
 //Top Navigation 
@@ -288,11 +291,10 @@ document.querySelectorAll(".mobile-nav-item").forEach((item) => {
 /*Search Bar to search up stalls*/
 const searchInput = document.querySelector(".search-input");
 const stallCards = document.querySelectorAll(".stall-card");
-
+if (searchInput){
 // Listen for typing
 searchInput.addEventListener("keyup", function () {
   const query = this.value.toLowerCase();
-
   stallCards.forEach((card) => {
     const name = card.querySelector("h4").textContent.toLowerCase();
     const info = card.querySelector("p").textContent.toLowerCase();
@@ -305,6 +307,7 @@ searchInput.addEventListener("keyup", function () {
     }
   });
 });
+}
 
 // Grab all cuisine cards
 const cuisines = document.querySelectorAll(".cuisine");
