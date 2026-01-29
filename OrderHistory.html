@@ -1,477 +1,219 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order History</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Kodchasan:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
-        rel="stylesheet"
-    />
-    <style>
-        
-        /* General Styling */
-      body {
-        margin: 0;
-        
-      }
-      .container {
-        display: flex;
-        align-items: stretch;
-        min-height: 100vh; /* full height layout */
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ShiokLah Dashboard</title>
 
-      }
+  <link href="https://fonts.googleapis.com/css2?family=Kodchasan:wght@400;600;700&display=swap" rel="stylesheet">
 
-      .mobile-nav {
-        display: none;
-      }
+  <style>
+    :root {
+      --primary: #FF7A18;
+      --primary-hover: #FF8C3A;
+      --bg: #f5f6fa;
+      --card: #ffffff;
+      --text-dark: #333;
+      --muted: #777;
+      --shadow: 0 6px 20px rgba(0,0,0,0.08);
+      --radius: 14px;
+    }
 
-      /* SIDEBAR */
-      .navrectangle {
-        background-color: #FF7A18;
-        width: 220px;
-        min-height: 100vh;   /* matches the viewport height */
-        /* display: flex;
-        flex-direction: column; */
-        flex-shrink: 0; /* Sidebar stays fixed width */
-        
-        position: relative;
-        z-index: 1000;
-      }
+    * {
+      box-sizing: border-box;
+    }
 
-      .navrectangle header {
-        font-size: 36px;
-        color: white;
-        font-style: italic;
-        font-family: 'Kodchasan', Arial, sans-serif;
-        padding: 60px 20px 30px;
-      }
+    body {
+      margin: 0;
+      font-family: system-ui, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text-dark);
+    }
 
-      /* NAV LIST */
-      .navBar {
-        list-style-type: none;
-        padding: 0;
-        margin: 0;
-        color: white;
-        font-family: Arial, Helvetica, sans-serif;
-      }
+    /* ================= LAYOUT ================= */
+    .container {
+      display: flex;
+      min-height: 100vh;
+    }
 
-      /* MAIN ITEMS */
-      .main {
-        position: relative;          /* 🔑 required for absolute submenu */
-        display: flex;
-        flex-direction: column;      /* stack title + submenu vertically */
-        margin: 0 15px;
-      }
-      
-      /* PROFILE TITLE STACK */
-      /* Title row (text + arrow) */
-      .profile-title,
-      .title-row {
-        display: grid;
-        grid-template-columns: 1fr auto;  /* label left, arrow right */
-        align-items: center;
-        padding: 24px 20px;
-        font-weight: bold;
-        /* text-align: left; */
-      }
+    /* ================= SIDEBAR ================= */
+    /* SIDEBAR */
+    .navrectangle {
+      background-color: #ffffff;
+      width: 220px;
+      min-height: 100vh;
+      border-right: 1px solid #eee;
+      flex-shrink: 0;
+    }
 
-      
+    /* Brand */
+    .navrectangle header {
+      font-size: 32px;
+      color: #FF7A18;
+      font-style: italic;
+      font-family: 'Kodchasan', Arial, sans-serif;
+      padding: 50px 20px 30px;
+    }
 
-      .usernameDisplay {
-        font-size: 12px;
-        margin-left: 5px;
-      }
+    /* NAV TEXT */
+    .navBar {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-family: system-ui, Arial, sans-serif;
+    }
 
-      /* SUB MENU */
-      .submenu {
-        /* position: absolute; */
-        display: none;
-        list-style: none;          /* removes bullet points */
-        padding: 0;
-        
-        margin: 0;
-        top: 100%;              /* directly below main item */
-        left: 0;
-        width: 100%;
-        background-color: #FF7A18;
-        /* padding: 8px 0;
-        z-index: 10; */
-      }
+    /* MAIN MENU ITEM */
+    .title-row,
+    .profile-title,
+    .logout button {
+      color: #333;
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 600;
+      cursor: pointer;
+      transition: color 0.2s ease, background 0.2s ease;
+    }
 
-      .subpoint {
-        display: block;
-        background-color: transparent;
-        color: white;
-        border: none;
-        padding: 12px 47px;     /* indent to the left */
-        
-        text-align: left;
-        font-size: 16px;
-        cursor: pointer;
-      }
-      
+    /* HOVER */
+    .title-row:hover,
+    .profile-title:hover,
+    .logout button:hover {
+      color: #FF7A18;
+      background: rgba(255, 122, 24, 0.08);
+      border-radius: 8px;
+    }
 
-      /* DIVIDER */
-      .divider {
-        height: 1.3px;
-        width: 100%;
-        background-color: rgba(0, 0, 0, 0.3);
-      }
+    /* ACTIVE / OPEN STATE */
+    .main.active > .title-row,
+    .main.active > .profile-title {
+      color: #FF7A18;
+    }
 
-      /* ARROW */
-      .arrow {
-        font-size: 14px;
-        transition: transform 0.2s ease;
-      }
+    /* ARROW */
+    .arrow {
+      transition: transform 0.25s ease;
+      font-size: 14px;
+    }
 
-      /* LOGOUT */
-      /* .logout {
-        padding: 0;
-        font-size: 100px; 
-      } */
-      /* Log Out button */
-      /* .logout button {
-        font-size: 15px;   /* match submenu or main items */
-      
+    /* Rotate arrow when open */
+    .main.active .arrow {
+      transform: rotate(180deg);
+    }
 
+    /* SUBMENU */
+    .submenu {
+      display: none;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
 
-      .logout button {
-        font-size: 15px;
-        width: 100%;
-        background: none;
-        border: none;
-        color: white;
-        font-weight: bold;
-        cursor: pointer;
-        padding: 24px 20px;
-        text-align: left;
-      }
+    /* SUBMENU ITEMS */
+    .subpoint {
+      width: 100%;
+      padding: 12px 45px;
+      background: none;
+      border: none;
+      text-align: left;
+      font-size: 15px;
+      cursor: pointer;
+      color: #555;
+      transition: color 0.2s ease, background 0.2s ease;
+    }
 
-      /* HOVER */
-      .title-row:hover,
-      .logout button:hover,
-      .profile-title:hover,
-      .subpoint:hover {
-        background-color: #FF8C3A;
-        border-radius: 6px;
-      }
+    /* SUBMENU HOVER */
+    .subpoint:hover {
+      color: #FF7A18;
+      background: rgba(255, 122, 24, 0.08);
+    }
 
-
-        /* ORDER HISTORY CONTENT */
-        .OrderHistory {
-          background: #fff;
-          flex: 1;
-          margin-left: 25px;
-          padding: 30px 20px;
-          position: relative;
-          z-index: 1;     /* Content stays behind sidebar */
-        }
-
-        .OrderHistory-title {
-          text-decoration: underline;
-          font-size: 35px;
-          font-weight: bold;
-          font-family: system-ui,   Arial, serif;
-        }
-
-        /* EMPTY STATE BOX */
-        .rectangle-box {
-          width: 900px;
-          height: auto;
-          border: 1px solid black;
-          border-radius: 6px;
-          padding: 30px;
-          margin: 20px auto;
-          background-color: #fff;
-          font-size: 26px;
-          text-align: center;
-        }
-
-        .rectangle-box.text-content {
-          padding-top: 100px;
-          font-family: system-ui,   Arial, serif;
-        }
-
-        /* START ORDER BUTTON */
-        .start-ordering {
-          background-color: #FF7A18;
-          color: white;
-          /* position: absolute; */
-          padding: 15px 40px;
-          font-size: 16px;
-          cursor: pointer;
-          /* margin-left: 400px; */
-          border: 1px solid black;
-          border-radius: 20px;
-          display: block;
-          margin: 30px auto; /* centers horizontally */
-
-        }
-
-        .start-ordering:hover {
-          background-color: #FF8C3A;
-        }
-        
-        /* for profile */
-        .profile-container {
-          display: flex;
-          height: 100vh;
-        }
-
-        .sidebar {
-          width: 220px;
-          background-color: #fff;
-          padding: 1rem;
-          box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-        }
-
-        .sidebar h2 {
-          font-size: 20px;
-          margin-bottom: 1rem;
-        }
-
-        .sidebar ul {
-          list-style: none;
-          padding: 0;
-        }
-
-        .sidebar li {
-          margin: 0.5rem 0;
-          font-weight: 500;
-          cursor: pointer;
-        }
-
-        .sidebar li.active {
-          color: #ff6600;
-        }
-
-        .sidebar ul ul {
-          margin-left: 1rem;
-          font-weight: 400;
-        }
-
-        .profile-content {
-          flex: 1;
-          padding: 2rem;
-          background-color: #fff;
-        }
-
-        .profile-header {
-          display: flex;
-          align-items: center;
-          gap: 1rem;
-        }
-
-        .avatar {
-          width: 100px;
-          height: 100px;
-          border-radius: 50%;
-        }
-
-        .profile-details {
-          margin-top: 1.5rem;
-          font-size: 16px;
-        }
-
-        .profile-details p {
-          margin: 0.5rem 0;
-        }
-
-        .profile-actions,
-        .guest-actions {
-          margin-top: 2rem;
-        }
-
-        .profile-actions button,
-        .guest-actions button {
-          padding: 0.5rem 1rem;
-          margin-right: 1rem;
-          background-color: #ff6600;
-          color: white;
-          border: none;
-          border-radius: 4px;
-          cursor: pointer;
-        }
-
-        .profile-actions .logout {
-          background-color: #999;
-        }
-
-
-    </style>
-
+  </style>
 </head>
+
 <body>
   <section class="container">
-    <!-- Sidebar Navigation -->
+
+    <!-- SIDEBAR -->
     <nav class="navrectangle">
-      <header class="brand">ShiokLah!</header>
+      <header>ShiokLah!</header>
+
       <ul class="navBar">
-        <!-- Home -->
         <li class="main toggle">
-          <div class="title-row">
-            <span>🏠 Home</span>
-            <span class="arrow">v</span>
-          </div>
+          <div class="title-row">🏠 Home <span>v</span></div>
           <ul class="submenu">
-            <li>
-              <button onclick="window.location.href='FED_ASG.html';" class="subpoint">• Start Order</button>
-            </li>
+            <li><button class="subpoint">Start Order</button></li>
           </ul>
         </li>
 
-        <!-- Order History -->
         <li class="main toggle">
-          <div class="title-row">
-            <span>📄 Order History</span>
-            <span class="arrow">v</span>
-          </div>
+          <div class="title-row">📄 Order History <span>v</span></div>
           <ul class="submenu">
-            <li>
-              <button onclick="window.location.href='OrderHistory.html';" class="subpoint past-orders">• Past Orders</button>
-            </li>
+            <li><button class="subpoint">Past Orders</button></li>
           </ul>
         </li>
 
-        <!-- Profile -->
         <li class="main toggle">
-          
-          <div class="profile-title">
-            <span class="profile-label">👤 Profile <span class="usernameDisplay"></span></span>
-            <span class="arrow">v</span>
-          </div>
+          <div class="profile-title">👤 Profile <span>v</span></div>
           <ul class="submenu">
-            <li>
-              <button onclick="window.location.href='userProfile.html';" class="subpoint">
-                • Profile
-              </button> 
-            </li>
-            <li class="subpoint">• Analytics & Reporting</li>
-            <li class="subpoint">• Customer Feedback</li>
-            <li class="subpoint">• Regulatory & Compliance</li>
-            <li class="subpoint">• Favourites</li>
-            <li class="subpoint">• Rewards</li>
+            <li><button class="subpoint">Profile</button></li>
+            <li><button class="subpoint">Favourites</button></li>
+            <li><button class="subpoint">Rewards</button></li>
           </ul>
         </li>
 
-        <!-- Log Out -->
-        <li class="main toggle logout">
-          <button onclick="window.location.href='login.html';" class="subpoint">Log Out</button>
+        <li class="logout">
+          <button>Log Out</button>
         </li>
       </ul>
     </nav>
 
-    <!-- Main Content -->
-    <div class="OrderHistory">
-      <h1 class="OrderHistory-title">Order History</h1>
+    <!-- MAIN -->
+    <main class="main-content">
 
-      <!-- STATE 1: Empty Order History -->
-      <div class="rectangle-box text-content" id="empty-state">
-        <b>🛒 No orders yet.</b><br />
-        Place your first order to see it here.
-        <button onclick="window.location.href='FED_ASG.html';" class="start-ordering">Start Ordering</button>
+      
+
+      
+
+      <!-- ORDER HISTORY -->
+      <div class="order-box">
+        <h2>🛒 No orders yet</h2>
+        <p>Place your first order to see it here.</p>
+        <button>Start Ordering</button>
       </div>
 
-      <!-- STATE 2: Guest User Warning -->
-      <div class="rectangle-box text-content" id="guest-state" style="display: none;">
-        <b>No records saved</b><br />
-        Log in or create an account to save your past orders and reorder easily.<br /><br />
-        ⚠️ <b>Guest User</b><br />
-        Orders will be lost if you clear browser data.<br />
-        Log in to save orders permanently.
-        <button onclick="window.location.href='login.html';" class="start-ordering">Login / Sign Up</button>
-      </div>
-
-      <!-- STATE 3: Registered User with Past Orders -->
-      <div id="history-table" style="display: none;">
-        <div style="display: flex; justify-content: space-between; margin: 20px 0;">
-          <input type="text" placeholder="Search Order ID" style="padding: 10px; font-size: 16px;" />
-          <select style="padding: 10px; font-size: 16px;">
-            <option value="">Filter by Date</option>
-            <option value="2025-10">October 2025</option>
-            <option value="2025-09">September 2025</option>
-          </select>
-        </div>
-
-        <table style="width: 100%; border-collapse: collapse; font-size: 18px;">
-          <thead>
-            <tr style="background-color: #FF7A18; color: white;">
-              <th style="padding: 12px; border: 1px solid black;">Order ID</th>
-              <th style="padding: 12px; border: 1px solid black;">Date</th>
-              <th style="padding: 12px; border: 1px solid black;">Total</th>
-              <th style="padding: 12px; border: 1px solid black;">Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style="padding: 12px; border: 1px solid black;">#10234</td>
-              <td style="padding: 12px; border: 1px solid black;">10 Oct 2025</td>
-              <td style="padding: 12px; border: 1px solid black;">$4.50</td>
-              <td style="padding: 12px; border: 1px solid black;">🟢 Completed</td>
-            </tr>
-            <!-- Add more rows as needed -->
-          </tbody>
-        </table>
-      </div>
-    </div>
+    </main>
   </section>
 
   <script>
-      //Navigation Dropdown
-      document.querySelectorAll('.main.toggle').forEach(mainItem => {
-        const submenu = mainItem.querySelector('.submenu');
-        const arrow = mainItem.querySelector('.arrow');
-        const titleRow = mainItem.querySelector('.title-row, .profile-title');
+    document.querySelectorAll('.main.toggle').forEach(mainItem => {
+    const submenu = mainItem.querySelector('.submenu');
+    const arrow = mainItem.querySelector('.arrow');
+    const title = mainItem.querySelector('.title-row, .profile-title');
 
-        if (!submenu || !arrow || !titleRow) return;
+    if (!submenu || !title) return;
 
-        titleRow.addEventListener('click', () => {
-          const isOpen = submenu.style.display === 'block';
-          submenu.style.display = isOpen ? 'none' : 'block';
-          arrow.textContent = isOpen ? 'v' : '^';
-        });
-      });
-      // Example logic to toggle views
-      const userStatus = "registered"; // Change to "empty", "guest", or "registered"
+    title.addEventListener('click', (e) => {
+      e.stopPropagation();
 
-      document.getElementById("empty-state").style.display = userStatus === "empty" ? "block" : "none";
-      document.getElementById("guest-state").style.display = userStatus === "guest" ? "block" : "none";
-      document.getElementById("history-table").style.display = userStatus === "registered" ? "block" : "none";
-      showState(); // showState() hides the extra blocks, it stops them from overlapping the sidebar. Once only one state is shown, the sidebar is no longer blocked, so the nav works.
+      const isOpen = mainItem.classList.contains('active');
 
-
-      // Navigation Dropdown
-      document.querySelectorAll('.main.toggle').forEach(mainItem => {
-        const submenu = mainItem.querySelector('.submenu');
-        const arrow = mainItem.querySelector('.arrow');
-        if (!submenu || !arrow) return;
-        mainItem.addEventListener('click', () => {
-          const isOpen = submenu.style.display === 'block';
-          submenu.style.display = isOpen ? 'none' : 'block';
-          arrow.textContent = isOpen ? 'v' : '^';
-        });
+      // Close all others
+      document.querySelectorAll('.main.toggle').forEach(item => {
+        item.classList.remove('active');
+        const sm = item.querySelector('.submenu');
+        if (sm) sm.style.display = 'none';
       });
 
-
-      // Simulated login status
-      const isGuest = true; // Change to false to show user profile
-
-      // Toggle profile view
-      document.addEventListener("DOMContentLoaded", function () {
-        const guestView = document.getElementById("guestProfile");
-        const userView = document.getElementById("userProfile");
-
-        if (isGuest) {
-          guestView.style.display = "block";
-          userView.style.display = "none";
-        } else {
-          guestView.style.display = "none";
-          userView.style.display = "block";
-        }
-      });
-
-    
+      // Toggle current
+      if (!isOpen) {
+        mainItem.classList.add('active');
+        submenu.style.display = 'block';
+      }
+    });
+  });
   </script>
 </body>
 </html>

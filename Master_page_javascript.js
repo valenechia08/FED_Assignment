@@ -223,20 +223,33 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 //Navigation Dropdown
-document.querySelectorAll(".toggle").forEach((mainItem) => {
-  mainItem.addEventListener("click", () => {
-    const submenu = mainItem.nextElementSibling;
-    const arrow = mainItem.querySelector(".arrow");
+document.querySelectorAll('.main.toggle').forEach(mainItem => {
+    const submenu = mainItem.querySelector('.submenu');
+    const arrow = mainItem.querySelector('.arrow');
+    const title = mainItem.querySelector('.title-row, .profile-title');
 
-    if (submenu.style.display === "block") {
-      submenu.style.display = "none";
-      arrow.textContent = "v";
-    } else {
-      submenu.style.display = "block";
-      arrow.textContent = "^";
-    }
+    if (!submenu || !title) return;
+
+    title.addEventListener('click', (e) => {
+      e.stopPropagation();
+
+      const isOpen = mainItem.classList.contains('active');
+
+      // Close all others
+      document.querySelectorAll('.main.toggle').forEach(item => {
+        item.classList.remove('active');
+        const sm = item.querySelector('.submenu');
+        if (sm) sm.style.display = 'none';
+      });
+
+      // Toggle current
+      if (!isOpen) {
+        mainItem.classList.add('active');
+        submenu.style.display = 'block';
+      }
+    });
   });
-});
+
 
 /*Mobile Navigation*/
 document.querySelectorAll(".mobile-nav-item").forEach((item) => {
