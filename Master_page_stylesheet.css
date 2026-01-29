@@ -287,11 +287,11 @@ section .home {
 
 /*Vendor Style*/
 
-/* .vendornav img {
-  width: 20px;
-  height: 20px;
-  margin:0;
-} */
+.brand img{
+  padding:0;
+  width:auto;
+  height:150px;
+}
 
 .contents {
   position: absolute;
