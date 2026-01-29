@@ -166,7 +166,7 @@ async function loginMember() {
     // Save session + redirect
     sessionStorage.setItem("loggedInUser", username);
     showMessage("Login successful! 🎉", "green");
-    window.location.href = "FED_ASG.html";
+    window.location.href = "PerformanceDashboard.html";
   } catch (err) {
     console.error(err);
     showMessage(`Login failed: ${err?.message ?? "Unknown error"}`, "red");

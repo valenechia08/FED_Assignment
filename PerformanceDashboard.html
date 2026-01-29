@@ -14,68 +14,42 @@
       href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="Master_page_stylesheet.css" />
+    <link rel="stylesheet" href="Vendor.css" />
   </head>
   <body>
     <!-- Vendor Home -->
      <section class="container vendornav">
       <nav class="navrectangle">
-        <header class="brand">ShiokLah!</header>
+        <header class="brand">
+          <img src="images/ShiokLah.jpeg" alt="ShiokLah">
+        </header>
 
-        <ul class="navBar">
-          <li>
-            <a href="FED_ASG.html" class="main toggle">
-              🏠 Home
-            </a>
-          </li>
-
-          <!-- <li class="divider"></li> -->
-
-           <li>
-            <a href="VendorEditMenu.html" class="main toggle">
-              🍽️ Edit Menu
-            </a>
-          </li>
-
-          <!-- <li class="divider"></li> -->
-
-          <li class="main toggle ven-profile">
-            <span>👤 Profile</span>
-            <span class="usernameDisplay"></span>
-            <span class="arrow">v</span>
-          </li>
+      <ul class="navBar">
+        <li class="main toggle">
+          <div class="title-row">🏠 Dashboard <span class="arrow"><img src="images/down.png"></span></div>
           <ul class="submenu">
-            <li>
-              <button onclick="window.location.href='StallHygieneGrades.html';" class="subpoint">
-               • Stall Hygiene Grades
-              </button>
-            </li>
-            <li>
-             <button onclick="window.location.href='PerformanceDashboard.html';" class="subpoint">
-               • Performance Dashboard
-              </button>
-            </li>
-            <li>
-              <button onclick="window.location.href='RentalAgreement.html';" class="subpoint">
-              • My Rental Agreements
-              </button>
-            </li>
-
-            <li>
-            <button onclick="window.location.href='CustomerFeedBack.html';" class="subpoint">
-              • Customer Feedback
-              </button>
-            </li>
-            <li class="subpoint settings">• Settings</li>
+            <li><button class="subpoint">• Start Order</button></li>
           </ul>
+        </li>
 
-          <!-- <li class="divider"></li> -->
-          <li class="subpoint logout">Log out</li>
-        </ul>
-      </nav>
+        <li class="main toggle">
+          <div class="title-row">📄 Order History <span class="arrow"><img src="images/down.png"></span></div>
+          <ul class="submenu">
+            <li><button class="subpoint">• Past Orders</button></li>
+          </ul>
+        </li>
 
-      <nav class="mobile-nav vendornav">
-        <div class="mobile-nav-item active" data-link="FED_ASG.html">
+        <li class="main toggle">
+          <div class="title-row">👤 Profile <span class="arrow"><img src="images/down.png"></span></div>
+          <ul class="submenu">
+            <li><button class="subpoint">• Profile</button></li>
+            <li><button class="subpoint">• Favourites</button></li>
+            <li><button class="subpoint">• Rewards</button></li>
+          </ul>
+        </li>
+
+        <nav class="mobile-nav vendornav">
+        <div class="mobile-nav-item active" data-link="PerformanceDashboard.html">
           <span>🏠</span>
           <small>Home</small>
         </div>
@@ -90,6 +64,15 @@
           <small>Profile</small>
         </div>
       </nav>
+
+        <li class="main toggle logout">
+          <button onclick="window.location.href='login.html';" class="subpoint">Log Out</button>
+        </li>
+      </ul>
+    </nav>
+
+
+
 
   <main class="contents">
 
@@ -142,7 +125,7 @@
 
       <section class="order box">
         <h2 class="green order status">Accepted Orders</h2>
-        <div class="order scroll"></div>
+        <!-- <div class="order scroll"></div> -->
         <div class="order scroll">
           <!-- Order Card Hidden-->
           <article class="order card hidden">
@@ -172,6 +155,15 @@
 
     </section>
   </main>
+  <script>document.querySelectorAll('.title-row').forEach(item => {
+  item.addEventListener('mouseenter', () => {
+    item.querySelector('.arrow img').src = "images/orangedown.png";
+  });
+  item.addEventListener('mouseleave', () => {
+    item.querySelector('.arrow img').src = "images/down.png";
+  });
+});
+</script>
     <script type="module" src="Master_page_javascript.js"></script>
   </body>
 </html>
