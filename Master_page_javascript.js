@@ -77,12 +77,14 @@ function clearIfExists(ids) {
    REGISTRATION
 ========================= */
 async function registerMember() {
-  const username = normalizeUsername($("username")?.value ?? "").trim();
-  // const email = ($("email")?.value ?? "").trim();
+  const name = ($("name")?.value ?? "").trim();
+  const username = normalizeUsername($("username")?.value ?? "");
+  const email = ($("email")?.value ?? "").trim();
   const password = $("password")?.value ?? "";
+  const confirmPassword = $("confirmPassword")?.value ?? "";
 
   // Basic checks
-  if (!username || !password) {
+  if (!name || !username || !email || !password || !confirmPassword) {
     showMessage("Please fill in all fields.", "red");
     return;
   }
@@ -100,6 +102,11 @@ async function registerMember() {
     return;
   }
 
+  if (password !== confirmPassword) {
+    showMessage("Passwords do not match.", "red");
+    return;
+  }
+
   try {
     const memberRef = ref(db, `members/${username}`);
 
@@ -114,13 +121,15 @@ async function registerMember() {
     const passwordHash = await sha256(password);
 
     await set(memberRef, {
+      name,
       username,
+      email,
       passwordHash,
       createdAt: Date.now(),
     });
 
     showMessage("Registration successful! ✅", "green");
-    clearIfExists(["username", "email", "password"]);
+    clearIfExists(["name", "username", "email", "password", "confirmPassword"]);
   } catch (err) {
     console.error(err);
     showMessage(
@@ -173,6 +182,25 @@ async function loginMember() {
   }
 }
 
+async function retrieveAccount() {
+  const username = normalizeUsername($("username")?.value ?? "");
+  const continueButton = $("continueBtn");
+
+  if (!username) {
+    showMessage("Please enter your username.");
+    return;
+  } else {
+    const memberRef = ref(db, `members/${username}`);
+
+    const snap = await get(memberRef);
+    if (snap.exists()) {
+      sessionStorage.setItem("currentUser", username);
+      window.location.href = "ConfirmAccount.html";
+      return;
+    }
+  }
+}
+
 /* =========================
    AUTO-BIND EVENTS (based on page)
 ========================= */
@@ -187,6 +215,11 @@ document.addEventListener("DOMContentLoaded", () => {
     $("loginBtn").addEventListener("click", loginMember);
   }
 
+  // Reset Password
+  if ($("continueBtn")) {
+    $("continueBtn").addEventListener("click", retrieveAccount);
+  }
+
   // Optional: allow Enter key to submit on login page
   if ($("loginBtn") && $("password")) {
     $("password").addEventListener("keydown", (e) => {
@@ -198,6 +231,13 @@ document.addEventListener("DOMContentLoaded", () => {
   if ($("registerBtn")) {
     $("registerBtn").addEventListener("keydown", (e) => {
       if (e.key === "Enter") registerMember();
+    });
+  }
+
+  //
+  if ($("continueBtn")) {
+    $("continueBtn").addEventListener("keydown", (e) => {
+      if (e.key === "Enter") retrieveAccount();
     });
   }
 });

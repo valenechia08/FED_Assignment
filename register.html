@@ -4,12 +4,15 @@
     <meta charset="UTF-8" />
     <title>Register Account</title>
     <style>
+      body {
+        margin: 0;
+      }
       .register-page {
         display: flex;
         height: 100vh; /* full screen height */
       }
 
-      .register-image {
+      .left-pane {
         flex: 1; /* take half the width */
         background-image: url("images/Noodles.jpeg");
         background-size: cover;
@@ -31,10 +34,12 @@
           "Open Sans",
           "Helvetica Neue",
           sans-serif;
+        position: relative;
+        top: -2%;
       }
       .register-form {
         flex: 1; /* take the other half */
-        padding: 40px;
+        /* padding: 40px; */
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -45,7 +50,7 @@
         margin-bottom: 5px;
         color: #333;
         font-size: 48px;
-        width: 60%;
+        width: 50%;
         text-align: left;
       }
 
@@ -53,7 +58,7 @@
         font-size: 14px;
         color: #666;
         margin-bottom: 20px;
-        width: 60%;
+        width: 50%;
         text-align: left;
       }
 
@@ -107,7 +112,7 @@
   <body>
     <div class="register-page">
       <!-- Left side image -->
-      <div class="register-image"></div>
+      <div class="left-pane"></div>
 
       <!-- Right side form -->
       <div class="card">
@@ -119,8 +124,15 @@
           </p>
           <div class="message" id="message"></div>
           <div class="inputs">
+            <input type="name" id="name" placeholder="Full Name" />
+            <input type="email" id="email" placeholder="Email" />
             <input type="username" id="username" placeholder="Username" />
             <input type="password" id="password" placeholder="Password" />
+            <input
+              type="password"
+              id="confirmPassword"
+              placeholder="Confirm Password"
+            />
           </div>
           <button id="registerBtn">Create account</button>
 
