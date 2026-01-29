@@ -17,68 +17,39 @@
     <link rel="stylesheet" href="Master_page_stylesheet.css" />
   </head>
   <body>
-    <section class="container hidden">
+    <section class="container">
       <nav class="navrectangle">
         <header class="brand">ShiokLah!</header>
 
-        <ul class="navBar">
-          <li class="main toggle">
-            <span>🏠 Home</span>
-            <span class="arrow">v</span>
-          </li>
+      <ul class="navBar">
+        <li class="main toggle">
+          <div class="title-row">🏠 Home <span>v</span></div>
           <ul class="submenu">
-            <button onclick="window.location.href='FED_ASG.html';" class="subpoint">
-                • Start Order
-              </button>
+            <li><button class="subpoint">• Start Order</button></li>
           </ul>
+        </li>
 
-          <!-- <li class="divider"></li> -->
-
-          <li class="main toggle">
-            <span>📄 Order History</span>
-            <span class="arrow">v</span>
-          </li>
+        <li class="main toggle">
+          <div class="title-row">📄 Order History <span>v</span></div>
           <ul class="submenu">
-            <li>
-              <button onclick="window.location.href='OrderHistory.html';" class="subpoint">
-                • Past Orders
-              </button>
-            </li>
+            <li><button class="subpoint">• Past Orders</button></li>
           </ul>
+        </li>
 
-          <!-- <li class="divider"></li> -->
-
-          <li class="main toggle">
-            <span>👤 Profile</span><br>
-            <span class="usernameDisplay"></span>
-            <span class="arrow">v</span>
-          </li>
+        <li class="main toggle">
+          <div class="profile-title">👤 Profile <span>v</span></div>
           <ul class="submenu">
-            <li>
-              <button onclick="window.location.href='userProfile.html';" class="subpoint">
-                • Profile
-              </button> 
-            </li>
-            <li>
-              <button onclick="window.location.href='Analytics.html';" class="subpoint">
-                • Analytics & Reporting
-              </button>
-            </li>
-            <li class="subpoint">• Customer Feedback</li>
-            <li>
-              <button onclick="window.location.href='Regulatory&Complianceinfo.html';" class="subpoint">
-                • Regulatory & Compliance
-                </button>
-              </li>
-            <!-- <li class="subpoint">• Regulatory & Compliance</li> -->
-            <li class="subpoint">• Favourites</li>
-            <li class="subpoint">• Rewards</li>
+            <li><button class="subpoint">• Profile</button></li>
+            <li><button class="subpoint">• Favourites</button></li>
+            <li><button class="subpoint">• Rewards</button></li>
           </ul>
+        </li>
 
-          <!-- <li class="divider"></li> -->
-          <li class="main toggle logout">Log out</li>
-        </ul>
-      </nav>
+        <li class="main toggle logout">
+          <button onclick="window.location.href='login.html';" class="subpoint">Log Out</button>
+        </li>
+      </ul>
+    </nav>
 
       <!-- Welcome text -->
       <section class="home">
