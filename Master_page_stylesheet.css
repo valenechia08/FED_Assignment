@@ -1,141 +1,125 @@
 /*General Styling*/
 :root {
-  --primary: #FF7A18;
-  --primary-hover: #FF8C3A;
-  --bg: #f5f6fa;
-  --card: #ffffff;
-  --text-dark: #333;
-  --muted: #777;
-  --shadow: 0 6px 20px rgba(0,0,0,0.08);
-  --radius: 14px;
-}
-
-* {
-  box-sizing: border-box;
+  --orange: #FF7A18;
+  --orange-hover: #FF8C3A;
 }
 
 body {
   margin: 0;
   font-family: system-ui, Arial, sans-serif;
-  background: var(--bg);
-  color: var(--text-dark);
-}
-/* ================= LAYOUT ================= */
-    .container {
-      display: flex;
-      min-height: 100vh;
-    }
-
-
-.chosen {
-  background-color: white;
-  color: #FF7A18;
 }
 
-.mobile-nav {
+/* NAV BAR */
+.top-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  height: 90px;
+  background: #fff;
+  border-bottom: 1px solid #eee;
+}
+
+/* LOGO */
+.logo {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--orange);
+  font-family: 'Kodchasan', Arial, sans-serif;
+}
+
+/* MENU */
+.menu {
+  list-style: none;
+  display: flex;
+  
+  margin: 0;
+  padding: 0;
+}
+
+.menu-item {
+  position: relative;
+  left:150px;
+  padding:0 23px;
+}
+
+.menu-item > a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 600;
+  padding: 10px 0;
+  transition: color 0.2s ease;
+}
+
+/* MAIN MENU HOVER */
+.menu-item > a:hover {
+  color: var(--orange);
+}
+
+/* DROPDOWN */
+.dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #FFD400;
+  border-radius: 14px;
+  padding: 16px 0;
+  min-width: 180px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
   display: none;
+  z-index: 1000;
 }
 
-/* SIDEBAR */
-    .navrectangle {
-      background-color: #f5f6fa;
-      width: 220px;
-      min-height: 100vh;
-      border-right: 1px solid #eee;
-      flex-shrink: 0;
-    }
+/* DROPDOWN ITEM */
+.dropdown li {
+  list-style: none;
+}
 
-    /* Brand */
-    .navrectangle header {
-      font-size: 32px;
-      color: #FF7A18;
-      font-style: italic;
-      font-family: 'Kodchasan', Arial, sans-serif;
-      padding: 50px 20px 30px;
-    }
+.dropdown a {
+  display: block;
+  padding: 10px 20px;
+  color: #333;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s ease, background 0.2s ease;
+}
 
-    /* NAV TEXT */
-    .navBar {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      font-family: system-ui, Arial, sans-serif;
-    }
+/* SUBMENU HOVER */
+.dropdown a:hover {
+  color: var(--orange);
+  background: rgba(255, 122, 24, 0.15);
+}
 
-    /* MAIN MENU ITEM */
-    .title-row,
-    .profile-title,
-    .logout button {
-      color: #333;
-      padding: 16px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-weight: 600;
-      cursor: pointer;
-      transition: color 0.2s ease, background 0.2s ease;
-    }
+/* SHOW DROPDOWN ON HOVER */
+.menu-item:hover .dropdown {
+  display: block;
+}
 
-    /* HOVER */
-    .title-row:hover,
-    .profile-title:hover,
-    .logout button:hover {
-      color: #FF7A18;
-      background: rgba(255, 122, 24, 0.08);
-      border-radius: 8px;
-    }
+/* ACTION BUTTON */
+.reserve-btn {
+  background: #FF8C3A;
+  color: white;
+  border: none;
+  padding: 14px 24px;
+  margin-top:15px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
 
-    /* ACTIVE / OPEN STATE */
-    .main.active > .title-row,
-    .main.active > .profile-title {
-      color: #FF7A18;
-    }
-
-    /* ARROW */
-    .arrow {
-      transition: transform 0.25s ease;
-      font-size: 14px;
-    }
-
-    /* Rotate arrow when open */
-    .main.active .arrow {
-      transform: rotate(180deg);
-    }
-
-    /* SUBMENU */
-    .submenu {
-      display: none;
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    /* SUBMENU ITEMS */
-    .subpoint {
-      width: 100%;
-      padding: 12px 45px;
-      background: none;
-      border: none;
-      text-align: left;
-      font-size: 15px;
-      cursor: pointer;
-      color: #555;
-      transition: color 0.2s ease, background 0.2s ease;
-    }
-
-    /* SUBMENU HOVER */
-    .subpoint:hover {
-      color: #FF7A18;
-      background: rgba(255, 122, 24, 0.08);
-    }
+.reserve-btn:hover {
+  background: #FF7A18;
+}
 
 
 /*Customer Styling*/
 .welcome-text {
   position: absolute;
   /* padding-top:20px; */
-  top: 45px;
-  left: 310px;
+  top: 110px;
+  left: 160px;
   /* color: black; */
   margin: 0;
   font-family: 'Kodchasan', Arial, Helvetica, sans-serif;
@@ -144,11 +128,12 @@ body {
 .searchBar {
   position: absolute;
   /* padding-top:20px; */
-  top: 40px;
-  left: 570px;
+  top: 110px;
+  left: 480px;
   /* adjust based on sidebar width */
   display: flex;
   align-items: center;
+  height: 28px;
   width: 550px;
   background-color: #e0e0e0;
   border-radius: 999px;
@@ -161,8 +146,9 @@ body {
   border: none;
   outline: none;
   background: transparent;
-  padding: 10px 14px;
-  font-size: 14px;
+  padding:14px;
+  padding-top:18px;
+  font-size: 12px;
 }
 
 /* Button */
@@ -183,8 +169,8 @@ body {
   gap: 50px;
   padding: 25px;
   position: absolute;
-  left: 17.5%;
-  top: 100px;
+  left: 7.5%;
+  top: 140px;
   color: black;
   margin: 0;
   width: 80%;
@@ -236,7 +222,7 @@ section .home {
   gap: 25px;
   position: absolute;
   top: 60%;
-  left: 25%;
+  left: 15%;
   width: 80%;
 
 }
@@ -257,7 +243,7 @@ section .home {
 .stall-info {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
 }
 
 
@@ -270,6 +256,16 @@ section .home {
   border-radius: 15px;
   margin-bottom: 10px;
   /* adds space below image */
+  display: block;        /* ensures it behaves like a block element */
+  margin: 0;             /* removes auto-centering margins */
+  text-align: left;      /* aligns content left inside container */
+  max-width: 100%;       /* keeps images responsive */
+
+}
+hr{
+    display: none;
+
+
 }
 
 .stall-card h4 {

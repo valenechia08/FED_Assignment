@@ -19,37 +19,56 @@
   <body>
     <section class="container">
       <nav class="navrectangle">
-        <header class="brand">ShiokLah!</header>
+        <header class="top-nav">
+          <!-- Logo -->
+          <div class="logo">
+            ShiokLah!
+          </div>
 
-      <ul class="navBar">
-        <li class="main toggle">
-          <div class="title-row">🏠 Home <span>v</span></div>
-          <ul class="submenu">
-            <li><button class="subpoint">• Start Order</button></li>
-          </ul>
-        </li>
+          <!-- Main Menu -->
+          <nav>
+            <ul class="menu">
 
-        <li class="main toggle">
-          <div class="title-row">📄 Order History <span>v</span></div>
-          <ul class="submenu">
-            <li><button class="subpoint">• Past Orders</button></li>
-          </ul>
-        </li>
+              <li class="menu-item">
+                <a href="#">Home</a>
+                <ul class="dropdown">
+                  <li><a href="#">Start Order</a></li>
+                </ul>
+              </li>
 
-        <li class="main toggle">
-          <div class="profile-title">👤 Profile <span>v</span></div>
-          <ul class="submenu">
-            <li><button class="subpoint">• Profile</button></li>
-            <li><button class="subpoint">• Favourites</button></li>
-            <li><button class="subpoint">• Rewards</button></li>
-          </ul>
-        </li>
+              <li class="menu-item">
+                <a href="#">Order History</a>
+                <ul class="dropdown">
+                  <li><a href="#">Past Orders</a></li>
+                
+                </ul>
+              </li>
 
-        <li class="main toggle logout">
-          <button onclick="window.location.href='login.html';" class="subpoint">Log Out</button>
-        </li>
-      </ul>
-    </nav>
+              <li class="menu-item">
+                <a href="">Profile</a>
+                <ul class="dropdown">
+                  <li><a href="UserProfile.html">Overview</a></li>
+                  <li><a href="Analytics.html">Analytics & Reporting</a></li>
+                  <li><a href="#">Customer Feedback</a></li>
+                  <li><a href="#">Regulatory & Compliance</a></li>
+                  <li><a href="#">Favourites</a></li>
+                  <li><a href="#">Rewards</a></li>
+                </ul>
+              </li>
+
+              <li class="menu-item">
+                <a href="#">Log Out</a>
+              </li>
+
+            </ul>
+          </nav>
+
+  <!-- Right Action -->
+  <div class="nav-action">
+    <button class="reserve-btn">Reserve A Table</button>
+  </div>
+</header>
+
 
       <!-- Welcome text -->
       <section class="home">
@@ -127,7 +146,7 @@
           </div>
         </div>
       </section>
-      <nav class="mobile-nav">
+      <!-- <nav class="mobile-nav">
         <div class="mobile-nav-item active">
           <span>🏠</span>
           <small>Home</small>
@@ -143,7 +162,7 @@
           <span>👤</span>
           <small>Profile</small>
         </div>
-      </nav>
+      </nav>-->
     </section>
     <script type="module" src="Master_page_javascript.js"></script>
   </body>
