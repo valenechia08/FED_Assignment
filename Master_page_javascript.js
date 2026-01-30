@@ -241,26 +241,25 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
-
 //LOGOUT & Login
 // Check login
-document.addEventListener("DOMContentLoaded", () => {
-  const username = sessionStorage.getItem("loggedInUser");
+// document.addEventListener("DOMContentLoaded", () => {
+//   const username = sessionStorage.getItem("loggedInUser");
 
   // if (!username || !password) {
-  //   document.querySelector(".message").textContent="Please enter both username and password.";
-  // } else {
-  if (username) {
-    document.querySelector(".usernameDisplay").textContent = `${username}`; //Displays username under profile
-  }
-  // }
+   //   document.querySelector(".message").textContent="Please enter both username and password.";
+   // } else {
+//   if (username) {
+//     document.querySelector(".usernameDisplay").textContent = `${username}`; //Displays username under profile
+//   }
+   // }
 
-  // Logout
-  document.querySelector(".logout").addEventListener("click", () => {
-    sessionStorage.removeItem("loggedInUser");
-    window.location.href = "login.html";
-  });
-});
+   // Logout
+//   document.querySelector(".logout").addEventListener("click", () => {
+//     sessionStorage.removeItem("loggedInUser");
+//     window.location.href = "login.html";
+//   });
+// });
 
 //Top Navigation 
 document.querySelectorAll('.menu-item').forEach(item => {
@@ -305,9 +304,8 @@ searchInput.addEventListener("keyup", function () {
     }
   });
 });
-
 // Grab all cuisine cards
-const cuisines = document.querySelectorAll(".cuisine");
+const cuisines = document.querySelectorAll(".cuisine-card");
 
 // Grab all stall cards
 const stalls = document.querySelectorAll(".stall-card");
@@ -329,9 +327,8 @@ cuisines.forEach((cuisine) => {
       // otherwise, select this cuisine
       cuisine.classList.add("selected");
 
-      // get the cuisine class (e.g. "malay", "chinese", "indian", "other")
-      let chosenCuisine = cuisine.querySelector("span").classList[0];
-      console.log("Chosen cuisine:", chosenCuisine);
+      // get the cuisine name from the <p> tag and normalize it
+      let chosenCuisine = cuisine.querySelector("p").textContent.trim().toLowerCase();
 
       // filter stalls based on class
       stalls.forEach((stall) => {
