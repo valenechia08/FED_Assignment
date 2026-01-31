@@ -24,7 +24,7 @@ body {
 /* NAVBAR */
 .navrectangle {
   background: white;
-  margin-top: 30px;
+  margin-top: 40px;
   position: sticky;
   top: 0;
   z-index: 1000;
@@ -138,7 +138,18 @@ body {
   font-size: 35px;
   font-weight: 700;
 }
+.Banner {
+  width: 100%;          /* Container takes full width */
+  max-width: 1200px;    /* Optional: limit max width */
+  margin: 0 auto;       /* Center the banner if max-width is set */
+  margin-top:20px;
+}
 
+.Banner img {
+  width: 100%;          /* Image scales to container width */
+  height: auto;         /* Maintains aspect ratio */
+  display: block;       /* Removes inline spacing issues */
+}
 .searchBar {
   justify-self: center;
   display: flex;
