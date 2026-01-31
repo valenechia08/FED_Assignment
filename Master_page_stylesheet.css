@@ -17,14 +17,14 @@ body {
   margin: auto;
 }
 :root {
-  --primary-red: #ff2f4f;
+  --primary-orange: #FF8C3A;
   --primary-yellow: #ffd400;
   --dark-text: #111;
 }
 /* NAVBAR */
 .navrectangle {
   background: white;
-  margin-top: 40px;
+  margin-top: 25px;
   position: sticky;
   top: 0;
   z-index: 1000;
@@ -43,13 +43,20 @@ body {
   justify-self: center;
 }
 
+.Logo {
+  display: flex;
+  align-items: center;
+  height: 70px; /* fixed height to prevent nav shift */
+  overflow: hidden; /* hides any overflow from scaling */
 
+}
 
-.logo {
-  font-family: "Kodchasan", sans-serif;
-  font-size: 32px;
-  font-weight: 700;
-  color: #ff7a18;
+.Logo img {
+  height: 100%;       /* fills the container height */
+  width: auto;        /* maintains aspect ratio */
+  transform: scale(1.2); /* scales image visually */
+  transform-origin: left center; /* keeps it aligned */
+
 }
 
 
@@ -57,7 +64,7 @@ body {
 .menu {
   display: flex;
   align-items: center;
-  gap: 36px;
+  gap: 65px;
   list-style: none;
 }
 
@@ -69,14 +76,14 @@ body {
 }
 
 .menu a:hover {
-  color: var(--primary-red);
+  color: var(--primary-orange);
 }
 
 
 .reserve-btn {
-  background: var(--primary-red);
+  background: var(--primary-orange);
   color: white;
-  border: 3px solid var(--primary-red);
+  border: 3px solid var(--primary-orange);
   padding: 14px 30px;
   border-radius: 22px;
   font-weight: 800;
@@ -87,7 +94,7 @@ body {
 
 .reserve-btn:hover {
   background: white;
-  color: var(--primary-red);
+  color: var(--primary-orange);
 }
 
 .menu-item {
@@ -100,8 +107,8 @@ body {
   left: 0;
   background: var(--primary-yellow);
   border-radius: 14px;
-  min-width: 160px;
-  padding: 12px 0;
+  min-width: 140px;
+  padding: 10px 0;
   box-shadow: 0 12px 30px rgba(0,0,0,0.2);
   display: none;
 }
@@ -124,6 +131,16 @@ body {
 .menu-item:hover .dropdown {
   display: block;
 }
+
+.Nav-line {
+  border: none;
+  height: 1px;
+  background: #e0e0e0;
+  margin-top:40px;
+  margin-bottom: 18px;
+}
+
+/* nav ends here */
 
 /* HOME */
 .home {
@@ -181,7 +198,7 @@ body {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 30px;
-  margin-bottom: 15px;
+  margin-bottom: 24px;
 }
 
 .cuisine-card {
@@ -205,23 +222,26 @@ body {
 }
 /* Selected state */
 .cuisine-card.selected img {
-  box-shadow: 0 0 12px rgba(255, 47, 79, 0.6); /* highlight with glow */
+  box-shadow: 0 0 12px #ff7a18; /* highlight with glow */
   transform: scale(1.02); /* optional subtle effect, doesn’t affect text */
 }
 
 .cuisine-card.selected p {
-  color: var(--primary-red);
+  color: var(--primary-orange);
 }
 
 
 /* DIVIDER */
-hr {
+
+.Content-line{
   border: none;
   height: 1px;
   background: #e0e0e0;
-  margin-top:24px;
-  margin-bottom: 18px;
+  margin-top:30px;
+  margin-bottom: 30px;
 }
+
+
 
 /* STALL GRID */
 .stall-grid {
@@ -306,7 +326,7 @@ body {
 }
 
 :root {
-  --primary-red: #ff2f4f;
+  --primary-orange:#ff7a18;
   --primary-yellow: #ffd400;
   --dark-text: #111;
 }
@@ -357,17 +377,18 @@ body {
   text-decoration: none;
   font-weight: 800;
   font-size: 15px;
+  padding-top:8px;
   color: #111;
 }
 
 .menu a:hover {
-  color: var(--primary-red);
+  color: var(--primary-orange);
 }
 
 .reserve-btn {
-  background: var(--primary-red);
+  background: var(--primary-orange);
   color: white;
-  border: 3px solid var(--primary-red);
+  border: 3px solid var(--primary-orange);
   padding: 10px 24px; /* Slightly tighter padding */
   border-radius: 22px;
   font-weight: 800;

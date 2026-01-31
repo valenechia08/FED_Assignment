@@ -307,28 +307,42 @@ document.addEventListener("DOMContentLoaded", () => {
   // if (!username || !password) {
   //   document.querySelector(".message").textContent="Please enter both username and password.";
   // } else {
-  if (username) {
-    document.querySelector(".usernameDisplay").textContent = `${username}`; //Displays username under profile
-  }
-  // }
+//   if (username) {
+//     document.querySelector(".usernameDisplay").textContent = `${username}`; //Displays username under profile
+//   }
+//   // }
 
-  // Logout
-  document.querySelector(".logout").addEventListener("click", () => {
-    sessionStorage.removeItem("loggedInUser");
-    window.location.href = "login.html";
-  });
-});
+//   // Logout
+//   document.querySelector(".logout").addEventListener("click", () => {
+//     sessionStorage.removeItem("loggedInUser");
+//     window.location.href = "login.html";
+//   });
+// });
 
 //Top Navigation
+// Top Navigation
 document.querySelectorAll(".menu-item").forEach((item) => {
-  item.addEventListener("click", (e) => {
-    const dropdown = item.querySelector(".dropdown");
-    if (dropdown) {
-      e.preventDefault();
+  const mainLink = item.querySelector("a");       // main menu link
+  const dropdown = item.querySelector(".dropdown");
+
+  // Toggle dropdown when clicking the main menu link
+  if (mainLink && dropdown) {
+    mainLink.addEventListener("click", (e) => {
+      e.preventDefault(); // prevent navigation for main menu
       dropdown.style.display =
         dropdown.style.display === "block" ? "none" : "block";
-    }
-  });
+    });
+  }
+
+  // Allow submenu links to navigate normally
+  if (dropdown) {
+    dropdown.querySelectorAll("a").forEach((subLink) => {
+      subLink.addEventListener("click", () => {
+        // no preventDefault here → browser navigates to href
+        dropdown.style.display = "none"; // optional: close dropdown after click
+      });
+    });
+  }
 });
 
 /*Mobile Navigation*/
@@ -398,3 +412,4 @@ cuisines.forEach((cuisine) => {
     }
   });
 });
+}
