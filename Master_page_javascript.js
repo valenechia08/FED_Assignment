@@ -182,24 +182,82 @@ async function loginMember() {
   }
 }
 
+// async function retrieveAccount() {
+//   const username = normalizeUsername($("username")?.value ?? "");
+//   const continueButton = $("continueBtn");
+
+//   if (!username) {
+//     showMessage("Please enter your username.");
+//     return;
+//   }
+//   try {
+//     const memberRef = ref(db, `members/${username}`);
+//     const snap = await get(memberRef);
+
+//     if (!snap.exists()) {
+//       showMessage("User not found", "red");
+//       return;
+//     } else {
+//       sessionStorage.setItem("currentInUser", username);
+//       window.location.href = "ConfirmAccount.html";
+//     }
+//   } catch (err) {
+//     console.error(err);
+//     showMessage(`Login failed: ${err?.message ?? "Unknown error"}`, "red");
+//   }
+// }
+
 async function retrieveAccount() {
   const username = normalizeUsername($("username")?.value ?? "");
-  const continueButton = $("continueBtn");
+  const snapshot = await get(ref(db, `members/${username}`));
 
-  if (!username) {
-    showMessage("Please enter your username.");
-    return;
+  if (!snapshot.exists()) {
+    showMessage("Account not found", "red");
+  } else if (!username) {
+    showMessage("Please enter a username", "red");
   } else {
-    const memberRef = ref(db, `members/${username}`);
-
-    const snap = await get(memberRef);
-    if (snap.exists()) {
-      sessionStorage.setItem("currentUser", username);
-      window.location.href = "ConfirmAccount.html";
-      return;
-    }
+    window.location.href = "ConfirmAccount.html";
   }
 }
+function generateCode() {
+  let generatedCode = Math.floor(100000 + Math.random() * 900000).toString();
+
+  // Fake alert (what you asked for)
+  alert(`Your verification code is: ${generatedCode}`);
+  return generatedCode;
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  let finalCode = null;
+  if (window.location.pathname.endsWith("ConfirmAccount.html")) {
+    // Generate code on page load
+    finalCode = generateCode();
+  }
+  document.querySelector(".backBtn").addEventListener("click", () => {
+    window.location.href = "ChangePassword.html";
+  });
+
+  // Resend button
+  document.getElementById("resendBtn").addEventListener("click", () => {
+    finalCode = generateCode();
+  });
+
+  // Verify OTP
+  document.getElementById("primaryBtn").addEventListener("click", () => {
+    const userCode = document.getElementById("code").value.trim();
+
+    if (!userCode) {
+      showMessage("Please enter the code.", "red");
+      return;
+    }
+
+    if (userCode === finalCode) {
+      showMessage("✅ Verification successful!", "green");
+    } else {
+      showMessage("❌ Invalid code. Try again.", "red");
+    }
+  });
+});
 
 /* =========================
    AUTO-BIND EVENTS (based on page)
@@ -247,32 +305,31 @@ document.addEventListener("DOMContentLoaded", () => {
 //   const username = sessionStorage.getItem("loggedInUser");
 
   // if (!username || !password) {
-   //   document.querySelector(".message").textContent="Please enter both username and password.";
-   // } else {
-//   if (username) {
-//     document.querySelector(".usernameDisplay").textContent = `${username}`; //Displays username under profile
-//   }
-   // }
+  //   document.querySelector(".message").textContent="Please enter both username and password.";
+  // } else {
+  if (username) {
+    document.querySelector(".usernameDisplay").textContent = `${username}`; //Displays username under profile
+  }
+  // }
 
-   // Logout
-//   document.querySelector(".logout").addEventListener("click", () => {
-//     sessionStorage.removeItem("loggedInUser");
-//     window.location.href = "login.html";
-//   });
-// });
-
-//Top Navigation 
-document.querySelectorAll('.menu-item').forEach(item => {
-    item.addEventListener('click', e => {
-      const dropdown = item.querySelector('.dropdown');
-      if (dropdown) {
-        e.preventDefault();
-        dropdown.style.display =
-          dropdown.style.display === 'block' ? 'none' : 'block';
-      }
-    });
+  // Logout
+  document.querySelector(".logout").addEventListener("click", () => {
+    sessionStorage.removeItem("loggedInUser");
+    window.location.href = "login.html";
   });
+});
 
+//Top Navigation
+document.querySelectorAll(".menu-item").forEach((item) => {
+  item.addEventListener("click", (e) => {
+    const dropdown = item.querySelector(".dropdown");
+    if (dropdown) {
+      e.preventDefault();
+      dropdown.style.display =
+        dropdown.style.display === "block" ? "none" : "block";
+    }
+  });
+});
 
 /*Mobile Navigation*/
 document.querySelectorAll(".mobile-nav-item").forEach((item) => {
@@ -287,11 +344,10 @@ document.querySelectorAll(".mobile-nav-item").forEach((item) => {
 /*Search Bar to search up stalls*/
 const searchInput = document.querySelector(".search-input");
 const stallCards = document.querySelectorAll(".stall-card");
-
+if (searchInput){
 // Listen for typing
 searchInput.addEventListener("keyup", function () {
   const query = this.value.toLowerCase();
-
   stallCards.forEach((card) => {
     const name = card.querySelector("h4").textContent.toLowerCase();
     const info = card.querySelector("p").textContent.toLowerCase();
@@ -304,6 +360,7 @@ searchInput.addEventListener("keyup", function () {
     }
   });
 });
+
 // Grab all cuisine cards
 const cuisines = document.querySelectorAll(".cuisine-card");
 

@@ -48,7 +48,12 @@
           </ul>
         </li>
 
-        <nav class="mobile-nav vendornav">
+        <li class="main toggle logout">
+          <button onclick="window.location.href='login.html';" class="subpoint">Log Out</button>
+        </li>
+      </ul>
+    </nav>
+            <nav class="mobile-nav vendornav">
         <div class="mobile-nav-item active" data-link="PerformanceDashboard.html">
           <span>🏠</span>
           <small>Home</small>
@@ -64,13 +69,6 @@
           <small>Profile</small>
         </div>
       </nav>
-
-        <li class="main toggle logout">
-          <button onclick="window.location.href='login.html';" class="subpoint">Log Out</button>
-        </li>
-      </ul>
-    </nav>
-
 
 
 
@@ -155,15 +153,45 @@
 
     </section>
   </main>
-  <script>document.querySelectorAll('.title-row').forEach(item => {
-  item.addEventListener('mouseenter', () => {
-    item.querySelector('.arrow img').src = "images/orangedown.png";
+  <script>
+  document.querySelectorAll('.title-row').forEach(item => {
+    item.addEventListener('mouseenter', () => {
+      item.querySelector('.arrow img').src = "images/orangedown.png";
+    });
+    item.addEventListener('mouseleave', () => {
+      item.querySelector('.arrow img').src = "images/down.png";
+    });
   });
-  item.addEventListener('mouseleave', () => {
-    item.querySelector('.arrow img').src = "images/down.png";
+
+//Navigation Dropdown
+document.querySelectorAll('.main.toggle').forEach(mainItem => {
+    const submenu = mainItem.querySelector('.submenu');
+    const arrow = mainItem.querySelector('.arrow');
+    const title = mainItem.querySelector('.title-row, .profile-title');
+
+    if (!submenu || !title) return;
+
+    title.addEventListener('click', (e) => {
+      e.stopPropagation();
+
+      const isOpen = mainItem.classList.contains('active');
+
+      // Close all others
+      document.querySelectorAll('.main.toggle').forEach(item => {
+        item.classList.remove('active');
+        const sm = item.querySelector('.submenu');
+        if (sm) sm.style.display = 'none';
+      });
+
+      // Toggle current
+      if (!isOpen) {
+        mainItem.classList.add('active');
+        submenu.style.display = 'block';
+      }
+    });
   });
-});
-</script>
+
+  </script>
     <script type="module" src="Master_page_javascript.js"></script>
   </body>
 </html>
