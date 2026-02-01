@@ -307,15 +307,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Find account page
-  // if ($("continueBtn")) {
-  //   $("continueBtn").addEventListener("click", () => {
-  //     const username = await retrieveAccount();
-  //     if (username) {
-  //       // redirect only if username exists
-  //       window.location.href = "ConfirmAccount.html";
-  //     }
-  //   });
-  // }
   if ($("continueBtn")) {
     $("continueBtn").addEventListener("click", retrieveAccount);
   }
@@ -324,7 +315,7 @@ document.addEventListener("DOMContentLoaded", () => {
     $("resetPasswordBtn").addEventListener("click", resetPassword);
 
     document.querySelector(".secondBackBtn").addEventListener("click", () => {
-      window.location.href = "login.html";
+      window.location.href = "FindAccount.html";
     });
 
     // Optional: allow Enter key to submit on login page
