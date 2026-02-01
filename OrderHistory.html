@@ -6,129 +6,398 @@
   <title>ShiokLah Dashboard</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Kodchasan:wght@400;600;700&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&family=Open+Sans:wght@300..800&family=Roboto:wght@100..900&display=swap" rel="stylesheet"/>
   <style>
-    :root {
-      --primary: #FF7A18;
-      --primary-hover: #FF8C3A;
-      --bg: #f5f6fa;
-      --card: #ffffff;
-      --text-dark: #333;
-      --muted: #777;
-      --shadow: 0 6px 20px rgba(0,0,0,0.08);
-      --radius: 14px;
-    }
-
     * {
       box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
     body {
-      margin: 0;
-      font-family: system-ui, Arial, sans-serif;
-      background: var(--bg);
-      color: var(--text-dark);
+      font-family: "Open Sans", sans-serif;
+      background: #fff;
+      color: #222;
     }
 
-    /* ================= LAYOUT ================= */
+    /* CONTAINER */
     .container {
-      display: flex;
-      min-height: 100vh;
+      width: 90%;
+      max-width: 1200px;
+      margin: auto;
     }
-
-    /* ================= SIDEBAR ================= */
-    /* SIDEBAR */
+    :root {
+      --primary-orange: #FF8C3A;
+      --primary-yellow: #ffd400;
+      --dark-text: #111;
+    }
+    /* NAVBAR */
     .navrectangle {
-      background-color: #ffffff;
-      width: 220px;
-      min-height: 100vh;
-      border-right: 1px solid #eee;
-      flex-shrink: 0;
+      background: white;
+      margin-top: 25px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
     }
 
-    /* Brand */
-    .navrectangle header {
-      font-size: 32px;
-      color: #FF7A18;
+
+    .top-nav {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      height: 40px;
+      gap: 40px;
+
+    }
+    .top-nav > nav {
+      justify-self: center;
+    }
+
+    .Logo {
+      display: flex;
+      align-items: center;
+      height: 70px; /* fixed height to prevent nav shift */
+      overflow: hidden; /* hides any overflow from scaling */
+
+    }
+
+    .Logo img {
+      height: 100%;       /* fills the container height */
+      width: auto;        /* maintains aspect ratio */
+      transform: scale(1.2); /* scales image visually */
+      transform-origin: left center; /* keeps it aligned */
+
+    }
+
+
+
+    .menu {
+      display: flex;
+      align-items: center;
+      gap: 65px;
+      list-style: none;
+    }
+
+    .menu a {
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 15px;
+      color: #111;
+    }
+
+    .menu a:hover {
+      color: var(--primary-orange);
+    }
+
+
+    .reserve-btn {
+      background: var(--primary-orange);
+      color: white;
+      border: 3px solid var(--primary-orange);
+      padding: 14px 30px;
+      border-radius: 22px;
+      font-weight: 800;
+      font-size: 15px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .reserve-btn:hover {
+      background: white;
+      color: var(--primary-orange);
+    }
+
+    .menu-item {
+      position: relative;
+    }
+    
+
+    .dropdown {
+      position: absolute;
+      top: 130%;
+      left: 0;
+      background: var(--primary-yellow);
+      border-radius: 14px;
+      min-width: 140px;
+      padding: 10px 0;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+      display: none;
+    }
+
+    .dropdown li {
+      list-style: none;
+    }
+
+    .dropdown a {
+      display: block;
+      padding: 10px 18px;
+      font-weight: 700;
+      color: #111;
+    }
+
+    .dropdown a:hover {
+      background: rgba(0,0,0,0.08);
+    }
+
+    .menu-item:hover .dropdown {
+      display: block;
+    }
+    
+    .Nav-line {
+      border: none;
+      height: 1px;
+      background: #e0e0e0;
+      margin-top:40px;
+      margin-bottom: 10px;
+    }
+    /* end of nav */
+
+    /* content */
+    .order-box {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 80px 60px;
+      background: #fff8f0;
+      border: 2px dashed #ff8c3a;
+      border-radius: 18px;
+      text-align: center;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+    }
+
+    .order-box h2 {
+      font-size: 28px;
+      font-weight: 700;
+      color: #ff7a18;
+      margin-bottom: 12px;
+      font-family: "Montserrat", sans-serif;
+    }
+
+    .order-box p {
+      font-size: 16px;
+      color: #444;
+      margin-bottom: 24px;
+      font-family: "Open Sans", sans-serif;
+    }
+
+    .order-box a {
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 15px;
+      color: white;
+    }
+    .order-btn {
+      display: inline-block;
+      margin: 20px auto 0;
+      background: #ff8c3a;
+      color: #fff;
+      text-decoration: none;
+      padding: 12px 40px;
+      font-size: 15px;
+      font-weight: 700;
+      border-radius: 999px;
+      transition: background 0.3s ease, transform 0.2s ease; /* enables animation */
+    }
+
+    .order-btn:hover {
+      background: #e6762f;
+      transform: scale(1.05); /* hover animation */
+    }
+
+
+    .teaser {
+      margin: 20px 0;
+      text-align: center;
+    }
+
+    .teaser img {
+      width: 120px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .teaser img:hover {
+      transform: scale(1.05);
+    }
+
+    .teaser p {
+      font-size: 14px;
+      color: #555;
+      margin-top: 8px;
       font-style: italic;
-      font-family: 'Kodchasan', Arial, sans-serif;
-      padding: 50px 20px 30px;
     }
 
-    /* NAV TEXT */
-    .navBar {
+    .filter-box {
+      margin: 15px auto;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    .filter-box input {
+      width: 100%;
+      padding: 10px 14px;
+      border: 2px solid #ff8c3a;
+      border-radius: 8px;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.3s ease;
+    }
+
+    .filter-box input:focus {
+      border-color: #e6762f;
+    }
+    .order-list {
       list-style: none;
       padding: 0;
-      margin: 0;
-      font-family: system-ui, Arial, sans-serif;
+      margin: 20px auto;
+      max-width: 500px;
     }
 
-    /* MAIN MENU ITEM */
-    .title-row,
-    .profile-title,
-    .logout button {
-      color: #333;
-      padding: 16px 20px;
+    .order-list li {
+      margin-bottom: 12px;
+    }
+
+    .order-card {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      background: #fff;
+      border: 1px solid #eee;
+      border-radius: 12px;
+      padding: 12px 18px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .order-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 14px rgba(0,0,0,0.1);
+    }
+
+    .order-card .dish {
       font-weight: 600;
-      cursor: pointer;
-      transition: color 0.2s ease, background 0.2s ease;
+      font-size: 15px;
+      color: #333;
     }
 
-    /* HOVER */
-    .title-row:hover,
-    .profile-title:hover,
-    .logout button:hover {
-      color: #FF7A18;
-      background: rgba(255, 122, 24, 0.08);
-      border-radius: 8px;
+    .order-card .date {
+      font-size: 13px;
+      color: #777;
+      font-style: italic;
     }
 
-    /* ACTIVE / OPEN STATE */
-    .main.active > .title-row,
-    .main.active > .profile-title {
-      color: #FF7A18;
+    /* responsive */
+    @media (max-width: 576px) {
+    .order-box {
+      margin: 40px 20px;
+      padding: 30px 20px;
     }
 
-    /* ARROW */
-    .arrow {
-      transition: transform 0.25s ease;
+    .order-box h2 {
+      font-size: 22px;
+    }
+
+    .order-box p {
+      font-size: 14px;
+    }
+    .order-box .tagline {
+      display: block;        /* ensures tagline is on its own line */
+      margin-bottom: 20px;   /* space before button */
+      font-size: 14px;
+      color: #888;
+      font-style: italic;
+    }
+
+    .order-box button {
+      padding: 12px 24px;
+      font-size: 14px;
+      display: block;        /* forces button onto its own line */
+      margin: 0 auto;        /* optional: centers the button */
+
+    }
+  }
+
+  /* Shared order-box responsiveness */
+  @media (max-width: 768px) {
+    .order-box {
+      margin: 30px 15px;
+      padding: 40px 25px;
+    }
+
+    .order-box h2 {
+      font-size: 24px;
+    }
+
+    .order-box p {
       font-size: 14px;
     }
 
-    /* Rotate arrow when open */
-    .main.active .arrow {
-      transform: rotate(180deg);
+    .order-box .tagline {
+      font-size: 13px;
     }
 
-    /* SUBMENU */
-    .submenu {
-      display: none;
-      list-style: none;
+    .order-btn {
+      padding: 10px 28px;
+      font-size: 14px;
+    }
+
+    .teaser img {
+      width: 100px;
+    }
+
+    ul {
+      max-width: 100%;
+    }
+  }
+
+  /* Extra small devices (phones < 576px) */
+  @media (max-width: 576px) {
+    .order-box {
+      margin: 20px 10px;
+      padding: 25px 15px;
+    }
+
+    .order-box h2 {
+      font-size: 20px;
+    }
+
+    .order-box p {
+      font-size: 13px;
+    }
+
+    .order-box .tagline {
+      display: block;
+      margin-bottom: 15px;
+      font-size: 12px;
+      color: #777;
+    }
+
+    .order-btn {
+      display: block;
+      margin: 0 auto;
+      padding: 10px 20px;
+      font-size: 13px;
+    }
+
+    .teaser img {
+      width: 80px;
+    }
+
+    .teaser p {
+      font-size: 12px;
+    }
+
+    ul {
       padding: 0;
-      margin: 0;
+      margin: 15px auto;
     }
 
-    /* SUBMENU ITEMS */
-    .subpoint {
-      width: 100%;
-      padding: 12px 45px;
-      background: none;
-      border: none;
-      text-align: left;
-      font-size: 15px;
-      cursor: pointer;
-      color: #555;
-      transition: color 0.2s ease, background 0.2s ease;
+    ul li {
+      font-size: 13px;
+      padding: 8px;
     }
-
-    /* SUBMENU HOVER */
-    .subpoint:hover {
-      color: #FF7A18;
-      background: rgba(255, 122, 24, 0.08);
-    }
+  }
 
   </style>
 </head>
@@ -136,56 +405,159 @@
 <body>
   <section class="container">
 
-    <!-- SIDEBAR -->
-    <nav class="navrectangle">
-      <header>ShiokLah!</header>
+    <!-- Navigation -->
+    <main class="container">
+      <nav class="navrectangle">
+        <header class="top-nav">
+          <!-- Logo -->
+          <div class="Logo">
+            <img src="/images/ShiokLah(cropped).jpeg" alt="Logo" />
+          </div>
 
-      <ul class="navBar">
-        <li class="main toggle">
-          <div class="title-row">🏠 Home <span>v</span></div>
-          <ul class="submenu">
-            <li><button class="subpoint">Start Order</button></li>
-          </ul>
-        </li>
+          <!-- Main Menu -->
+          <nav>
+            <ul class="menu">
+              <li class="menu-item">
+                <a href="#">Home</a>
+                <ul class="dropdown">
+                  <li><a href="#">Start Order</a></li>
+                </ul>
+              </li>
 
-        <li class="main toggle">
-          <div class="title-row">📄 Order History <span>v</span></div>
-          <ul class="submenu">
-            <li><button class="subpoint">Past Orders</button></li>
-          </ul>
-        </li>
+              <li class="menu-item">
+                <a href="#">Order History</a>
+                <ul class="dropdown">
+                  <li><a href="OrderHistory.html">Past Orders</a></li>
+                </ul>
+              </li>
 
-        <li class="main toggle">
-          <div class="profile-title">👤 Profile <span>v</span></div>
-          <ul class="submenu">
-            <li><button class="subpoint">Profile</button></li>
-            <li><button class="subpoint">Favourites</button></li>
-            <li><button class="subpoint">Rewards</button></li>
-          </ul>
-        </li>
+              <li class="menu-item">
+                <a href="#">Profile</a>
+                <ul class="dropdown">
+                  <li><a href="UserProfile.html">Overview</a></li>
+                  <li><a href="Analytics.html">Analytics & Reporting</a></li>
+                  <li><a href="#">Customer Feedback</a></li>
+                  <li><a href="#">Regulatory & Compliance</a></li>
+                  <li><a href="#">Favourites</a></li>
+                  <li><a href="#">Rewards</a></li>
+                </ul>
+              </li>
 
-        <li class="logout">
-          <button>Log Out</button>
-        </li>
-      </ul>
-    </nav>
-
+              <li class="menu-item">
+                <a href="login.html">Log Out</a>
+              </li>
+            </ul>
+          </nav>
+          <!-- Right Action -->
+          <div class="nav-action">
+            <button class="reserve-btn">Reserve A Table</button>
+          </div>
+        </header>
+      </nav>
+      <hr class="Nav-line" />
     <!-- MAIN -->
     <main class="main-content">
-
-      
-
-      
-
-      <!-- ORDER HISTORY -->
-      <div class="order-box">
+      <!-- FIRST TIME REGISTERED USER -->
+      <div class="order-box first-time">
         <h2>🛒 No orders yet</h2>
         <p>Place your first order to see it here.</p>
-        <button>Start Ordering</button>
+
+        <div class="teaser">
+          <img src="images/Malay Cuisine Picture.jpg" alt="Teaser Dish" />
+          <p>Try our bestselling Nasi Lemak today!</p>
+        </div>
+
+        <small class="tagline">Your hawker favourites are just a click away!</small>
+        <br/>
+        <a href="FED_ASG.html" class="order-btn">Start Ordering</a>
       </div>
 
+      <!-- GUEST USER -->
+      <div class="order-box guest">
+        <h2>👤 Guest User</h2>
+        <p>You’re browsing as a guest. Sign up or log in to start ordering and track your history.</p>
+
+        <div class="teaser">
+          <img src="images/Chinese Cuisine Picture.jpg" alt="Guest Teaser" />
+          <p>Join ShiokLah to unlock rewards!</p>
+        </div>
+
+        <small class="tagline">Create an account to enjoy hawker favourites anytime.</small>
+        <br/>
+        <a href="login.html" class="order-btn">Sign Up / Log In</a>
+      </div>
+
+      <!-- REGISTERED USER WITH MULTIPLE ORDERS -->
+      <div class="order-box registered">
+        <h2>📦 Your Order History</h2>
+        <p>Here are your recent orders:</p>
+        
+        
+        <!-- Filter Box -->
+        <div class="filter-box">
+          <input type="text" id="orderFilter" placeholder="Filter orders by dish or date..." />
+        </div>
+
+        <!-- Order History List -->
+        <ul id="orderList" class="order-list">
+          <li>
+            <div class="order-card">
+              <span class="dish">🍲 Nasi Lemak</span>
+              <span class="date">Jan 20, 2026</span>
+            </div>
+          </li>
+          <li>
+            <div class="order-card">
+              <span class="dish">🥟 Chicken Satay</span>
+              <span class="date">Jan 25, 2026</span>
+            </div>
+          </li>
+          <li>
+            <div class="order-card">
+              <span class="dish">🍜 Laksa</span>
+              <span class="date">Jan 28, 2026</span>
+            </div>
+          </li>
+          <li>
+            <div class="order-card">
+              <span class="dish">🍛 Beef Rendang</span>
+              <span class="date">Feb 2, 2026</span>
+            </div>
+          </li>
+          <li>
+            <div class="order-card">
+              <span class="dish">🥠 Hainanese Chicken Rice</span>
+              <span class="date">Feb 5, 2026</span>
+            </div>
+          </li>
+          <li>
+            <div class="order-card">
+              <span class="dish">🍤 Char Kway Teow</span>
+              <span class="date">Feb 10, 2026</span>
+            </div>
+          </li>
+          <li>
+            <div class="order-card">
+              <span class="dish">🥬 Vegetarian Mee Goreng</span>
+              <span class="date">Feb 12, 2026</span>
+            </div>
+          </li>
+          <li>
+            <div class="order-card">
+              <span class="dish">🍹 Teh Tarik</span>
+              <span class="date">Feb 15, 2026</span>
+            </div>
+          </li>
+        </ul>
+
+
+
+        <small class="tagline">Keep enjoying your favourites – we’ll save them here!</small>
+        <br/>
+        <a href="FED_ASG.html" class="order-btn">Order Again</a>
+      </div>
     </main>
-  </section>
+
 
   <script>
     document.querySelectorAll('.main.toggle').forEach(mainItem => {
@@ -214,6 +586,60 @@
       }
     });
   });
+
+  // Simulated user type (for demo purposes)
+  // Change this value to "guest", "firstTime", or "registered"
+  const userType = "registered";  
+
+  // Grab all sections
+  const firstTimeBox = document.querySelector(".order-box.first-time");
+  const guestBox = document.querySelector(".order-box.guest");
+  const registeredBox = document.querySelector(".order-box.registered");
+
+  // Hide all by default
+  [firstTimeBox, guestBox, registeredBox].forEach(box => {
+    if (box) box.style.display = "none";
+  });
+
+  // Show the correct one
+  if (userType === "guest" && guestBox) {
+    guestBox.style.display = "block";
+  } else if (userType === "firstTime" && firstTimeBox) {
+    firstTimeBox.style.display = "block";
+  } else if (userType === "registered" && registeredBox) {
+    registeredBox.style.display = "block";
+  }
+
+  // Optional: add animation when showing
+  const visibleBox = document.querySelector(".order-box[style*='block']");
+  if (visibleBox) {
+    visibleBox.style.opacity = 0;
+    setTimeout(() => {
+      visibleBox.style.transition = "opacity 0.5s ease";
+      visibleBox.style.opacity = 1;
+    }, 50);
+  }
+
+
+   // Filter functionality
+  const filterInput = document.getElementById("orderFilter");
+  const orderList = document.getElementById("orderList");
+  const orders = orderList.getElementsByTagName("li");
+
+  filterInput.addEventListener("keyup", function() {
+    const filterValue = filterInput.value.toLowerCase();
+
+    for (let i = 0; i < orders.length; i++) {
+      const orderText = orders[i].textContent.toLowerCase();
+      if (orderText.includes(filterValue)) {
+        orders[i].style.display = "";
+      } else {
+        orders[i].style.display = "none";
+      }
+    }
+  });
+
+
   </script>
 </body>
 </html>

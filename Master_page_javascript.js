@@ -349,40 +349,50 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 });
-
 //LOGOUT & Login
 // Check login
-document.addEventListener("DOMContentLoaded", () => {
-  const username = sessionStorage.getItem("loggedInUser");
+// document.addEventListener("DOMContentLoaded", () => {
+//   const username = sessionStorage.getItem("loggedInUser");
 
-  // if (!username || !password) {
-  //   document.querySelector(".message").textContent="Please enter both username and password.";
-  // } else {
-  // if (username) {
-  //   document.querySelector(".usernameDisplay").textContent = `${username}`; //Displays username under profile
-  // }
-  // }
+// if (!username || !password) {
+//   document.querySelector(".message").textContent="Please enter both username and password.";
+// } else {
+//   if (username) {
+//     document.querySelector(".usernameDisplay").textContent = `${username}`; //Displays username under profile
+//   }
+//   // }
 
-  // Logout
-  const logoutBtn = document.querySelector(".logout");
-  if (logoutBtn) {
-    logoutBtn.addEventListener("click", () => {
-      sessionStorage.removeItem("loggedInUser");
-      window.location.href = "login.html";
-    });
-  }
-});
+//   // Logout
+//   document.querySelector(".logout").addEventListener("click", () => {
+//     sessionStorage.removeItem("loggedInUser");
+//     window.location.href = "login.html";
+//   });
+// });
 
 //Top Navigation
+// Top Navigation
 document.querySelectorAll(".menu-item").forEach((item) => {
-  item.addEventListener("click", (e) => {
-    const dropdown = item.querySelector(".dropdown");
-    if (dropdown) {
-      e.preventDefault();
+  const mainLink = item.querySelector("a"); // main menu link
+  const dropdown = item.querySelector(".dropdown");
+
+  // Toggle dropdown when clicking the main menu link
+  if (mainLink && dropdown) {
+    mainLink.addEventListener("click", (e) => {
+      e.preventDefault(); // prevent navigation for main menu
       dropdown.style.display =
         dropdown.style.display === "block" ? "none" : "block";
-    }
-  });
+    });
+  }
+
+  // Allow submenu links to navigate normally
+  if (dropdown) {
+    dropdown.querySelectorAll("a").forEach((subLink) => {
+      subLink.addEventListener("click", () => {
+        // no preventDefault here → browser navigates to href
+        dropdown.style.display = "none"; // optional: close dropdown after click
+      });
+    });
+  }
 });
 
 /*Mobile Navigation*/
@@ -414,43 +424,45 @@ if (searchInput) {
       }
     });
   });
-}
 
-// Grab all cuisine cards
-const cuisines = document.querySelectorAll(".cuisine");
+  // Grab all cuisine cards
+  const cuisines = document.querySelectorAll(".cuisine-card");
 
-// Grab all stall cards
-const stalls = document.querySelectorAll(".stall-card");
+  // Grab all stall cards
+  const stalls = document.querySelectorAll(".stall-card");
 
-cuisines.forEach((cuisine) => {
-  cuisine.addEventListener("click", () => {
-    // check if this cuisine is already selected
-    const isSelected = cuisine.classList.contains("selected");
+  cuisines.forEach((cuisine) => {
+    cuisine.addEventListener("click", () => {
+      // check if this cuisine is already selected
+      const isSelected = cuisine.classList.contains("selected");
 
-    // remove 'selected' from all cuisines
-    cuisines.forEach((c) => c.classList.remove("selected"));
+      // remove 'selected' from all cuisines
+      cuisines.forEach((c) => c.classList.remove("selected"));
 
-    if (isSelected) {
-      // if clicked again, deselect and show all stalls
-      stalls.forEach((stall) => {
-        stall.style.display = "flex";
-      });
-    } else {
-      // otherwise, select this cuisine
-      cuisine.classList.add("selected");
+      if (isSelected) {
+        // if clicked again, deselect and show all stalls
+        stalls.forEach((stall) => {
+          stall.style.display = "flex";
+        });
+      } else {
+        // otherwise, select this cuisine
+        cuisine.classList.add("selected");
 
-      // get the cuisine class (e.g. "malay", "chinese", "indian", "other")
-      let chosenCuisine = cuisine.querySelector("span").classList[0];
-      console.log("Chosen cuisine:", chosenCuisine);
+        // get the cuisine name from the <p> tag and normalize it
+        let chosenCuisine = cuisine
+          .querySelector("p")
+          .textContent.trim()
+          .toLowerCase();
 
-      // filter stalls based on class
-      stalls.forEach((stall) => {
-        if (stall.classList.contains(chosenCuisine)) {
-          stall.style.display = "flex"; // show matching stalls
-        } else {
-          stall.style.display = "none"; // hide non-matching stalls
-        }
-      });
-    }
+        // filter stalls based on class
+        stalls.forEach((stall) => {
+          if (stall.classList.contains(chosenCuisine)) {
+            stall.style.display = "flex"; // show matching stalls
+          } else {
+            stall.style.display = "none"; // hide non-matching stalls
+          }
+        });
+      }
+    });
   });
-});
+}
