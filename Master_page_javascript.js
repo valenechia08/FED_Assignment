@@ -315,7 +315,7 @@ document.addEventListener("DOMContentLoaded", () => {
     $("resetPasswordBtn").addEventListener("click", resetPassword);
 
     document.querySelector(".secondBackBtn").addEventListener("click", () => {
-      window.location.href = "FindAccount.html";
+      window.location.href = "login.html";
     });
 
     // Optional: allow Enter key to submit on login page
