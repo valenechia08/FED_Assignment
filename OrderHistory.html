@@ -227,6 +227,66 @@
       margin-top: 8px;
       font-style: italic;
     }
+
+    .filter-box {
+      margin: 15px auto;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    .filter-box input {
+      width: 100%;
+      padding: 10px 14px;
+      border: 2px solid #ff8c3a;
+      border-radius: 8px;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.3s ease;
+    }
+
+    .filter-box input:focus {
+      border-color: #e6762f;
+    }
+    .order-list {
+      list-style: none;
+      padding: 0;
+      margin: 20px auto;
+      max-width: 500px;
+    }
+
+    .order-list li {
+      margin-bottom: 12px;
+    }
+
+    .order-card {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #fff;
+      border: 1px solid #eee;
+      border-radius: 12px;
+      padding: 12px 18px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .order-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 14px rgba(0,0,0,0.1);
+    }
+
+    .order-card .dish {
+      font-weight: 600;
+      font-size: 15px;
+      color: #333;
+    }
+
+    .order-card .date {
+      font-size: 13px;
+      color: #777;
+      font-style: italic;
+    }
+
     /* responsive */
     @media (max-width: 576px) {
     .order-box {
@@ -255,6 +315,87 @@
       display: block;        /* forces button onto its own line */
       margin: 0 auto;        /* optional: centers the button */
 
+    }
+  }
+
+  /* Shared order-box responsiveness */
+  @media (max-width: 768px) {
+    .order-box {
+      margin: 30px 15px;
+      padding: 40px 25px;
+    }
+
+    .order-box h2 {
+      font-size: 24px;
+    }
+
+    .order-box p {
+      font-size: 14px;
+    }
+
+    .order-box .tagline {
+      font-size: 13px;
+    }
+
+    .order-btn {
+      padding: 10px 28px;
+      font-size: 14px;
+    }
+
+    .teaser img {
+      width: 100px;
+    }
+
+    ul {
+      max-width: 100%;
+    }
+  }
+
+  /* Extra small devices (phones < 576px) */
+  @media (max-width: 576px) {
+    .order-box {
+      margin: 20px 10px;
+      padding: 25px 15px;
+    }
+
+    .order-box h2 {
+      font-size: 20px;
+    }
+
+    .order-box p {
+      font-size: 13px;
+    }
+
+    .order-box .tagline {
+      display: block;
+      margin-bottom: 15px;
+      font-size: 12px;
+      color: #777;
+    }
+
+    .order-btn {
+      display: block;
+      margin: 0 auto;
+      padding: 10px 20px;
+      font-size: 13px;
+    }
+
+    .teaser img {
+      width: 80px;
+    }
+
+    .teaser p {
+      font-size: 12px;
+    }
+
+    ul {
+      padding: 0;
+      margin: 15px auto;
+    }
+
+    ul li {
+      font-size: 13px;
+      padding: 8px;
     }
   }
 
@@ -316,8 +457,8 @@
       <hr class="Nav-line" />
     <!-- MAIN -->
     <main class="main-content">
-      <!-- ORDER HISTORY -->
-      <div class="order-box">
+      <!-- FIRST TIME REGISTERED USER -->
+      <div class="order-box first-time">
         <h2>🛒 No orders yet</h2>
         <p>Place your first order to see it here.</p>
 
@@ -328,12 +469,95 @@
 
         <small class="tagline">Your hawker favourites are just a click away!</small>
         <br/>
-        <!-- Style the link as a button -->
         <a href="FED_ASG.html" class="order-btn">Start Ordering</a>
       </div>
 
+      <!-- GUEST USER -->
+      <div class="order-box guest">
+        <h2>👤 Guest User</h2>
+        <p>You’re browsing as a guest. Sign up or log in to start ordering and track your history.</p>
+
+        <div class="teaser">
+          <img src="images/Chinese Cuisine Picture.jpg" alt="Guest Teaser" />
+          <p>Join ShiokLah to unlock rewards!</p>
+        </div>
+
+        <small class="tagline">Create an account to enjoy hawker favourites anytime.</small>
+        <br/>
+        <a href="login.html" class="order-btn">Sign Up / Log In</a>
+      </div>
+
+      <!-- REGISTERED USER WITH MULTIPLE ORDERS -->
+      <div class="order-box registered">
+        <h2>📦 Your Order History</h2>
+        <p>Here are your recent orders:</p>
+        
+        
+        <!-- Filter Box -->
+        <div class="filter-box">
+          <input type="text" id="orderFilter" placeholder="Filter orders by dish or date..." />
+        </div>
+
+        <!-- Order History List -->
+        <ul id="orderList" class="order-list">
+          <li>
+            <div class="order-card">
+              <span class="dish">🍲 Nasi Lemak</span>
+              <span class="date">Jan 20, 2026</span>
+            </div>
+          </li>
+          <li>
+            <div class="order-card">
+              <span class="dish">🥟 Chicken Satay</span>
+              <span class="date">Jan 25, 2026</span>
+            </div>
+          </li>
+          <li>
+            <div class="order-card">
+              <span class="dish">🍜 Laksa</span>
+              <span class="date">Jan 28, 2026</span>
+            </div>
+          </li>
+          <li>
+            <div class="order-card">
+              <span class="dish">🍛 Beef Rendang</span>
+              <span class="date">Feb 2, 2026</span>
+            </div>
+          </li>
+          <li>
+            <div class="order-card">
+              <span class="dish">🥠 Hainanese Chicken Rice</span>
+              <span class="date">Feb 5, 2026</span>
+            </div>
+          </li>
+          <li>
+            <div class="order-card">
+              <span class="dish">🍤 Char Kway Teow</span>
+              <span class="date">Feb 10, 2026</span>
+            </div>
+          </li>
+          <li>
+            <div class="order-card">
+              <span class="dish">🥬 Vegetarian Mee Goreng</span>
+              <span class="date">Feb 12, 2026</span>
+            </div>
+          </li>
+          <li>
+            <div class="order-card">
+              <span class="dish">🍹 Teh Tarik</span>
+              <span class="date">Feb 15, 2026</span>
+            </div>
+          </li>
+        </ul>
+
+
+
+        <small class="tagline">Keep enjoying your favourites – we’ll save them here!</small>
+        <br/>
+        <a href="FED_ASG.html" class="order-btn">Order Again</a>
+      </div>
     </main>
-  </section>
+
 
   <script>
     document.querySelectorAll('.main.toggle').forEach(mainItem => {
@@ -362,6 +586,60 @@
       }
     });
   });
+
+  // Simulated user type (for demo purposes)
+  // Change this value to "guest", "firstTime", or "registered"
+  const userType = "registered";  
+
+  // Grab all sections
+  const firstTimeBox = document.querySelector(".order-box.first-time");
+  const guestBox = document.querySelector(".order-box.guest");
+  const registeredBox = document.querySelector(".order-box.registered");
+
+  // Hide all by default
+  [firstTimeBox, guestBox, registeredBox].forEach(box => {
+    if (box) box.style.display = "none";
+  });
+
+  // Show the correct one
+  if (userType === "guest" && guestBox) {
+    guestBox.style.display = "block";
+  } else if (userType === "firstTime" && firstTimeBox) {
+    firstTimeBox.style.display = "block";
+  } else if (userType === "registered" && registeredBox) {
+    registeredBox.style.display = "block";
+  }
+
+  // Optional: add animation when showing
+  const visibleBox = document.querySelector(".order-box[style*='block']");
+  if (visibleBox) {
+    visibleBox.style.opacity = 0;
+    setTimeout(() => {
+      visibleBox.style.transition = "opacity 0.5s ease";
+      visibleBox.style.opacity = 1;
+    }, 50);
+  }
+
+
+   // Filter functionality
+  const filterInput = document.getElementById("orderFilter");
+  const orderList = document.getElementById("orderList");
+  const orders = orderList.getElementsByTagName("li");
+
+  filterInput.addEventListener("keyup", function() {
+    const filterValue = filterInput.value.toLowerCase();
+
+    for (let i = 0; i < orders.length; i++) {
+      const orderText = orders[i].textContent.toLowerCase();
+      if (orderText.includes(filterValue)) {
+        orders[i].style.display = "";
+      } else {
+        orders[i].style.display = "none";
+      }
+    }
+  });
+
+
   </script>
 </body>
 </html>
