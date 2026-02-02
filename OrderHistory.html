@@ -35,10 +35,11 @@
     .navrectangle {
       background: white;
       margin-top: 25px;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
+      position: relative; /* changed from sticky */
+      top: 0;             /* not needed anymore */
+      z-index: 1000;      /* optional, can keep or remove */
     }
+
 
 
     .top-nav {
@@ -110,7 +111,6 @@
     .menu-item {
       position: relative;
     }
-    
 
     .dropdown {
       position: absolute;
@@ -142,14 +142,15 @@
     .menu-item:hover .dropdown {
       display: block;
     }
-    
+
     .Nav-line {
       border: none;
       height: 1px;
       background: #e0e0e0;
       margin-top:40px;
-      margin-bottom: 10px;
+      margin-bottom: 18px;
     }
+
     /* end of nav */
 
     /* content */
@@ -415,6 +416,7 @@
           </div>
 
           <!-- Main Menu -->
+          <!-- Main Menu -->
           <nav>
             <ul class="menu">
               <li class="menu-item">
@@ -448,12 +450,14 @@
               </li>
             </ul>
           </nav>
+
           <!-- Right Action -->
           <div class="nav-action">
             <button class="reserve-btn">Reserve A Table</button>
           </div>
         </header>
       </nav>
+
       <hr class="Nav-line" />
     <!-- MAIN -->
     <main class="main-content">
@@ -560,36 +564,34 @@
 
 
   <script>
-    document.querySelectorAll('.main.toggle').forEach(mainItem => {
-    const submenu = mainItem.querySelector('.submenu');
-    const arrow = mainItem.querySelector('.arrow');
-    const title = mainItem.querySelector('.title-row, .profile-title');
+    // Top Navigation
+    document.querySelectorAll(".menu-item").forEach((item) => {
+      const mainLink = item.querySelector("a");       // main menu link
+      const dropdown = item.querySelector(".dropdown");
 
-    if (!submenu || !title) return;
+      // Toggle dropdown when clicking the main menu link
+      if (mainLink && dropdown) {
+        mainLink.addEventListener("click", (e) => {
+          e.preventDefault(); // prevent navigation for main menu
+          dropdown.style.display =
+            dropdown.style.display === "block" ? "none" : "block";
+        });
+      }
 
-    title.addEventListener('click', (e) => {
-      e.stopPropagation();
-
-      const isOpen = mainItem.classList.contains('active');
-
-      // Close all others
-      document.querySelectorAll('.main.toggle').forEach(item => {
-        item.classList.remove('active');
-        const sm = item.querySelector('.submenu');
-        if (sm) sm.style.display = 'none';
-      });
-
-      // Toggle current
-      if (!isOpen) {
-        mainItem.classList.add('active');
-        submenu.style.display = 'block';
+      // Allow submenu links to navigate normally
+      if (dropdown) {
+        dropdown.querySelectorAll("a").forEach((subLink) => {
+          subLink.addEventListener("click", () => {
+            // no preventDefault here → browser navigates to href
+            dropdown.style.display = "none"; // optional: close dropdown after click
+          });
+        });
       }
     });
-  });
 
   // Simulated user type (for demo purposes)
   // Change this value to "guest", "firstTime", or "registered"
-  const userType = "registered";  
+  const userType = "guest";  
 
   // Grab all sections
   const firstTimeBox = document.querySelector(".order-box.first-time");
