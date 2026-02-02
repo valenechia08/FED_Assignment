@@ -139,9 +139,10 @@
       background: rgba(0,0,0,0.08);
     }
 
-    .menu-item:hover .dropdown {
+    .menu-item.active .dropdown {
       display: block;
     }
+
 
     .Nav-line {
       border: none;
@@ -422,7 +423,7 @@
               <li class="menu-item">
                 <a href="#">Home</a>
                 <ul class="dropdown">
-                  <li><a href="#">Start Order</a></li>
+                  <li><a href="FED_ASG.html">Start Order</a></li>
                 </ul>
               </li>
 
@@ -569,24 +570,25 @@
       const mainLink = item.querySelector("a");       // main menu link
       const dropdown = item.querySelector(".dropdown");
 
-      // Toggle dropdown when clicking the main menu link
-      if (mainLink && dropdown) {
-        mainLink.addEventListener("click", (e) => {
-          e.preventDefault(); // prevent navigation for main menu
-          dropdown.style.display =
-            dropdown.style.display === "block" ? "none" : "block";
-        });
-      }
+      if (!dropdown) return;
 
-      // Allow submenu links to navigate normally
-      if (dropdown) {
-        dropdown.querySelectorAll("a").forEach((subLink) => {
-          subLink.addEventListener("click", () => {
-            // no preventDefault here → browser navigates to href
-            dropdown.style.display = "none"; // optional: close dropdown after click
-          });
+      mainLink.addEventListener("click", e => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        // close others
+        document.querySelectorAll(".menu-item").forEach(i => {
+          if (i !== item) i.classList.remove("active");
         });
-      }
+
+        item.classList.toggle("active");
+      });
+    });
+
+    // click outside closes menu
+    document.addEventListener("click", () => {
+      document.querySelectorAll(".menu-item")
+        .forEach(item => item.classList.remove("active"));
     });
 
   // Simulated user type (for demo purposes)
