@@ -211,18 +211,22 @@ async function loginMember() {
 //     showMessage(`Login failed: ${err?.message ?? "Unknown error"}`, "red");
 //   }
 // }
-
 async function retrieveAccount() {
   const username = normalizeUsername($("username")?.value ?? "");
+
+  if (!username) {
+    showMessage("Please enter a username", "red");
+    return;
+  }
+
   const snapshot = await get(ref(db, `members/${username}`));
 
   if (!snapshot.exists()) {
     showMessage("Account not found", "red");
-  } else if (!username) {
-    showMessage("Please enter a username", "red");
-  } else {
-    window.location.href = "ConfirmAccount.html";
+    return;
   }
+  sessionStorage.setItem("currentUser", username);
+  window.location.href = "ConfirmAccount.html";
 }
 function generateCode() {
   let generatedCode = Math.floor(100000 + Math.random() * 900000).toString();
@@ -258,11 +262,40 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (userCode === finalCode) {
       showMessage("✅ Verification successful!", "green");
+      window.location.href = "ChangePassword.html";
     } else {
       showMessage("❌ Invalid code. Try again.", "red");
     }
   });
 });
+
+//Change Password
+async function resetPassword() {
+  const username = sessionStorage.getItem("currentUser");
+  console.log(username);
+  const password = $("newPassword")?.value ?? "";
+  const msg = document.getElementById("msg");
+
+  const rule = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{9,}$/;
+
+  if (!rule.test(password)) {
+    msg.innerHTML = "❌ Must be 9+ chars with letters & numbers only";
+    return;
+  }
+  try {
+    const passwordHash = await sha256(password);
+
+    await update(ref(db, `members/${username}`), {
+      passwordHash: passwordHash,
+      passwordUpdatedAt: Date.now(),
+    });
+
+    msg.innerHTML = "✅ Password updated successfully — you can now log in";
+    sessionStorage.removeItem("currentUser");
+  } catch (err) {
+    msg.innerHTML = "❌ " + err.message;
+  }
+}
 
 /* =========================
    AUTO-BIND EVENTS (based on page)
@@ -278,30 +311,38 @@ document.addEventListener("DOMContentLoaded", () => {
     $("loginBtn").addEventListener("click", loginMember);
   }
 
-  // Reset Password
+  // Find account page
   if ($("continueBtn")) {
     $("continueBtn").addEventListener("click", retrieveAccount);
   }
+  //Reset password page
+  if ($("resetPasswordBtn")) {
+    $("resetPasswordBtn").addEventListener("click", resetPassword);
 
-  // Optional: allow Enter key to submit on login page
-  if ($("loginBtn") && $("password")) {
-    $("password").addEventListener("keydown", (e) => {
-      if (e.key === "Enter") loginMember();
+    document.querySelector(".secondBackBtn").addEventListener("click", () => {
+      window.location.href = "login.html";
     });
-  }
 
-  // Optional: allow Enter key to submit on register page
-  if ($("registerBtn")) {
-    $("registerBtn").addEventListener("keydown", (e) => {
-      if (e.key === "Enter") registerMember();
-    });
-  }
+    // Optional: allow Enter key to submit on login page
+    if ($("loginBtn") && $("password")) {
+      $("password").addEventListener("keydown", (e) => {
+        if (e.key === "Enter") loginMember();
+      });
+    }
 
-  //
-  if ($("continueBtn")) {
-    $("continueBtn").addEventListener("keydown", (e) => {
-      if (e.key === "Enter") retrieveAccount();
-    });
+    // Optional: allow Enter key to submit on register page
+    if ($("registerBtn")) {
+      $("registerBtn").addEventListener("keydown", (e) => {
+        if (e.key === "Enter") registerMember();
+      });
+    }
+
+    //
+    if ($("continueBtn")) {
+      $("continueBtn").addEventListener("keydown", (e) => {
+        if (e.key === "Enter") retrieveAccount();
+      });
+    }
   }
 });
 //LOGOUT & Login
@@ -309,9 +350,9 @@ document.addEventListener("DOMContentLoaded", () => {
 // document.addEventListener("DOMContentLoaded", () => {
 //   const username = sessionStorage.getItem("loggedInUser");
 
-  // if (!username || !password) {
-  //   document.querySelector(".message").textContent="Please enter both username and password.";
-  // } else {
+// if (!username || !password) {
+//   document.querySelector(".message").textContent="Please enter both username and password.";
+// } else {
 //   if (username) {
 //     document.querySelector(".usernameDisplay").textContent = `${username}`; //Displays username under profile
 //   }
@@ -327,7 +368,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Top Navigation
 document.querySelectorAll(".menu-item").forEach((item) => {
-  const mainLink = item.querySelector("a");       // main menu link
+  const mainLink = item.querySelector("a"); // main menu link
   const dropdown = item.querySelector(".dropdown");
 
   // Toggle dropdown when clicking the main menu link
@@ -363,58 +404,61 @@ document.querySelectorAll(".mobile-nav-item").forEach((item) => {
 /*Search Bar to search up stalls*/
 const searchInput = document.querySelector(".search-input");
 const stallCards = document.querySelectorAll(".stall-card");
-if (searchInput){
-// Listen for typing
-searchInput.addEventListener("keyup", function () {
-  const query = this.value.toLowerCase();
-  stallCards.forEach((card) => {
-    const name = card.querySelector("h4").textContent.toLowerCase();
-    const info = card.querySelector("p").textContent.toLowerCase();
+if (searchInput) {
+  // Listen for typing
+  searchInput.addEventListener("keyup", function () {
+    const query = this.value.toLowerCase();
+    stallCards.forEach((card) => {
+      const name = card.querySelector("h4").textContent.toLowerCase();
+      const info = card.querySelector("p").textContent.toLowerCase();
 
-    // Show if query matches name or info
-    if (name.includes(query) || info.includes(query)) {
-      card.style.display = "";
-    } else {
-      card.style.display = "none";
-    }
+      // Show if query matches name or info
+      if (name.includes(query) || info.includes(query)) {
+        card.style.display = "";
+      } else {
+        card.style.display = "none";
+      }
+    });
   });
-});
 
-// Grab all cuisine cards
-const cuisines = document.querySelectorAll(".cuisine-card");
+  // Grab all cuisine cards
+  const cuisines = document.querySelectorAll(".cuisine-card");
 
-// Grab all stall cards
-const stalls = document.querySelectorAll(".stall-card");
+  // Grab all stall cards
+  const stalls = document.querySelectorAll(".stall-card");
 
-cuisines.forEach((cuisine) => {
-  cuisine.addEventListener("click", () => {
-    // check if this cuisine is already selected
-    const isSelected = cuisine.classList.contains("selected");
+  cuisines.forEach((cuisine) => {
+    cuisine.addEventListener("click", () => {
+      // check if this cuisine is already selected
+      const isSelected = cuisine.classList.contains("selected");
 
-    // remove 'selected' from all cuisines
-    cuisines.forEach((c) => c.classList.remove("selected"));
+      // remove 'selected' from all cuisines
+      cuisines.forEach((c) => c.classList.remove("selected"));
 
-    if (isSelected) {
-      // if clicked again, deselect and show all stalls
-      stalls.forEach((stall) => {
-        stall.style.display = "flex";
-      });
-    } else {
-      // otherwise, select this cuisine
-      cuisine.classList.add("selected");
+      if (isSelected) {
+        // if clicked again, deselect and show all stalls
+        stalls.forEach((stall) => {
+          stall.style.display = "flex";
+        });
+      } else {
+        // otherwise, select this cuisine
+        cuisine.classList.add("selected");
 
-      // get the cuisine name from the <p> tag and normalize it
-      let chosenCuisine = cuisine.querySelector("p").textContent.trim().toLowerCase();
+        // get the cuisine name from the <p> tag and normalize it
+        let chosenCuisine = cuisine
+          .querySelector("p")
+          .textContent.trim()
+          .toLowerCase();
 
-      // filter stalls based on class
-      stalls.forEach((stall) => {
-        if (stall.classList.contains(chosenCuisine)) {
-          stall.style.display = "flex"; // show matching stalls
-        } else {
-          stall.style.display = "none"; // hide non-matching stalls
-        }
-      });
-    }
+        // filter stalls based on class
+        stalls.forEach((stall) => {
+          if (stall.classList.contains(chosenCuisine)) {
+            stall.style.display = "flex"; // show matching stalls
+          } else {
+            stall.style.display = "none"; // hide non-matching stalls
+          }
+        });
+      }
+    });
   });
-});
 }
