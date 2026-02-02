@@ -13,6 +13,10 @@ import {
   child,
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
+import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+import { Chart } from "https://cdn.jsdelivr.net/npm/chart.js";
+
+
 /* ================================
    Firebase configuration
    (REPLACE with your own config) DONE
@@ -32,7 +36,8 @@ const firebaseConfig = {
    Initialize Firebase
 ================================ */
 const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
+// const db = getDatab(app);
+const db = getFire(app);
 
 /* =========================
    HELPERS
@@ -82,6 +87,7 @@ async function registerMember() {
   const email = ($("email")?.value ?? "").trim();
   const password = $("password")?.value ?? "";
   const confirmPassword = $("confirmPassword")?.value ?? "";
+  const role = sessionStorage.getItem("currentRole");
 
   // Basic checks
   if (!name || !username || !email || !password || !confirmPassword) {
@@ -122,6 +128,7 @@ async function registerMember() {
 
     await set(memberRef, {
       name,
+      role,
       username,
       email,
       passwordHash,
@@ -165,6 +172,7 @@ async function loginMember() {
     }
 
     const data = snap.val();
+    const role = data.role;
     const inputHash = await sha256(password);
 
     if (inputHash !== data.passwordHash) {
@@ -175,7 +183,13 @@ async function loginMember() {
     // Save session + redirect
     sessionStorage.setItem("loggedInUser", username);
     showMessage("Login successful! 🎉", "green");
-    window.location.href = "PerformanceDashboard.html";
+    if (role === "patron") {
+      window.location.href = "FED_ASG.html";
+    } else if (role === "vendor") {
+      window.location.href = "PerformanceDashboard.html";
+    } else {
+      window.location.href = "R&C inspection log all.html";
+    }
   } catch (err) {
     console.error(err);
     showMessage(`Login failed: ${err?.message ?? "Unknown error"}`, "red");
@@ -230,14 +244,23 @@ function generateCode() {
   alert(`Your verification code is: ${generatedCode}`);
   return generatedCode;
 }
-
+document.addEventListener("DOMContentLoaded", () => {
+  if (
+    window.location.pathname.endsWith("login.html") &&
+    sessionStorage.getItem("currentRole") === "patron"
+  ) {
+    let guestDiv = $("guestLogin");
+    guestDiv.style.display = "block";
+    guestDiv.innerHTML = `<a href="FED_ASG.html">Continue as guest</a>`;
+  }
+});
 document.addEventListener("DOMContentLoaded", () => {
   let finalCode = null;
   if (window.location.pathname.endsWith("ConfirmAccount.html")) {
     // Generate code on page load
     finalCode = generateCode();
   }
-  document.querySelector(".backBtn").addEventListener("click", () => {
+  document.querySelector(".secondBackBtn").addEventListener("click", () => {
     window.location.href = "ChangePassword.html";
   });
 
@@ -267,7 +290,6 @@ document.addEventListener("DOMContentLoaded", () => {
 //Change Password
 async function resetPassword() {
   const username = sessionStorage.getItem("currentUser");
-  console.log(username);
   const password = $("newPassword")?.value ?? "";
   const msg = document.getElementById("msg");
 
@@ -291,11 +313,26 @@ async function resetPassword() {
     msg.innerHTML = "❌ " + err.message;
   }
 }
-
+function goLogin(role) {
+  console.log(role);
+  sessionStorage.setItem("currentRole", role);
+  window.location.href = "login.html";
+}
 /* =========================
    AUTO-BIND EVENTS (based on page)
 ========================= */
 document.addEventListener("DOMContentLoaded", () => {
+  document.querySelector(".backBtn").addEventListener("click", () => {
+    window.location.href = "SelectRole.html";
+  });
+});
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".roleBtn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      goLogin(btn.dataset.role);
+    });
+  });
+
   // Register page
   if ($("registerBtn")) {
     $("registerBtn").addEventListener("click", registerMember);
@@ -313,31 +350,31 @@ document.addEventListener("DOMContentLoaded", () => {
   //Reset password page
   if ($("resetPasswordBtn")) {
     $("resetPasswordBtn").addEventListener("click", resetPassword);
+  }
 
-    document.querySelector(".secondBackBtn").addEventListener("click", () => {
-      window.location.href = "login.html";
+  document.querySelector(".thirdBackBtn").addEventListener("click", () => {
+    window.location.href = "login.html";
+  });
+
+  // Optional: allow Enter key to submit on login page
+  if ($("loginBtn") && $("password")) {
+    $("password").addEventListener("keydown", (e) => {
+      if (e.key === "Enter") loginMember();
     });
+  }
 
-    // Optional: allow Enter key to submit on login page
-    if ($("loginBtn") && $("password")) {
-      $("password").addEventListener("keydown", (e) => {
-        if (e.key === "Enter") loginMember();
-      });
-    }
+  // Optional: allow Enter key to submit on register page
+  if ($("registerBtn")) {
+    $("registerBtn").addEventListener("keydown", (e) => {
+      if (e.key === "Enter") registerMember();
+    });
+  }
 
-    // Optional: allow Enter key to submit on register page
-    if ($("registerBtn")) {
-      $("registerBtn").addEventListener("keydown", (e) => {
-        if (e.key === "Enter") registerMember();
-      });
-    }
-
-    //
-    if ($("continueBtn")) {
-      $("continueBtn").addEventListener("keydown", (e) => {
-        if (e.key === "Enter") retrieveAccount();
-      });
-    }
+  //
+  if ($("continueBtn")) {
+    $("continueBtn").addEventListener("keydown", (e) => {
+      if (e.key === "Enter") retrieveAccount();
+    });
   }
 });
 //LOGOUT & Login
@@ -360,7 +397,7 @@ document.addEventListener("DOMContentLoaded", () => {
 //   });
 // });
 
-//Top Navigation
+
 // Top Navigation
 document.querySelectorAll(".menu-item").forEach((item) => {
   const mainLink = item.querySelector("a"); // main menu link

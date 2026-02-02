@@ -25,10 +25,11 @@ body {
 .navrectangle {
   background: white;
   margin-top: 25px;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
+  position: relative; /* changed from sticky */
+  top: 0;             /* not needed anymore */
+  z-index: 1000;      /* optional, can keep or remove */
 }
+
 
 
 .top-nav {

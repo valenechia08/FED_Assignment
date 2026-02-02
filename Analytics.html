@@ -9,119 +9,150 @@
         rel="stylesheet"
     />
   <style>
-      /* General Styling */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
       body {
-        margin: 0;
+        font-family: "Open Sans", sans-serif;
+        background: #fff;
+        color: #222;
       }
+
+      /* CONTAINER */
       .container {
-        display: flex;
-        align-items: stretch;
-        min-height: 100vh; /* full height layout */
-
+        width: 90%;
+        max-width: 1200px;
+        margin: auto;
       }
-
-      .mobile-nav {
-        display: none;
+      :root {
+        --primary-orange: #FF8C3A;
+        --primary-yellow: #ffd400;
+        --dark-text: #111;
       }
-
-      /* SIDEBAR */
+      /* NAVBAR */
       .navrectangle {
-        background-color: #FF7A18;
-        width: 220px;
-        min-height: 100vh;   /* matches the viewport height */
-        /* display: flex;
-        flex-direction: column; */
-        flex-shrink: 0; /* Sidebar stays fixed width */
-        
-        position: relative;
-        z-index: 1000;
+        background: white;
+        margin-top: 25px;
+        position: relative; /* changed from sticky */
+        top: 0;             /* not needed anymore */
+        z-index: 1000;      /* optional, can keep or remove */
       }
 
-      .navrectangle header {
-        font-size: 36px;
-        color: white;
-        font-style: italic;
-        font-family: 'Kodchasan', Arial, sans-serif;
-        padding: 60px 20px 30px;
-      }
 
-      /* NAV LIST */
-      .navBar {
-        list-style-type: none;
-        padding: 0;
-        margin: 0;
-        color: white;
-        font-family: Arial, Helvetica, sans-serif;
-      }
-      /* MAIN ITEMS */
-      .main {
-        position: relative;          /* 🔑 required for absolute submenu */
-        display: flex;
-        flex-direction: column;      /* stack title + submenu vertically */
-        margin: 0 15px;
-      }
-      /* SUB MENU */
-      .submenu {
-        /* position: absolute; */
-        display: none;
-        list-style: none;          /* removes bullet points */
-        padding: 0;
-        
-        margin: 0;
-        top: 100%;              /* directly below main item */
-        left: 0;
-        width: 100%;
-        background-color: #FF7A18;
-        /* padding: 8px 0;
-        z-index: 10; */
-      }
 
-      .subpoint {
-        display: block;
-        background-color: transparent;
-        color: white;
-        border: none;
-        padding: 12px 47px;     /* indent to the left */
-        
-        text-align: left;
-        font-size: 16px;
-        cursor: pointer;
-      }
-      /* PROFILE TITLE STACK */
-      /* Title row (text + arrow) */
-      .profile-title,
-      .title-row {
+      .top-nav {
         display: grid;
-        grid-template-columns: 1fr auto;  /* label left, arrow right */
+        grid-template-columns: auto 1fr auto;
         align-items: center;
-        padding: 24px 20px;
-        font-weight: bold;
-        /* text-align: left; */
+        height: 40px;
+        gap: 40px;
+
       }
-      
-      .logout button {
+      .top-nav > nav {
+        justify-self: center;
+      }
+
+      .Logo {
+        display: flex;
+        align-items: center;
+        height: 70px; /* fixed height to prevent nav shift */
+        overflow: hidden; /* hides any overflow from scaling */
+
+      }
+
+      .Logo img {
+        height: 100%;       /* fills the container height */
+        width: auto;        /* maintains aspect ratio */
+        transform: scale(1.2); /* scales image visually */
+        transform-origin: left center; /* keeps it aligned */
+
+      }
+
+
+
+      .menu {
+        display: flex;
+        align-items: center;
+        gap: 65px;
+        list-style: none;
+      }
+
+      .menu a {
+        text-decoration: none;
+        font-weight: 800;
         font-size: 15px;
-        width: 100%;
-        background: none;
-        border: none;
+        color: #111;
+      }
+
+      .menu a:hover {
+        color: var(--primary-orange);
+      }
+
+
+      .reserve-btn {
+        background: var(--primary-orange);
         color: white;
-        font-weight: bold;
+        border: 3px solid var(--primary-orange);
+        padding: 14px 30px;
+        border-radius: 22px;
+        font-weight: 800;
+        font-size: 15px;
         cursor: pointer;
-        padding: 24px 20px;
-        text-align: left;
+        transition: all 0.25s ease;
       }
-      .arrow {
-        font-size: 14px;
-        transition: transform 0.2s ease;
+
+      .reserve-btn:hover {
+        background: white;
+        color: var(--primary-orange);
       }
-      /* HOVER */
-      .title-row:hover,
-      .logout button:hover,
-      .profile-title:hover,
-      .subpoint:hover {
-        background-color: #FF8C3A;
-        border-radius: 6px;
+
+      .menu-item {
+        position: relative;
       }
+
+      .dropdown {
+        position: absolute;
+        top: 130%;
+        left: 0;
+        background: var(--primary-yellow);
+        border-radius: 14px;
+        min-width: 140px;
+        padding: 10px 0;
+        box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+        display: none;
+      }
+
+      .dropdown li {
+        list-style: none;
+      }
+
+      .dropdown a {
+        display: block;
+        padding: 10px 18px;
+        font-weight: 700;
+        color: #111;
+      }
+
+      .dropdown a:hover {
+        background: rgba(0,0,0,0.08);
+      }
+
+      .menu-item:hover .dropdown {
+        display: block;
+      }
+
+      .Nav-line {
+        border: none;
+        height: 1px;
+        background: #e0e0e0;
+        margin-top:40px;
+        margin-bottom: 18px;
+      }
+
+/* nav ends here */
 
     /* MAIN CONTENT */
     main {
@@ -238,69 +269,59 @@
   </style>
 </head>
 <body>
-  <div class="container">
-    
-    <!-- Sidebar Navigation -->
-    <nav class="navrectangle">
-      <header class="brand">ShiokLah!</header>
-      <ul class="navBar">
-        <!-- Home -->
-        <li class="main toggle">
-          <div class="title-row">
-            <span>🏠 Home</span>
-            <span class="arrow">v</span>
+
+    <!-- Navigation -->
+    <main class="container">
+      <nav class="navrectangle">
+        <header class="top-nav">
+          <!-- Logo -->
+          <div class="Logo">
+            <img src="/images/ShiokLah(cropped).jpeg" alt="Logo" />
           </div>
-          <ul class="submenu">
-            <li>
-              <button onclick="window.location.href='FED_ASG.html';" class="subpoint">• Start Order</button>
-            </li>
-          </ul>
-        </li>
 
-        <!-- Order History -->
-        <li class="main toggle">
-          <div class="title-row">
-            <span>📄 Order History</span>
-            <span class="arrow">v</span>
+          <!-- Main Menu -->
+          <nav>
+            <ul class="menu">
+              <li class="menu-item">
+                <a href="#">Home</a>
+                <ul class="dropdown">
+                  <li><a href="#">Start Order</a></li>
+                </ul>
+              </li>
+
+              <li class="menu-item">
+                <a href="#">Order History</a>
+                <ul class="dropdown">
+                  <li><a href="OrderHistory.html">Past Orders</a></li>
+                </ul>
+              </li>
+
+              <li class="menu-item">
+                <a href="#">Profile</a>
+                <ul class="dropdown">
+                  <li><a href="UserProfile.html">Overview</a></li>
+                  <li><a href="Analytics.html">Analytics & Reporting</a></li>
+                  <li><a href="#">Customer Feedback</a></li>
+                  <li><a href="#">Regulatory & Compliance</a></li>
+                  <li><a href="#">Favourites</a></li>
+                  <li><a href="#">Rewards</a></li>
+                </ul>
+              </li>
+
+              <li class="menu-item">
+                <a href="login.html">Log Out</a>
+              </li>
+            </ul>
+          </nav>
+
+          <!-- Right Action -->
+          <div class="nav-action">
+            <button class="reserve-btn">Reserve A Table</button>
           </div>
-          <ul class="submenu">
-            <li>
-              <button onclick="window.location.href='OrderHistory.html';" class="subpoint past-orders">• Past Orders</button>
-            </li>
-          </ul>
-        </li>
+        </header>
+      </nav>
 
-        <!-- Profile -->
-        <li class="main toggle">
-          <div class="profile-title">
-            <span class="profile-label">👤 Profile <span class="usernameDisplay"></span></span>
-            <span class="arrow">v</span>
-          </div>
-          <ul class="submenu">
-            <li>
-              <button onclick="window.location.href='userProfile.html';" class="subpoint">
-                • Profile
-              </button> 
-            </li>
-            <li>
-              <button onclick="window.location.href='Analytics.html';" class="subpoint">
-                • Analytics & Reporting
-              </button> 
-            </li>
-            <li class="subpoint">• Customer Feedback</li>
-            <li class="subpoint">• Regulatory & Compliance</li>
-            <li class="subpoint">• Favourites</li>
-            <li class="subpoint">• Rewards</li>
-          </ul>
-        </li>
-
-        <!-- Log Out -->
-        <li class="main toggle logout">
-          <button onclick="window.location.href='login.html';" class="subpoint">Log Out</button>
-        </li>
-      </ul>
-    </nav>
-
+      <hr class="Nav-line" />
     <!-- Main Content -->
     <main>
       <div class="dashboard-container">
@@ -406,20 +427,31 @@
     </main>
 
   <script>
-    //Navigation Dropdown
-      document.querySelectorAll('.main.toggle').forEach(mainItem => {
-        const submenu = mainItem.querySelector('.submenu');
-        const arrow = mainItem.querySelector('.arrow');
-        const titleRow = mainItem.querySelector('.title-row, .profile-title');
+    // Top Navigation
+    document.querySelectorAll(".menu-item").forEach((item) => {
+      const mainLink = item.querySelector("a");       // main menu link
+      const dropdown = item.querySelector(".dropdown");
 
-        if (!submenu || !arrow || !titleRow) return;
-
-        titleRow.addEventListener('click', () => {
-          const isOpen = submenu.style.display === 'block';
-          submenu.style.display = isOpen ? 'none' : 'block';
-          arrow.textContent = isOpen ? 'v' : '^';
+      // Toggle dropdown when clicking the main menu link
+      if (mainLink && dropdown) {
+        mainLink.addEventListener("click", (e) => {
+          e.preventDefault(); // prevent navigation for main menu
+          dropdown.style.display =
+            dropdown.style.display === "block" ? "none" : "block";
         });
-      });
+      }
+
+      // Allow submenu links to navigate normally
+      if (dropdown) {
+        dropdown.querySelectorAll("a").forEach((subLink) => {
+          subLink.addEventListener("click", () => {
+            // no preventDefault here → browser navigates to href
+            dropdown.style.display = "none"; // optional: close dropdown after click
+          });
+        });
+      }
+    });
+
 
       // Toggle for Sales Analytics
       document.getElementById('salesArrow').addEventListener('click', function () {
