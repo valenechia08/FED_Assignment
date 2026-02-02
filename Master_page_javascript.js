@@ -13,6 +13,10 @@ import {
   child,
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
+import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+import { Chart } from "https://cdn.jsdelivr.net/npm/chart.js";
+
+
 /* ================================
    Firebase configuration
    (REPLACE with your own config) DONE
@@ -32,7 +36,8 @@ const firebaseConfig = {
    Initialize Firebase
 ================================ */
 const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
+// const db = getDatab(app);
+const db = getFire(app);
 
 /* =========================
    HELPERS
@@ -392,7 +397,7 @@ document.addEventListener("DOMContentLoaded", () => {
 //   });
 // });
 
-//Top Navigation
+
 // Top Navigation
 document.querySelectorAll(".menu-item").forEach((item) => {
   const mainLink = item.querySelector("a"); // main menu link
