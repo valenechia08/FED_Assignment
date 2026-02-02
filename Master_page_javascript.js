@@ -87,6 +87,7 @@ async function registerMember() {
   const email = ($("email")?.value ?? "").trim();
   const password = $("password")?.value ?? "";
   const confirmPassword = $("confirmPassword")?.value ?? "";
+  const role = sessionStorage.getItem("currentRole");
 
   // Basic checks
   if (!name || !username || !email || !password || !confirmPassword) {
@@ -127,6 +128,7 @@ async function registerMember() {
 
     await set(memberRef, {
       name,
+      role,
       username,
       email,
       passwordHash,
@@ -170,6 +172,7 @@ async function loginMember() {
     }
 
     const data = snap.val();
+    const role = data.role;
     const inputHash = await sha256(password);
 
     if (inputHash !== data.passwordHash) {
@@ -180,7 +183,13 @@ async function loginMember() {
     // Save session + redirect
     sessionStorage.setItem("loggedInUser", username);
     showMessage("Login successful! 🎉", "green");
-    window.location.href = "PerformanceDashboard.html";
+    if (role === "patron") {
+      window.location.href = "FED_ASG.html";
+    } else if (role === "vendor") {
+      window.location.href = "PerformanceDashboard.html";
+    } else {
+      window.location.href = "R&C inspection log all.html";
+    }
   } catch (err) {
     console.error(err);
     showMessage(`Login failed: ${err?.message ?? "Unknown error"}`, "red");
@@ -235,14 +244,23 @@ function generateCode() {
   alert(`Your verification code is: ${generatedCode}`);
   return generatedCode;
 }
-
+document.addEventListener("DOMContentLoaded", () => {
+  if (
+    window.location.pathname.endsWith("login.html") &&
+    sessionStorage.getItem("currentRole") === "patron"
+  ) {
+    let guestDiv = $("guestLogin");
+    guestDiv.style.display = "block";
+    guestDiv.innerHTML = `<a href="FED_ASG.html">Continue as guest</a>`;
+  }
+});
 document.addEventListener("DOMContentLoaded", () => {
   let finalCode = null;
   if (window.location.pathname.endsWith("ConfirmAccount.html")) {
     // Generate code on page load
     finalCode = generateCode();
   }
-  document.querySelector(".backBtn").addEventListener("click", () => {
+  document.querySelector(".secondBackBtn").addEventListener("click", () => {
     window.location.href = "ChangePassword.html";
   });
 
@@ -272,7 +290,6 @@ document.addEventListener("DOMContentLoaded", () => {
 //Change Password
 async function resetPassword() {
   const username = sessionStorage.getItem("currentUser");
-  console.log(username);
   const password = $("newPassword")?.value ?? "";
   const msg = document.getElementById("msg");
 
@@ -296,11 +313,26 @@ async function resetPassword() {
     msg.innerHTML = "❌ " + err.message;
   }
 }
-
+function goLogin(role) {
+  console.log(role);
+  sessionStorage.setItem("currentRole", role);
+  window.location.href = "login.html";
+}
 /* =========================
    AUTO-BIND EVENTS (based on page)
 ========================= */
 document.addEventListener("DOMContentLoaded", () => {
+  document.querySelector(".backBtn").addEventListener("click", () => {
+    window.location.href = "SelectRole.html";
+  });
+});
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".roleBtn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      goLogin(btn.dataset.role);
+    });
+  });
+
   // Register page
   if ($("registerBtn")) {
     $("registerBtn").addEventListener("click", registerMember);
@@ -318,31 +350,31 @@ document.addEventListener("DOMContentLoaded", () => {
   //Reset password page
   if ($("resetPasswordBtn")) {
     $("resetPasswordBtn").addEventListener("click", resetPassword);
+  }
 
-    document.querySelector(".secondBackBtn").addEventListener("click", () => {
-      window.location.href = "login.html";
+  document.querySelector(".thirdBackBtn").addEventListener("click", () => {
+    window.location.href = "login.html";
+  });
+
+  // Optional: allow Enter key to submit on login page
+  if ($("loginBtn") && $("password")) {
+    $("password").addEventListener("keydown", (e) => {
+      if (e.key === "Enter") loginMember();
     });
+  }
 
-    // Optional: allow Enter key to submit on login page
-    if ($("loginBtn") && $("password")) {
-      $("password").addEventListener("keydown", (e) => {
-        if (e.key === "Enter") loginMember();
-      });
-    }
+  // Optional: allow Enter key to submit on register page
+  if ($("registerBtn")) {
+    $("registerBtn").addEventListener("keydown", (e) => {
+      if (e.key === "Enter") registerMember();
+    });
+  }
 
-    // Optional: allow Enter key to submit on register page
-    if ($("registerBtn")) {
-      $("registerBtn").addEventListener("keydown", (e) => {
-        if (e.key === "Enter") registerMember();
-      });
-    }
-
-    //
-    if ($("continueBtn")) {
-      $("continueBtn").addEventListener("keydown", (e) => {
-        if (e.key === "Enter") retrieveAccount();
-      });
-    }
+  //
+  if ($("continueBtn")) {
+    $("continueBtn").addEventListener("keydown", (e) => {
+      if (e.key === "Enter") retrieveAccount();
+    });
   }
 });
 //LOGOUT & Login
@@ -462,3 +494,88 @@ if (searchInput) {
     });
   });
 }
+
+import React from 'react';
+import { Home, Package, ShoppingBag, User, Clock } from 'lucide-react';
+
+const OrderDashboard = () => {
+  const orders = [
+    { id: 1, name: 'Tobi', phone: '432112340987', items: '1 Cap', time: '11:04am', day: 'Today' },
+    { id: 2, name: 'David', phone: '098712348765', items: '4 Caps', time: '08:04am', day: 'Today' },
+  ];
+
+  return (
+    <div className="flex h-screen bg-gray-50 font-sans text-gray-900">
+      {/* 1. SIDEBAR (Desktop Navigation) */}
+      <aside className="w-64 bg-white border-r flex flex-col items-center py-8 gap-8">
+        <div className="text-orange-600 font-bold text-2xl mb-4">LOGO</div>
+        <nav className="flex flex-col gap-6 w-full px-6">
+          <NavItem icon={<Home size={20} />} label="Home" />
+          <NavItem icon={<Package size={20} />} label="Orders" active />
+          <NavItem icon={<ShoppingBag size={20} />} label="Inventory" />
+          <NavItem icon={<User size={20} />} label="Profile" />
+        </nav>
+      </aside>
+
+      {/* 2. MAIN CONTENT AREA */}
+      <main className="flex-1 overflow-y-auto p-10">
+        
+        {/* Header Stat Card */}
+        <div className="bg-orange-600 rounded-3xl p-8 text-white mb-10 flex justify-between items-center shadow-lg max-w-4xl">
+          <div>
+            <h2 className="text-xl opacity-90 font-medium">Pending Orders</h2>
+            <p className="text-6xl font-bold mt-2">20</p>
+          </div>
+          <div className="opacity-20 hidden md:block">
+             {/* Decorative pattern placeholder */}
+             <svg width="100" height="100" viewBox="0 0 100 100" fill="currentColor"><circle cx="50" cy="50" r="40" /></svg>
+          </div>
+        </div>
+
+        {/* Tab Navigation */}
+        <div className="flex gap-8 border-b border-gray-200 mb-8 max-w-4xl">
+          {['Pending', 'In Progress', 'Shipped', 'Declined'].map((tab) => (
+            <button 
+              key={tab} 
+              className={`pb-4 px-2 text-sm font-semibold transition-all ${tab === 'Pending' ? 'text-orange-600 border-b-2 border-orange-600' : 'text-gray-400 hover:text-gray-600'}`}
+            >
+              {tab}
+            </button>
+          ))}
+        </div>
+
+        {/* Order List Section */}
+        <section className="max-w-4xl">
+          <h3 className="text-xl font-bold mb-6">Today</h3>
+          <div className="grid gap-4">
+            {orders.map(order => (
+              <div key={order.id} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex justify-between items-start hover:shadow-md transition-shadow">
+                <div className="flex gap-4">
+                  <div className="bg-orange-50 p-3 rounded-xl text-orange-600">
+                    <Clock size={24} />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-lg">Pending order</h4>
+                    <p className="text-gray-500 mt-1">You have an order from <span className="text-gray-800 font-medium">{order.name} ({order.phone})</span> for {order.items}.</p>
+                    <p className="text-sm text-gray-400 mt-2 italic">Please review and process the order.</p>
+                  </div>
+                </div>
+                <span className="text-gray-900 font-bold">{order.time}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+      </main>
+    </div>
+  );
+};
+
+// Helper Component
+const NavItem = ({ icon, label, active = false }) => (
+  <button className={`flex items-center gap-4 w-full p-3 rounded-xl transition-colors ${active ? 'bg-orange-600 text-white shadow-md shadow-orange-200' : 'text-gray-400 hover:bg-gray-100'}`}>
+    {icon}
+    <span className="font-medium">{label}</span>
+  </button>
+);
+
+export default OrderDashboard;
