@@ -1,36 +1,15 @@
 <!doctype html>
 <html>
   <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ShiokLah</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Kodchasan:wght@200;300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="LoginPages.css" />
     <style>
-      body {
-        margin: 0;
-      }
-
-      .container {
-        display: flex;
-        height: 100vh;
-      }
-
-      /* LEFT IMAGE */
-      .left {
-        flex: 1;
-        background-image: url("images/Noodles.jpeg");
-        background-size: cover;
-        background-position: center;
-      }
-
-      /* RIGHT SIDE */
-      .right {
-        flex: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
       .card {
         display: flex;
         width: 80%;
@@ -52,7 +31,7 @@
         top: -5%;
       }
 
-      .right h1 {
+      h1 {
         margin-bottom: 40px;
         font-family: "Kodchasan", Arial, sans-serif;
         font-size: 80px;
@@ -83,10 +62,10 @@
   <body>
     <div class="container">
       <!-- LEFT IMAGE -->
-      <div class="left"></div>
+      <div class="left-pane"></div>
 
       <!-- RIGHT PANEL -->
-      <div class="right">
+      <div class="right-pane">
         <div class="card">
           <h1>ShiokLah!</h1>
           <button class="roleBtn" data-role="patron">
@@ -98,7 +77,7 @@
           </button>
 
           <button class="roleBtn" data-role="officer">
-            🏢 Log in as NEA officer
+            🏢 Log in as an NEA officer
           </button>
         </div>
       </div>

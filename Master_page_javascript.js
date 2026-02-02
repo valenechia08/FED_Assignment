@@ -13,9 +13,12 @@ import {
   child,
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
-import { Chart } from "https://cdn.jsdelivr.net/npm/chart.js";
-
+// import {
+//   getDatabase,
+//   ref,
+//   onValue,
+// } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+// import { Chart } from "https://cdn.jsdelivr.net/npm/chart.js"; valene original code
 
 /* ================================
    Firebase configuration
@@ -36,8 +39,8 @@ const firebaseConfig = {
    Initialize Firebase
 ================================ */
 const app = initializeApp(firebaseConfig);
-// const db = getDatab(app);
-const db = getFire(app);
+const db = getDatabase(app);
+// const db = getFire(app); valene original code
 
 /* =========================
    HELPERS
@@ -88,6 +91,7 @@ async function registerMember() {
   const password = $("password")?.value ?? "";
   const confirmPassword = $("confirmPassword")?.value ?? "";
   const role = sessionStorage.getItem("currentRole");
+  const rule = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{9,}$/;
 
   // Basic checks
   if (!name || !username || !email || !password || !confirmPassword) {
@@ -103,8 +107,8 @@ async function registerMember() {
     return;
   }
 
-  if (password.length < 6) {
-    showMessage("Password must be at least 6 characters.", "red");
+  if (!rule.test(password)) {
+    showMessage("Must be 9+ chars with letters & numbers only", "red");
     return;
   }
 
@@ -184,10 +188,13 @@ async function loginMember() {
     sessionStorage.setItem("loggedInUser", username);
     showMessage("Login successful! 🎉", "green");
     if (role === "patron") {
+      sessionStorage.clear("currentRole");
       window.location.href = "FED_ASG.html";
     } else if (role === "vendor") {
+      sessionStorage.clear("currentRole");
       window.location.href = "PerformanceDashboard.html";
     } else {
+      sessionStorage.clear("currentRole");
       window.location.href = "R&C inspection log all.html";
     }
   } catch (err) {
@@ -196,30 +203,6 @@ async function loginMember() {
   }
 }
 
-// async function retrieveAccount() {
-//   const username = normalizeUsername($("username")?.value ?? "");
-//   const continueButton = $("continueBtn");
-
-//   if (!username) {
-//     showMessage("Please enter your username.");
-//     return;
-//   }
-//   try {
-//     const memberRef = ref(db, `members/${username}`);
-//     const snap = await get(memberRef);
-
-//     if (!snap.exists()) {
-//       showMessage("User not found", "red");
-//       return;
-//     } else {
-//       sessionStorage.setItem("currentInUser", username);
-//       window.location.href = "ConfirmAccount.html";
-//     }
-//   } catch (err) {
-//     console.error(err);
-//     showMessage(`Login failed: ${err?.message ?? "Unknown error"}`, "red");
-//   }
-// }
 async function retrieveAccount() {
   const username = normalizeUsername($("username")?.value ?? "");
 
@@ -261,7 +244,7 @@ document.addEventListener("DOMContentLoaded", () => {
     finalCode = generateCode();
   }
   document.querySelector(".secondBackBtn").addEventListener("click", () => {
-    window.location.href = "ChangePassword.html";
+    window.location.href = "FindAccount.html";
   });
 
   // Resend button
@@ -279,10 +262,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (userCode === finalCode) {
-      showMessage("✅ Verification successful!", "green");
+      showMessage("Verification successful!", "green");
       window.location.href = "ChangePassword.html";
     } else {
-      showMessage("❌ Invalid code. Try again.", "red");
+      showMessage("Invalid code. Try again.", "red");
     }
   });
 });
@@ -291,12 +274,16 @@ document.addEventListener("DOMContentLoaded", () => {
 async function resetPassword() {
   const username = sessionStorage.getItem("currentUser");
   const password = $("newPassword")?.value ?? "";
-  const msg = document.getElementById("msg");
+  const confirmPassword = $("confirmPassword2")?.value ?? "";
 
   const rule = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{9,}$/;
 
   if (!rule.test(password)) {
-    msg.innerHTML = "❌ Must be 9+ chars with letters & numbers only";
+    showMessage("Must be 9+ chars with letters & numbers only", "red");
+    return;
+  }
+  if (password !== confirmPassword) {
+    showMessage("Passwords do not match.", "red");
     return;
   }
   try {
@@ -307,12 +294,14 @@ async function resetPassword() {
       passwordUpdatedAt: Date.now(),
     });
 
-    msg.innerHTML = "✅ Password updated successfully — you can now log in";
+    showMessage("Password updated successfully — you can now log in", "green");
     sessionStorage.removeItem("currentUser");
   } catch (err) {
-    msg.innerHTML = "❌ " + err.message;
+    showMessage(`Login failed: ${err?.message ?? "Unknown error"}`, "red");
   }
 }
+
+//Select Role
 function goLogin(role) {
   console.log(role);
   sessionStorage.setItem("currentRole", role);
@@ -396,7 +385,6 @@ document.addEventListener("DOMContentLoaded", () => {
 //     window.location.href = "login.html";
 //   });
 // });
-
 
 // Top Navigation
 document.querySelectorAll(".menu-item").forEach((item) => {

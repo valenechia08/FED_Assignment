@@ -2,35 +2,14 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Patron Login</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Kodchasan:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="LoginPages.css" />
     <style>
-      body {
-        margin: 0;
-      }
-      .container {
-        display: flex;
-        height: 100vh;
-      }
-
-      .left-pane {
-        flex: 1;
-        background-image: url("images/Noodles.jpeg");
-        background-size: cover;
-        background-position: center;
-      }
-
-      .right-pane {
-        flex: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: #fff;
-      }
-
       .card {
         width: 80%;
         max-width: 400px;
@@ -67,6 +46,9 @@
       .card input {
         margin: 10px 0;
         padding: 10px;
+        background: #e5e5e5;
+        border: 1px solid #ccc;
+        border-radius: 4px;
       }
 
       .links {
@@ -102,6 +84,9 @@
         height: 10%;
         border-radius: 30px;
       }
+      #loginBtn:hover {
+        opacity: 0.9;
+      }
       h1 {
         display: flex;
         font-family: "Kodchasan", Arial, sans-serif;
@@ -119,7 +104,7 @@
         font-size: 24px;
         cursor: pointer;
         position: relative;
-        right: 5%;
+        right: 8%;
         margin-bottom: 75%;
       }
       .guestLogin {
@@ -130,6 +115,10 @@
       }
       .guestLogin a {
         color: grey;
+      }
+      .message {
+        margin-top: 5%;
+        margin-left: 9%;
       }
     </style>
   </head>

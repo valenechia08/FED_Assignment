@@ -1,0 +1,23 @@
+    body {
+        margin: 0;
+        font-family: Arial;
+    }
+
+    .container {
+        display: flex;
+        height: 100vh;
+    }
+
+    .left-pane {
+        flex: 1;
+        background-image: url("images/Noodles.jpeg");
+        background-size: cover;
+        background-position: center;
+    }
+
+    .right-pane {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
