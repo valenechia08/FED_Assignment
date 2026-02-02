@@ -50,6 +50,8 @@
           sans-serif;
         position: relative;
         padding-bottom: 50%;
+        top: 1%;
+        right: 2%;
       }
       .group {
         position: absolute;
@@ -83,7 +85,7 @@
         color: #007bff;
       }
 
-      .card button {
+      #loginBtn {
         display: flex;
         background-color: #e47329;
         color: white;
@@ -111,12 +113,31 @@
         top: 20%;
         margin: 0;
       }
+      .backBtn {
+        border: none;
+        background: none;
+        font-size: 24px;
+        cursor: pointer;
+        position: relative;
+        right: 5%;
+        margin-bottom: 75%;
+      }
+      .guestLogin {
+        text-decoration: none;
+        position: absolute;
+        bottom: -7%;
+        margin-left: 34%;
+      }
+      .guestLogin a {
+        color: grey;
+      }
     </style>
   </head>
   <body>
     <div class="container">
       <div class="left-pane"></div>
       <div class="right-pane">
+        <button class="backBtn">←</button>
         <div class="card">
           <h1>ShiokLah!</h1>
           <div class="group">
@@ -128,6 +149,7 @@
             <a href="FindAccount.html">Forgot Password?</a>
           </div>
           <button id="loginBtn">Log in</button>
+          <div class="guestLogin" id="guestLogin"></div>
           <div class="message" id="message"></div>
         </div>
       </div>
