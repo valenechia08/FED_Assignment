@@ -13,6 +13,12 @@
 * {
   box-sizing: border-box;
 }
+.main img{
+  width:50px;
+  height:auto;
+  padding-right:0;
+}
+
 .brand img{
   padding:0;
   width:auto;
@@ -46,7 +52,7 @@ body {
       width: 220px;
       min-height: 100vh;
       flex-shrink: 0;
-      border-right:2px solid black;
+      border-right:1px solid rgb(74, 74, 74);
     }
 
     /* Brand */
@@ -192,9 +198,13 @@ body {
 }
 
 .order.limit {
-  margin-left: auto;
-  margin-left: 20px;
+  margin-left: 350px;
   /* white-space: nowrap; */
+}
+.limit img{
+  margin-left:10px;
+  width:20px;
+  height: auto;
 }
 
 /* .page-header .order.limit {

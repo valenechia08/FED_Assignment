@@ -15,6 +15,53 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="Vendor.css" />
+    <style>
+    nav.tabs {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    nav.tabs button {
+      padding: 10px 20px;
+      border-color: rgb(174, 174, 174);
+      background: #f0f0f0;
+      color: #6e6e6e;
+      font-weight:bold;
+      cursor: pointer;
+      border-radius: 20px;
+    }
+
+    nav.tabs .active {
+      background: #E47329;
+      color: white;
+      border-color:#cb6724;
+    }
+
+    section {
+      margin-bottom: 30px;
+    }
+
+    section h2 {
+      margin-bottom: 10px;
+      font-size: 18px;
+      color: #333;
+    }
+
+    .order-card {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 15px;
+      margin-bottom: 10px;
+    }
+
+    .order-card strong {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    </style>
   </head>
   <body>
     <!-- Vendor Home -->
@@ -24,8 +71,8 @@
 
         <ul class="navBar">
           <li>
-            <a href="FED_ASG.html" class="main toggle">
-              🏠 Home
+            <a href="PerformanceDashboard.html" class="main toggle">
+              📊 Dashboard
             </a>
           </li>
 
@@ -99,77 +146,42 @@
           <h1>Incoming Orders</h1>
           <!-- <div class="divider"></div> -->
         </div>
-
-        <div class="order limit">
-          Order Limit: <span>10</span>
-        </div>
       </div>
     </header>
 
-        <section class="order grid">
+    <nav class="tabs">
+    <button class="pending active">Pending</button>
+    <button class="progress">In Progress</button>
+    <button class="shipped toggle">Shipped</button>
+    <button class="declined toggle">Declined</button>
+    <div class="order limit">Order Limit: <span>10</span><img src="images/edit.png" alt="Edit Order Limit"></div>
+    </nav>
 
-      <section class="order box">
-        <h2 class="order status">Pending Orders</h2>
-        <div class="order scroll">
-          <!-- Order Card -->
-          <article class="order card">
-            <h3>Order #00001</h3>
-            <section class="order header">
-            <p>Today · 9:16am</p>
-            <p class="timer">Timer: 15:00</p>
-            </section>
-            <p>Set Meal A   $5.00 ×2  $10.00</p>
-            <div class="actions">
-              <button class="accept">Accept</button>
-              <button class="reject">Reject</button>
-            </div>
-          </article>
+  <!-- Orders Today -->
+  <section>
+    <h2>Today</h2>
+    <div class="order-card">
+      <strong>Pending order - 11:04am</strong>
+      <p>You have an order from Tobi (432112340987) for 1 Cap. Please review and process the order.</p>
+    </div>
+    <div class="order-card">
+      <strong>Pending order - 08:04am</strong>
+      <p>You have an order from David (098712348765) for 4 Caps. Please review and process the order.</p>
+    </div>
+  </section>
 
-          <article class="order card">
-            <h3>Order #00002</h3>
-            <section class="order header">          
-            <p>Today · 9:22am</p>
-            <p class="timer">Timer: 15:00</p>
-            </section>
-            <p>Set Meal B   $4.00 ×1  $4.00</p>
-            <div class="actions">
-              <button class="accept">Accept</button>
-              <button class="reject">Reject</button>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <section class="order box">
-        <h2 class="green order status">Accepted Orders</h2>
-        <!-- <div class="order scroll"></div> -->
-        <div class="order scroll">
-          <!-- Order Card Hidden-->
-          <article class="order card hidden">
-            <h3>Order #00002</h3>
-            <section class="order header">
-            <p>Today · 9:22am</p>
-            <p class="timer">Timer: 15:00</p>
-            </section>
-            <p>Set Meal B  $4.00 ×1  $4.00</p>
-            <div class="actions">
-              <button class="accept">Accept</button>
-              <button class="reject">Reject</button>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <section class="order box">
-        <h2 class="order status">Completed Orders</h2>
-        <div class="order scroll"></div>
-      </section>
-
-      <section class="order box">
-        <h2 class="red order status">Cancelled Orders</h2>
-        <div class="orders scroll"></div>
-      </section>
-
+  <!-- Orders Yesterday -->
+  <section>
+    <h2>Yesterday</h2>
+    <div class="order-card">
+      <strong>Pending order - 12:14pm</strong>
+      <p>You have an order from Tobi (432232310987) for 1 Cap. Please review and process the order.</p>
+    </div>
+    <div class="order-card">
+      <strong>Pending order - 10:14am</strong>
+      <p>You have an order from David (09877890654321) for 4 Caps. Please review and process the order.</p>
+    </div>
+  </section>
     </section>
   </main>
     <script type="module" src="Master_page_javascript.js"></script>
