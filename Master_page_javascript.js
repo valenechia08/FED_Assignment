@@ -182,22 +182,113 @@ async function loginMember() {
   }
 }
 
+// async function retrieveAccount() {
+//   const username = normalizeUsername($("username")?.value ?? "");
+//   const continueButton = $("continueBtn");
+
+//   if (!username) {
+//     showMessage("Please enter your username.");
+//     return;
+//   }
+//   try {
+//     const memberRef = ref(db, `members/${username}`);
+//     const snap = await get(memberRef);
+
+//     if (!snap.exists()) {
+//       showMessage("User not found", "red");
+//       return;
+//     } else {
+//       sessionStorage.setItem("currentInUser", username);
+//       window.location.href = "ConfirmAccount.html";
+//     }
+//   } catch (err) {
+//     console.error(err);
+//     showMessage(`Login failed: ${err?.message ?? "Unknown error"}`, "red");
+//   }
+// }
 async function retrieveAccount() {
   const username = normalizeUsername($("username")?.value ?? "");
-  const continueButton = $("continueBtn");
 
   if (!username) {
-    showMessage("Please enter your username.");
+    showMessage("Please enter a username", "red");
     return;
-  } else {
-    const memberRef = ref(db, `members/${username}`);
+  }
 
-    const snap = await get(memberRef);
-    if (snap.exists()) {
-      sessionStorage.setItem("currentUser", username);
-      window.location.href = "ConfirmAccount.html";
+  const snapshot = await get(ref(db, `members/${username}`));
+
+  if (!snapshot.exists()) {
+    showMessage("Account not found", "red");
+    return;
+  }
+  sessionStorage.setItem("currentUser", username);
+  window.location.href = "ConfirmAccount.html";
+}
+function generateCode() {
+  let generatedCode = Math.floor(100000 + Math.random() * 900000).toString();
+
+  // Fake alert (what you asked for)
+  alert(`Your verification code is: ${generatedCode}`);
+  return generatedCode;
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  let finalCode = null;
+  if (window.location.pathname.endsWith("ConfirmAccount.html")) {
+    // Generate code on page load
+    finalCode = generateCode();
+  }
+  document.querySelector(".backBtn").addEventListener("click", () => {
+    window.location.href = "ChangePassword.html";
+  });
+
+  // Resend button
+  document.getElementById("resendBtn").addEventListener("click", () => {
+    finalCode = generateCode();
+  });
+
+  // Verify OTP
+  document.getElementById("primaryBtn").addEventListener("click", () => {
+    const userCode = document.getElementById("code").value.trim();
+
+    if (!userCode) {
+      showMessage("Please enter the code.", "red");
       return;
     }
+
+    if (userCode === finalCode) {
+      showMessage("✅ Verification successful!", "green");
+      window.location.href = "ChangePassword.html";
+    } else {
+      showMessage("❌ Invalid code. Try again.", "red");
+    }
+  });
+});
+
+//Change Password
+async function resetPassword() {
+  const username = sessionStorage.getItem("currentUser");
+  console.log(username);
+  const password = $("newPassword")?.value ?? "";
+  const msg = document.getElementById("msg");
+
+  const rule = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{9,}$/;
+
+  if (!rule.test(password)) {
+    msg.innerHTML = "❌ Must be 9+ chars with letters & numbers only";
+    return;
+  }
+  try {
+    const passwordHash = await sha256(password);
+
+    await update(ref(db, `members/${username}`), {
+      passwordHash: passwordHash,
+      passwordUpdatedAt: Date.now(),
+    });
+
+    msg.innerHTML = "✅ Password updated successfully — you can now log in";
+    sessionStorage.removeItem("currentUser");
+  } catch (err) {
+    msg.innerHTML = "❌ " + err.message;
   }
 }
 
@@ -215,68 +306,85 @@ document.addEventListener("DOMContentLoaded", () => {
     $("loginBtn").addEventListener("click", loginMember);
   }
 
-  // Reset Password
+  // Find account page
   if ($("continueBtn")) {
     $("continueBtn").addEventListener("click", retrieveAccount);
   }
+  //Reset password page
+  if ($("resetPasswordBtn")) {
+    $("resetPasswordBtn").addEventListener("click", resetPassword);
 
-  // Optional: allow Enter key to submit on login page
-  if ($("loginBtn") && $("password")) {
-    $("password").addEventListener("keydown", (e) => {
-      if (e.key === "Enter") loginMember();
-    });
-  }
-
-  // Optional: allow Enter key to submit on register page
-  if ($("registerBtn")) {
-    $("registerBtn").addEventListener("keydown", (e) => {
-      if (e.key === "Enter") registerMember();
-    });
-  }
-
-  //
-  if ($("continueBtn")) {
-    $("continueBtn").addEventListener("keydown", (e) => {
-      if (e.key === "Enter") retrieveAccount();
-    });
-  }
-});
-
-//LOGOUT & Login
-// Check login
-document.addEventListener("DOMContentLoaded", () => {
-  const username = sessionStorage.getItem("loggedInUser");
-
-  // if (!username || !password) {
-  //   document.querySelector(".message").textContent="Please enter both username and password.";
-  // } else {
-  // if (username) {
-  //   document.querySelector(".usernameDisplay").textContent = `${username}`; //Displays username under profile
-  // }
-  // }
-
-  // Logout
-const logoutBtn = document.querySelector(".logout");
-  if (logoutBtn) {
-    logoutBtn.addEventListener("click", () => {
-      sessionStorage.removeItem("loggedInUser");
+    document.querySelector(".secondBackBtn").addEventListener("click", () => {
       window.location.href = "login.html";
     });
+
+    // Optional: allow Enter key to submit on login page
+    if ($("loginBtn") && $("password")) {
+      $("password").addEventListener("keydown", (e) => {
+        if (e.key === "Enter") loginMember();
+      });
+    }
+
+    // Optional: allow Enter key to submit on register page
+    if ($("registerBtn")) {
+      $("registerBtn").addEventListener("keydown", (e) => {
+        if (e.key === "Enter") registerMember();
+      });
+    }
+
+    //
+    if ($("continueBtn")) {
+      $("continueBtn").addEventListener("keydown", (e) => {
+        if (e.key === "Enter") retrieveAccount();
+      });
+    }
   }
 });
+//LOGOUT & Login
+// Check login
+// document.addEventListener("DOMContentLoaded", () => {
+//   const username = sessionStorage.getItem("loggedInUser");
 
-//Top Navigation 
-document.querySelectorAll('.menu-item').forEach(item => {
-    item.addEventListener('click', e => {
-      const dropdown = item.querySelector('.dropdown');
-      if (dropdown) {
-        e.preventDefault();
-        dropdown.style.display =
-          dropdown.style.display === 'block' ? 'none' : 'block';
-      }
+// if (!username || !password) {
+//   document.querySelector(".message").textContent="Please enter both username and password.";
+// } else {
+//   if (username) {
+//     document.querySelector(".usernameDisplay").textContent = `${username}`; //Displays username under profile
+//   }
+//   // }
+
+//   // Logout
+//   document.querySelector(".logout").addEventListener("click", () => {
+//     sessionStorage.removeItem("loggedInUser");
+//     window.location.href = "login.html";
+//   });
+// });
+
+//Top Navigation
+// Top Navigation
+document.querySelectorAll(".menu-item").forEach((item) => {
+  const mainLink = item.querySelector("a"); // main menu link
+  const dropdown = item.querySelector(".dropdown");
+
+  // Toggle dropdown when clicking the main menu link
+  if (mainLink && dropdown) {
+    mainLink.addEventListener("click", (e) => {
+      e.preventDefault(); // prevent navigation for main menu
+      dropdown.style.display =
+        dropdown.style.display === "block" ? "none" : "block";
     });
-  });
+  }
 
+  // Allow submenu links to navigate normally
+  if (dropdown) {
+    dropdown.querySelectorAll("a").forEach((subLink) => {
+      subLink.addEventListener("click", () => {
+        // no preventDefault here → browser navigates to href
+        dropdown.style.display = "none"; // optional: close dropdown after click
+      });
+    });
+  }
+});
 
 /*Mobile Navigation*/
 document.querySelectorAll(".mobile-nav-item").forEach((item) => {
@@ -291,59 +399,61 @@ document.querySelectorAll(".mobile-nav-item").forEach((item) => {
 /*Search Bar to search up stalls*/
 const searchInput = document.querySelector(".search-input");
 const stallCards = document.querySelectorAll(".stall-card");
-if (searchInput){
-// Listen for typing
-searchInput.addEventListener("keyup", function () {
-  const query = this.value.toLowerCase();
-  stallCards.forEach((card) => {
-    const name = card.querySelector("h4").textContent.toLowerCase();
-    const info = card.querySelector("p").textContent.toLowerCase();
+if (searchInput) {
+  // Listen for typing
+  searchInput.addEventListener("keyup", function () {
+    const query = this.value.toLowerCase();
+    stallCards.forEach((card) => {
+      const name = card.querySelector("h4").textContent.toLowerCase();
+      const info = card.querySelector("p").textContent.toLowerCase();
 
-    // Show if query matches name or info
-    if (name.includes(query) || info.includes(query)) {
-      card.style.display = "";
-    } else {
-      card.style.display = "none";
-    }
+      // Show if query matches name or info
+      if (name.includes(query) || info.includes(query)) {
+        card.style.display = "";
+      } else {
+        card.style.display = "none";
+      }
+    });
   });
-});
+
+  // Grab all cuisine cards
+  const cuisines = document.querySelectorAll(".cuisine-card");
+
+  // Grab all stall cards
+  const stalls = document.querySelectorAll(".stall-card");
+
+  cuisines.forEach((cuisine) => {
+    cuisine.addEventListener("click", () => {
+      // check if this cuisine is already selected
+      const isSelected = cuisine.classList.contains("selected");
+
+      // remove 'selected' from all cuisines
+      cuisines.forEach((c) => c.classList.remove("selected"));
+
+      if (isSelected) {
+        // if clicked again, deselect and show all stalls
+        stalls.forEach((stall) => {
+          stall.style.display = "flex";
+        });
+      } else {
+        // otherwise, select this cuisine
+        cuisine.classList.add("selected");
+
+        // get the cuisine name from the <p> tag and normalize it
+        let chosenCuisine = cuisine
+          .querySelector("p")
+          .textContent.trim()
+          .toLowerCase();
+
+        // filter stalls based on class
+        stalls.forEach((stall) => {
+          if (stall.classList.contains(chosenCuisine)) {
+            stall.style.display = "flex"; // show matching stalls
+          } else {
+            stall.style.display = "none"; // hide non-matching stalls
+          }
+        });
+      }
+    });
+  });
 }
-
-// Grab all cuisine cards
-const cuisines = document.querySelectorAll(".cuisine");
-
-// Grab all stall cards
-const stalls = document.querySelectorAll(".stall-card");
-
-cuisines.forEach((cuisine) => {
-  cuisine.addEventListener("click", () => {
-    // check if this cuisine is already selected
-    const isSelected = cuisine.classList.contains("selected");
-
-    // remove 'selected' from all cuisines
-    cuisines.forEach((c) => c.classList.remove("selected"));
-
-    if (isSelected) {
-      // if clicked again, deselect and show all stalls
-      stalls.forEach((stall) => {
-        stall.style.display = "flex";
-      });
-    } else {
-      // otherwise, select this cuisine
-      cuisine.classList.add("selected");
-
-      // get the cuisine class (e.g. "malay", "chinese", "indian", "other")
-      let chosenCuisine = cuisine.querySelector("span").classList[0];
-      console.log("Chosen cuisine:", chosenCuisine);
-
-      // filter stalls based on class
-      stalls.forEach((stall) => {
-        if (stall.classList.contains(chosenCuisine)) {
-          stall.style.display = "flex"; // show matching stalls
-        } else {
-          stall.style.display = "none"; // hide non-matching stalls
-        }
-      });
-    }
-  });
-});

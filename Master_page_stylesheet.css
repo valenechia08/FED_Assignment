@@ -1,446 +1,495 @@
-/*General Styling*/
-:root {
-  --orange: #FF7A18;
-  --orange-hover: #FF8C3A;
-}
-
-body {
-  margin: 0;
-  font-family: system-ui, Arial, sans-serif;
-}
-
-/* NAV BAR */
-.top-nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 40px;
-  height: 90px;
-  background: #fff;
-  border-bottom: 1px solid #eee;
-}
-
-/* LOGO */
-.logo {
-  font-size: 32px;
-  font-weight: 700;
-  color: var(--orange);
-  font-family: 'Kodchasan', Arial, sans-serif;
-}
-
-/* MENU */
-.menu {
-  list-style: none;
-  display: flex;
-  
+* {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-.menu-item {
-  position: relative;
-  left:150px;
-  padding:0 23px;
+body {
+  font-family: "Open Sans", sans-serif;
+  background: #fff;
+  color: #222;
 }
 
-.menu-item > a {
-  text-decoration: none;
-  color: #333;
-  font-weight: 600;
-  padding: 10px 0;
-  transition: color 0.2s ease;
+/* CONTAINER */
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: auto;
 }
-
-/* MAIN MENU HOVER */
-.menu-item > a:hover {
-  color: var(--orange);
+:root {
+  --primary-orange: #FF8C3A;
+  --primary-yellow: #ffd400;
+  --dark-text: #111;
 }
-
-/* DROPDOWN */
-.dropdown {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background: #FFD400;
-  border-radius: 14px;
-  padding: 16px 0;
-  min-width: 180px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-  display: none;
+/* NAVBAR */
+.navrectangle {
+  background: white;
+  margin-top: 25px;
+  position: sticky;
+  top: 0;
   z-index: 1000;
 }
 
-/* DROPDOWN ITEM */
+
+.top-nav {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  height: 40px;
+  gap: 40px;
+
+}
+.top-nav > nav {
+  justify-self: center;
+}
+
+.Logo {
+  display: flex;
+  align-items: center;
+  height: 70px; /* fixed height to prevent nav shift */
+  overflow: hidden; /* hides any overflow from scaling */
+
+}
+
+.Logo img {
+  height: 100%;       /* fills the container height */
+  width: auto;        /* maintains aspect ratio */
+  transform: scale(1.2); /* scales image visually */
+  transform-origin: left center; /* keeps it aligned */
+
+}
+
+
+
+.menu {
+  display: flex;
+  align-items: center;
+  gap: 65px;
+  list-style: none;
+}
+
+.menu a {
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 15px;
+  color: #111;
+}
+
+.menu a:hover {
+  color: var(--primary-orange);
+}
+
+
+.reserve-btn {
+  background: var(--primary-orange);
+  color: white;
+  border: 3px solid var(--primary-orange);
+  padding: 14px 30px;
+  border-radius: 22px;
+  font-weight: 800;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.reserve-btn:hover {
+  background: white;
+  color: var(--primary-orange);
+}
+
+.menu-item {
+  position: relative;
+}
+
+.dropdown {
+  position: absolute;
+  top: 130%;
+  left: 0;
+  background: var(--primary-yellow);
+  border-radius: 14px;
+  min-width: 140px;
+  padding: 10px 0;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+  display: none;
+}
+
 .dropdown li {
   list-style: none;
 }
 
 .dropdown a {
   display: block;
-  padding: 10px 20px;
-  color: #333;
-  text-decoration: none;
-  font-weight: 600;
-  transition: color 0.2s ease, background 0.2s ease;
+  padding: 10px 18px;
+  font-weight: 700;
+  color: #111;
 }
 
-/* SUBMENU HOVER */
 .dropdown a:hover {
-  color: var(--orange);
-  background: rgba(255, 122, 24, 0.15);
+  background: rgba(0,0,0,0.08);
 }
 
-/* SHOW DROPDOWN ON HOVER */
 .menu-item:hover .dropdown {
   display: block;
 }
 
-/* ACTION BUTTON */
-.reserve-btn {
-  background: #FF8C3A;
-  color: white;
+.Nav-line {
   border: none;
-  padding: 14px 24px;
-  margin-top:15px;
-  font-size: 15px;
-  font-weight: 600;
-  border-radius: 14px;
-  cursor: pointer;
-  transition: background 0.2s ease;
+  height: 1px;
+  background: #e0e0e0;
+  margin-top:40px;
+  margin-bottom: 18px;
 }
 
-.reserve-btn:hover {
-  background: #FF7A18;
+/* nav ends here */
+
+/* HOME */
+.home {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 40px;
+  margin: 20px 0;
 }
 
-
-/*Customer Styling*/
 .welcome-text {
-  position: absolute;
-  /* padding-top:20px; */
-  top: 110px;
-  left: 160px;
-  /* color: black; */
-  margin: 0;
-  font-family: 'Kodchasan', Arial, Helvetica, sans-serif;
+  font-size: 35px;
+  font-weight: 700;
+}
+.Banner {
+  width: 100%;          /* Container takes full width */
+  max-width: 1200px;    /* Optional: limit max width */
+  margin: 0 auto;       /* Center the banner if max-width is set */
+  margin-top:20px;
 }
 
+.Banner img {
+  width: 100%;          /* Image scales to container width */
+  height: auto;         /* Maintains aspect ratio */
+  display: block;       /* Removes inline spacing issues */
+}
 .searchBar {
-  position: absolute;
-  /* padding-top:20px; */
-  top: 110px;
-  left: 480px;
-  /* adjust based on sidebar width */
+  justify-self: center;
   display: flex;
   align-items: center;
-  height: 28px;
-  width: 550px;
-  background-color: #e0e0e0;
+  background: #e5e5e5;
   border-radius: 999px;
-  padding: 6px 10px;
+  padding: 12px 20px;
+  width: 480px;
+  height:42px;
 }
 
-/* Input */
-.search-input {
+.searchBar input {
+  border: none;
+  background: transparent;
   flex: 1;
-  border: none;
+  font-size: 14px;
   outline: none;
-  background: transparent;
-  padding:14px;
-  padding-top:18px;
-  font-size: 12px;
 }
 
-/* Button */
 .search-btn {
+  background: none;
   border: none;
-  background: transparent;
+  font-size: 20px;
   cursor: pointer;
-  font-size: 30px;
-  margin-right: 10px;
 }
 
+/* CUISINES */
 .cuisines {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: start;
-  gap: 50px;
-  padding: 25px;
-  position: absolute;
-  left: 7.5%;
-  top: 140px;
-  color: black;
-  margin: 0;
-  width: 80%;
-  border-bottom: 10px solid #EFEFEF;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+  margin-bottom: 24px;
 }
 
-.cuisine {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 150px;
-  margin: 15px;
+.cuisine-card {
+  text-align: center;
+  transition: all 0.25s ease; /* smooth highlight */
 }
 
-.cuisine img {
-  height: 139px;
+.cuisine-card img {
+  width: 100%;
+  height: 140px;              /* fixed height */
   object-fit: cover;
-  width: 180px;
-  margin: 5px;
-  border-radius: 10%;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 18px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
 }
 
-.cuisine span {
+.cuisine-card p {
   margin-top: 8px;
-  font-weight: bold;
-  text-align: center;
+  font-size: 16px;
+  font-weight: 600;           /* fixed weight so it doesn’t jump */
+}
+/* Selected state */
+.cuisine-card.selected img {
+  box-shadow: 0 0 12px #ff7a18; /* highlight with glow */
+  transform: scale(1.02); /* optional subtle effect, doesn’t affect text */
 }
 
-/*If cuisine is selected, img will have green border*/
-.cuisine.selected img {
-  border: 5px solid #4CAF50;
-  /* highlight selected */
+.cuisine-card.selected p {
+  color: var(--primary-orange);
 }
 
-section .home {
-  display: flex;
-  flex-direction: row;
-  margin: 5px;
+
+/* DIVIDER */
+
+.Content-line{
+  border: none;
+  height: 1px;
+  background: #e0e0e0;
+  margin-top:30px;
+  margin-bottom: 30px;
 }
 
+
+
+/* STALL GRID */
 .stall-grid {
-  display: flex;
-  flex-wrap: wrap;
-  /* allow multiple rows */
-  justify-content: flex-start;
-  gap: 25px;
-  position: absolute;
-  top: 60%;
-  left: 15%;
-  width: 80%;
-
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  margin-bottom: 60px;
 }
-.hidden{display: none;}
+
 .stall-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   background: white;
+  border-radius: 18px;       /* consistent rounded corners */
   overflow: hidden;
-  width: 250px;
-  margin-right: 4%;
-  margin-top: 5%;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  text-align: center;
-}
-
-.stall-info {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  flex-direction: column;    /* stack image on top, text below */
+  align-items: center;       /* center text under image */
+  text-align: center;        /* text alignment */
 }
 
 
 .stall-card img {
-  /* max-width:292px; */
+  width: 100%;               /* image fills card width */
+  height: 180px;             /* fixed height for consistency */
+  object-fit: cover;         /* crop without distortion */
+  border-radius: 18px 18px 0 0; /* rounded top corners only */
+}
+.stall-info {
+  padding: 12px;
+  width: 100%;
+}
+
+.stall-info h4 {
+  margin: 8px 0 4px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.stall-info p {
+  margin: 0;
+  font-size: 14px;
+  color: #555;
+}
+
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .home {
+    flex-direction: column;
+    gap: 20px;
+  }
+  .top-nav {
+    grid-template-columns: auto auto;
+  }
+  .cuisines,
+  .stall-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .menu {
+    display: none;
+  }
+}
+
+
+@media (max-width: 600px) {
+  .reserve-btn {
+    padding: 10px 18px;
+    font-size: 14px;
+  }
+
+  .logo {
+    font-size: 24px;* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Open Sans", sans-serif;
+  background: #fff;
+  color: #222;
+}
+
+:root {
+  --primary-orange:#ff7a18;
+  --primary-yellow: #ffd400;
+  --dark-text: #111;
+}
+
+/* CONTAINER */
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* NAVBAR */
+.navrectangle {
+  background: white;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  border-bottom: 1px solid #eee; /* Optional: adds definition if margin is low */
+}
+
+.top-nav {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  height: 50px; /* Reduced from 80px */
+  gap: 20px;    /* Reduced gap for better mobile fit */
+}
+
+.top-nav > nav {
+  justify-self: center;
+}
+
+.logo {
+  font-family: "Kodchasan", sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: #ff7a18;
+}
+
+.menu {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+  list-style: none;
+}
+
+.menu a {
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 15px;
+  padding-top:8px;
+  color: #111;
+}
+
+.menu a:hover {
+  color: var(--primary-orange);
+}
+
+.reserve-btn {
+  background: var(--primary-orange);
+  color: white;
+  border: 3px solid var(--primary-orange);
+  padding: 10px 24px; /* Slightly tighter padding */
+  border-radius: 22px;
+  font-weight: 800;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+/* HOME SECTION (WELCOME & SEARCH) */
+.home {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 40px;
+  margin: 30px 0 20px; /* Reduced margin: was 60px 0 40px */
+}
+
+.welcome-text {
+  font-size: clamp(16px, 5vw, 26px); /* Responsive font size */
+  font-weight: 700;
+  font-family: 'Kodchasan',Arial, Helvetica, sans-serif;
+}
+
+.searchBar {
+  justify-self: center;
+  display: flex;
+  align-items: center;
+  background: #e5e5e5;
+  border-radius: 999px;
+  padding: 12px 20px;
+  width: 100%;       /* Changed to 100% for responsiveness */
+  max-width: 480px;  /* Keeps the original look on desktop */
+}
+
+.searchBar input {
+  border: none;
+  background: transparent;
+  flex: 1;
+  font-size: 16px;
+  outline: none;
+}
+
+/* CUISINES */
+.cuisines {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Better responsiveness */
+  gap: 30px;
+  margin-bottom: 20px; /* Reduced from 40px */
+}
+
+.cuisine-card {
+  text-align: center;
+}
+
+.cuisine-card img {
   width: 100%;
   height: 160px;
   object-fit: cover;
-  border-radius: 15px;
-  border-radius: 15px;
-  margin-bottom: 10px;
-  /* adds space below image */
-  display: block;        /* ensures it behaves like a block element */
-  margin: 0;             /* removes auto-centering margins */
-  text-align: left;      /* aligns content left inside container */
-  max-width: 100%;       /* keeps images responsive */
-
-}
-hr{
-    display: none;
-
-
+  border-radius: 18px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
 }
 
-.stall-card h4 {
-  margin: 10px 0 5px;
+/* DIVIDER */
+hr {
+  border: none;
+  height: 1px;
+  background: #e0e0e0;
+  margin: 20px 0; /* Reduced from 40px */
 }
 
-.stall-card p {
-  margin: 0 10px 10px;
-  font-size: 14px;
-  color: gray;
+/* STALL GRID */
+.stall-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive columns */
+  gap: 30px;
+  margin-bottom: 40px;
 }
 
-/*Mobile View*/
-@media (max-width: 992px) {
-  .navrectangle {
-    display: none;
-  }
+.stall-card {
+  background: white;
+  border-radius: 18px;
+  overflow: hidden;
+}
 
-  .searchBar,
-  .cuisines,
-  .stall-grid {
-    position: static;
-    left: auto;
-    top: auto;
-    width: 100%;
-  }
-
-  .welcome-text {
-    display: none;
-  }
-
+/* RESPONSIVE BREAKPOINTS */
+@media (max-width: 900px) {
   .home {
-    padding-top: 50px;
+    grid-template-columns: 1fr; /* Stack welcome text and search */
+    text-align: center;
+    gap: 15px;
+    margin: 20px 0;
+  }
+  
+  .top-nav {
+    grid-template-columns: auto auto; /* Logo and Reserve button */
+    justify-content: space-between;
   }
 
-  /* 3️⃣ Welcome text */
-  .welcome-text {
-    font-size: 22px;
-    margin: 16px;
+  .menu {
+    display: none; /* Consider a hamburger menu for mobile later */
   }
-
-  /* 4️⃣ Search bar */
-  .searchBar {
-    margin: 10px;
-    width: 100%;
-    margin-left: 11%;
-  }
-
-  .search-btn {
-    font-size: 22px;
-  }
-
-  /* 5️⃣ Cuisine icons (round like your screenshot) */
-  .cuisines {
-    display: flex;
-    justify-content: space-around;
-    gap: 0;
-    padding: 12px 16px;
-    border-bottom: none;
-  }
-
-  .cuisine {
-    width: auto;
-    margin: 0;
-  }
-
-  .cuisine img {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-  }
-
-  .cuisine span {
-    font-size: 12px;
-  }
-
-  /* 6️⃣ Stall list (card → horizontal row) */
-  .stall-grid {
-    display: flex;
-    padding: 16px;
-    gap: 16px;
-  }
-
-  .stall-card {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    margin: 0 10px;
-    padding: 10px;
-    border-radius: 12px;
-    text-align: left;
-  }
-
-  .stall-info {
-    display: flex;
-    flex-direction: column;
-    text-align: left;
-  }
-
-  .stall-card img {
-    width: 100px;
-    height: 100px;
-    border-radius: 10px;
-    flex-shrink: 0;
-  }
-
-  .stall-card h4 {
-    font-size: 15px;
-    margin: 0 0 6px 12px;
-  }
-
-  .stall-card p {
-    font-size: 13px;
-    margin-left: 12px;
-  }
-
-  /* 7️⃣ Space for bottom nav (important) */
-  .stall-grid {
-    padding-bottom: 90px;
-  }
-
-  .stall-card {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-  }
-
-  /* Prevent image from centering or moving */
-  .stall-card img {
-    display: block;
-    margin: 0;
-  }
-
-  /* Ensure text stays beside image */
-  .stall-info {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    text-align: left;
-  }
-
-  .mobile-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 8%;
-    background-color: #FF7A18;
-    display: flex;
-    flex: 1;
-    justify-content: space-around;
-    align-items: center;
-    z-index: 1000;
-  }
-
-  .mobile-nav-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: white;
-    font-size: 17px;
-    opacity: 0.8;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  }
-
-  .mobile-nav-item span {
-    font-size: 22px;
-  }
-
-  .mobile-nav-item.active {
-    opacity: 1;
-    font-weight: bolder;
-    margin-bottom: 1%;
-    color: #7a2d1c;
-    font-size: 19px;
+}
   }
 }
