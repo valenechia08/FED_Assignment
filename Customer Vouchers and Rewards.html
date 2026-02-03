@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rewards Page</title>
+
+    <style>
+      * {
+        /*applies to every element*/
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", sans-serif;
+      }
+
+      h1 {
+        text-align: center; /*Rewards header*/
+        color: black;
+        margin-bottom: 10px; /*space between the Rewards and unlock exclusive offers*/
+      }
+
+      .subtitle {
+        /*subtitle below Rewards*/
+        text-align: center;
+        color: #555;
+        margin-bottom: 40px;
+      }
+
+      .rewards-container {
+        max-width: 1100px; /*layout of the vouchers*/
+        margin: auto;
+        display: grid; /*make vouchers horizontal(3 by 2) and column*/
+        grid-template-columns: repeat(
+          auto-fit,
+          minmax(260px, 1fr)
+        ); /*make vouchers horizontal(3 by 2) and column */
+        gap: 25px; /*spacing between each voucher box*/
+      }
+
+      .card {
+        background: white; /*each voucher card*/
+        border-radius: 15px;
+        padding: 25px;
+        text-align: center;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08); /*outline of each voucher card*/
+        transition: transform 0.2s;
+      }
+
+      .card:hover {
+        transform: translateY(-5px);
+      }
+
+      .icon {
+        font-size: 45px;
+        margin-bottom: 15px;
+        color: #e47329;
+      }
+
+      .card h2 {
+        color: #e47329; /*color of the words for vouchers*/
+        margin-bottom: 10px;
+      }
+
+      .card p {
+        color: #444;
+        margin-bottom: 20px;
+        font-size: 15px;
+      }
+
+      .btn {
+        background: #e47329;
+        color: white;
+        padding: 12px 25px;
+        border-radius: 25px;
+        border: none;
+        cursor: pointer;
+        font-weight: bold;
+        transition: 0.2s;
+      }
+
+      .btn:hover {
+        background: #e47329;
+      }
+
+      .code-box {
+        border: 2px dashed #e47329;
+        padding: 10px;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        font-weight: bold;
+        letter-spacing: 1px;
+        color: #e47329;
+      }
+
+      .refer {
+        margin-top: 40px;
+        background: linear-gradient(135deg, #e47329, #e47329);
+        color: white;
+        padding: 30px;
+        border-radius: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+
+      .refer h2 {
+        font-size: 24px;
+      }
+
+      .refer button {
+        background: white;
+        color: #e47329;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 25px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>🎁 Rewards</h1>
+    <p class="subtitle">Unlock exclusive offers just for you</p>
+
+    <div class="rewards-container">
+      <!-- 20% OFF -->
+      <div class="card">
+        <div class="icon">🏷️</div>
+        <h2>20% OFF</h2>
+        <p>Get 20% off your next order</p>
+        <button class="btn">Claim Now</button>
+      </div>
+
+      <!-- Gift Card -->
+      <div class="card">
+        <div class="icon">🎁</div>
+        <h2>$10 Gift Card</h2>
+        <p>Redeem a $10 gift card</p>
+        <button class="btn">Redeem Code</button>
+      </div>
+
+      <!-- Promo Code -->
+      <div class="card">
+        <div class="icon">✂️</div>
+        <h2>Save $15</h2>
+        <p>Orders above $50</p>
+        <div class="code-box">SAVE15</div>
+        <button class="btn">Copy Code</button>
+      </div>
+
+      <!-- Free Shipping -->
+      <div class="card">
+        <div class="icon">🚚</div>
+        <h2>Free Takeaway</h2>
+        <p>Enjoy free takeaway on all orders</p>
+        <button class="btn">Activate</button>
+      </div>
+
+      <!-- Bonus Points -->
+      <div class="card">
+        <div class="icon">💰</div>
+        <h2>Bonus Points</h2>
+        <p>Earn points on every purchase</p>
+        <button class="btn">Learn More</button>
+      </div>
+
+      <!-- Lucky Spin -->
+      <div class="card">
+        <div class="icon">🎡</div>
+        <h2>Lucky Spin</h2>
+        <p>Spin & win exciting prizes</p>
+        <button class="btn">Try Your Luck</button>
+      </div>
+    </div>
+
+    <!-- Refer Section -->
+    <div class="refer">
+      <h2>Refer a Friend & Get $10 🎉</h2>
+      <button>Refer Now</button>
+    </div>
+  </body>
+</html>
