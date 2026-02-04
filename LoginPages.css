@@ -21,3 +21,21 @@
         align-items: center;
         justify-content: center;
     }
+
+    @media (max-width: 992px) {
+        body {
+            margin: 0;
+        }
+
+        .left-pane {
+            display: none;
+        }
+
+        .right-pane {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 25%;
+        }
+    }

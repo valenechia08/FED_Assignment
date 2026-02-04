@@ -102,8 +102,85 @@
         right: 22.5%;
       }
 
-      /* Mobile responsive */
+      /* =========================
+   MOBILE (≤ 992px)
+   ========================= */
       @media (max-width: 992px) {
+        /* remove split layout */
+        .left-pane {
+          display: none;
+        }
+
+        .right-pane {
+          width: 100%;
+        }
+
+        /* back arrow */
+        .secondBackBtn {
+          padding-top: 32%;
+          position: static;
+          margin: 5% 0 3% 6%;
+          font-size: 1.6rem;
+          align-self: flex-start;
+        }
+
+        /* card */
+        .card {
+          top: 0; /* cancel desktop shift */
+          height: auto;
+          align-items: stretch;
+          padding: 5% 6% 10%;
+          font-size: 1.2rem;
+          position: relative;
+          right: 12%;
+        }
+
+        /* title */
+        h1 {
+          width: 120%;
+          font-size: 1.8rem;
+          right: 0;
+          margin: 10px 0;
+          text-align: left;
+        }
+
+        /* subtitle */
+        .subtitle {
+          width: 100%;
+          right: 0;
+          font-size: 0.95rem;
+          margin-bottom: 6%;
+          text-align: left;
+          margin-top: 2%;
+        }
+
+        /* message */
+        .message {
+          right: 0;
+          margin-bottom: 10px;
+          text-align: left;
+          font-size: 1rem;
+        }
+
+        /* input full width */
+        input {
+          width: 100%;
+          border-radius: 10px;
+          font-size: 1rem;
+        }
+
+        /* buttons full width */
+        #resendBtn,
+        #primaryBtn {
+          width: 100%;
+          padding: 5%;
+          font-size: 0.8rem;
+          margin-left: 5%;
+        }
+
+        #resendBtn {
+          margin-bottom: 14px;
+        }
       }
     </style>
   </head>
