@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regulatory&Complianceinfo</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Kodchasan:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
+        rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="Master_page_stylesheet.css" />
+
+    <style>
+      * {
+        box-sizing: border-box;
+        font-family: system-ui, -apple-system, sans-serif;
+      }
+
+      body {
+        margin: 0;
+        background: #fff;
+      }
+
+      .contents {
+        max-width: 1000px;
+        margin: auto;
+        padding: 1rem;
+      }
+
+      .page-header h1 {
+        margin: 0 0 1rem;
+        font-size: 1.4rem;
+      }
+
+      .content {
+        background: #fdeee6;
+        border-radius: 12px;
+        padding: 1rem;
+        overflow-x: auto;
+      }
+
+      /* Table header */
+      .table-header {
+        display: grid;
+        grid-template-columns: 90px 1.2fr 1.4fr 100px;
+        font-weight: 600;
+        padding: 0.5rem 0;
+        gap: 1rem;
+      }
+
+      /* List */
+      .stall-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      /* Card */
+      .stall-card {
+        display: grid;
+        grid-template-columns: 90px 1.2fr 1.4fr 100px;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      /* Image */
+      .stall-card img {
+        width: 90px;
+        height: 90px;
+        object-fit: cover;
+        border-radius: 8px;
+      }
+
+      /* Text */
+      .stall-name {
+        font-weight: 600;
+      }
+
+      .ratings {
+        font-size: 0.9rem;
+        line-height: 1.4;
+      }
+
+      /* Grade */
+      .grade {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 1.2rem;
+      }
+
+      .grade-a {
+        background: #d9534f;
+      }
+
+      .grade-b {
+        background: #5cb85c;
+      }
+
+      /* Responsive */
+      @media (max-width: 700px) {
+        .table-header,
+        .stall-card {
+          grid-template-columns: 70px 1fr 1fr 70px;
+        }
+
+        .stall-card img {
+          width: 70px;
+          height: 70px;
+        }
+      }
+
+    </style> 
+</head>
+
+<body>
+    <main class="container">
+      <nav class="navrectangle">
+        <header class="top-nav">
+          <!-- Logo -->
+          <div class="Logo">
+            <img src="/images/ShiokLah(cropped).jpeg" alt="Logo" />
+          </div>
+
+          <!-- Main Menu -->
+          <nav>
+            <ul class="menu">
+              <li class="menu-item">
+                <a href="#">Home</a>
+                <ul class="dropdown">
+                  <li><a href="#">Start Order</a></li>
+                </ul>
+              </li>
+
+              <li class="menu-item">
+                <a href="#">Order History</a>
+                <ul class="dropdown">
+                  <li><a href="OrderHistory.html">Past Orders</a></li>
+                </ul>
+              </li>
+
+              <li class="menu-item">
+                <a href="#">Profile</a>
+                <ul class="dropdown">
+                  <li><a href="UserProfile.html">Overview</a></li>
+                  <li><a href="Analytics.html">Analytics & Reporting</a></li>
+                  <li><a href="#">Customer Feedback</a></li>
+                  <li>
+                    <a href="R&C inspection log all.html"
+                      >Regulatory & Compliance</a
+                    >
+                  </li>
+                  <li><a href="#">Favourites</a></li>
+                  <li><a href="#">Rewards</a></li>
+                </ul>
+              </li>
+
+              <li class="menu-item">
+                <a href="SelectRole.html">Log Out</a>
+              </li>
+            </ul>
+          </nav>
+
+          <!-- Right Action -->
+          <div class="nav-action">
+            <button class="reserve-btn">Reserve A Table</button>
+          </div>
+        </header>
+      </nav>
+
+      <hr class="Nav-line" />
+
+      <main class="contents">
+  <header class="page-header">
+    <div class="header-row">
+      <div class="title-block">
+        <h1>8 Jan 2026, 11am</h1>
+      </div>
+    </div>
+  </header>
+
+  <main class="content">
+    <div class="table-header">
+      <span>Stall Pic</span>
+      <span>Stall Name</span>
+      <span>Ratings</span>
+      <span>Hygiene Grade</span>
+    </div>
+
+    <section class="stall-list">
+      <!-- Stall item -->
+      <article class="stall-card">
+        <img src="images/Banana Leaf Nasi Lemak Picture.jpg" alt="Banana Leaf Nasi Lemak">
+        <div class="stall-name">Banana Leaf<br>Nasi Lemak</div>
+        <div class="ratings">
+          Cleanliness - 87%<br>
+          Handling - 82%<br>
+          Efficiency - 84%<br>
+          <strong>Total - 84.3%</strong>
+        </div>
+        <div class="grade grade-a">A</div>
+      </article>
+
+      <article class="stall-card">
+        <img src="images/Boon Lay Fried Carrot Cake & Kway Teow Mee Picture.jpg" alt="Boon Lay Fried Carrot Cake">
+        <div class="stall-name">Boon Lay Fried<br>Carrot Cake &amp;<br>Kway Teow Mee</div>
+        <div class="ratings">
+          Cleanliness - 79%<br>
+          Handling - 76%<br>
+          Efficiency - 82%<br>
+          <strong>Total - 79%</strong>
+        </div>
+        <div class="grade grade-b">B</div>
+      </article>
+
+      <article class="stall-card">
+        <img src="images/Boon Lay Lu Wei Picture.jpg" alt="Boon Lay Lu Wei">
+        <div class="stall-name">Boon Lay Lu Wei</div>
+        <div class="ratings">
+          Cleanliness - 80%<br>
+          Handling - 90%<br>
+          Efficiency - 87%<br>
+          <strong>Total - 85.7%</strong>
+        </div>
+        <div class="grade grade-a">A</div>
+      </article>
+
+      <article class="stall-card">
+        <img src="images/I.Mohamed Ismail Food Stall Picture.jpg" alt="I. Mohamed Ismail Food Stall">
+        <div class="stall-name">I. Mohamed Ismail<br>Food Stall</div>
+        <div class="ratings">
+          Cleanliness - 80%<br>
+          Handling - 90%<br>
+          Efficiency - 87%<br>
+          <strong>Total - 85.7%</strong>
+        </div>
+        <div class="grade grade-a">A</div>
+      </article>
+
+      <article class="stall-card">
+        <img src="images/Big Daddy's Chicken & Noodle Picture.webp" alt="Big Daddy's Chicken & Noodle Stall">
+        <div class="stall-name">Big Daddy's<br>Chicken &amp;<br>Noodle Stall</div>
+        <div class="ratings">
+          Cleanliness - 86%<br>
+          Handling - 90%<br>
+          Efficiency - 75%<br>
+          <strong>Total - 83.6%</strong>
+        </div>
+        <div class="grade grade-b">B</div>
+      </article>
+    </section>
+  </main>
+</main>
