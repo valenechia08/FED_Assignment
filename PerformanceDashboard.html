@@ -142,46 +142,60 @@
           <img src="images/ShiokLahTransparent.png" alt="ShiokLah">
         </header>
 
-      <ul class="navBar">
-        <li class="main toggle">
-          <div class="title-row"><img src="images/statisctics.png" alt="ShiokLah">Dashboard</div>
-          <!-- <ul class="submenu">
-            <li><button class="subpoint">• Start Order</button></li>
-          </ul> -->
-        </li>
+        <ul class="navBar">
+          <li>
+            <a href="FED_ASG.html" class="main toggle">
+              🏠 Home
+            </a>
+          </li>
 
-        <li class="main toggle">
-          <div class="title-row"><img src="images/ShiokLah.jpeg" alt="ShiokLah">Orders <span class="arrow"><img src="images/down.png"></span></div>
-          <ul class="submenu">
-            <li><button class="subpoint">• Past Orders</button></li>
-          </ul>
-        </li>
-        
-        <li class="main toggle">
-          <div class="title-row"><img src="images/menu (2).png" alt="ShiokLah">Menu <span class="arrow"><img src="images/down.png"></span></div>
-          <ul class="submenu">
-            <li><button class="subpoint">• Profile</button></li>
-            <li><button class="subpoint">• Favourites</button></li>
-            <li><button class="subpoint">• Rewards</button></li>
-          </ul>
-        </li>
+          <!-- <li class="divider"></li> -->
 
-        <li class="main toggle">
-          <div class="title-row"><img src="images/user.png" alt="ShiokLah">Profile <span class="arrow"><img src="images/down.png"></span></div>
-          <ul class="submenu">
-            <li><button class="subpoint">• Profile</button></li>
-            <li><button class="subpoint">• Favourites</button></li>
-            <li><button class="subpoint">• Rewards</button></li>
-          </ul>
-        </li>
+           <li>
+            <a href="VendorEditMenu.html" class="main toggle">
+              🍽️ Edit Menu
+            </a>
+          </li>
 
-        <li class="main toggle logout">
-          <button onclick="window.location.href='login.html';" class="subpoint"><img src="images/logout.png" alt="ShiokLah">Log Out</button>
-        </li>
-      </ul>
-    </nav>
-            <nav class="mobile-nav vendornav">
-        <div class="mobile-nav-item active" data-link="PerformanceDashboard.html">
+          <!-- <li class="divider"></li> -->
+
+          <li class="main toggle ven-profile">
+            <span>👤 Profile</span>
+            <span class="usernameDisplay"></span>
+            <span class="arrow">v</span>
+          </li>
+          <ul class="submenu">
+            <li>
+              <button onclick="window.location.href='StallHygieneGrades.html';" class="subpoint">
+               • Stall Hygiene Grades
+              </button>
+            </li>
+            <li>
+             <button onclick="window.location.href='PerformanceDashboard.html';" class="subpoint">
+               • Performance Dashboard
+              </button>
+            </li>
+            <li>
+              <button onclick="window.location.href='RentalAgreement.html';" class="subpoint">
+              • My Rental Agreements
+              </button>
+            </li>
+
+            <li>
+            <button onclick="window.location.href='CustomerFeedBack.html';" class="subpoint">
+              • Customer Feedback
+              </button>
+            </li>
+            <li class="subpoint settings">• Settings</li>
+          </ul>
+
+          <!-- <li class="divider"></li> -->
+          <li class="subpoint logout">Log out</li>
+        </ul>
+      </nav>
+
+      <nav class="mobile-nav vendornav">
+        <div class="mobile-nav-item active" data-link="FED_ASG.html">
           <span>🏠</span>
           <small>Home</small>
         </div>

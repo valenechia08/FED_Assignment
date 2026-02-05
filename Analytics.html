@@ -1,74 +1,371 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>ShiokLah! Analytics Dashboard</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <head>
+    <meta charset="UTF-8" />
+    <title>ShiokLah! Analytics Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Kodchasan:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kodchasan:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
 
-  <!-- Chart.js -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    :root {
+      --primary-orange: #FF8C3A;
+      --primary-yellow: #ffd400;
+      --dark-text: #111;
+    }
+
+    .navrectangle {
+      background: white;
+      margin-top: 25px;
+      position: relative;
+      z-index: 1000;
+      font-family: "Kodchasan", Arial;
+
+    }
+
+    /* NAV LAYOUT */
+    .top-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 70px;
+    }
+    /* Left / Center / Right locking */
+    .nav-left,
+    .nav-right {
+      flex: 0 0 auto;
+    }
+
+    .nav-center {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+    }
+
+
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .Logo {
+      display: flex;
+      align-items: center;
+      height: 70px;
+      overflow: hidden;
+    }
+
+    .Logo img {
+      height: 100%;
+      width: auto;
+      transform: scale(1.2);
+      transform-origin: left center;
+    }
+
+    .menu {
+      display: flex;
+      align-items: center;
+      gap: 65px;
+      list-style: none;
+    }
+
+    .menu a {
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 15px;
+      color: #111;
+    }
+
+    .menu a:hover {
+      color: var(--primary-orange);
+    }
+
+    .reserve-btn {
+      background: var(--primary-orange);
+      color: white;
+      border: 3px solid var(--primary-orange);
+      padding: 14px 30px;
+      border-radius: 22px;
+      font-weight: 800;
+      font-size: 15px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .reserve-btn:hover {
+      background: white;
+      color: var(--primary-orange);
+    }
+
+    .menu-item {
+      position: relative;
+    }
+
+    .dropdown {
+      position: absolute;
+      top: 130%;
+      left: 0;
+      background: var(--primary-yellow);
+      border-radius: 14px;
+      min-width: 160px;
+      padding: 10px 0;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+      display: none;
+    }
+
+    .dropdown li {
+      list-style: none;
+    }
+
+    .dropdown a {
+      display: block;
+      padding: 10px 18px;
+      font-weight: 700;
+      color: #111;
+    }
+
+    .dropdown a:hover {
+      background: rgba(0,0,0,0.08);
+    }
+
+    .menu-item.active .dropdown {
+      display: block;
+    }
+
+    .Nav-line {
+      border: none;
+      height: 1px;
+      background: #e0e0e0;
+      margin-top: 25px;
+      margin-bottom: 18px;
+    }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 4px;
+      cursor: pointer;
+      margin-left: 15px
+    }
+
+    .hamburger div {
+      width: 25px;
+      height: 3px;
+      background: #111;
+      border-radius: 2px;
+    }
+
+    /* MOBILE */
+    @media (max-width: 768px) {
+      .menu {
+        display: none;
+        position: absolute;
+        top: 90px;
+        right: 20px;
+        flex-direction: column;
+        background: white;
+        padding: 20px;
+        border-radius: 14px;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        gap: 20px;
+      }
+
+      .menu.show {
+        display: flex;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+    }
+    /* nav ends here */
+    
+    :root {
+      --primary: #FF8C3A;
+      --bg: #f4f6f8;
+      --card: #ffffff;
+      --shadow: 0 8px 20px rgba(0,0,0,0.08);
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       font-family: "Kodchasan", sans-serif;
-      background: #f5f5f5;
+      background: var(--bg);
+      color: #333;
     }
 
     h2 {
-      color: #FF8C3A;
-    }
-
-    section {
-      background: white;
-      padding: 1.5rem;
-      margin-bottom: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-
-    .dashboard-container {
-      max-width: 1100px;
-      margin: auto;
-      padding: 2rem;
+      margin: 0 0 0.5rem;
+      color: var(--primary);
     }
 
     label {
       font-weight: 600;
+      font-size: 0.9rem;
     }
 
     select {
-      margin: 10px 0 20px;
-      padding: 6px;
+      margin-top: 6px;
+      padding: 6px 10px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      font-family: inherit;
+    }
+
+    /* ===== DASHBOARD WRAPPER ===== */
+    .dashboard-container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 2rem 1.2rem;
+    }
+
+    /* ===== GRID LAYOUT ===== */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+
+    .full-width {
+      grid-column: span 2;
+    }
+
+    /* ===== CARD ===== */
+    section {
+      background: var(--card);
+      padding: 1.5rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
     }
 
     canvas {
-      max-width: 100%;
-      margin-top: 20px;
+      margin-top: 1.2rem;
+      max-height: 280px;
+    }
+
+    /* ===== MOBILE VIEW ===== */
+    @media (max-width: 768px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .full-width {
+        grid-column: span 1;
+      }
+
+      canvas {
+        max-height: 240px;
+      }
     }
   </style>
 </head>
 
 <body>
+  <nav class="navrectangle">
+    <div class="container">
+      <div class="top-nav">
 
-<div class="dashboard-container">
+        <div class="nav-left">
+          <div class="Logo">
+            <img src="/images/ShiokLah(cropped).jpeg" alt="Logo" />
+          </div>
+        </div>
 
-  <!-- ================= SALES ANALYTICS ================= -->
-  <section>
-    <h2>Sales Analytics</h2>
+        <div class="nav-center">
+          <ul class="menu" id="menu">
+            <li class="menu-item">
+              <a href="#">Home</a>
+              <ul class="dropdown">
+                <li><a href="FED_ASG.html">Start Order</a></li>
+              </ul>
+            </li>
 
-    <label>Filter by:</label>
-    <select id="salesFilter">
-      <option value="month">This Month</option>
-      <option value="3months">Last 3 Months</option>
-      <option value="6months">Last 6 Months</option>
-    </select>
+            <li class="menu-item">
+              <a href="#">Order History</a>
+              <ul class="dropdown">
+                <li><a href="OrderHistory.html">Past Orders</a></li>
+              </ul>
+            </li>
 
-    <canvas id="salesChart"></canvas>
-  </section>
+            <li class="menu-item">
+              <a href="#">Profile</a>
+              <ul class="dropdown">
+                <li><a href="UserProfile.html">Overview</a></li>
+                <li><a href="Analytics.html">Analytics & Reporting</a></li>
+                <li><a href="#">Customer Feedback</a></li>
+                <li><a href="#">Regulatory & Compliance</a></li>
+                <li><a href="#">Favourites</a></li>
+                <li><a href="#">Rewards</a></li>
+              </ul>
+            </li>
+
+            <li class="menu-item">
+              <a href="SelectRole.html">Log Out</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="nav-right">
+          <button class="reserve-btn">Reserve A Table</button>
+          <div class="hamburger" id="hamburger">
+            <div></div><div></div><div></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </nav>
+  <hr class="Nav-line" />
+    
+  <div class="dashboard-container">
+
+    <div class="grid">
+
+      <!-- SALES ANALYTICS -->
+      <section>
+        <div class="card-header">
+          <h2>Sales Analytics</h2>
+          <div>
+            <label>Filter</label><br>
+            <select id="salesFilter">
+              <option value="month">This Month</option>
+              <option value="3months">Last 3 Months</option>
+              <option value="6months">Last 6 Months</option>
+            </select>
+          </div>
+        </div>
+        <canvas id="salesChart"></canvas>
+      </section>
 
   <!-- ================= CUSTOMER FEEDBACK ================= -->
   <section>

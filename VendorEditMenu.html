@@ -14,7 +14,7 @@
       href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="Vendor.css" />
+    <link rel="stylesheet" href="Master_page_stylesheet.css" />
     <style>
     .header {
       display: flex;
@@ -164,10 +164,6 @@
   background-color: #763322;
   color: white;
 }
-.add-btn img{
-  width:35px;
-  height:auto;
-}
     </style>
   </head>
   <body>
@@ -258,12 +254,18 @@
         <option>Malay</option>
         <option>Chinese</option>
         <option>Indian</option>
-      </select>
+      </select>7
       <!-- <button class="add-btn">
         <img src="images/add.png" alt="Add Menu">
       </button> -->
      <button id="addMenuBtn" class="add-btn">
-      <img src="images/add.png" alt="Add" class="icon">
+      <svg width="24" height="24" viewBox="0 0 24 24"
+          fill="none" xmlns="http://www.w3.org/2000/svg"
+          class="add-icon">
+        <circle cx="12" cy="12" r="11" stroke="#000" stroke-width="2"/>
+        <line x1="12" y1="7" x2="12" y2="17" stroke="#000" stroke-width="2"/>
+        <line x1="7" y1="12" x2="17" y2="12" stroke="#000" stroke-width="2"/>
+      </svg>
     </button>
     </div>
   </div>
