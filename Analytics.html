@@ -1,15 +1,18 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>ShiokLah! Analytics Dashboard</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <head>
+    <meta charset="UTF-8" />
+    <title>ShiokLah! Analytics Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Kodchasan:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kodchasan:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
 
-  <!-- Chart.js -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
     
@@ -364,117 +367,127 @@
         <canvas id="salesChart"></canvas>
       </section>
 
-      <!-- CUSTOMER FEEDBACK -->
-      <section>
-        <div class="card-header">
-          <h2>Customer Feedback</h2>
-          <div>
-            <label>Filter</label><br>
-            <select id="feedbackFilter">
-              <option value="month">This Month</option>
-              <option value="3months">Last 3 Months</option>
-              <option value="6months">Last 6 Months</option>
-            </select>
-          </div>
-        </div>
-        <canvas id="feedbackChart"></canvas>
-      </section>
+  <!-- ================= CUSTOMER FEEDBACK ================= -->
+  <section>
+    <h2>Customer Feedback</h2>
 
-      <!-- HYGIENE & INSPECTIONS -->
-      <section class="full-width">
-        <div class="card-header">
-          <h2>Hygiene & Inspections</h2>
-          <div>
-            <label>Filter</label><br>
-            <select id="hygieneFilter">
-              <option value="month">This Month</option>
-              <option value="6months">Last 6 Months</option>
-              <option value="year">This Year</option>
-            </select>
-          </div>
-        </div>
-        <canvas id="hygieneChart"></canvas>
-      </section>
+    <label>Filter by:</label>
+    <select id="feedbackFilter">
+      <option value="month">This Month</option>
+      <option value="3months">Last 3 Months</option>
+      <option value="6months">Last 6 Months</option>
+    </select>
 
-    </div>
-  </div>
+    <canvas id="feedbackChart"></canvas>
+  </section>
+
+  <!-- ================= HYGIENE & INSPECTIONS ================= -->
+  <section>
+    <h2>Hygiene & Inspections</h2>
+
+    <label>Filter by:</label>
+    <select id="hygieneFilter">
+      <option value="month">This Month</option>
+      <option value="6months">Last 6 Months</option>
+      <option value="year">This Year</option>
+    </select>
+
+    <canvas id="hygieneChart"></canvas>
+  </section>
+
+</div>
 
 <script>
-/* ===== SALES BAR CHART ===== */
-const salesChart = new Chart(
-  document.getElementById("salesChart"),
-  {
-    type: "bar",
-    data: {
-      labels: ["Chicken Rice", "Laksa", "Hokkien Mee"],
-      datasets: [{
-        data: [50, 40, 12],
-        backgroundColor: ["#FF8C3A", "#FFD400", "#66B2FF"]
-      }]
-    },
-    options: {
-      plugins: { legend: { display: false } },
-      responsive: true
-    }
-  }
-);
+/* ================= SALES BAR CHART ================= */
+const salesCtx = document.getElementById("salesChart");
 
-document.getElementById("salesFilter").addEventListener("change", e => {
-  salesChart.data.datasets[0].data =
-    e.target.value === "month" ? [50,40,12] :
-    e.target.value === "3months" ? [150,120,40] :
-    [300,250,90];
+const salesChart = new Chart(salesCtx, {
+  type: "bar",
+  data: {
+    labels: ["Chicken Rice", "Laksa", "Hokkien Mee"],
+    datasets: [{
+      label: "Orders",
+      data: [50, 40, 12],
+      backgroundColor: ["#FF8C3A", "#FFD400", "#66B2FF"]
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { display: false } }
+  }
+});
+
+document.getElementById("salesFilter").addEventListener("change", function () {
+  if (this.value === "month") {
+    salesChart.data.datasets[0].data = [50, 40, 12];
+  } else if (this.value === "3months") {
+    salesChart.data.datasets[0].data = [150, 120, 40];
+  } else {
+    salesChart.data.datasets[0].data = [300, 250, 90];
+  }
   salesChart.update();
 });
 
-/* ===== FEEDBACK DOUGHNUT ===== */
-const feedbackChart = new Chart(
-  document.getElementById("feedbackChart"),
-  {
-    type: "doughnut",
-    data: {
-      labels: ["1★","2★","3★","4★","5★"],
-      datasets: [{
-        data: [3.4,11.4,22.7,34.1,28.4],
-        backgroundColor: ["#ff4d4d","#ff944d","#ffd11a","#99cc00","#33cc33"]
-      }]
-    }
-  }
-);
 
-document.getElementById("feedbackFilter").addEventListener("change", e => {
-  feedbackChart.data.datasets[0].data =
-    e.target.value === "month" ? [3.4,11.4,22.7,34.1,28.4] :
-    e.target.value === "3months" ? [8.2,5.1,30.6,35.7,20.4] :
-    [2.3,17.2,23,34.5,23];
+/* ================= FEEDBACK DOUGHNUT CHART ================= */
+const feedbackCtx = document.getElementById("feedbackChart");
+
+const feedbackChart = new Chart(feedbackCtx, {
+  type: "doughnut",
+  data: {
+    labels: ["1★", "2★", "3★", "4★", "5★"],
+    datasets: [{
+      data: [3.4, 11.4, 22.7, 34.1, 28.4],
+      backgroundColor: [
+        "#ff4d4d",
+        "#ff944d",
+        "#ffd11a",
+        "#99cc00",
+        "#33cc33"
+      ]
+    }]
+  }
+});
+
+document.getElementById("feedbackFilter").addEventListener("change", function () {
+  if (this.value === "month") {
+    feedbackChart.data.datasets[0].data = [3.4, 11.4, 22.7, 34.1, 28.4];
+  } else if (this.value === "3months") {
+    feedbackChart.data.datasets[0].data = [8.2, 5.1, 30.6, 35.7, 20.4];
+  } else {
+    feedbackChart.data.datasets[0].data = [2.3, 17.2, 23, 34.5, 23];
+  }
   feedbackChart.update();
 });
 
-/* ===== HYGIENE LINE CHART ===== */
-const hygieneChart = new Chart(
-  document.getElementById("hygieneChart"),
-  {
-    type: "line",
-    data: {
-      labels: ["Jul","Aug","Sep","Oct","Nov","Dec"],
-      datasets: [{
-        data: [70,75,85,88,90,83],
-        borderColor: "#FF8C3A",
-        tension: 0.35,
-        fill: false
-      }]
-    }
-  }
-);
 
-document.getElementById("hygieneFilter").addEventListener("change", e => {
-  if (e.target.value === "month") {
+/* ================= HYGIENE LINE CHART ================= */
+const hygieneCtx = document.getElementById("hygieneChart");
+
+const hygieneChart = new Chart(hygieneCtx, {
+  type: "line",
+  data: {
+    labels: ["Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    datasets: [{
+      label: "Inspection Score (%)",
+      data: [70, 75, 85, 88, 90, 83],
+      borderColor: "#FF8C3A",
+      tension: 0.3,
+      fill: false
+    }]
+  }
+});
+
+document.getElementById("hygieneFilter").addEventListener("change", function () {
+  if (this.value === "month") {
     hygieneChart.data.labels = ["Dec"];
     hygieneChart.data.datasets[0].data = [83];
-  } else if (e.target.value === "6months") {
-    hygieneChart.data.labels = ["Jul","Aug","Sep","Oct","Nov","Dec"];
-    hygieneChart.data.datasets[0].data = [70,75,85,88,90,83];
-  } else {
+  } 
+  else if (this.value === "6months") {
+    hygieneChart.data.labels = ["Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    hygieneChart.data.datasets[0].data = [70, 75, 85, 88, 90, 83];
+  } 
+  else {
     hygieneChart.data.labels = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
     hygieneChart.data.datasets[0].data = [72,74,70,76,80,78,70,75,85,88,90,83];
   }

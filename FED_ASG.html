@@ -4,20 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ShiokLah!</title>
-
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Kodchasan:wght@200;300;400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Kodchasan:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
       rel="stylesheet"
     />
     <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&family=Open+Sans:wght@300..800&family=Roboto:wght@100..900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
     />
-
-    <!-- Styles -->
     <link rel="stylesheet" href="Master_page_stylesheet.css" />
   </head>
   <body>
@@ -92,6 +88,8 @@
       <!-- Welcome Section -->
       <section class="home">
         <h1 class="welcome-text">Welcome!</h1>
+
+        <!-- Search Bar -->
         <div class="searchBar">
           <input
             type="text"
@@ -101,55 +99,47 @@
           <button class="search-btn">⌕</button>
         </div>
       </section>
-
-      <!-- Cuisines -->
-      <section class="cuisines">
-        <div class="filter-btn cuisine-card" data-cuisine="Malay">
+      <main class="cuisines">
+        <section class="cuisine">
           <img src="images/Malay Cuisine Picture.jpg" alt="Malay Cuisine" />
-          <p>Malay</p>
-        </div>
-
-        <div class="filter-btn cuisine-card" data-cuisine="Chinese">
+          <span class="malay">Malay</span>
+        </section>
+        <section class="cuisine">
           <img src="images/Chinese Cuisine Picture.jpg" alt="Chinese Cuisine" />
-          <p>Chinese</p>
-        </div>
-
-        <div class="filter-btn cuisine-card" data-cuisine="Indian">
+          <span class="chinese">Chinese</span>
+        </section>
+        <section class="cuisine">
           <img src="images/Indian Cuisine Picture.webp" alt="Indian Cuisine" />
-          <p>Indian</p>
-        </div>
-
-        <div class="filter-btn cuisine-card" data-cuisine="Others">
+          <span class="indian">Indian</span>
+        </section>
+        <section class="cuisine">
           <img src="images/Other Cuisines Picture.webp" alt="Other Cuisine" />
-          <p>Others</p>
-        </div>
-      </section>
-
-      <hr class="Content-line" />
-
+          <span class="others">Others</span>
+        </section>
+      </main>
       <!-- Stall Grid -->
-      <section class="stall-grid" id="stall-grid">
-        <!-- <div class="stall-card malay">
+      <section class="stall-grid">
+        <div class="stall-card malay">
           <img src="images/Banana Leaf Nasi Lemak Picture.jpg" />
           <div class="stall-info">
-            <h4>Banana Leaf Nasi Lemak</h4>
-            <p>⭐ 4.0 (200) · Malay</p>
+          <h4>Banana Leaf Nasi Lemak</h4>
+          <p>⭐ 4.0 (200) · Malay</p>
           </div>
         </div>
 
         <div class="stall-card chinese">
           <img src="images/Boon Lay Lu Wei Picture.jpg" />
           <div class="stall-info">
-            <h4>Boon Lay Lu Wei</h4>
-            <p>⭐ 4.2 (243) · Chinese</p>
+          <h4>Boon Lay Lu Wei</h4>
+          <p>⭐ 4.2 (243) · Chinese</p>
           </div>
         </div>
 
         <div class="stall-card indian">
           <img src="images/I.Mohamed Ismail Food Stall Picture.jpg" />
           <div class="stall-info">
-            <h4>I. Mohamed Ismail Food Stall</h4>
-            <p>⭐ 4.5 (531) · Indian</p>
+          <h4>I. Mohamed Ismail Food Stall</h4>
+          <p>⭐ 4.5 (531) · Indian</p>
           </div>
         </div>
 
@@ -158,22 +148,179 @@
             src="images/Boon Lay Fried Carrot Cake & Kway Teow Mee Picture.jpg"
           />
           <div class="stall-info">
-            <h4>Boon Lay Fried Carrot Cake</h4>
-            <p>⭐ 4.2 (340) · Chinese</p>
+          <h4>Boon Lay Fried Carrot Cake</h4>
+          <p>⭐ 4.2 (340) · Chinese</p>
           </div>
         </div>
 
         <div class="stall-card others">
           <img src="images/Big Daddy's Chicken & Noodle Picture.webp" />
           <div class="stall-info">
-            <h4>Big Daddy's Chicken & Noodle Stall</h4>
-            <p>⭐ 4.5 (408) · Others</p>
+          <h4>Big Daddy's Chicken & Noodle Stall</h4>
+          <p>⭐ 4.5 (408) · Others</p>
           </div>
-        </div> -->
+        </div>
       </section>
-    </main>
+      <nav class="mobile-nav">
+        <div class="mobile-nav-item active">
+          <span>🏠</span>
+          <small>Home</small>
+        </div>
 
-    <!-- Scripts -->
+        <div class="mobile-nav-item">
+          <span>📄</span>
+          <small>Order History</small>
+          
+        </div>
+
+        <div class="mobile-nav-item">
+          <span>👤</span>
+          <small>Profile</small>
+        </div>
+      </nav>
+    </section>
+
+    <!-- Vendor Home -->
+     <section class="container vendornav hidden">
+      <nav class="navrectangle">
+        <header class="brand">
+          <img src="images/edit.png" alt="Edit" class="icon">
+        </header>
+
+        <ul class="navBar">
+          <li>
+            <a href="PerformanceDashboard.html" class="main toggle">
+              🏠 Dashboard
+            </a>
+          </li>
+
+          <!-- <li class="divider"></li> -->
+
+           <li>
+            <a href="VendorEditMenu.html" class="main toggle">
+              🍽️ Edit Menu
+            </a>
+          </li>
+
+          <!-- <li class="divider"></li> -->
+
+          <li class="main toggle ven-profile">
+            <span>👤 Profile</span>
+            <span class="usernameDisplay"></span>
+            <span class="arrow">v</span>
+          </li>
+          <ul class="submenu">
+            <li>
+              <button onclick="window.location.href='StallHygieneGrades.html';" class="subpoint">
+               • Stall Hygiene Grades
+              </button>
+            </li>
+            <li>
+             <button onclick="window.location.href='FED_ASG.html';" class="subpoint">
+               • Performance Dashboard
+              </button>
+            </li>
+            <li>
+              <button onclick="window.location.href='RentalAgreement.html';" class="subpoint">
+              • My Rental Agreements
+              </button>
+            </li>
+
+            <li>
+            <button onclick="window.location.href='CustomerFeedBack.html';" class="subpoint">
+              • Customer Feedback
+              </button>
+            </li>
+            <li class="subpoint settings">• Settings</li>
+          </ul>
+
+          <!-- <li class="divider"></li> -->
+          <li class="subpoint logout">Log out</li>
+        </ul>
+      </nav>
+
+      <nav class="mobile-nav vendornav">
+        <div class="mobile-nav-item active" data-link="PerformanceDashboard.html">
+          <span>🏠</span>
+          <small>Home</small>
+        </div>
+
+        <div class="mobile-nav-item" data-link="VendorEditMenu.html">
+          <span>🍽️</span>
+          <small>Edit Menu</small>
+        </div>
+
+        <div class="mobile-nav-item" data-link="VendorProfile.html">
+          <span>👤</span>
+          <small>Profile</small>
+        </div>
+      </nav>
+        <section class="order grid">
+
+      <section class="order box">
+        <h2 class="order status">Pending Orders</h2>
+        <div class="order scroll">
+          <!-- Order Card -->
+          <article class="order card">
+            <h3>Order #00001</h3>
+            <section class="order header">
+            <p>Today · 9:16am</p>
+            <p class="timer">Timer: 15:00</p>
+            </section>
+            <p>Set Meal A   $5.00 ×2  $10.00</p>
+            <div class="actions">
+              <button class="accept">Accept</button>
+              <button class="reject">Reject</button>
+            </div>
+          </article>
+
+          <article class="order card">
+            <h3>Order #00002</h3>
+            <section class="order header">          
+            <p>Today · 9:22am</p>
+            <p class="timer">Timer: 15:00</p>
+            </section>
+            <p>Set Meal B   $4.00 ×1  $4.00</p>
+            <div class="actions">
+              <button class="accept">Accept</button>
+              <button class="reject">Reject</button>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="order box">
+        <h2 class="green order status">Accepted Orders</h2>
+        <div class="order scroll"></div>
+        <div class="order scroll">
+          <!-- Order Card Hidden-->
+          <article class="order card hidden">
+            <h3>Order #00002</h3>
+            <section class="order header">
+            <p>Today · 9:22am</p>
+            <p class="timer">Timer: 15:00</p>
+            </section>
+            <p>Set Meal B  $4.00 ×1  $4.00</p>
+            <div class="actions">
+              <button class="accept">Accept</button>
+              <button class="reject">Reject</button>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="order box">
+        <h2 class="order status">Completed Orders</h2>
+        <div class="order scroll"></div>
+      </section>
+
+      <section class="order box">
+        <h2 class="red order status">Cancelled Orders</h2>
+        <div class="orders scroll"></div>
+      </section>
+
+    </section>
+  </main>
     <script type="module" src="Master_page_javascript.js"></script>
   </body>
 </html>
