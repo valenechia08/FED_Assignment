@@ -4,487 +4,450 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Rewards Page</title>
+
     <style>
-      <<<<<<< HEAD
-            * {
-              /*applies to every element*/
-      =======
-            /* RESET */
-            * {
-      >>>>>>> 5c7cefc46d18e674477e9d6aa662210d653b75c5
-              margin: 0;
-              padding: 0;
-              box-sizing: border-box;
-              font-family: "Segoe UI", sans-serif;
-            }
-      <<<<<<< HEAD
+      /* RESET */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", sans-serif;
+      }
 
-      <<<<<<< HEAD
-            h1 {
-              text-align: center; /*Rewards header*/
-              color: black;
-              margin-bottom: 10px; /*space between the Rewards and unlock exclusive offers*/
-            }
+      :root {
+        --primary-orange: #e47329;
+        --primary-yellow: #ffd400;
+        --grey-lock: #eee;
+        --grey-text: #888;
+      }
 
-            .subtitle {
-              /*subtitle below Rewards*/
-      =======
-      =======
-      >>>>>>> 130277e23d659c54c5a0366d7f4c3e191d52ec01
-            :root {
-              --primary-orange: #e47329;
-              --primary-yellow: #ffd400;
-              --grey-lock: #eee;
-              --grey-text: #888;
-            }
-            body {
-              background: #fff;
-              color: #222;
-            }
+      body {
+        background: #fff;
+        color: #222;
+      }
 
-            /* NAVIGATION */
-            .navrectangle {
-              background: white;
-              position: sticky;
-              top: 0;
-              z-index: 1000;
-              padding: 10px 40px;
-              border-bottom: 1px solid #eee;
-            }
-            .top-nav {
-              display: grid;
-              grid-template-columns: auto 1fr auto;
-              align-items: center;
-            }
-            .Logo {
-              height: 60px;
-              display: flex;
-              align-items: center;
-            }
-            .Logo img {
-              height: 100%;
-              width: auto;
-            }
-            .menu {
-              display: flex;
-              justify-content: center;
-              list-style: none;
-              gap: 50px;
-            }
-            .menu a {
-              text-decoration: none;
-              font-weight: 700;
-              color: #111;
-            }
-            .menu a:hover {
-              color: var(--primary-orange);
-            }
-            .menu-item {
-              position: relative;
-            }
-            .dropdown {
-              position: absolute;
-              top: 130%;
-              left: 0;
-              background: var(--primary-yellow);
-              border-radius: 12px;
-              padding: 10px 0;
-              min-width: 160px;
-              display: none;
-              box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-            }
-            .dropdown li {
-              list-style: none;
-            }
-            .dropdown a {
-              display: block;
-              padding: 10px 18px;
-              color: #111;
-            }
-            .dropdown a:hover {
-              background: rgba(0, 0, 0, 0.08);
-            }
-            .menu-item:hover .dropdown {
-              display: block;
-            }
+      /* NAVIGATION */
+      .navrectangle {
+        background: white;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        padding: 10px 40px;
+        border-bottom: 1px solid #eee;
+      }
 
-            /* MAIN CONTENT */
-            main {
-              padding: 50px 20px 60px;
-            }
-            h1 {
-              text-align: center;
-              margin-bottom: 10px;
-            }
-            .subtitle {
-      >>>>>>> 5c7cefc46d18e674477e9d6aa662210d653b75c5
-              text-align: center;
-              color: #555;
-              margin-bottom: 40px;
-            }
-            .rewards-container {
-      <<<<<<< HEAD
-              max-width: 1100px; /*layout of the vouchers*/
-              margin: auto;
-              display: grid; /*make vouchers horizontal(3 by 2) and column*/
-              grid-template-columns: repeat(
-                auto-fit,
-                minmax(260px, 1fr)
-              ); /*make vouchers horizontal(3 by 2) and column */
-              gap: 25px; /*spacing between each voucher box*/
-            }
+      .top-nav {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        align-items: center;
+      }
 
-            .card {
-              background: white; /*each voucher card*/
-              border-radius: 15px;
-              padding: 25px;
-              text-align: center;
-              box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08); /*outline of each voucher card*/
-      =======
-              max-width: 1100px;
-              margin: auto;
-              display: grid;
-              grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-              gap: 25px;
-            }
-            .card {
-              background: white;
-              border-radius: 15px;
-              padding: 25px;
-              text-align: center;
-              box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-      >>>>>>> 5c7cefc46d18e674477e9d6aa662210d653b75c5
-              transition: transform 0.2s;
-            }
-            .card:hover {
-              transform: translateY(-5px);
-            }
-            .icon {
-              font-size: 45px;
-              margin-bottom: 15px;
-      <<<<<<< HEAD
-              color: #e47329;
-            }
+      .Logo {
+        height: 60px;
+        display: flex;
+        align-items: center;
+      }
 
-            .card h2 {
-              color: #e47329; /*color of the words for vouchers*/
-      =======
-              color: var(--primary-orange);
-            }
-            .card h2 {
-              color: var(--primary-orange);
-      >>>>>>> 5c7cefc46d18e674477e9d6aa662210d653b75c5
-              margin-bottom: 10px;
-            }
-            .card p {
-              color: #444;
-              margin-bottom: 20px;
-              font-size: 15px;
-            }
-            .btn {
-      <<<<<<< HEAD
-              background: #e47329;
-      =======
-              background: var(--primary-orange);
-      >>>>>>> 5c7cefc46d18e674477e9d6aa662210d653b75c5
-              color: white;
-              padding: 12px 25px;
-              border-radius: 25px;
-              border: none;
-              cursor: pointer;
-              font-weight: bold;
-      <<<<<<< HEAD
-              transition: 0.2s;
-            }
+      .Logo img {
+        height: 100%;
+        width: auto;
+      }
 
-            .btn:hover {
-              background: #e47329;
-            }
+      .menu {
+        display: flex;
+        justify-content: center;
+        list-style: none;
+        gap: 50px;
+      }
 
-            .code-box {
-              border: 2px dashed #e47329;
-      =======
-            }
-            .code-box {
-              border: 2px dashed var(--primary-orange);
-      >>>>>>> 5c7cefc46d18e674477e9d6aa662210d653b75c5
-              padding: 10px;
-              border-radius: 8px;
-              margin-bottom: 15px;
-              font-weight: bold;
-      <<<<<<< HEAD
-              letter-spacing: 1px;
-              color: #e47329;
-            }
+      .menu a {
+        text-decoration: none;
+        font-weight: 700;
+        color: #111;
+      }
 
-            .refer {
-              margin-top: 40px;
-              background: linear-gradient(135deg, #e47329, #e47329);
-      =======
-              color: var(--primary-orange);
-            }
-            .btn.locked {
-              background: var(--grey-lock);
-              color: var(--grey-text);
-              cursor: not-allowed;
-            }
-            .card.used {
-              background: var(--grey-lock);
-              color: var(--grey-text);
-            }
+      .menu a:hover {
+        color: var(--primary-orange);
+      }
 
-            /* POPUP */
-            .reward-popup {
-              position: fixed;
-              top: 50%;
-              left: 50%;
-              transform: translate(-50%, -50%) scale(0.8);
-              background: white;
-              padding: 30px 40px;
-              border-radius: 15px;
-              box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-              z-index: 2000;
-              opacity: 0;
-              transition: all 0.3s ease;
-              text-align: center;
-              max-width: 300px;
-            }
-            .reward-popup.show {
-              opacity: 1;
-              transform: translate(-50%, -50%) scale(1);
-            }
-            .reward-popup h3 {
-              color: var(--primary-orange);
-              margin-bottom: 10px;
-            }
-            .reward-popup p {
-              margin-bottom: 20px;
-            }
-            .reward-popup .popup-close {
-              background: var(--primary-orange);
-              color: white;
-              border: none;
-              padding: 10px 20px;
-              border-radius: 25px;
-              cursor: pointer;
-              font-weight: bold;
-            }
+      .menu-item {
+        position: relative;
+      }
 
-            /* WHEEL */
-            #wheel {
-              border-radius: 50%;
-              display: block;
-            }
-            #pointer {
-              width: 0;
-              height: 0;
-              border-left: 15px solid transparent;
-              border-right: 15px solid transparent;
-              border-bottom: 30px solid green;
-              margin: -410px auto 0;
-              position: relative;
-              z-index: 10;
-            }
+      .dropdown {
+        position: absolute;
+        top: 130%;
+        left: 0;
+        background: var(--primary-yellow);
+        border-radius: 12px;
+        padding: 10px 0;
+        min-width: 160px;
+        display: none;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      }
 
-            .refer {
-              margin: 60px auto 0;
-              max-width: 1100px;
-              background: linear-gradient(135deg, #e47329, #ff944d);
-      >>>>>>> 5c7cefc46d18e674477e9d6aa662210d653b75c5
-              color: white;
-              padding: 30px;
-              border-radius: 20px;
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-              flex-wrap: wrap;
-              gap: 20px;
-            }
-      <<<<<<< HEAD
+      .dropdown li {
+        list-style: none;
+      }
 
-      <<<<<<< HEAD
-            .refer h2 {
-              font-size: 24px;
-            }
+      .dropdown a {
+        display: block;
+        padding: 10px 18px;
+        color: #111;
+      }
 
-            .refer button {
-              background: white;
-              color: #e47329;
-      =======
-      =======
-      >>>>>>> 130277e23d659c54c5a0366d7f4c3e191d52ec01
-            .refer button {
-              background: white;
-              color: var(--primary-orange);
-      >>>>>>> 5c7cefc46d18e674477e9d6aa662210d653b75c5
-              border: none;
-              padding: 12px 30px;
-              border-radius: 25px;
-              font-weight: bold;
-              cursor: pointer;
-            }
-      <<<<<<< HEAD
-      <<<<<<< HEAD
-      =======
+      .dropdown a:hover {
+        background: rgba(0, 0, 0, 0.08);
+      }
 
-            /* MOBILE */
-            @media (max-width: 900px) {
-              .menu {
-                display: none;
-              }
-            }
-      >>>>>>> 5c7cefc46d18e674477e9d6aa662210d653b75c5
-      =======
-      >>>>>>> 130277e23d659c54c5a0366d7f4c3e191d52ec01
+      .menu-item:hover .dropdown {
+        display: block;
+      }
+
+      /* MAIN REWARDS */
+      main {
+        padding: 50px 20px 60px;
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 10px;
+      }
+
+      .subtitle {
+        text-align: center;
+        color: #555;
+        margin-bottom: 40px;
+      }
+
+      /* stable layout */
+      .rewards-container {
+        max-width: 1100px;
+        margin: auto;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(260px, 1fr));
+        gap: 25px;
+        align-items: start;
+      }
+
+      .card {
+        background: white;
+        border-radius: 15px;
+        padding: 25px;
+        text-align: center;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+        transition: transform 0.2s;
+        min-height: 280px;
+      }
+
+      .card:hover {
+        transform: translateY(-5px);
+      }
+
+      .icon {
+        font-size: 45px;
+        margin-bottom: 15px;
+        color: var(--primary-orange);
+      }
+
+      .card h2 {
+        color: var(--primary-orange);
+        margin-bottom: 10px;
+      }
+
+      .card p {
+        color: #444;
+        margin-bottom: 20px;
+        font-size: 15px;
+      }
+
+      .btn {
+        background: var(--primary-orange);
+        color: white;
+        padding: 12px 25px;
+        border-radius: 25px;
+        border: none;
+        cursor: pointer;
+        font-weight: bold;
+      }
+
+      .code-box {
+        border: 2px dashed var(--primary-orange);
+        padding: 10px;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        font-weight: bold;
+        color: var(--primary-orange);
+      }
+
+      /* LOCKED */
+      .card.locked {
+        background: var(--grey-lock);
+        color: var(--grey-text);
+      }
+      .card.locked h2,
+      .card.locked p,
+      .card.locked .icon,
+      .card.locked .code-box {
+        color: var(--grey-text) !important;
+        border-color: #bbb !important;
+      }
+      .btn.locked {
+        background: var(--grey-lock);
+        color: var(--grey-text);
+        cursor: not-allowed;
+      }
+
+      /* USED (same grey as locked) */
+      .card.used {
+        background: var(--grey-lock) !important;
+        color: var(--grey-text) !important;
+      }
+      .card.used h2,
+      .card.used p,
+      .card.used .icon,
+      .card.used .code-box {
+        color: var(--grey-text) !important;
+        border-color: #bbb !important;
+      }
+      .card.used .btn {
+        background: var(--grey-lock) !important;
+        color: var(--grey-text) !important;
+        cursor: not-allowed !important;
+      }
+
+      /* POPUP */
+      .reward-popup {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.35);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 2000;
+        padding: 20px;
+      }
+
+      .reward-popup.show {
+        display: flex;
+      }
+
+      .popup-card {
+        width: 100%;
+        max-width: 360px;
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 14px 40px rgba(0, 0, 0, 0.25);
+        padding: 24px 22px;
+        text-align: center;
+        transform: scale(0.92);
+        opacity: 0;
+        transition: all 0.25s ease;
+      }
+
+      .reward-popup.show .popup-card {
+        transform: scale(1);
+        opacity: 1;
+      }
+
+      .popup-card h3 {
+        color: var(--primary-orange);
+        margin-bottom: 10px;
+      }
+
+      .popup-card p {
+        margin-bottom: 18px;
+        color: #333;
+      }
+
+      .popup-close {
+        background: var(--primary-orange);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 999px;
+        cursor: pointer;
+        font-weight: bold;
+      }
+
+      /* WHEEL */
+      .wheel-container {
+        position: relative;
+        width: 300px;
+        height: 300px;
+        margin: 10px auto 14px;
+      }
+
+      #wheel {
+        width: 300px;
+        height: 300px;
+        border-radius: 50%;
+        display: block;
+        box-shadow: 0 14px 34px rgba(0, 0, 0, 0.22);
+      }
+
+      /* pointer on RIGHT */
+      #wheel-pointer {
+        position: absolute;
+        top: 50%;
+        right: -18px;
+        transform: translateY(-50%);
+        width: 0;
+        height: 0;
+        border-top: 14px solid transparent;
+        border-bottom: 14px solid transparent;
+        border-left: 22px solid #2ecc71;
+        filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.2));
+      }
+
+      #card-spin {
+        order: 9999;
+      }
+
+      /* REFER */
+      .refer {
+        margin: 60px auto 0;
+        max-width: 1100px;
+        background: linear-gradient(135deg, #e47329, #ff944d);
+        color: white;
+        padding: 30px;
+        border-radius: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+
+      .refer button {
+        background: white;
+        color: var(--primary-orange);
+        border: none;
+        padding: 12px 30px;
+        border-radius: 25px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+
+      /* MOBILE */
+      @media (max-width: 980px) {
+        .rewards-container {
+          grid-template-columns: repeat(2, minmax(260px, 1fr));
+        }
+      }
+      @media (max-width: 700px) {
+        .menu {
+          display: none;
+        }
+        .rewards-container {
+          grid-template-columns: 1fr;
+        }
+      }
     </style>
   </head>
+
   <body>
-    <<<<<<< HEAD
-    <h1>🎁 Rewards</h1>
-    <p class="subtitle">Unlock exclusive offers just for you</p>
-
-    <div class="rewards-container">
-      <!-- 20% OFF -->
-      <div class="card">
-        <div class="icon">🏷️</div>
-        <h2>20% OFF</h2>
-        <p>Get 20% off your next order</p>
-        <button class="btn">Claim Now</button>
-      </div>
-
-      <!-- Gift Card -->
-      <div class="card">
-        <div class="icon">🎁</div>
-        <h2>$10 Gift Card</h2>
-        <p>Redeem a $10 gift card</p>
-        <button class="btn">Redeem Code</button>
-      </div>
-
-      <!-- Promo Code -->
-      <div class="card">
-        <div class="icon">✂️</div>
-        <h2>Save $15</h2>
-        <p>Orders above $50</p>
-        <div class="code-box">SAVE15</div>
-        <button class="btn">Copy Code</button>
-      </div>
-
-      <!-- Free Shipping -->
-      <div class="card">
-        <div class="icon">🚚</div>
-        <h2>Free Takeaway</h2>
-        <p>Enjoy free takeaway on all orders</p>
-        <button class="btn">Activate</button>
-      </div>
-
-      <!-- Bonus Points -->
-      <div class="card">
-        <div class="icon">💰</div>
-        <h2>Bonus Points</h2>
-        <p>Earn points on every purchase</p>
-        <button class="btn">Learn More</button>
-      </div>
-
-      <!-- Lucky Spin -->
-      <div class="card">
-        <div class="icon">🎡</div>
-        <h2>Lucky Spin</h2>
-        <p>Spin & win exciting prizes</p>
-        <button class="btn">Try Your Luck</button>
-      </div>
-    </div>
-
-    <!-- Refer Section -->
-    <div class="refer">
-      <h2>Refer a Friend & Get $10 🎉</h2>
-      <button>Refer Now</button>
-    </div>
-    =======
     <!-- NAVIGATION -->
     <nav class="navrectangle">
       <header class="top-nav">
         <div class="Logo">
           <img src="/images/ShiokLah(cropped).jpeg" alt="Logo" />
         </div>
+
         <nav>
           <ul class="menu">
             <li class="menu-item">
-              <a href="#">Home</a>
+              <a href="FED_ASG.html">Home</a>
               <ul class="dropdown">
                 <li><a href="#">Start Order</a></li>
               </ul>
             </li>
+
             <li class="menu-item">
               <a href="#">Order History</a>
               <ul class="dropdown">
                 <li><a href="OrderHistory.html">Past Orders</a></li>
               </ul>
             </li>
+
             <li class="menu-item">
               <a href="#">Profile</a>
               <ul class="dropdown">
                 <li><a href="UserProfile.html">Overview</a></li>
                 <li><a href="Analytics.html">Analytics & Reporting</a></li>
-                <li><a href="#">Customer Feedback</a></li>
-                <li><a href="#">Regulatory & Compliance</a></li>
+                <li><a href="CustomerFeedback.html">Customer Feedback</a></li>
+                <li>
+                  <a href="Regulatory&Complianceinfo.html"
+                    >Regulatory & Compliance</a
+                  >
+                </li>
                 <li><a href="#">Favourites</a></li>
-                <li><a href="#">Rewards</a></li>
+                <li>
+                  <a href="Customer Vouchers and Rewards.html">Rewards</a>
+                </li>
               </ul>
             </li>
+
             <li class="menu-item"><a href="login.html">Log Out</a></li>
           </ul>
         </nav>
       </header>
     </nav>
 
-    <!-- MAIN -->
+    <!-- MAIN CONTENT -->
     <main>
       <h1>🎁 Rewards</h1>
       <p class="subtitle">Unlock exclusive offers just for you</p>
 
-      <div class="rewards-container">
-        <div class="card" id="card-discount">
+      <div class="rewards-container" id="rewards-grid">
+        <!-- Existing rewards -->
+        <div class="card" data-reward-id="discount-20">
           <div class="icon">🏷️</div>
           <h2>20% OFF</h2>
           <p>Get 20% off your next order</p>
-          <button class="btn" id="claim-discount">Use now</button>
+          <button class="btn use-btn">Use now</button>
         </div>
 
-        <div class="card" id="card-gift">
+        <div class="card" data-reward-id="gift-10">
           <div class="icon">🎁</div>
           <h2>$10 Gift Card</h2>
           <p>Redeem a $10 gift card</p>
-          <button class="btn" id="redeem-gift">Use now</button>
+          <button class="btn use-btn">Use now</button>
         </div>
 
-        <div class="card locked" id="card-save15">
+        <div class="card locked" data-reward-id="save-15">
           <div class="icon">✂️</div>
           <h2>Save $15</h2>
           <p>Finish 3 more reviews to unlock this</p>
           <div class="code-box">SAVE15</div>
-          <button class="btn locked">Locked</button>
+          <button class="btn locked" disabled>You can't use this yet</button>
         </div>
 
-        <div class="card locked" id="card-free">
+        <div class="card locked" data-reward-id="free-takeaway">
           <div class="icon">🚚</div>
           <h2>Free Takeaway</h2>
           <p>Buy 3 items from 3 different stalls to unlock this</p>
-          <button class="btn locked">Locked</button>
+          <button class="btn locked" disabled>You can't use this yet</button>
         </div>
 
-        <div class="card" id="card-bonus">
+        <div class="card" data-reward-id="bonus-points">
           <div class="icon">💰</div>
           <h2>Bonus Points</h2>
-          <p>Earn points on every purchase</p>
-          <button class="btn" id="bonus-points">Use now</button>
+          <p>Get extra points on your next purchase</p>
+          <button class="btn use-btn">Use now</button>
         </div>
 
+        <!-- Lucky Spin (always last) -->
         <div class="card" id="card-spin">
           <div class="icon">🎡</div>
           <h2>Lucky Spin</h2>
           <p>Spin & win exciting prizes</p>
-          <canvas id="wheel" width="400" height="400"></canvas>
-          <div id="pointer"></div>
+
+          <div class="wheel-container">
+            <canvas id="wheel" width="300" height="300"></canvas>
+            <div id="wheel-pointer" aria-hidden="true"></div>
+          </div>
+
           <button class="btn" id="lucky-spin">Spin</button>
           <p
             id="spin-timer"
@@ -497,102 +460,418 @@
         <h2>Refer a Friend & Get $10 🎉</h2>
         <button>Refer Now</button>
       </div>
+    </main>
 
-      <!-- POPUP -->
-      <div class="reward-popup" id="reward-popup">
+    <!-- POPUP -->
+    <div class="reward-popup" id="reward-popup">
+      <div class="popup-card">
         <h3 id="popup-title">You won!</h3>
         <p id="popup-text"></p>
-        <button class="popup-close" id="popup-close">Close</button>
+        <button class="popup-close" id="popup-close">Nice!</button>
       </div>
-    </main>
-    <<<<<<< HEAD >>>>>>> 5c7cefc46d18e674477e9d6aa662210d653b75c5 =======
+    </div>
 
     <script>
-      // ====== Voucher buttons ======
-      const voucherButtons = document.querySelectorAll(
-        ".card:not(#card-spin) .btn",
-      );
-      voucherButtons.forEach((btn) => {
-        btn.addEventListener("click", () => {
-          if (
-            btn.classList.contains("locked") ||
-            btn.closest(".card").classList.contains("used")
-          )
-            return;
-          btn.closest(".card").classList.add("used");
-          btn.textContent = "Used";
-        });
-      });
+      document.addEventListener("DOMContentLoaded", () => {
+        /***********************
+         * SETTINGS
+         ***********************/
+        const ENABLE_COOLDOWN = true; // ✅ ON
+        const COOLDOWN_HOURS = 48; // ✅ 48 hours
 
-      // ====== Lucky Spin ======
-      const wheel = document.getElementById("wheel");
-      const ctx = wheel.getContext("2d");
-      const centerX = wheel.width / 2;
-      const centerY = wheel.height / 2;
-      const radius = wheel.width / 2 - 10;
-      const spinBtn = document.getElementById("lucky-spin");
-      const popup = document.getElementById("reward-popup");
-      const popupText = document.getElementById("popup-text");
-      const popupClose = document.getElementById("popup-close");
+        /***********************
+         * STORAGE KEYS
+         ***********************/
+        const USED_KEY = "shiok_used_rewards_v1";
+        const EARNED_KEY = "shiok_earned_rewards_v1";
+        const COOLDOWN_KEY = "shiok_spin_cooldown_v1";
 
-      const slices = [
-        { text: "$5 Voucher", color: "#3498db" },
-        { text: "Try Again", color: "#e74c3c" },
-        { text: "10% OFF", color: "#2ecc71" },
-        { text: "20% OFF", color: "#f1c40f" },
-        { text: "$7 OFF", color: "#9b59b6" },
-      ];
+        const getJSON = (k, fallback) => {
+          try {
+            const v = localStorage.getItem(k);
+            return v ? JSON.parse(v) : fallback;
+          } catch {
+            return fallback;
+          }
+        };
+        const setJSON = (k, val) =>
+          localStorage.setItem(k, JSON.stringify(val));
 
-      function drawWheel() {
-        const sliceAngle = (2 * Math.PI) / slices.length;
-        ctx.clearRect(0, 0, wheel.width, wheel.height);
-        slices.forEach((slice, i) => {
-          ctx.beginPath();
-          ctx.moveTo(centerX, centerY);
-          ctx.arc(
-            centerX,
-            centerY,
-            radius,
-            i * sliceAngle,
-            (i + 1) * sliceAngle,
-          );
-          ctx.fillStyle = slice.color;
-          ctx.fill();
-          ctx.stroke();
+        /***********************
+         * POPUP
+         ***********************/
+        const popup = document.getElementById("reward-popup");
+        const popupText = document.getElementById("popup-text");
+        const popupClose = document.getElementById("popup-close");
 
-          // Draw rotated text along slice
-          ctx.save();
-          ctx.translate(centerX, centerY);
-          ctx.rotate(i * sliceAngle + sliceAngle / 2);
-          ctx.textAlign = "right";
-          ctx.fillStyle = "#000";
-          ctx.font = "bold 16px sans-serif";
-          ctx.fillText(slice.text, radius - 10, 5);
-          ctx.restore();
-        });
-      }
-      drawWheel();
-
-      spinBtn.addEventListener("click", () => {
-        const spins = Math.floor(Math.random() * slices.length);
-        const sliceAngle = 360 / slices.length;
-        const angle = 360 * 5 - spins * sliceAngle - sliceAngle / 2;
-        wheel.style.transition = "transform 4s ease-out";
-        wheel.style.transform = `rotate(${angle}deg)`;
-        wheel.addEventListener("transitionend", function handler() {
-          const reward = slices[spins].text;
-          popupText.textContent =
-            reward === "Try Again" ? "Try again!" : "You won: " + reward;
+        function showPopup(msg) {
+          popupText.textContent = msg;
           popup.classList.add("show");
-          if (reward !== "Try Again") spinBtn.disabled = true;
-          wheel.removeEventListener("transitionend", handler);
+        }
+        popupClose.addEventListener("click", () =>
+          popup.classList.remove("show"),
+        );
+        popup.addEventListener("click", (e) => {
+          if (e.target === popup) popup.classList.remove("show");
         });
-      });
 
-      popupClose.addEventListener("click", () => {
-        popup.classList.remove("show");
+        /***********************
+         * DESKTOP NOTIFICATION
+         ***********************/
+        function notifyNewReward(title, body) {
+          if (!("Notification" in window)) return;
+
+          if (Notification.permission === "granted") {
+            new Notification(title, { body });
+            return;
+          }
+
+          if (Notification.permission !== "denied") {
+            Notification.requestPermission().then((perm) => {
+              if (perm === "granted") new Notification(title, { body });
+            });
+          }
+        }
+
+        /***********************
+         * USED (persist)
+         ***********************/
+        const usedIds = new Set(getJSON(USED_KEY, []));
+
+        function applyUsedState(card, btn) {
+          card.classList.add("used");
+          if (btn) {
+            btn.textContent = "Used";
+            btn.disabled = true;
+          }
+        }
+
+        // restore used state
+        document.querySelectorAll(".card[data-reward-id]").forEach((card) => {
+          const id = card.getAttribute("data-reward-id");
+          const btn = card.querySelector(".use-btn");
+          if (usedIds.has(id) && btn) applyUsedState(card, btn);
+        });
+
+        // click -> used
+        document.querySelectorAll(".use-btn").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const card = btn.closest(".card");
+            const id = card?.getAttribute("data-reward-id");
+            if (!card || !id) return;
+            if (card.classList.contains("used")) return;
+
+            applyUsedState(card, btn);
+            usedIds.add(id);
+            setJSON(USED_KEY, Array.from(usedIds));
+          });
+        });
+
+        /***********************
+         * EARNED REWARDS (from wheel)
+         ***********************/
+        const grid = document.getElementById("rewards-grid");
+        const spinCard = document.getElementById("card-spin");
+        const earnedRewards = getJSON(EARNED_KEY, []); // {id,title,desc,icon}
+
+        function createEarnedCard(reward) {
+          const card = document.createElement("div");
+          card.className = "card";
+          card.setAttribute("data-reward-id", reward.id);
+
+          card.innerHTML = `
+            <div class="icon">${reward.icon}</div>
+            <h2>${reward.title}</h2>
+            <p>${reward.desc}</p>
+            <button class="btn use-btn">Use now</button>
+          `;
+
+          const btn = card.querySelector(".use-btn");
+          btn.addEventListener("click", () => {
+            if (card.classList.contains("used")) return;
+            applyUsedState(card, btn);
+            usedIds.add(reward.id);
+            setJSON(USED_KEY, Array.from(usedIds));
+          });
+
+          if (usedIds.has(reward.id)) applyUsedState(card, btn);
+          return card;
+        }
+
+        // render earned on load (before spin card)
+        earnedRewards.forEach((r) =>
+          grid.insertBefore(createEarnedCard(r), spinCard),
+        );
+
+        function addEarnedReward(reward) {
+          if (earnedRewards.some((r) => r.id === reward.id)) return; // no duplicates
+          earnedRewards.push(reward);
+          setJSON(EARNED_KEY, earnedRewards);
+          grid.insertBefore(createEarnedCard(reward), spinCard);
+        }
+
+        /***********************
+         * CONFETTI (bigger + more obvious)
+         ***********************/
+        function confettiBurst() {
+          const colors = [
+            "#FF9F1C",
+            "#FFD166",
+            "#06D6A0",
+            "#4CC9F0",
+            "#F72585",
+          ];
+          const count = 320;
+
+          for (let i = 0; i < count; i++) {
+            const p = document.createElement("div");
+            const size = 6 + Math.random() * 10;
+
+            p.style.position = "fixed";
+            p.style.left = "50%";
+            p.style.top = "25%";
+            p.style.width = size + "px";
+            p.style.height = size + "px";
+            p.style.background =
+              colors[Math.floor(Math.random() * colors.length)];
+            p.style.borderRadius = Math.random() > 0.5 ? "50%" : "2px";
+            p.style.zIndex = "9999";
+            p.style.pointerEvents = "none";
+            document.body.appendChild(p);
+
+            const angle = Math.random() * Math.PI * 2;
+            const power = 220 + Math.random() * 420;
+            const dx = Math.cos(angle) * power;
+            const dy = Math.sin(angle) * power - (180 + Math.random() * 120);
+            const rotate = Math.random() * 900 - 450 + "deg";
+
+            requestAnimationFrame(() => {
+              p.style.transition =
+                "transform 1.9s ease-out, opacity 1.9s ease-out";
+              p.style.transform = `translate(${dx}px, ${dy}px) rotate(${rotate})`;
+              p.style.opacity = "0";
+            });
+
+            setTimeout(() => p.remove(), 2000);
+          }
+        }
+
+        /***********************
+         * SPIN COOLDOWN (48h persist)
+         ***********************/
+        const spinBtn = document.getElementById("lucky-spin");
+        const timerEl = document.getElementById("spin-timer");
+
+        function getCooldownEnd() {
+          const raw = localStorage.getItem(COOLDOWN_KEY);
+          if (!raw) return null;
+          const d = new Date(raw);
+          return isNaN(d.getTime()) ? null : d;
+        }
+        function setCooldownEnd(dateObj) {
+          localStorage.setItem(COOLDOWN_KEY, dateObj.toISOString());
+        }
+        function clearCooldown() {
+          localStorage.removeItem(COOLDOWN_KEY);
+        }
+
+        function updateCooldownUI() {
+          if (!ENABLE_COOLDOWN) {
+            timerEl.textContent = "";
+            spinBtn.disabled = false;
+            spinBtn.style.background = "";
+            spinBtn.style.color = "";
+            spinBtn.style.cursor = "pointer";
+            return;
+          }
+
+          const end = getCooldownEnd();
+          if (!end) {
+            timerEl.textContent = "";
+            spinBtn.disabled = false;
+            spinBtn.style.background = "";
+            spinBtn.style.color = "";
+            spinBtn.style.cursor = "pointer";
+            return;
+          }
+
+          const diff = end - new Date();
+          if (diff <= 0) {
+            clearCooldown();
+            timerEl.textContent = "";
+            spinBtn.disabled = false;
+            spinBtn.style.background = "";
+            spinBtn.style.color = "";
+            spinBtn.style.cursor = "pointer";
+            return;
+          }
+
+          const h = Math.floor(diff / (1000 * 60 * 60));
+          const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+          const s = Math.floor((diff % (1000 * 60)) / 1000);
+
+          timerEl.textContent = `Next spin in: ${h}h ${m}m ${s}s`;
+          spinBtn.disabled = true;
+          spinBtn.style.background = "var(--grey-lock)";
+          spinBtn.style.color = "var(--grey-text)";
+          spinBtn.style.cursor = "not-allowed";
+        }
+
+        setInterval(updateCooldownUI, 1000);
+        updateCooldownUI();
+
+        /***********************
+         * WHEEL
+         ***********************/
+        const wheel = document.getElementById("wheel");
+        const ctx = wheel.getContext("2d");
+        const radius = wheel.width / 2;
+
+        const prizes = [
+          {
+            key: "5",
+            title: "$5 Voucher",
+            desc: "Use $5 off your next order",
+            icon: "💵",
+          },
+          {
+            key: "try",
+            title: "Try Again",
+            desc: "You get a second chance to spin!",
+            icon: "🔁",
+          },
+          {
+            key: "10",
+            title: "$10 Voucher",
+            desc: "Use $10 off your next order",
+            icon: "💵",
+          },
+          {
+            key: "points",
+            title: "Bonus Points",
+            desc: "Get extra points on your next purchase",
+            icon: "💰",
+          },
+          {
+            key: "15",
+            title: "$15 Voucher",
+            desc: "Use $15 off your next order",
+            icon: "💵",
+          },
+        ];
+
+        function drawWheel() {
+          const colors = [
+            "#2d6cdf",
+            "#ff3ea5",
+            "#e53935",
+            "#ffd400",
+            "#1f8b2e",
+          ];
+          const slice = (2 * Math.PI) / prizes.length;
+
+          ctx.clearRect(0, 0, wheel.width, wheel.height);
+
+          for (let i = 0; i < prizes.length; i++) {
+            const start = i * slice;
+            const end = start + slice;
+
+            ctx.beginPath();
+            ctx.moveTo(radius, radius);
+            ctx.arc(radius, radius, radius, start, end);
+            ctx.closePath();
+            ctx.fillStyle = colors[i];
+            ctx.fill();
+
+            ctx.lineWidth = 4;
+            ctx.strokeStyle = "rgba(255,255,255,0.9)";
+            ctx.stroke();
+
+            ctx.save();
+            ctx.translate(radius, radius);
+            ctx.rotate(start + slice / 2);
+            ctx.textAlign = "right";
+            ctx.fillStyle = "#fff";
+            ctx.font = "bold 16px Segoe UI";
+            ctx.fillText(
+              prizes[i].title.replace("Voucher", ""),
+              radius - 16,
+              6,
+            );
+            ctx.restore();
+          }
+
+          ctx.beginPath();
+          ctx.arc(radius, radius, 42, 0, Math.PI * 2);
+          ctx.fillStyle = "#fff";
+          ctx.fill();
+        }
+
+        drawWheel();
+
+        let spinning = false;
+
+        spinBtn.addEventListener("click", () => {
+          if (spinning) return;
+          if (spinBtn.disabled) return;
+
+          spinning = true;
+
+          const selectedIndex = Math.floor(Math.random() * prizes.length);
+          const sliceAngle = 360 / prizes.length;
+
+          // pointer is on RIGHT (0 degrees). Put winning slice center at 0 degrees.
+          const targetDeg = selectedIndex * sliceAngle + sliceAngle / 2;
+          const turns = 6;
+          const rotation = turns * 360 - targetDeg;
+
+          wheel.style.transition = "transform 4s cubic-bezier(.17,.67,.12,.99)";
+          wheel.style.transform = `rotate(${rotation}deg)`;
+
+          wheel.addEventListener(
+            "transitionend",
+            function handler() {
+              wheel.removeEventListener("transitionend", handler);
+              wheel.style.transition = "";
+
+              const reward = prizes[selectedIndex];
+
+              // Only show popup AFTER stop
+              if (reward.key === "try") {
+                showPopup("You get a second chance to spin!");
+                // no cooldown
+              } else {
+                const rewardId = `spin-${reward.key}`;
+
+                addEarnedReward({
+                  id: rewardId,
+                  title: reward.title,
+                  desc: reward.desc,
+                  icon: reward.icon,
+                });
+
+                confettiBurst();
+                showPopup(`You won: ${reward.title}! 🎉`);
+                notifyNewReward(
+                  "ShiokLah! Reward Unlocked 🎁",
+                  `You received: ${reward.title}`,
+                );
+
+                if (ENABLE_COOLDOWN) {
+                  const end = new Date(
+                    Date.now() + COOLDOWN_HOURS * 60 * 60 * 1000,
+                  );
+                  setCooldownEnd(end);
+                  updateCooldownUI();
+                }
+              }
+
+              spinning = false;
+            },
+            { once: true },
+          );
+        });
       });
     </script>
-    >>>>>>> 130277e23d659c54c5a0366d7f4c3e191d52ec01
   </body>
 </html>
