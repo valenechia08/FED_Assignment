@@ -1,66 +1,68 @@
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
 
 body {
   font-family: "Open Sans", sans-serif;
   background: #fff;
   color: #222;
 }
-
-/* CONTAINER */
-.container {
-  width: 90%;
-  max-width: 1200px;
-  margin: auto;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 :root {
   --primary-orange: #FF8C3A;
   --primary-yellow: #ffd400;
   --dark-text: #111;
 }
-/* NAVBAR */
+
 .navrectangle {
   background: white;
   margin-top: 25px;
-  position: relative; /* changed from sticky */
-  top: 0;             /* not needed anymore */
-  z-index: 1000;      /* optional, can keep or remove */
+  position: relative;
+  z-index: 1000;
+  font-family: "Kodchasan", Arial;
+
 }
 
-
-
+/* NAV LAYOUT */
 .top-nav {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
+  display: flex;
   align-items: center;
-  height: 40px;
-  gap: 40px;
-
+  justify-content: space-between;
+  height: 70px;
 }
-.top-nav > nav {
-  justify-self: center;
+/* Left / Center / Right locking */
+.nav-left,
+.nav-right {
+  flex: 0 0 auto;
+}
+
+.nav-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: auto;
 }
 
 .Logo {
   display: flex;
   align-items: center;
-  height: 70px; /* fixed height to prevent nav shift */
-  overflow: hidden; /* hides any overflow from scaling */
-
+  height: 70px;
+  overflow: hidden;
 }
 
 .Logo img {
-  height: 100%;       /* fills the container height */
-  width: auto;        /* maintains aspect ratio */
-  transform: scale(1.2); /* scales image visually */
-  transform-origin: left center; /* keeps it aligned */
-
+  height: 100%;
+  width: auto;
+  transform: scale(1.2);
+  transform-origin: left center;
 }
-
-
 
 .menu {
   display: flex;
@@ -79,7 +81,6 @@ body {
 .menu a:hover {
   color: var(--primary-orange);
 }
-
 
 .reserve-btn {
   background: var(--primary-orange);
@@ -108,7 +109,7 @@ body {
   left: 0;
   background: var(--primary-yellow);
   border-radius: 14px;
-  min-width: 140px;
+  min-width: 160px;
   padding: 10px 0;
   box-shadow: 0 12px 30px rgba(0,0,0,0.2);
   display: none;
@@ -129,7 +130,7 @@ body {
   background: rgba(0,0,0,0.08);
 }
 
-.menu-item:hover .dropdown {
+.menu-item.active .dropdown {
   display: block;
 }
 
@@ -137,10 +138,49 @@ body {
   border: none;
   height: 1px;
   background: #e0e0e0;
-  margin-top:40px;
+  margin-top: 25px;
   margin-bottom: 18px;
 }
 
+/* Hamburger */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  cursor: pointer;
+  margin-left: 15px
+}
+
+.hamburger div {
+  width: 25px;
+  height: 3px;
+  background: #111;
+  border-radius: 2px;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .menu {
+    display: none;
+    position: absolute;
+    top: 90px;
+    right: 20px;
+    flex-direction: column;
+    background: white;
+    padding: 20px;
+    border-radius: 14px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+    gap: 20px;
+  }
+
+  .menu.show {
+    display: flex;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+}
 /* nav ends here */
 
 /* HOME */

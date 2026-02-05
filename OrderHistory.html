@@ -7,70 +7,68 @@
 
   <link href="https://fonts.googleapis.com/css2?family=Kodchasan:wght@400;600;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&family=Open+Sans:wght@300..800&family=Roboto:wght@100..900&display=swap" rel="stylesheet"/>
+  <link rel="icon" type="image/jpeg" href="/images/ShiokLah(cropped).jpeg">
+
   <style>
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
-
-    body {
-      font-family: "Open Sans", sans-serif;
-      background: #fff;
-      color: #222;
-    }
-
-    /* CONTAINER */
-    .container {
-      width: 90%;
-      max-width: 1200px;
-      margin: auto;
-    }
     :root {
       --primary-orange: #FF8C3A;
       --primary-yellow: #ffd400;
       --dark-text: #111;
     }
-    /* NAVBAR */
+
     .navrectangle {
       background: white;
       margin-top: 25px;
-      position: relative; /* changed from sticky */
-      top: 0;             /* not needed anymore */
-      z-index: 1000;      /* optional, can keep or remove */
+      position: relative;
+      z-index: 1000;
+      font-family: "Kodchasan", Arial;
+
     }
 
-
-
+    /* NAV LAYOUT */
     .top-nav {
-      display: grid;
-      grid-template-columns: auto 1fr auto;
+      display: flex;
       align-items: center;
-      height: 40px;
-      gap: 40px;
-
+      justify-content: space-between;
+      height: 70px;
     }
-    .top-nav > nav {
-      justify-self: center;
+    /* Left / Center / Right locking */
+    .nav-left,
+    .nav-right {
+      flex: 0 0 auto;
+    }
+
+    .nav-center {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+    }
+
+
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: auto;
     }
 
     .Logo {
       display: flex;
       align-items: center;
-      height: 70px; /* fixed height to prevent nav shift */
-      overflow: hidden; /* hides any overflow from scaling */
-
+      height: 70px;
+      overflow: hidden;
     }
 
     .Logo img {
-      height: 100%;       /* fills the container height */
-      width: auto;        /* maintains aspect ratio */
-      transform: scale(1.2); /* scales image visually */
-      transform-origin: left center; /* keeps it aligned */
-
+      height: 100%;
+      width: auto;
+      transform: scale(1.2);
+      transform-origin: left center;
     }
-
-
 
     .menu {
       display: flex;
@@ -89,7 +87,6 @@
     .menu a:hover {
       color: var(--primary-orange);
     }
-
 
     .reserve-btn {
       background: var(--primary-orange);
@@ -118,7 +115,7 @@
       left: 0;
       background: var(--primary-yellow);
       border-radius: 14px;
-      min-width: 140px;
+      min-width: 160px;
       padding: 10px 0;
       box-shadow: 0 12px 30px rgba(0,0,0,0.2);
       display: none;
@@ -143,16 +140,54 @@
       display: block;
     }
 
-
     .Nav-line {
       border: none;
       height: 1px;
       background: #e0e0e0;
-      margin-top:40px;
+      margin-top: 25px;
       margin-bottom: 18px;
     }
 
-    /* end of nav */
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 4px;
+      cursor: pointer;
+      margin-left: 15px
+    }
+
+    .hamburger div {
+      width: 25px;
+      height: 3px;
+      background: #111;
+      border-radius: 2px;
+    }
+
+    /* MOBILE */
+    @media (max-width: 768px) {
+      .menu {
+        display: none;
+        position: absolute;
+        top: 90px;
+        right: 20px;
+        flex-direction: column;
+        background: white;
+        padding: 20px;
+        border-radius: 14px;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        gap: 20px;
+      }
+
+      .menu.show {
+        display: flex;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+    }
+    /* nav ends here */
 
     /* content */
     .order-box {
@@ -179,7 +214,7 @@
       font-size: 16px;
       color: #444;
       margin-bottom: 24px;
-      font-family: "Open Sans", sans-serif;
+      font-family: "Kodchasan", Arial;
     }
 
     .order-box a {
@@ -288,362 +323,428 @@
       color: #777;
       font-style: italic;
     }
-
-    /* responsive */
-    @media (max-width: 576px) {
-    .order-box {
-      margin: 40px 20px;
-      padding: 30px 20px;
+    
+    .menu-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
     }
 
-    .order-box h2 {
-      font-size: 22px;
+    .menu-card {
+      width: 180px; /* fixed width */
+      border: 1px solid #eee;
+      border-radius: 12px;
+      padding: 10px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: transform 0.2s ease;
     }
 
-    .order-box p {
-      font-size: 14px;
-    }
-    .order-box .tagline {
-      display: block;        /* ensures tagline is on its own line */
-      margin-bottom: 20px;   /* space before button */
-      font-size: 14px;
-      color: #888;
-      font-style: italic;
+    .menu-card img {
+      width: 100%;      /* scales image to card width */
+      height: 120px;    /* fixed height */
+      object-fit: cover; /* crop and fill nicely */
+      border-radius: 8px;
     }
 
-    .order-box button {
-      padding: 12px 24px;
-      font-size: 14px;
-      display: block;        /* forces button onto its own line */
-      margin: 0 auto;        /* optional: centers the button */
-
-    }
-  }
-
-  /* Shared order-box responsiveness */
-  @media (max-width: 768px) {
-    .order-box {
-      margin: 30px 15px;
-      padding: 40px 25px;
+    .menu-card .name {
+      margin-top: 8px;
+      font-weight: 600;
     }
 
-    .order-box h2 {
-      font-size: 24px;
+    .menu-card .price {
+      margin-top: 4px;
+      color: var(--primary-orange);
+      font-weight: 700;
     }
 
-    .order-box p {
-      font-size: 14px;
-    }
 
-    .order-box .tagline {
-      font-size: 13px;
-    }
+    /* -------------------- MOBILE RESPONSIVE -------------------- */
+    .hamburger { display:none; flex-direction:column; gap:4px; cursor:pointer; }
+    .hamburger div { width:25px; height:3px; background:#111; border-radius:2px; }
 
-    .order-btn {
-      padding: 10px 28px;
-      font-size: 14px;
-    }
 
-    .teaser img {
-      width: 100px;
-    }
-
-    ul {
-      max-width: 100%;
-    }
-  }
 
   /* Extra small devices (phones < 576px) */
-  @media (max-width: 576px) {
-    .order-box {
-      margin: 20px 10px;
-      padding: 25px 15px;
+  @media(max-width:576px){
+      .order-box { margin:20px 10px; padding:25px 15px; }
+      .order-box h2 { font-size:20px; }
+      .order-box p { font-size:13px; }
+      .order-btn { padding:10px 20px; font-size:13px; }
+      .teaser img { width:80px; }
+      .teaser p { font-size:12px; }
+      .order-list li {font-size: 13px;padding: 8px;}
+      .hamburger { display:flex; }
     }
-
-    .order-box h2 {
-      font-size: 20px;
-    }
-
-    .order-box p {
-      font-size: 13px;
-    }
-
-    .order-box .tagline {
-      display: block;
-      margin-bottom: 15px;
-      font-size: 12px;
-      color: #777;
-    }
-
-    .order-btn {
-      display: block;
-      margin: 0 auto;
-      padding: 10px 20px;
-      font-size: 13px;
-    }
-
-    .teaser img {
-      width: 80px;
-    }
-
-    .teaser p {
-      font-size: 12px;
-    }
-
-    ul {
-      padding: 0;
-      margin: 15px auto;
-    }
-
-    ul li {
-      font-size: 13px;
-      padding: 8px;
-    }
-  }
 
   </style>
 </head>
 
 <body>
-  <section class="container">
+  <nav class="navrectangle">
+    <div class="container">
+      <div class="top-nav">
 
-    <!-- Navigation -->
-    <main class="container">
-      <nav class="navrectangle">
-        <header class="top-nav">
-          <!-- Logo -->
+        <div class="nav-left">
           <div class="Logo">
             <img src="/images/ShiokLah(cropped).jpeg" alt="Logo" />
           </div>
+        </div>
 
-          <!-- Main Menu -->
-          <!-- Main Menu -->
-          <nav>
-            <ul class="menu">
-              <li class="menu-item">
-                <a href="#">Home</a>
-                <ul class="dropdown">
-                  <li><a href="FED_ASG.html">Start Order</a></li>
-                </ul>
-              </li>
+        <div class="nav-center">
+          <ul class="menu" id="menu">
+            <li class="menu-item">
+              <a href="#">Home</a>
+              <ul class="dropdown">
+                <li><a href="FED_ASG.html">Start Order</a></li>
+              </ul>
+            </li>
 
-              <li class="menu-item">
-                <a href="#">Order History</a>
-                <ul class="dropdown">
-                  <li><a href="OrderHistory.html">Past Orders</a></li>
-                </ul>
-              </li>
+            <li class="menu-item">
+              <a href="#">Order History</a>
+              <ul class="dropdown">
+                <li><a href="OrderHistory.html">Past Orders</a></li>
+              </ul>
+            </li>
 
-              <li class="menu-item">
-                <a href="#">Profile</a>
-                <ul class="dropdown">
-                  <li><a href="UserProfile.html">Overview</a></li>
-                  <li><a href="Analytics.html">Analytics & Reporting</a></li>
-                  <li><a href="#">Customer Feedback</a></li>
-                  <li><a href="#">Regulatory & Compliance</a></li>
-                  <li><a href="#">Favourites</a></li>
-                  <li><a href="#">Rewards</a></li>
-                </ul>
-              </li>
+            <li class="menu-item">
+              <a href="#">Profile</a>
+              <ul class="dropdown">
+                <li><a href="UserProfile.html">Overview</a></li>
+                <li><a href="Analytics.html">Analytics & Reporting</a></li>
+                <li><a href="#">Customer Feedback</a></li>
+                <li><a href="#">Regulatory & Compliance</a></li>
+                <li><a href="#">Favourites</a></li>
+                <li><a href="#">Rewards</a></li>
+              </ul>
+            </li>
 
-              <li class="menu-item">
-                <a href="login.html">Log Out</a>
-              </li>
-            </ul>
-          </nav>
+            <li class="menu-item">
+              <a href="login.html">Log Out</a>
+            </li>
+          </ul>
+        </div>
 
-          <!-- Right Action -->
-          <div class="nav-action">
-            <button class="reserve-btn">Reserve A Table</button>
+        <div class="nav-right">
+          <button class="reserve-btn">Reserve A Table</button>
+          <div class="hamburger" id="hamburger">
+            <div></div><div></div><div></div>
           </div>
-        </header>
-      </nav>
-
-      <hr class="Nav-line" />
-    <!-- MAIN -->
-    <main class="main-content">
-      <!-- FIRST TIME REGISTERED USER -->
-      <div class="order-box first-time">
-        <h2>🛒 No orders yet</h2>
-        <p>Place your first order to see it here.</p>
-
-        <div class="teaser">
-          <img src="images/Malay Cuisine Picture.jpg" alt="Teaser Dish" />
-          <p>Try our bestselling Nasi Lemak today!</p>
         </div>
 
-        <small class="tagline">Your hawker favourites are just a click away!</small>
-        <br/>
-        <a href="FED_ASG.html" class="order-btn">Start Ordering</a>
+      </div>
+    </div>
+  </nav>
+  <hr class="Nav-line" />
+
+
+
+
+  <!-- MAIN -->
+  <main class="main-content">
+    <!-- FIRST TIME REGISTERED USER -->
+    <div class="order-box first-time">
+      <h2>🛒 No orders yet</h2>
+      <p>Place your first order to see it here.</p>
+
+      <div class="teaser">
+        <img src="images/Malay Cuisine Picture.jpg" alt="Teaser Dish" />
+        <p>Try our bestselling Nasi Lemak today!</p>
       </div>
 
-      <!-- GUEST USER -->
-      <div class="order-box guest">
-        <h2>👤 Guest User</h2>
-        <p>You’re browsing as a guest. Sign up or log in to start ordering and track your history.</p>
+      <small class="tagline">Your hawker favourites are just a click away!</small>
+      <br/>
+      <a href="FED_ASG.html" class="order-btn">Start Ordering</a>
+    </div>
 
-        <div class="teaser">
-          <img src="images/Chinese Cuisine Picture.jpg" alt="Guest Teaser" />
-          <p>Join ShiokLah to unlock rewards!</p>
-        </div>
+    <!-- GUEST USER -->
+    <div class="order-box guest">
+      <h2>👤 Guest User</h2>
+      <p>You’re browsing as a guest. Sign up or log in to start ordering and track your history.</p>
 
-        <small class="tagline">Create an account to enjoy hawker favourites anytime.</small>
-        <br/>
-        <a href="login.html" class="order-btn">Sign Up / Log In</a>
+      <div class="teaser">
+        <img src="images/Chinese Cuisine Picture.jpg" alt="Guest Teaser" />
+        <p>Join ShiokLah to unlock rewards!</p>
       </div>
 
-      <!-- REGISTERED USER WITH MULTIPLE ORDERS -->
-      <div class="order-box registered">
-        <h2>📦 Your Order History</h2>
-        <p>Here are your recent orders:</p>
+      <small class="tagline">Create an account to enjoy hawker favourites anytime.</small>
+      <br/>
+      <a href="login.html" class="order-btn">Sign Up / Log In</a>
+    </div>
+
+    <!-- REGISTERED USER WITH MULTIPLE ORDERS -->
+    <div class="order-box registered">
+      <h2>📦 Your Order History</h2>
+      <p>Here are your recent orders:</p>
+      
+      
+      <!-- Filter Box -->
+      <div class="filter-box">
+        <input type="text" id="orderFilter" placeholder="Filter orders by dish or date..." />
+      </div>
+
+      <div id="menuList" class="menu-container"></div>
+
+      <!-- Order History List -->
+      <ul id="orderList" class="order-list">
+        <!-- <li>
+          <div class="order-card">
+            <span class="dish">🍲 Nasi Lemak</span>
+            <span class="date">Jan 20, 2026</span>
+          </div>
+        </li>
+        <li>
+          <div class="order-card">
+            <span class="dish">🥟 Chicken Satay</span>
+            <span class="date">Jan 25, 2026</span>
+          </div>
+        </li>
+        <li>
+          <div class="order-card">
+            <span class="dish">🍜 Laksa</span>
+            <span class="date">Jan 28, 2026</span>
+          </div>
+        </li>
+        <li>
+          <div class="order-card">
+            <span class="dish">🍛 Beef Rendang</span>
+            <span class="date">Feb 2, 2026</span>
+          </div>
+        </li>
+        <li>
+          <div class="order-card">
+            <span class="dish">🥠 Hainanese Chicken Rice</span>
+            <span class="date">Feb 5, 2026</span>
+          </div>
+        </li>
+        <li>
+          <div class="order-card">
+            <span class="dish">🍤 Char Kway Teow</span>
+            <span class="date">Feb 10, 2026</span>
+          </div>
+        </li>
+        <li>
+          <div class="order-card">
+            <span class="dish">🥬 Vegetarian Mee Goreng</span>
+            <span class="date">Feb 12, 2026</span>
+          </div>
+        </li>
+        <li>
+          <div class="order-card">
+            <span class="dish">🍹 Teh Tarik</span>
+            <span class="date">Feb 15, 2026</span>
+          </div>
+        </li> -->
+      </ul>
+
+
+
+      <small class="tagline">Keep enjoying your favourites – we’ll save them here!</small>
+      <br/>
+      <a href="FED_ASG.html" class="order-btn">Order Again</a>
+    </div>
+  </main>
+
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import {
+      getDatabase,
+      ref,
+      get,
+      set,
+      push
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+
+    /* ================================
+      Firebase configuration
+    =============================== */
+    const firebaseConfig = {
+      apiKey: "AIzaSyCoYoGP4NYJPHqA-kV_swajQ4LSQYdyWV4",
+      authDomain: "grp3fedapp.firebaseapp.com",
+      databaseURL: "https://grp3fedapp-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "grp3fedapp",
+      storageBucket: "grp3fedapp.firebasestorage.app",
+      messagingSenderId: "791146838729",
+      appId: "1:791146838729:web:446baee191feeb036e2b18",
+    };
+
+    /* ================================
+      Initialize Firebase
+    =============================== */
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    
+    function Menu() {
+      const menuRef = ref(db, "menu");
+      set(menuRef, {
+        nasi_lemak: {
+          name: "🍲 Nasi Lemak",
+          price: 6.5,
+          category: "Malay",
+          image: "images/Malay Cuisine Picture.jpg"
+        },
+        chicken_rice: {
+          name: "🥠 Hainanese Chicken Rice",
+          price: 5.0,
+          category: "Chinese",
+          image: "images/Chinese Cuisine Picture.jpg"
+        },
+        laksa: {
+          name: "🍜 Laksa",
+          price: 6.0,
+          category: "Peranakan",
+          image: "images/White Carrot Cake Picture.jpg"
+        },
+        Satay: {
+          name: "🥟 Chicken Satay",
+          price: 2.0,
+          category: "Malay",
+          image: "images/Malay Cuisine Picture.jpg"
+        }
+      });
+    }
+
         
-        
-        <!-- Filter Box -->
-        <div class="filter-box">
-          <input type="text" id="orderFilter" placeholder="Filter orders by dish or date..." />
-        </div>
+    Menu();
 
-        <!-- Order History List -->
-        <ul id="orderList" class="order-list">
-          <li>
-            <div class="order-card">
-              <span class="dish">🍲 Nasi Lemak</span>
-              <span class="date">Jan 20, 2026</span>
-            </div>
-          </li>
-          <li>
-            <div class="order-card">
-              <span class="dish">🥟 Chicken Satay</span>
-              <span class="date">Jan 25, 2026</span>
-            </div>
-          </li>
-          <li>
-            <div class="order-card">
-              <span class="dish">🍜 Laksa</span>
-              <span class="date">Jan 28, 2026</span>
-            </div>
-          </li>
-          <li>
-            <div class="order-card">
-              <span class="dish">🍛 Beef Rendang</span>
-              <span class="date">Feb 2, 2026</span>
-            </div>
-          </li>
-          <li>
-            <div class="order-card">
-              <span class="dish">🥠 Hainanese Chicken Rice</span>
-              <span class="date">Feb 5, 2026</span>
-            </div>
-          </li>
-          <li>
-            <div class="order-card">
-              <span class="dish">🍤 Char Kway Teow</span>
-              <span class="date">Feb 10, 2026</span>
-            </div>
-          </li>
-          <li>
-            <div class="order-card">
-              <span class="dish">🥬 Vegetarian Mee Goreng</span>
-              <span class="date">Feb 12, 2026</span>
-            </div>
-          </li>
-          <li>
-            <div class="order-card">
-              <span class="dish">🍹 Teh Tarik</span>
-              <span class="date">Feb 15, 2026</span>
-            </div>
-          </li>
-        </ul>
+    async function loadMenu() {
+      try {
+        const menuRef = ref(db, "menu");
+        const snapshot = await get(menuRef);
+
+        const menuList = document.getElementById("menuList");
+        menuList.innerHTML = "";
+
+        if(snapshot.exists()) {
+          const menu = snapshot.val();
+
+          Object.values(menu).forEach(item => {
+            const card = document.createElement("div");
+            card.className = "menu-card";
+
+            card.innerHTML = `
+              ${item.image ? `<img src="${item.image}" alt="${item.name}">` : ""}
+              <div class="name">${item.name}</div>
+              <div class="price">$${item.price.toFixed(2)}</div>
+            `;
+
+            menuList.appendChild(card);
+          });
+        } else {
+          menuList.innerHTML = "<p>No menu items found.</p>";
+        }
+      } catch (error) {
+        console.error("Error loading menu:", error);
+      }
+    }
+
+    // Load menu immediately
+    loadMenu();
 
 
-
-        <small class="tagline">Keep enjoying your favourites – we’ll save them here!</small>
-        <br/>
-        <a href="FED_ASG.html" class="order-btn">Order Again</a>
-      </div>
-    </main>
-
-
-  <script>
-    // Top Navigation
+    // ================= NAVIGATION DROPDOWN =================
     document.querySelectorAll(".menu-item").forEach((item) => {
-      const mainLink = item.querySelector("a");       // main menu link
+      const mainLink = item.querySelector("a");
       const dropdown = item.querySelector(".dropdown");
-
       if (!dropdown) return;
 
       mainLink.addEventListener("click", e => {
-        e.preventDefault();
-        e.stopPropagation();
-
-        // close others
-        document.querySelectorAll(".menu-item").forEach(i => {
-          if (i !== item) i.classList.remove("active");
-        });
-
+        e.preventDefault(); e.stopPropagation();
+        document.querySelectorAll(".menu-item").forEach(i => { if(i !== item) i.classList.remove("active"); });
         item.classList.toggle("active");
       });
     });
 
-    // click outside closes menu
     document.addEventListener("click", () => {
-      document.querySelectorAll(".menu-item")
-        .forEach(item => item.classList.remove("active"));
+      document.querySelectorAll(".menu-item").forEach(item => item.classList.remove("active"));
     });
 
-  // Simulated user type (for demo purposes)
-  // Change this value to "guest", "firstTime", or "registered"
-  const userType = "guest";  
+    // Hamburger toggle
+    const hamburger = document.getElementById('hamburger');
+    const menu = document.getElementById('menu');
+    hamburger.addEventListener('click', () => menu.classList.toggle('show'));
 
-  // Grab all sections
-  const firstTimeBox = document.querySelector(".order-box.first-time");
-  const guestBox = document.querySelector(".order-box.guest");
-  const registeredBox = document.querySelector(".order-box.registered");
+    document.querySelectorAll('.menu-item > a').forEach(link => {
+      link.addEventListener('click', e => {
+        const dropdown = link.nextElementSibling;
+        if(dropdown && window.innerWidth <= 768){
+          e.preventDefault();
+          dropdown.classList.toggle('show');
+        }
+      });
+    });
 
-  // Hide all by default
-  [firstTimeBox, guestBox, registeredBox].forEach(box => {
-    if (box) box.style.display = "none";
-  });
+    // ================= USER TYPE DISPLAY =================
+    const userType = "registered";  // change: guest, firstTime, registered
+    const firstTimeBox = document.querySelector(".order-box.first-time");
+    const guestBox = document.querySelector(".order-box.guest");
+    const registeredBox = document.querySelector(".order-box.registered");
+    [firstTimeBox, guestBox, registeredBox].forEach(box => { if(box) box.style.display="none"; });
 
-  // Show the correct one
-  if (userType === "guest" && guestBox) {
-    guestBox.style.display = "block";
-  } else if (userType === "firstTime" && firstTimeBox) {
-    firstTimeBox.style.display = "block";
-  } else if (userType === "registered" && registeredBox) {
-    registeredBox.style.display = "block";
-  }
+    if(userType === "guest" && guestBox) guestBox.style.display="block";
+    else if(userType === "firstTime" && firstTimeBox) firstTimeBox.style.display="block";
+    else if(userType === "registered" && registeredBox) registeredBox.style.display="block";
 
-  // Optional: add animation when showing
-  const visibleBox = document.querySelector(".order-box[style*='block']");
-  if (visibleBox) {
-    visibleBox.style.opacity = 0;
-    setTimeout(() => {
-      visibleBox.style.transition = "opacity 0.5s ease";
-      visibleBox.style.opacity = 1;
-    }, 50);
-  }
+    // Animate visible box
+    const visibleBox = document.querySelector(".order-box[style*='block']");
+    if(visibleBox){
+      visibleBox.style.opacity = 0;
+      setTimeout(() => {
+        visibleBox.style.transition = "opacity 0.5s ease";
+        visibleBox.style.opacity = 1;
+      }, 50);
+    }
 
+    // ================= FILTER ORDERS =================
+    const filterInput = document.getElementById("orderFilter");
+    const orderList = document.getElementById("orderList");
 
-   // Filter functionality
-  const filterInput = document.getElementById("orderFilter");
-  const orderList = document.getElementById("orderList");
-  const orders = orderList.getElementsByTagName("li");
+    filterInput.addEventListener("keyup", function() {
+      const filterValue = filterInput.value.toLowerCase();
+      Array.from(orderList.children).forEach(li => {
+        li.style.display = li.textContent.toLowerCase().includes(filterValue) ? "" : "none";
+      });
+    });
 
-  filterInput.addEventListener("keyup", function() {
-    const filterValue = filterInput.value.toLowerCase();
+    // ================= FIREBASE ORDERS (Realtime DB) =================
+    const userId = "user123"; // replace with auth.currentUser.uid after login
 
-    for (let i = 0; i < orders.length; i++) {
-      const orderText = orders[i].textContent.toLowerCase();
-      if (orderText.includes(filterValue)) {
-        orders[i].style.display = "";
-      } else {
-        orders[i].style.display = "none";
+    async function loadOrders(userId){
+      try {
+        const ordersRef = ref(db, `orders/${userId}`); // path: /orders/user123
+        const snapshot = await get(ordersRef);
+        orderList.innerHTML = "";
+
+        if(snapshot.exists()){
+          const orders = snapshot.val(); // orders is an object
+          // Convert object to array sorted by date descending
+          const ordersArray = Object.values(orders).sort((a, b) => new Date(b.date) - new Date(a.date));
+
+          ordersArray.forEach(order => {
+            const li = document.createElement("li");
+            li.innerHTML = `
+              <div class="order-card">
+                <span class="dish">${order.dish}</span>
+                <span class="date">${new Date(order.date).toLocaleDateString()}</span>
+              </div>`;
+            orderList.appendChild(li);
+          });
+        } else {
+          console.log("No orders found for user:", userId);
+        }
+      } catch (error) {
+        console.error("Error loading orders:", error);
       }
     }
-  });
+
+    loadOrders(userId);
 
 
-  </script>
+</script>
+
 </body>
 </html>
