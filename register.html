@@ -31,6 +31,9 @@
           "Open Sans",
           "Helvetica Neue",
           sans-serif;
+        position: relative;
+        top: -2%;
+        font-size: 1.2rem;
       }
       .register-form {
         flex: 1; /* take the other half */
@@ -44,29 +47,35 @@
       .register-form h2 {
         margin-bottom: 5px;
         color: #333;
-        font-size: 48px;
-        width: 60%;
+        font-size: 4rem;
+        width: 50%;
         text-align: left;
+        position: relative;
+        right: 2.5%;
       }
 
-      .register-form p {
-        font-size: 14px;
+      p {
         color: #666;
         margin-bottom: 20px;
         width: 60%;
         text-align: left;
+        position: relative;
+        right: 2.5%;
       }
 
       .register-form input {
         display: flex;
         flex-wrap: wrap;
         padding: 12px;
-        margin-bottom: 14px;
+        margin-bottom: 10%;
         border: 1px solid #ccc;
         border-radius: 4px;
-        width: 150%;
+        width: 175%;
         position: relative;
-        right: 32%;
+        right: 45%;
+        background: #e5e5e5;
+        height: 8%;
+        font-size: 1.1rem;
       }
 
       .register-form .inputs {
@@ -75,14 +84,19 @@
 
       .register-form button {
         width: 100%;
-        padding: 12px;
+        padding: 1rem;
         background-color: #e47329;
         color: white;
         border: none;
         border-radius: 30px;
         cursor: pointer;
         width: 50%;
-        height: 45px;
+        height: 6%;
+        margin-top: 5%;
+        font-size: 1.2rem;
+      }
+      button:hover {
+        opacity: 0.9;
       }
 
       .divider {
@@ -97,10 +111,6 @@
         text-align: center;
         color: #007bff;
         text-decoration: none;
-        font-size: 14px;
-      }
-      .message {
-        margin-bottom: 10px;
       }
     </style>
   </head>
