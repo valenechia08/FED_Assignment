@@ -1,555 +1,438 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UserProfile</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Kodchasan:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
-        rel="stylesheet"
-    />
-    <style>
-        /* General Styling */
-        body {
-        margin: 0;
-        }
-        .container {
-            display: flex;
-            align-items: stretch;
-            min-height: 100vh; /* full height layout */
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>User Profile | ShiokLah</title>
+<link href="https://fonts.googleapis.com/css2?family=Kodchasan:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@300..800&display=swap" rel="stylesheet">
 
-        }
+<style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    :root {
+      --primary-orange: #FF8C3A;
+      --primary-yellow: #ffd400;
+      --dark-text: #111;
+    }
 
-        .mobile-nav {
-            display: none;
-        }
+    .navrectangle {
+      background: white;
+      margin-top: 25px;
+      position: relative;
+      z-index: 1000;
+      font-family: "Kodchasan", Arial;
 
-        /* SIDEBAR */
-        .navrectangle {
-            background-color: #FF7A18;
-            width: 220px;
-            min-height: 100vh;   /* matches the viewport height */
-            /* display: flex;
-            flex-direction: column; */
-            flex-shrink: 0; /* Sidebar stays fixed width */
-            
-            position: relative;
-            z-index: 1000;
-        }
+    }
 
-        .navrectangle header {
-            font-size: 36px;
-            color: white;
-            font-style: italic;
-            font-family: 'Kodchasan', Arial, sans-serif;
-            padding: 60px 20px 30px;
-        }
+    /* NAV LAYOUT */
+    .top-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 70px;
+    }
+    /* Left / Center / Right locking */
+    .nav-left,
+    .nav-right {
+      flex: 0 0 auto;
+    }
 
-        /* NAV LIST */
-        .navBar {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-            color: white;
-            font-family: Arial, Helvetica, sans-serif;
-        }
-
-        /* MAIN ITEMS */
-        .main {
-            position: relative;          /* 🔑 required for absolute submenu */
-            display: flex;
-            flex-direction: column;      /* stack title + submenu vertically */
-            margin: 0 15px;
-        }
-        
-        /* PROFILE TITLE STACK */
-        /* Title row (text + arrow) */
-        .profile-title,
-        .title-row {
-            display: grid;
-            grid-template-columns: 1fr auto;  /* label left, arrow right */
-            align-items: center;
-            padding: 24px 20px;
-            font-weight: bold;
-            /* text-align: left; */
-        }
-
-        
-
-        .usernameDisplay {
-            font-size: 12px;
-            margin-left: 5px;
-        }
-
-        /* SUB MENU */
-        .submenu {
-            /* position: absolute; */
-            display: none;
-            list-style: none;          /* removes bullet points */
-            padding: 0;
-            
-            margin: 0;
-            top: 100%;              /* directly below main item */
-            left: 0;
-            width: 100%;
-            background-color: #FF7A18;
-            /* padding: 8px 0;
-            z-index: 10; */
-        }
-
-        .subpoint {
-            display: block;
-            background-color: transparent;
-            color: white;
-            border: none;
-            padding: 12px 47px;     /* indent to the left */
-            
-            text-align: left;
-            font-size: 16px;
-            cursor: pointer;
-        }
-        
-
-        /* DIVIDER */
-        .divider {
-            height: 1.3px;
-            width: 100%;
-            background-color: rgba(0, 0, 0, 0.3);
-        }
-
-        /* ARROW */
-        .arrow {
-            font-size: 14px;
-            transition: transform 0.2s ease;
-        }
-
-        /* LOGOUT */
-        /* .logout {
-            padding: 0;
-            font-size: 100px; 
-        } */
-        /* Log Out button */
-        .logout button {
-            font-size: 15px;   /* match submenu or main items */
-        }
+    .nav-center {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+    }
 
 
-        .logout button {
-            width: 100%;
-            background: none;
-            border: none;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-            padding: 24px 20px;
-            text-align: left;
-        }
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: auto;
+    }
 
-        /* HOVER */
-        .title-row:hover,
-        .logout button:hover,
-        .profile-title:hover,
-        .subpoint:hover {
-            background-color: #FF8C3A;
-            border-radius: 6px;
-        }
-    
+    .Logo {
+      display: flex;
+      align-items: center;
+      height: 70px;
+      overflow: hidden;
+    }
 
-        .profile-container {
-            display: flex;
-            height: 100vh;
-        }
+    .Logo img {
+      height: 100%;
+      width: auto;
+      transform: scale(1.2);
+      transform-origin: left center;
+    }
 
-        .sidebar {
-        width: 220px;
-        background-color: #fff;
-        padding: 1rem;
-        box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-        }
+    .menu {
+      display: flex;
+      align-items: center;
+      gap: 65px;
+      list-style: none;
+    }
 
-        .sidebar h2 {
-        font-size: 20px;
-        margin-bottom: 1rem;
-        }
+    .menu a {
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 15px;
+      color: #111;
+    }
 
-        .sidebar ul {
-        list-style: none;
-        padding: 0;
-        }
+    .menu a:hover {
+      color: var(--primary-orange);
+    }
 
-        .sidebar li {
-        margin: 0.5rem 0;
-        font-weight: 500;
-        cursor: pointer;
-        }
+    .reserve-btn {
+      background: var(--primary-orange);
+      color: white;
+      border: 3px solid var(--primary-orange);
+      padding: 14px 30px;
+      border-radius: 22px;
+      font-weight: 800;
+      font-size: 15px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
 
-        .sidebar li.active {
-        color: #ff6600;
-        }
+    .reserve-btn:hover {
+      background: white;
+      color: var(--primary-orange);
+    }
 
-        .sidebar ul ul {
-        margin-left: 1rem;
-        font-weight: 400;
-        }
+    .menu-item {
+      position: relative;
+    }
 
-        .profile-content {
-            flex: 1;
-            padding: 2rem;
-            display: flex;
-            flex-direction: column;   /* stack header, info, actions vertically */
-            justify-content: flex-start;
+    .dropdown {
+      position: absolute;
+      top: 130%;
+      left: 0;
+      background: var(--primary-yellow);
+      border-radius: 14px;
+      min-width: 160px;
+      padding: 10px 0;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+      display: none;
+    }
 
-            background-color: #fff;
-        }
+    .dropdown li {
+      list-style: none;
+    }
 
-        .profile-header {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            font-size: 25px;
-            margin-bottom: 0.2rem;
-        }
+    .dropdown a {
+      display: block;
+      padding: 10px 18px;
+      font-weight: 700;
+      color: #111;
+    }
 
-        .avatar {
-        width: 150px;
-        height: 150px;
-        border-radius: 50%;
-        }
+    .dropdown a:hover {
+      background: rgba(0,0,0,0.08);
+    }
 
-        .profile-details {
-        margin-top: 1.5rem;
-        font-size: 16px;
-        }
+    .menu-item.active .dropdown {
+      display: block;
+    }
 
-        .profile-details p {
-        margin: 0.5rem 0;
-        }
-       
+    .Nav-line {
+      border: none;
+      height: 1px;
+      background: #e0e0e0;
+      margin-top: 25px;
+      margin-bottom: 18px;
+    }
 
-        .profile-actions,
-        .guest-actions {
-        margin-top: 2rem;
-        display: flex;              /* use flexbox for alignment */
-        justify-content: center;  /* push buttons to the right */
-        }
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 4px;
+      cursor: pointer;
+      margin-left: 15px
+    }
 
-        .profile-actions button,
-        .guest-actions button {
-        padding: 20px 25px;
-        margin-left: 30px;          /* spacing between buttons */
-        background-color: #ff6600;
-        color: white;
-        border: none;
-        border-radius: 40px;
-        cursor: pointer;
-        }
+    .hamburger div {
+      width: 25px;
+      height: 3px;
+      background: #111;
+      border-radius: 2px;
+    }
 
-        .profile-actions .logout {
-        background-color: #999;
-        }
+    /* MOBILE */
+    @media (max-width: 768px) {
+      .menu {
+        display: none;
+        position: absolute;
+        top: 90px;
+        right: 20px;
+        flex-direction: column;
+        background: white;
+        padding: 20px;
+        border-radius: 14px;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        gap: 20px;
+      }
 
-        .guest-info {
-            margin-top: 0.2rem;              /* spacing from avatar/username */
-            padding: 1rem;                 /* inner spacing */
-            background-color: #f9f9f9;       /* light background for contrast */
-            border-radius: 10px;             /* rounded corners */
-            border: 1px solid #ddd;          /* subtle border */
-            font-family: Arial, Helvetica, sans-serif;
-            line-height: 1.6;
-            }
+      .menu.show {
+        display: flex;
+      }
 
-            .guest-info h4 {
-            margin-top: 0;
-            margin-bottom: 0.5rem;
-            color: #ff6600;                  /* highlight title in brand color */
-            font-size: 20px;
-            font-weight: bold;
-            
-            }
+      .hamburger {
+        display: flex;
+      }
+    }
+    /* nav ends here */
 
-            .guest-info p {
-            margin: 0.5rem 0;
-            font-size: 15px;
-            color: #333;
-            }
+  /* ================= PROFILE CONTENT ================= */
+  .profile-box {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 60px;
+    background: #fff8f0;
+    border-radius: 18px;
+    border: 2px dashed var(--primary-orange);
+    text-align: center;
+  }
 
-            .guest-info ul {
-            margin: 0.75rem 0;
-            padding-left: 1.5rem;            /* indent list items */
-            }
+  .profile-box h2 {
+    color: var(--primary-orange);
+    margin-bottom: 15px;
+  }
 
-            .guest-info li {
-            margin-bottom: 0.5rem;
-            font-size: 14px;
-            color: #444;
-            }
+  .profile-box p {
+    margin-bottom: 10px;
+  }
 
-            .guest-actions button:hover{
-                background-color: #FF8C3A;
-            }
-            .profile-view {
-                background-color: #f0f0f0;   /* light gray background */
-                padding: 200px;               /* bigger padding for spacious look */
-                border-radius: 12px;         /* rounded corners */
-                max-width: 90%;              /* take up most of the screen width */
-                margin: 20px auto;           /* center it with margin */
-                box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  /* ================= MOBILE ================= */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    cursor: pointer;
+  }
 
+  .hamburger div {
+    width: 25px;
+    height: 3px;
+    background: #111;
+  }
 
-            }
+  @media (max-width: 768px) {
+    .hamburger { display: flex; }
 
-            .profile-header {
-                text-align: center;
-                margin-bottom: 20px;
-            }
+    .menu {
+      position: absolute;
+      top: 110px;
+      left: 0;
+      right: 0;
+      background: white;
+      flex-direction: column;
+      gap: 20px;
+      padding: 20px;
+      display: none;
+    }
 
-            .avatar {
-                width: 80px;
-                height: 80px;
-                border-radius: 50%;
-            }
+    .menu.show { display: flex; }
 
-            .username {
-                margin-top: 10px;
-                font-size: 1.2em;
-            }
-
-            .profile-details .detail-item span {
-                margin-bottom: 10px;
-                background-color: #F5F5F5;
-                color:#999;
-                border: 1px solid #ccc;
-                padding: 12px;
-                border-radius: 8px;
-
-            }
-
-            .detail-item label {
-                font-weight: bold;
-                display: block;
-            }
-
-            .detail-item span {
-                display: block;
-                margin-top: 4px;
-            }
-
-            .profile-actions {
-                display: flex;
-                gap: 12px;
-                margin-top: 20px;
-                }
-
-                .profile-actions .reset-password {
-                background-color: #007bff; /* Blue */
-                color: white;
-                padding: 10px 16px;
-                font-size: 14px;
-                border: none;
-                border-radius: 6px;
-                cursor: pointer;
-                transition: background-color 0.3s ease;
-                }
-
-                .profile-actions .reset-password:hover {
-                background-color: #0056b3;
-                }
-
-                .profile-actions .profile-logout {
-                background-color: #dc3545; /* Red */
-                color: white;
-                padding: 10px 16px;
-                font-size: 14px;
-                border: none;
-                border-radius: 6px;
-                cursor: pointer;
-                transition: background-color 0.3s ease;
-                }
-
-                .profile-actions .profile-logout:hover {
-                background-color: #a71d2a;
-                }
-
-         
-
- 
-
-
-    </style>
+    .top-nav nav { justify-content: flex-start; }
+  }
+</style>
 </head>
+
 <body>
-    <section class="container">
-        <!-- Sidebar Navigation -->
-        <nav class="navrectangle">
-        <header class="brand">ShiokLah!</header>
-        <ul class="navBar">
-            <!-- Home -->
-            <li class="main toggle">
-            <div class="title-row">
-                <span>🏠 Home</span>
-                <span class="arrow">v</span>
-            </div>
-            <ul class="submenu">
-                <li>
-                <button onclick="window.location.href='FED_ASG.html';" class="subpoint">• Start Order</button>
-                </li>
-            </ul>
-            </li>
+  <nav class="navrectangle">
+    <div class="container">
+      <div class="top-nav">
 
-            <!-- Order History -->
-            <li class="main toggle">
-            <div class="title-row">
-                <span>📄 Order History</span>
-                <span class="arrow">v</span>
-            </div>
-            <ul class="submenu">
-                <li>
-                <button onclick="window.location.href='OrderHistory.html';" class="subpoint past-orders">• Past Orders</button>
-                </li>
-            </ul>
-            </li>
-
-            <!-- Profile -->
-            <li class="main toggle">
-            <div class="profile-title">
-                <span class="profile-label">👤 Profile <span class="usernameDisplay"></span></span>
-                <span class="arrow">v</span>
-            </div>
-            <ul class="submenu">
-                <li>
-                    <button onclick="window.location.href='userProfile.html';" class="subpoint">
-                    • Profile
-                    </button> 
-                </li>
-                <li class="subpoint">• Analytics & Reporting</li>
-                <li class="subpoint">• Customer Feedback</li>
-                <li class="subpoint">• Regulatory & Compliance</li>
-                <li class="subpoint">• Favourites</li>
-                <li class="subpoint">• Rewards</li>
-            </ul>
-            </li>
-
-            <!-- Log Out -->
-            <li class="main toggle logout">
-            <button onclick="window.location.href='login.html';" class="subpoint">Log Out</button>
-            </li>
-        </ul>
-        </nav>
-        <!-- Profile Content -->
-        <section class="profile-content">
-        <!-- Guest Profile -->
-        <div id="guestProfile" class="profile-view">
-            <div class="profile-header">
-            <img src="images/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-illustration-vector.jpg" alt="Guest Avatar" class="avatar" /> 
-            <h3>Guest01234567</h3>
-            </div>
-
-            <!-- Extra content for guest ABOVE buttons -->
-            <div class="guest-info">
-            <h4>Welcome to ShiokLah!</h4>
-            <p>As a guest, you can browse menus and explore features, but logging in gives you more:</p>
-            <ul>
-                <li>Track your past orders</li>
-                <li>Save your favourite dishes</li>
-                <li>Earn rewards and discounts</li>
-                <li>Access personalized analytics</li>
-            </ul>
-            <p><strong>Tip:</strong> Sign up today to unlock the full ShiokLah! experience.</p>
-            </div>
-
-            <!-- Guest buttons now BELOW the info -->
-            <div class="guest-actions">
-            <button>Log In / Sign Up</button>
-            <button>Analytics & Reporting</button>
-            <button>Customer Feedback</button>
-            <button>Regulatory & Compliance</button>
-            </div>
+        <div class="nav-left">
+          <div class="Logo">
+            <img src="/images/ShiokLah(cropped).jpeg" alt="Logo" />
+          </div>
         </div>
 
-        <!-- Logged-in User Profile -->
-        <div id="userProfile" class="profile-view" style="display: block;">
-            <div class="profile-header">
-                <img src="images/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-illustration-vector.jpg" alt="User Avatar" class="avatar" />
-                <h3 class="username">User01234567</h3>
-            </div>
+        <div class="nav-center">
+          <ul class="menu" id="menu">
+            <li class="menu-item">
+              <a href="#">Home</a>
+              <ul class="dropdown">
+                <li><a href="FED_ASG.html">Start Order</a></li>
+              </ul>
+            </li>
 
-            <div class="profile-details">
-                <div class="detail-item">
-                    <label>Phone Number:</label>
-                    <span>12345678</span>
-                </div>
-                <div class="detail-item">
-                    <label>Email:</label>
-                    <span>user01234567@gmail.com</span>
-                </div>
-                <div class="detail-item">
-                    <label>Password:</label>
-                    <span>•••••••••</span>
-                </div>
-            </div>
+            <li class="menu-item">
+              <a href="#">Order History</a>
+              <ul class="dropdown">
+                <li><a href="OrderHistory.html">Past Orders</a></li>
+              </ul>
+            </li>
 
-            <div class="profile-actions">
-                <button class="reset-password">Reset Password</button>
-                <button class="profile-logout">Log Out</button>
-            </div>
-            </div>
+            <li class="menu-item">
+              <a href="#">Profile</a>
+              <ul class="dropdown">
+                <li><a href="UserProfile.html">Overview</a></li>
+                <li><a href="Analytics.html">Analytics & Reporting</a></li>
+                <li><a href="#">Customer Feedback</a></li>
+                <li><a href="#">Regulatory & Compliance</a></li>
+                <li><a href="#">Favourites</a></li>
+                <li><a href="#">Rewards</a></li>
+              </ul>
+            </li>
 
-    </section>
-    <script>
-        //Navigation Dropdown
-        document.querySelectorAll('.main.toggle').forEach(mainItem => {
-            const submenu = mainItem.querySelector('.submenu');
-            const arrow = mainItem.querySelector('.arrow');
-            const titleRow = mainItem.querySelector('.title-row, .profile-title');
+            <li class="menu-item">
+              <a href="SelectRole.html">Log Out</a>
+            </li>
+          </ul>
+        </div>
 
-            if (!submenu || !arrow || !titleRow) return;
+        <div class="nav-right">
+          <button class="reserve-btn">Reserve A Table</button>
+          <div class="hamburger" id="hamburger">
+            <div></div><div></div><div></div>
+          </div>
+        </div>
 
-            titleRow.addEventListener('click', () => {
-            const isOpen = submenu.style.display === 'block';
-            submenu.style.display = isOpen ? 'none' : 'block';
-            arrow.textContent = isOpen ? 'v' : '^';
-            });
-        });
+      </div>
+    </div>
+  </nav>
+  <hr class="Nav-line" />
+
+  <main>
+    <div class="profile-box">
+      <h2 id="profileTitle">👤 User Profile</h2>
+
+      <div id="registeredProfile" style="display:none;">
+        <p><strong>Name:</strong> <span id="userName"></span></p>
+        <p><strong>Email:</strong> <span id="userEmail"></span></p>
+        <p><strong>Status:</strong> Registered User</p>
+      </div>
+
+      <div id="guestProfile" style="display:none;">
+        <p>Status: Guest User</p>
+        <p>Please register or log in to access full features.</p>
+      </div>
+    </div>
+  </main>
+
         
-        // Example logic to toggle views
 
-        // Simulated check: replace this with your actual login logic
-        // For example, you might check localStorage, a cookie, or a backend API
-        function isUserLoggedIn() {
-            return localStorage.getItem("isRegisteredUser") === "true";
-        }
-        localStorage.setItem("isRegisteredUser", "true");  // change to "false" for guest
-
-        function updateProfileView() {
-            const guestProfile = document.getElementById("guestProfile");
-            const userProfile = document.getElementById("userProfile");
-
-            if (isUserLoggedIn()) {
-                userProfile.style.display = "block";
-                guestProfile.style.display = "none";
-            } else {
-                guestProfile.style.display = "block";
-                userProfile.style.display = "none";
-            }
-        }
-
-        // Run once on page load
-        document.addEventListener("DOMContentLoaded", updateProfileView);
-
-        // Example buttons to test switching
-        function setGuest() {
-            localStorage.setItem("isRegisteredUser", "false");
-            updateProfileView();
-        }
-
-        function setUser() {
-            localStorage.setItem("isRegisteredUser", "true");
-            updateProfileView();
-        }
+  </div>
 
 
 
-    </script>
+
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import {
+    getDatabase,
+    ref,
+    get,
+    set
+  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+  /* ================================
+    Firebase configuration
+  ================================ */
+  const firebaseConfig = {
+    apiKey: "AIzaSyCoYoGP4NYJPHqA-kV_swajQ4LSQYdyWV4",
+    authDomain: "grp3fedapp.firebaseapp.com",
+    databaseURL: "https://grp3fedapp-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "grp3fedapp",
+    storageBucket: "grp3fedapp.firebasestorage.app",
+    messagingSenderId: "791146838729",
+    appId: "1:791146838729:web:446baee191feeb036e2b18",
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+
+  /* ================================
+    DEMO: simulate logged-in user
+    Change this to "guest" to test
+  ================================ */
+  const currentUserId = "user123"; 
+  // const currentUserId = "guest";
+
+  /* ================================
+    SAVE USER PROFILE
+  ================================ */
+  async function saveUserProfile() {
+    const userRef = ref(db, "users/user123");
+
+    await set(userRef, {
+      name: "John Doe",
+      email: "johndoe@email.com",
+      userType: "registered"
+    });
+  }
+
+  /* ================================
+    LOAD USER PROFILE
+  ================================ */
+  async function loadUserProfile() {
+    const profileTitle = document.getElementById("profileTitle");
+    const registeredProfile = document.getElementById("registeredProfile");
+    const guestProfile = document.getElementById("guestProfile");
+
+    const userRef = ref(db, `users/${currentUserId}`);
+    const snapshot = await get(userRef);
+
+    if (!snapshot.exists()) {
+      // Default to guest
+      profileTitle.textContent = "👤 Guest Profile";
+      guestProfile.style.display = "block";
+      return;
+    }
+
+    const user = snapshot.val();
+
+    if (user.userType === "registered") {
+      profileTitle.textContent = "👤 User Profile";
+      registeredProfile.style.display = "block";
+      guestProfile.style.display = "none";
+
+      document.getElementById("userName").textContent = user.name;
+      document.getElementById("userEmail").textContent = user.email;
+    } else {
+      profileTitle.textContent = "👤 Guest Profile";
+      guestProfile.style.display = "block";
+    }
+  }
+
+  /* ================================
+    Run once
+  ================================ */
+  // Only run saveUserProfile() ONCE to seed data
+  // saveUserProfile();
+
+  loadUserProfile();
+
+
+  document.querySelectorAll(".menu-item").forEach(item => {
+    const link = item.querySelector("a");
+    const dropdown = item.querySelector(".dropdown");
+    if(!dropdown) return;
+
+    link.addEventListener("click", e => {
+      e.preventDefault();
+      e.stopPropagation();
+      document.querySelectorAll(".menu-item").forEach(i => i.classList.remove("active"));
+      item.classList.toggle("active");
+    });
+  });
+
+  document.addEventListener("click", () =>
+    document.querySelectorAll(".menu-item").forEach(i => i.classList.remove("active"))
+  );
+
+  document.getElementById("hamburger")
+    .addEventListener("click", () =>
+      document.getElementById("menu").classList.toggle("show"));
+</script>
+
 </body>
 </html>

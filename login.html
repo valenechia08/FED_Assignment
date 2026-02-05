@@ -134,8 +134,103 @@
         color: grey;
       }
       .message {
-        margin-top: 5%;
-        margin-left: 9%;
+        margin-top: 2%;
+        margin-left: 20%;
+      }
+      .mobileBackBtn {
+        display: none;
+      }
+      /* ================= MOBILE LAYOUT ================= */
+      @media (max-width: 992px) {
+        .left-pane {
+          display: none;
+        }
+
+        .right-pane {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .backBtn {
+          display: none;
+        }
+
+        .card {
+          position: static;
+          width: 90%;
+          max-width: 420px;
+          padding: 0;
+          top: auto;
+          right: auto;
+          font-size: 1rem;
+        }
+
+        h1 {
+          top: auto;
+          margin-bottom: 40px;
+          margin-top: 10%;
+        }
+
+        /* remove absolute positioning */
+        .group {
+          position: static;
+          width: 100%;
+        }
+
+        .links {
+          position: static;
+          width: 80%;
+          padding: 0;
+          margin: 4%;
+          text-align: center;
+          margin-left: 10%;
+          font-size: 1rem;
+        }
+
+        .card input {
+          padding: 16px;
+          border-radius: 8px;
+          border: none;
+          background: #ddd;
+          font-size: 1rem;
+        }
+
+        #loginBtn {
+          position: static;
+          width: 80%;
+          height: auto;
+          padding: 3.5%;
+          font-size: 1rem;
+          margin-left: 10%;
+        }
+
+        .guestLogin {
+          width: 40%;
+          margin-left: 32%;
+          position: relative;
+          margin-top: 5%;
+          padding-bottom: 10%;
+        }
+
+        .message {
+          text-align: left;
+          width: 80%;
+          margin-left: 11%;
+        }
+        .group {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+        #username {
+          margin-top: 2%;
+        }
+        .mobileBackBtn {
+          display: block;
+          text-align: center;
+          color: #1d89fc;
+        }
       }
     </style>
   </head>
@@ -145,6 +240,7 @@
       <div class="right-pane">
         <div class="card">
           <h1>ShiokLah!</h1>
+          <div class="message" id="message"></div>
           <div class="group">
             <input type="username" id="username" placeholder="Username" />
             <input type="password" id="password" placeholder="Password" />
@@ -154,7 +250,10 @@
             <a href="#">Forgot Password?</a>
           </div>
           <button id="loginBtn">Log in</button>
-          <div class="message" id="message"></div>
+          <div class="guestLogin" id="guestLogin"></div>
+          <a href="SelectRole.html" class="mobileBackBtn"
+            >Head back to starting page</a
+          >
         </div>
       </div>
     </div>

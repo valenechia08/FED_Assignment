@@ -1,477 +1,794 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order History</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ShiokLah Dashboard</title>
+
     <link
-        href="https://fonts.googleapis.com/css2?family=Kodchasan:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
-        rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Kodchasan:wght@400;600;700&display=swap"
+      rel="stylesheet"
     />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&family=Open+Sans:wght@300..800&family=Roboto:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/jpeg" href="/images/ShiokLah(cropped).jpeg" />
+
     <style>
-        
-        /* General Styling */
-      body {
+      * {
+        box-sizing: border-box;
         margin: 0;
-        
+        padding: 0;
       }
-      .container {
-        display: flex;
-        align-items: stretch;
-        min-height: 100vh; /* full height layout */
-
-      }
-
-      .mobile-nav {
-        display: none;
+      :root {
+        --primary-orange: #ff8c3a;
+        --primary-yellow: #ffd400;
+        --dark-text: #111;
       }
 
-      /* SIDEBAR */
       .navrectangle {
-        background-color: #FF7A18;
-        width: 220px;
-        min-height: 100vh;   /* matches the viewport height */
-        /* display: flex;
-        flex-direction: column; */
-        flex-shrink: 0; /* Sidebar stays fixed width */
-        
+        background: white;
+        margin-top: 25px;
         position: relative;
         z-index: 1000;
+        font-family: "Kodchasan", Arial;
       }
 
-      .navrectangle header {
-        font-size: 36px;
-        color: white;
-        font-style: italic;
-        font-family: 'Kodchasan', Arial, sans-serif;
-        padding: 60px 20px 30px;
-      }
-
-      /* NAV LIST */
-      .navBar {
-        list-style-type: none;
-        padding: 0;
-        margin: 0;
-        color: white;
-        font-family: Arial, Helvetica, sans-serif;
-      }
-
-      /* MAIN ITEMS */
-      .main {
-        position: relative;          /* 🔑 required for absolute submenu */
+      /* NAV LAYOUT */
+      .top-nav {
         display: flex;
-        flex-direction: column;      /* stack title + submenu vertically */
-        margin: 0 15px;
-      }
-      
-      /* PROFILE TITLE STACK */
-      /* Title row (text + arrow) */
-      .profile-title,
-      .title-row {
-        display: grid;
-        grid-template-columns: 1fr auto;  /* label left, arrow right */
         align-items: center;
-        padding: 24px 20px;
-        font-weight: bold;
-        /* text-align: left; */
+        justify-content: space-between;
+        height: 70px;
+      }
+      /* Left / Center / Right locking */
+      .nav-left,
+      .nav-right {
+        flex: 0 0 auto;
       }
 
-      
-
-      .usernameDisplay {
-        font-size: 12px;
-        margin-left: 5px;
+      .nav-center {
+        flex: 1;
+        display: flex;
+        justify-content: center;
       }
 
-      /* SUB MENU */
-      .submenu {
-        /* position: absolute; */
-        display: none;
-        list-style: none;          /* removes bullet points */
-        padding: 0;
-        
-        margin: 0;
-        top: 100%;              /* directly below main item */
-        left: 0;
-        width: 100%;
-        background-color: #FF7A18;
-        /* padding: 8px 0;
-        z-index: 10; */
+      .container {
+        width: 90%;
+        max-width: 1200px;
+        margin: auto;
       }
 
-      .subpoint {
-        display: block;
-        background-color: transparent;
+      .Logo {
+        display: flex;
+        align-items: center;
+        height: 70px;
+        overflow: hidden;
+      }
+
+      .Logo img {
+        height: 100%;
+        width: auto;
+        transform: scale(1.2);
+        transform-origin: left center;
+      }
+
+      .menu {
+        display: flex;
+        align-items: center;
+        gap: 65px;
+        list-style: none;
+      }
+
+      .menu a {
+        text-decoration: none;
+        font-weight: 800;
+        font-size: 15px;
+        color: #111;
+      }
+
+      .menu a:hover {
+        color: var(--primary-orange);
+      }
+
+      .reserve-btn {
+        background: var(--primary-orange);
         color: white;
-        border: none;
-        padding: 12px 47px;     /* indent to the left */
-        
-        text-align: left;
-        font-size: 16px;
+        border: 3px solid var(--primary-orange);
+        padding: 14px 30px;
+        border-radius: 22px;
+        font-weight: 800;
+        font-size: 15px;
         cursor: pointer;
-      }
-      
-
-      /* DIVIDER */
-      .divider {
-        height: 1.3px;
-        width: 100%;
-        background-color: rgba(0, 0, 0, 0.3);
+        transition: all 0.25s ease;
       }
 
-      /* ARROW */
-      .arrow {
+      .reserve-btn:hover {
+        background: white;
+        color: var(--primary-orange);
+      }
+
+      .menu-item {
+        position: relative;
+      }
+
+      .dropdown {
+        position: absolute;
+        top: 130%;
+        left: 0;
+        background: var(--primary-yellow);
+        border-radius: 14px;
+        min-width: 160px;
+        padding: 10px 0;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+        display: none;
+      }
+
+      .dropdown li {
+        list-style: none;
+      }
+
+      .dropdown a {
+        display: block;
+        padding: 10px 18px;
+        font-weight: 700;
+        color: #111;
+      }
+
+      .dropdown a:hover {
+        background: rgba(0, 0, 0, 0.08);
+      }
+
+      .menu-item.active .dropdown {
+        display: block;
+      }
+
+      .Nav-line {
+        border: none;
+        height: 1px;
+        background: #e0e0e0;
+        margin-top: 25px;
+        margin-bottom: 18px;
+      }
+
+      /* Hamburger */
+      .hamburger {
+        display: none;
+        flex-direction: column;
+        gap: 4px;
+        cursor: pointer;
+        margin-left: 15px;
+      }
+
+      .hamburger div {
+        width: 25px;
+        height: 3px;
+        background: #111;
+        border-radius: 2px;
+      }
+
+      /* MOBILE */
+      @media (max-width: 768px) {
+        .menu {
+          display: none;
+          position: absolute;
+          top: 90px;
+          right: 20px;
+          flex-direction: column;
+          background: white;
+          padding: 20px;
+          border-radius: 14px;
+          box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+          gap: 20px;
+        }
+
+        .menu.show {
+          display: flex;
+        }
+
+        .hamburger {
+          display: flex;
+        }
+      }
+      /* nav ends here */
+
+      /* content */
+      .order-box {
+        max-width: 600px;
+        margin: 40px auto;
+        padding: 80px 60px;
+        background: #fff8f0;
+        border: 2px dashed #ff8c3a;
+        border-radius: 18px;
+        text-align: center;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease;
+      }
+
+      .order-box h2 {
+        font-size: 28px;
+        font-weight: 700;
+        color: #ff7a18;
+        margin-bottom: 12px;
+        font-family: "Montserrat", sans-serif;
+      }
+
+      .order-box p {
+        font-size: 16px;
+        color: #444;
+        margin-bottom: 24px;
+        font-family: "Kodchasan", Arial;
+      }
+
+      .order-box a {
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 15px;
+        color: white;
+      }
+      .order-btn {
+        display: inline-block;
+        margin: 20px auto 0;
+        background: #ff8c3a;
+        color: #fff;
+        text-decoration: none;
+        padding: 12px 40px;
+        font-size: 15px;
+        font-weight: 700;
+        border-radius: 999px;
+        transition:
+          background 0.3s ease,
+          transform 0.2s ease; /* enables animation */
+      }
+
+      .order-btn:hover {
+        background: #e6762f;
+        transform: scale(1.05); /* hover animation */
+      }
+
+      .teaser {
+        margin: 20px 0;
+        text-align: center;
+      }
+
+      .teaser img {
+        width: 120px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+      }
+
+      .teaser img:hover {
+        transform: scale(1.05);
+      }
+
+      .teaser p {
         font-size: 14px;
+        color: #555;
+        margin-top: 8px;
+        font-style: italic;
+      }
+
+      .filter-box {
+        margin: 15px auto;
+        max-width: 400px;
+        text-align: center;
+      }
+
+      .filter-box input {
+        width: 100%;
+        padding: 10px 14px;
+        border: 2px solid #ff8c3a;
+        border-radius: 8px;
+        font-size: 14px;
+        outline: none;
+        transition: border-color 0.3s ease;
+      }
+
+      .filter-box input:focus {
+        border-color: #e6762f;
+      }
+      .order-list {
+        list-style: none;
+        padding: 0;
+        margin: 20px auto;
+        max-width: 500px;
+      }
+
+      .order-list li {
+        margin-bottom: 12px;
+      }
+
+      .order-card {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #fff;
+        border: 1px solid #eee;
+        border-radius: 12px;
+        padding: 12px 18px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease;
+      }
+
+      .order-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+      }
+
+      .order-card .dish {
+        font-weight: 600;
+        font-size: 15px;
+        color: #333;
+      }
+
+      .order-card .date {
+        font-size: 13px;
+        color: #777;
+        font-style: italic;
+      }
+
+      .menu-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+      }
+
+      .menu-card {
+        width: 180px; /* fixed width */
+        border: 1px solid #eee;
+        border-radius: 12px;
+        padding: 10px;
+        text-align: center;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         transition: transform 0.2s ease;
       }
 
-      /* LOGOUT */
-      /* .logout {
-        padding: 0;
-        font-size: 100px; 
-      } */
-      /* Log Out button */
-      /* .logout button {
-        font-size: 15px;   /* match submenu or main items */
-      
+      .menu-card img {
+        width: 100%; /* scales image to card width */
+        height: 120px; /* fixed height */
+        object-fit: cover; /* crop and fill nicely */
+        border-radius: 8px;
+      }
 
+      .menu-card .name {
+        margin-top: 8px;
+        font-weight: 600;
+      }
 
-      .logout button {
-        font-size: 15px;
-        width: 100%;
-        background: none;
-        border: none;
-        color: white;
-        font-weight: bold;
+      .menu-card .price {
+        margin-top: 4px;
+        color: var(--primary-orange);
+        font-weight: 700;
+      }
+
+      /* -------------------- MOBILE RESPONSIVE -------------------- */
+      .hamburger {
+        display: none;
+        flex-direction: column;
+        gap: 4px;
         cursor: pointer;
-        padding: 24px 20px;
-        text-align: left;
+      }
+      .hamburger div {
+        width: 25px;
+        height: 3px;
+        background: #111;
+        border-radius: 2px;
       }
 
-      /* HOVER */
-      .title-row:hover,
-      .logout button:hover,
-      .profile-title:hover,
-      .subpoint:hover {
-        background-color: #FF8C3A;
-        border-radius: 6px;
-      }
-
-
-        /* ORDER HISTORY CONTENT */
-        .OrderHistory {
-          background: #fff;
-          flex: 1;
-          margin-left: 25px;
-          padding: 30px 20px;
-          position: relative;
-          z-index: 1;     /* Content stays behind sidebar */
+      /* Extra small devices (phones < 576px) */
+      @media (max-width: 576px) {
+        .order-box {
+          margin: 20px 10px;
+          padding: 25px 15px;
         }
-
-        .OrderHistory-title {
-          text-decoration: underline;
-          font-size: 35px;
-          font-weight: bold;
-          font-family: system-ui,   Arial, serif;
-        }
-
-        /* EMPTY STATE BOX */
-        .rectangle-box {
-          width: 900px;
-          height: auto;
-          border: 1px solid black;
-          border-radius: 6px;
-          padding: 30px;
-          margin: 20px auto;
-          background-color: #fff;
-          font-size: 26px;
-          text-align: center;
-        }
-
-        .rectangle-box.text-content {
-          padding-top: 100px;
-          font-family: system-ui,   Arial, serif;
-        }
-
-        /* START ORDER BUTTON */
-        .start-ordering {
-          background-color: #FF7A18;
-          color: white;
-          /* position: absolute; */
-          padding: 15px 40px;
-          font-size: 16px;
-          cursor: pointer;
-          /* margin-left: 400px; */
-          border: 1px solid black;
-          border-radius: 20px;
-          display: block;
-          margin: 30px auto; /* centers horizontally */
-
-        }
-
-        .start-ordering:hover {
-          background-color: #FF8C3A;
-        }
-        
-        /* for profile */
-        .profile-container {
-          display: flex;
-          height: 100vh;
-        }
-
-        .sidebar {
-          width: 220px;
-          background-color: #fff;
-          padding: 1rem;
-          box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-        }
-
-        .sidebar h2 {
+        .order-box h2 {
           font-size: 20px;
-          margin-bottom: 1rem;
         }
-
-        .sidebar ul {
-          list-style: none;
-          padding: 0;
+        .order-box p {
+          font-size: 13px;
         }
-
-        .sidebar li {
-          margin: 0.5rem 0;
-          font-weight: 500;
-          cursor: pointer;
+        .order-btn {
+          padding: 10px 20px;
+          font-size: 13px;
         }
-
-        .sidebar li.active {
-          color: #ff6600;
+        .teaser img {
+          width: 80px;
         }
-
-        .sidebar ul ul {
-          margin-left: 1rem;
-          font-weight: 400;
+        .teaser p {
+          font-size: 12px;
         }
-
-        .profile-content {
-          flex: 1;
-          padding: 2rem;
-          background-color: #fff;
+        .order-list li {
+          font-size: 13px;
+          padding: 8px;
         }
-
-        .profile-header {
+        .hamburger {
           display: flex;
-          align-items: center;
-          gap: 1rem;
         }
-
-        .avatar {
-          width: 100px;
-          height: 100px;
-          border-radius: 50%;
-        }
-
-        .profile-details {
-          margin-top: 1.5rem;
-          font-size: 16px;
-        }
-
-        .profile-details p {
-          margin: 0.5rem 0;
-        }
-
-        .profile-actions,
-        .guest-actions {
-          margin-top: 2rem;
-        }
-
-        .profile-actions button,
-        .guest-actions button {
-          padding: 0.5rem 1rem;
-          margin-right: 1rem;
-          background-color: #ff6600;
-          color: white;
-          border: none;
-          border-radius: 4px;
-          cursor: pointer;
-        }
-
-        .profile-actions .logout {
-          background-color: #999;
-        }
-
-
+      }
     </style>
-
-</head>
-<body>
-  <section class="container">
-    <!-- Sidebar Navigation -->
+  </head>
+  <body>
     <nav class="navrectangle">
-      <header class="brand">ShiokLah!</header>
-      <ul class="navBar">
-        <!-- Home -->
-        <li class="main toggle">
-          <div class="title-row">
-            <span>🏠 Home</span>
-            <span class="arrow">v</span>
+      <div class="container">
+        <div class="top-nav">
+          <div class="nav-left">
+            <div class="Logo">
+              <img src="/images/ShiokLah(cropped).jpeg" alt="Logo" />
+            </div>
           </div>
-          <ul class="submenu">
-            <li>
-              <button onclick="window.location.href='FED_ASG.html';" class="subpoint">• Start Order</button>
-            </li>
-          </ul>
-        </li>
 
-        <!-- Order History -->
-        <li class="main toggle">
-          <div class="title-row">
-            <span>📄 Order History</span>
-            <span class="arrow">v</span>
+          <div class="nav-center">
+            <ul class="menu" id="menu">
+              <li class="menu-item">
+                <a href="#">Home</a>
+                <ul class="dropdown">
+                  <li><a href="FED_ASG.html">Start Order</a></li>
+                </ul>
+              </li>
+
+              <li class="menu-item">
+                <a href="#">Order History</a>
+                <ul class="dropdown">
+                  <li><a href="OrderHistory.html">Past Orders</a></li>
+                </ul>
+              </li>
+
+              <li class="menu-item">
+                <a href="#">Profile</a>
+                <ul class="dropdown">
+                  <li><a href="UserProfile.html">Overview</a></li>
+                  <li><a href="Analytics.html">Analytics & Reporting</a></li>
+                  <li><a href="#">Customer Feedback</a></li>
+                  <li><a href="#">Regulatory & Compliance</a></li>
+                  <li><a href="#">Favourites</a></li>
+                  <li><a href="#">Rewards</a></li>
+                </ul>
+              </li>
+
+              <li class="menu-item">
+                <a href="SelectRole.html">Log Out</a>
+              </li>
+            </ul>
           </div>
-          <ul class="submenu">
-            <li>
-              <button onclick="window.location.href='OrderHistory.html';" class="subpoint past-orders">• Past Orders</button>
-            </li>
-          </ul>
-        </li>
 
-        <!-- Profile -->
-        <li class="main toggle">
-          
-          <div class="profile-title">
-            <span class="profile-label">👤 Profile <span class="usernameDisplay"></span></span>
-            <span class="arrow">v</span>
+          <div class="nav-right">
+            <button class="reserve-btn">Reserve A Table</button>
+            <div class="hamburger" id="hamburger">
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
           </div>
-          <ul class="submenu">
-            <li>
-              <button onclick="window.location.href='userProfile.html';" class="subpoint">
-                • Profile
-              </button> 
-            </li>
-            <li class="subpoint">• Analytics & Reporting</li>
-            <li class="subpoint">• Customer Feedback</li>
-            <li class="subpoint">• Regulatory & Compliance</li>
-            <li class="subpoint">• Favourites</li>
-            <li class="subpoint">• Rewards</li>
-          </ul>
-        </li>
-
-        <!-- Log Out -->
-        <li class="main toggle logout">
-          <button onclick="window.location.href='login.html';" class="subpoint">Log Out</button>
-        </li>
-      </ul>
+        </div>
+      </div>
     </nav>
+    <hr class="Nav-line" />
 
-    <!-- Main Content -->
-    <div class="OrderHistory">
-      <h1 class="OrderHistory-title">Order History</h1>
+    <!-- MAIN -->
+    <main class="main-content">
+      <!-- FIRST TIME REGISTERED USER -->
+      <div class="order-box first-time">
+        <h2>🛒 No orders yet</h2>
+        <p>Place your first order to see it here.</p>
 
-      <!-- STATE 1: Empty Order History -->
-      <div class="rectangle-box text-content" id="empty-state">
-        <b>🛒 No orders yet.</b><br />
-        Place your first order to see it here.
-        <button onclick="window.location.href='FED_ASG.html';" class="start-ordering">Start Ordering</button>
-      </div>
-
-      <!-- STATE 2: Guest User Warning -->
-      <div class="rectangle-box text-content" id="guest-state" style="display: none;">
-        <b>No records saved</b><br />
-        Log in or create an account to save your past orders and reorder easily.<br /><br />
-        ⚠️ <b>Guest User</b><br />
-        Orders will be lost if you clear browser data.<br />
-        Log in to save orders permanently.
-        <button onclick="window.location.href='login.html';" class="start-ordering">Login / Sign Up</button>
-      </div>
-
-      <!-- STATE 3: Registered User with Past Orders -->
-      <div id="history-table" style="display: none;">
-        <div style="display: flex; justify-content: space-between; margin: 20px 0;">
-          <input type="text" placeholder="Search Order ID" style="padding: 10px; font-size: 16px;" />
-          <select style="padding: 10px; font-size: 16px;">
-            <option value="">Filter by Date</option>
-            <option value="2025-10">October 2025</option>
-            <option value="2025-09">September 2025</option>
-          </select>
+        <div class="teaser">
+          <img src="images/Malay Cuisine Picture.jpg" alt="Teaser Dish" />
+          <p>Try our bestselling Nasi Lemak today!</p>
         </div>
 
-        <table style="width: 100%; border-collapse: collapse; font-size: 18px;">
-          <thead>
-            <tr style="background-color: #FF7A18; color: white;">
-              <th style="padding: 12px; border: 1px solid black;">Order ID</th>
-              <th style="padding: 12px; border: 1px solid black;">Date</th>
-              <th style="padding: 12px; border: 1px solid black;">Total</th>
-              <th style="padding: 12px; border: 1px solid black;">Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style="padding: 12px; border: 1px solid black;">#10234</td>
-              <td style="padding: 12px; border: 1px solid black;">10 Oct 2025</td>
-              <td style="padding: 12px; border: 1px solid black;">$4.50</td>
-              <td style="padding: 12px; border: 1px solid black;">🟢 Completed</td>
-            </tr>
-            <!-- Add more rows as needed -->
-          </tbody>
-        </table>
+        <small class="tagline"
+          >Your hawker favourites are just a click away!</small
+        >
+        <br />
+        <a href="FED_ASG.html" class="order-btn">Start Ordering</a>
       </div>
-    </div>
-  </section>
 
-  <script>
-      //Navigation Dropdown
-      document.querySelectorAll('.main.toggle').forEach(mainItem => {
-        const submenu = mainItem.querySelector('.submenu');
-        const arrow = mainItem.querySelector('.arrow');
-        const titleRow = mainItem.querySelector('.title-row, .profile-title');
+      <!-- GUEST USER -->
+      <div class="order-box guest">
+        <h2>👤 Guest User</h2>
+        <p>
+          You’re browsing as a guest. Sign up or log in to start ordering and
+          track your history.
+        </p>
 
-        if (!submenu || !arrow || !titleRow) return;
+        <div class="teaser">
+          <img src="images/Chinese Cuisine Picture.jpg" alt="Guest Teaser" />
+          <p>Join ShiokLah to unlock rewards!</p>
+        </div>
 
-        titleRow.addEventListener('click', () => {
-          const isOpen = submenu.style.display === 'block';
-          submenu.style.display = isOpen ? 'none' : 'block';
-          arrow.textContent = isOpen ? 'v' : '^';
+        <small class="tagline"
+          >Create an account to enjoy hawker favourites anytime.</small
+        >
+        <br />
+        <a href="login.html" class="order-btn">Sign Up / Log In</a>
+      </div>
+
+      <!-- REGISTERED USER WITH MULTIPLE ORDERS -->
+      <div class="order-box registered">
+        <h2>📦 Your Order History</h2>
+        <p>Here are your recent orders:</p>
+
+        <!-- Filter Box -->
+        <div class="filter-box">
+          <input
+            type="text"
+            id="orderFilter"
+            placeholder="Filter orders by dish or date..."
+          />
+        </div>
+
+        <div id="menuList" class="menu-container"></div>
+
+        <!-- Order History List -->
+        <ul id="orderList" class="order-list">
+          <!-- <li>
+          <div class="order-card">
+            <span class="dish">🍲 Nasi Lemak</span>
+            <span class="date">Jan 20, 2026</span>
+          </div>
+        </li>
+        <li>
+          <div class="order-card">
+            <span class="dish">🥟 Chicken Satay</span>
+            <span class="date">Jan 25, 2026</span>
+          </div>
+        </li>
+        <li>
+          <div class="order-card">
+            <span class="dish">🍜 Laksa</span>
+            <span class="date">Jan 28, 2026</span>
+          </div>
+        </li>
+        <li>
+          <div class="order-card">
+            <span class="dish">🍛 Beef Rendang</span>
+            <span class="date">Feb 2, 2026</span>
+          </div>
+        </li>
+        <li>
+          <div class="order-card">
+            <span class="dish">🥠 Hainanese Chicken Rice</span>
+            <span class="date">Feb 5, 2026</span>
+          </div>
+        </li>
+        <li>
+          <div class="order-card">
+            <span class="dish">🍤 Char Kway Teow</span>
+            <span class="date">Feb 10, 2026</span>
+          </div>
+        </li>
+        <li>
+          <div class="order-card">
+            <span class="dish">🥬 Vegetarian Mee Goreng</span>
+            <span class="date">Feb 12, 2026</span>
+          </div>
+        </li>
+        <li>
+          <div class="order-card">
+            <span class="dish">🍹 Teh Tarik</span>
+            <span class="date">Feb 15, 2026</span>
+          </div>
+        </li> -->
+        </ul>
+
+        <small class="tagline"
+          >Keep enjoying your favourites – we’ll save them here!</small
+        >
+        <br />
+        <a href="FED_ASG.html" class="order-btn">Order Again</a>
+      </div>
+    </main>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+      import {
+        getDatabase,
+        ref,
+        get,
+        set,
+        push,
+      } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+      /* ================================
+      Firebase configuration
+    =============================== */
+      const firebaseConfig = {
+        apiKey: "AIzaSyCoYoGP4NYJPHqA-kV_swajQ4LSQYdyWV4",
+        authDomain: "grp3fedapp.firebaseapp.com",
+        databaseURL:
+          "https://grp3fedapp-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "grp3fedapp",
+        storageBucket: "grp3fedapp.firebasestorage.app",
+        messagingSenderId: "791146838729",
+        appId: "1:791146838729:web:446baee191feeb036e2b18",
+      };
+
+      /* ================================
+      Initialize Firebase
+    =============================== */
+      const app = initializeApp(firebaseConfig);
+      const db = getDatabase(app);
+
+      function Menu() {
+        const menuRef = ref(db, "menu");
+        set(menuRef, {
+          nasi_lemak: {
+            name: "🍲 Nasi Lemak",
+            price: 6.5,
+            category: "Malay",
+            image: "images/Malay Cuisine Picture.jpg",
+          },
+          chicken_rice: {
+            name: "🥠 Hainanese Chicken Rice",
+            price: 5.0,
+            category: "Chinese",
+            image: "images/Chinese Cuisine Picture.jpg",
+          },
+          laksa: {
+            name: "🍜 Laksa",
+            price: 6.0,
+            category: "Peranakan",
+            image: "images/White Carrot Cake Picture.jpg",
+          },
+          Satay: {
+            name: "🥟 Chicken Satay",
+            price: 2.0,
+            category: "Malay",
+            image: "images/Malay Cuisine Picture.jpg",
+          },
         });
-      });
-      // Example logic to toggle views
-      const userStatus = "registered"; // Change to "empty", "guest", or "registered"
+      }
 
-      document.getElementById("empty-state").style.display = userStatus === "empty" ? "block" : "none";
-      document.getElementById("guest-state").style.display = userStatus === "guest" ? "block" : "none";
-      document.getElementById("history-table").style.display = userStatus === "registered" ? "block" : "none";
-      showState(); // showState() hides the extra blocks, it stops them from overlapping the sidebar. Once only one state is shown, the sidebar is no longer blocked, so the nav works.
+      Menu();
 
+      async function loadMenu() {
+        try {
+          const menuRef = ref(db, "menu");
+          const snapshot = await get(menuRef);
 
-      // Navigation Dropdown
-      document.querySelectorAll('.main.toggle').forEach(mainItem => {
-        const submenu = mainItem.querySelector('.submenu');
-        const arrow = mainItem.querySelector('.arrow');
-        if (!submenu || !arrow) return;
-        mainItem.addEventListener('click', () => {
-          const isOpen = submenu.style.display === 'block';
-          submenu.style.display = isOpen ? 'none' : 'block';
-          arrow.textContent = isOpen ? 'v' : '^';
-        });
-      });
+          const menuList = document.getElementById("menuList");
+          menuList.innerHTML = "";
 
+          if (snapshot.exists()) {
+            const menu = snapshot.val();
 
-      // Simulated login status
-      const isGuest = true; // Change to false to show user profile
+            Object.values(menu).forEach((item) => {
+              const card = document.createElement("div");
+              card.className = "menu-card";
 
-      // Toggle profile view
-      document.addEventListener("DOMContentLoaded", function () {
-        const guestView = document.getElementById("guestProfile");
-        const userView = document.getElementById("userProfile");
+              card.innerHTML = `
+              ${item.image ? `<img src="${item.image}" alt="${item.name}">` : ""}
+              <div class="name">${item.name}</div>
+              <div class="price">$${item.price.toFixed(2)}</div>
+            `;
 
-        if (isGuest) {
-          guestView.style.display = "block";
-          userView.style.display = "none";
-        } else {
-          guestView.style.display = "none";
-          userView.style.display = "block";
+              menuList.appendChild(card);
+            });
+          } else {
+            menuList.innerHTML = "<p>No menu items found.</p>";
+          }
+        } catch (error) {
+          console.error("Error loading menu:", error);
         }
+      }
+
+      // Load menu immediately
+      loadMenu();
+
+      // ================= NAVIGATION DROPDOWN =================
+      document.querySelectorAll(".menu-item").forEach((item) => {
+        const mainLink = item.querySelector("a");
+        const dropdown = item.querySelector(".dropdown");
+        if (!dropdown) return;
+
+        mainLink.addEventListener("click", (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          document.querySelectorAll(".menu-item").forEach((i) => {
+            if (i !== item) i.classList.remove("active");
+          });
+          item.classList.toggle("active");
+        });
       });
 
-    
-  </script>
-</body>
+      document.addEventListener("click", () => {
+        document
+          .querySelectorAll(".menu-item")
+          .forEach((item) => item.classList.remove("active"));
+      });
+
+      // Hamburger toggle
+      const hamburger = document.getElementById("hamburger");
+      const menu = document.getElementById("menu");
+      hamburger.addEventListener("click", () => menu.classList.toggle("show"));
+
+      document.querySelectorAll(".menu-item > a").forEach((link) => {
+        link.addEventListener("click", (e) => {
+          const dropdown = link.nextElementSibling;
+          if (dropdown && window.innerWidth <= 768) {
+            e.preventDefault();
+            dropdown.classList.toggle("show");
+          }
+        });
+      });
+
+      // ================= USER TYPE DISPLAY =================
+      const userType = "registered"; // change: guest, firstTime, registered
+      const firstTimeBox = document.querySelector(".order-box.first-time");
+      const guestBox = document.querySelector(".order-box.guest");
+      const registeredBox = document.querySelector(".order-box.registered");
+      [firstTimeBox, guestBox, registeredBox].forEach((box) => {
+        if (box) box.style.display = "none";
+      });
+
+      if (userType === "guest" && guestBox) guestBox.style.display = "block";
+      else if (userType === "firstTime" && firstTimeBox)
+        firstTimeBox.style.display = "block";
+      else if (userType === "registered" && registeredBox)
+        registeredBox.style.display = "block";
+
+      // Animate visible box
+      const visibleBox = document.querySelector(".order-box[style*='block']");
+      if (visibleBox) {
+        visibleBox.style.opacity = 0;
+        setTimeout(() => {
+          visibleBox.style.transition = "opacity 0.5s ease";
+          visibleBox.style.opacity = 1;
+        }, 50);
+      }
+
+      // ================= FILTER ORDERS =================
+      const filterInput = document.getElementById("orderFilter");
+      const orderList = document.getElementById("orderList");
+
+      filterInput.addEventListener("keyup", function () {
+        const filterValue = filterInput.value.toLowerCase();
+        Array.from(orderList.children).forEach((li) => {
+          li.style.display = li.textContent.toLowerCase().includes(filterValue)
+            ? ""
+            : "none";
+        });
+      });
+
+      // ================= FIREBASE ORDERS (Realtime DB) =================
+      const userId = "user123"; // replace with auth.currentUser.uid after login
+
+      async function loadOrders(userId) {
+        try {
+          const ordersRef = ref(db, `orders/${userId}`); // path: /orders/user123
+          const snapshot = await get(ordersRef);
+          orderList.innerHTML = "";
+
+          if (snapshot.exists()) {
+            const orders = snapshot.val(); // orders is an object
+            // Convert object to array sorted by date descending
+            const ordersArray = Object.values(orders).sort(
+              (a, b) => new Date(b.date) - new Date(a.date),
+            );
+
+            ordersArray.forEach((order) => {
+              const li = document.createElement("li");
+              li.innerHTML = `
+              <div class="order-card">
+                <span class="dish">${order.dish}</span>
+                <span class="date">${new Date(order.date).toLocaleDateString()}</span>
+              </div>`;
+              orderList.appendChild(li);
+            });
+          } else {
+            console.log("No orders found for user:", userId);
+          }
+        } catch (error) {
+          console.error("Error loading orders:", error);
+        }
+      }
+
+      loadOrders(userId);
+    </script>
+  </body>
 </html>

@@ -17,70 +17,75 @@
     <link rel="stylesheet" href="Master_page_stylesheet.css" />
   </head>
   <body>
-    <section class="container">
-      <nav class="navrectangle">
-        <header class="brand">ShiokLah!</header>
+    <nav class="navrectangle">
+      <div class="container">
+        <div class="top-nav">
 
-        <ul class="navBar">
-          <li class="main toggle">
-            <span>🏠 Home</span>
-            <span class="arrow">v</span>
-          </li>
-          <ul class="submenu">
-            <button onclick="window.location.href='FED_ASG.html';" class="subpoint">
-                • Start Order
-              </button>
-          </ul>
+          <div class="nav-left">
+            <div class="Logo">
+              <img src="/images/ShiokLah(cropped).jpeg" alt="Logo" />
+            </div>
+          </div>
 
-          <!-- <li class="divider"></li> -->
-
-          <li class="main toggle">
-            <span>📄 Order History</span>
-            <span class="arrow">v</span>
-          </li>
-          <ul class="submenu">
-            <li>
-              <button onclick="window.location.href='OrderHistory.html';" class="subpoint">
-                • Past Orders
-              </button>
-            </li>
-          </ul>
-
-          <!-- <li class="divider"></li> -->
-
-          <li class="main toggle">
-            <span>👤 Profile</span><br>
-            <span class="usernameDisplay"></span>
-            <span class="arrow">v</span>
-          </li>
-          <ul class="submenu">
-            <li>
-              <button onclick="window.location.href='userProfile.html';" class="subpoint">
-                • Profile
-              </button> 
-            </li>
-            <li>
-              <button onclick="window.location.href='Analytics.html';" class="subpoint">
-                • Analytics & Reporting
-              </button>
-            </li>
-            <li class="subpoint">• Customer Feedback</li>
-            <li>
-              <button onclick="window.location.href='Regulatory&Complianceinfo.html';" class="subpoint">
-                • Regulatory & Compliance
-                </button>
+          <div class="nav-center">
+            <ul class="menu" id="menu">
+              <li class="menu-item">
+                <a href="#">Home</a>
+                <ul class="dropdown">
+                  <li><a href="FED_ASG.html">Start Order</a></li>
+                </ul>
               </li>
-            <!-- <li class="subpoint">• Regulatory & Compliance</li> -->
-            <li class="subpoint">• Favourites</li>
-            <li class="subpoint">• Rewards</li>
-          </ul>
 
-          <!-- <li class="divider"></li> -->
-          <li class="main toggle logout">Log out</li>
-        </ul>
-      </nav>
+              <li class="menu-item">
+                <a href="#">Order History</a>
+                <ul class="dropdown">
+                  <li><a href="OrderHistory.html">Past Orders</a></li>
+                </ul>
+              </li>
 
-      <!-- Welcome text -->
+              <li class="menu-item">
+                <a href="#">Profile</a>
+                <ul class="dropdown">
+                  <li><a href="UserProfile.html">Overview</a></li>
+                  <li><a href="Analytics.html">Analytics & Reporting</a></li>
+                  <li><a href="#">Customer Feedback</a></li>
+                  <li>
+                    <a href="Regulatory&Complianceinfo.html"
+                      >Regulatory & Compliance Info</a
+                    >
+                  </li>
+                  <li><a href="#">Favourites</a></li>
+                  <li><a href="#">Rewards</a></li>
+                </ul>
+              </li>
+
+              <li class="menu-item">
+                <a href="SelectRole.html">Log Out</a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="nav-right">
+            <button class="reserve-btn">Reserve A Table</button>
+            <div class="hamburger" id="hamburger">
+              <div></div><div></div><div></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </nav>
+    <hr class="Nav-line" />
+
+      <!-- Banner -->
+      <div class="Banner">
+        <img
+          src="images/360_F_264005624_NyFEBO7k0OsNMQiI343zBZZ7WH89f6Ls.jpg"
+          alt="Banner Image"
+        />
+      </div>
+
+      <!-- Welcome Section -->
       <section class="home">
         <h1 class="welcome-text">Welcome!</h1>
 

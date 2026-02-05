@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>R&C inspection log upcoming</title>
+    <title>NEA scheduled inspections</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Kodchasan:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
         rel="stylesheet"
@@ -13,61 +13,68 @@
 </head>
 
 <body>
-  <section class="container">
-    <nav class="navrectangle">
-        <header class="brand">ShiokLah!</header>
+  <main class="container">
+      <nav class="navrectangle">
+        <header class="top-nav">
+          <!-- Logo -->
+          <div class="Logo">
+            <img src="/images/ShiokLah(cropped).jpeg" alt="Logo" />
+          </div>
 
-        <ul class="navBar">
-          <li class="main toggle">
-            <span>🏠 Home</span>
-            <span class="arrow">v</span>
-          </li>
-          <ul class="submenu">
-            <button onclick="window.location.href='FED_ASG.html';" class="subpoint">
-                • Start Order
-              </button>
-          </ul>
+          <!-- Main Menu -->
+          <nav>
+            <ul class="menu">
+              <li class="menu-item">
+                <a href="#">Home</a>
+                <ul class="dropdown">
+                  <li><a href="#">Start Order</a></li>
+                </ul>
+              </li>
 
-          <!-- <li class="divider"></li> -->
+              <li class="menu-item">
+                <a href="#">Order History</a>
+                <ul class="dropdown">
+                  <li><a href="OrderHistory.html">Past Orders</a></li>
+                </ul>
+              </li>
 
-          <li class="main toggle">
-            <span>📄 Order History</span>
-            <span class="arrow">v</span>
-          </li>
-          <ul class="submenu">
-            <li>
-              <button onclick="window.location.href='OrderHistory.html';" class="subpoint">
-                • Past Orders
-              </button>
-            </li>
-          </ul>
+              <li class="menu-item">
+                <a href="#">Profile</a>
+                <ul class="dropdown">
+                  <li><a href="UserProfile.html">Overview</a></li>
+                  <li><a href="Analytics.html">Analytics & Reporting</a></li>
+                  <li><a href="#">Customer Feedback</a></li>
+                  <li>
+                    <a href="R&C inspection log all.html"
+                      >Regulatory & Compliance</a
+                    >
+                  </li>
+                  <li><a href="#">Favourites</a></li>
+                  <li><a href="#">Rewards</a></li>
+                </ul>
+              </li>
 
-          <!-- <li class="divider"></li> -->
+              <li class="menu-item">
+                <a href="SelectRole.html">Log Out</a>
+              </li>
+            </ul>
+          </nav>
 
-          <li class="main toggle">
-            <span>👤 Profile</span><br>
-            <span class="usernameDisplay"></span>
-            <span class="arrow">v</span>
-          </li>
-          <ul class="submenu">
-            <li class="subpoint">• Analytics & Reporting</li>
-            <li class="subpoint">• Customer Feedback</li>
-            <li class="subpoint">• Regulatory & Compliance</li>
-            <li class="subpoint">• Favourites</li>
-            <li class="subpoint">• Rewards</li>
-          </ul>
-
-          <!-- <li class="divider"></li> -->
-          <li class="main toggle logout">Log out</li>
-        </ul>
+          <!-- Right Action -->
+          <div class="nav-action">
+            <button class="reserve-btn">Reserve A Table</button>
+          </div>
+        </header>
       </nav>
+
+      <hr class="Nav-line" />
 
       <main class="contents">
         <header class="page-header">
           <div class="header-row">
             <div class="title-block">
               <main class="content">
-            <h1>Inspection Schedule</h1>
+            <h1>Recent and Completed Inspections by NEA</h1>
         </header>
 
           <div class="tabs">
