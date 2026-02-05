@@ -23,6 +23,7 @@
           sans-serif;
         position: relative;
         top: -2%;
+        font-size: 1.2rem;
       }
       .right-pane {
         display: flex;
@@ -31,30 +32,35 @@
       h2 {
         margin-bottom: 5px;
         color: #333;
-        font-size: 48px;
+        font-size: 4rem;
         width: 50%;
         text-align: left;
+        position: relative;
+        right: 2.5%;
       }
 
       p {
-        font-size: 14px;
         color: #666;
         margin-bottom: 20px;
         width: 50%;
         text-align: left;
+        position: relative;
+        right: 2.5%;
       }
 
       input {
         display: flex;
         flex-wrap: wrap;
         padding: 12px;
-        margin-bottom: 14px;
+        margin-bottom: 10%;
         border: 1px solid #ccc;
         border-radius: 4px;
-        width: 150%;
+        width: 175%;
         position: relative;
-        right: 32%;
+        right: 45%;
         background: #e5e5e5;
+        height: 8%;
+        font-size: 1.1rem;
       }
 
       .inputs {
@@ -63,14 +69,16 @@
 
       button {
         width: 100%;
-        padding: 12px;
+        padding: 1rem;
         background-color: #e47329;
         color: white;
         border: none;
         border-radius: 30px;
         cursor: pointer;
         width: 50%;
-        height: 45px;
+        height: 6%;
+        margin-top: 5%;
+        font-size: 1.2rem;
       }
       button:hover {
         opacity: 0.9;
@@ -88,7 +96,81 @@
         text-align: center;
         color: #007bff;
         text-decoration: none;
-        font-size: 14px;
+      }
+      @media (max-width: 992px) {
+        /* hide left image */
+        .left-pane {
+          display: none;
+        }
+
+        /* center page */
+        .container {
+          display: flex;
+          justify-content: center;
+          align-items: flex-start;
+          width: 100%;
+        }
+        .card {
+          top: 0;
+          width: 100%; /* almost full screen */
+          margin-top: 15%;
+          padding-top: 10%;
+          padding: 10%;
+          font-size: 135%; /* <<< master scale knob */
+          font-size: 2.4rem;
+        }
+
+        .right-pane {
+          width: 100%;
+        }
+
+        /* headings bigger */
+        h2 {
+          width: 100%;
+          right: 0;
+          font-size: 6rem;
+          margin-bottom: 4%;
+          text-align: left;
+        }
+
+        /* description bigger */
+        p {
+          width: 100%;
+          right: 0;
+          margin-bottom: 7%;
+          line-height: 1.5;
+        }
+
+        .inputs {
+          width: 80%;
+          margin-bottom: 6%;
+        }
+
+        /* BIG inputs */
+        input {
+          display: block;
+          width: 100%;
+          right: 0;
+          height: auto;
+          padding: 5%; /* bigger touch target */
+          margin-bottom: 5%;
+          border-radius: 14px;
+          font-size: 2rem;
+          box-sizing: border-box;
+        }
+
+        /* BIG button */
+        button {
+          width: 90%;
+          padding: 4%;
+          border-radius: 999px;
+          font-size: 2.3rem;
+          margin-top: 12px;
+        }
+
+        .divider {
+          margin: 8% 0;
+        }
       }
     </style>
   </head>

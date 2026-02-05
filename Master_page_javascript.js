@@ -12,6 +12,7 @@ import {
   remove,
   child,
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+// import { onValue } from "firebase-database";
 
 // import {
 //   getDatabase,
@@ -411,6 +412,161 @@ document.querySelectorAll(".menu-item").forEach((item) => {
   }
 });
 
+//Create Stall Object & Menu Item
+function createStallObject(stall_name, cuisine, rating, image) {
+  return {
+    [stall_name]: {
+      cuisine,
+      rating,
+      image,
+      menuItems: {},
+    },
+  };
+}
+
+function createMenuItemObject(item_name, price, available = true) {
+  return {
+    [item_name]: {
+      price,
+      available,
+    },
+  };
+}
+
+async function uploadStall(stall_name, cuisine, rating, image) {
+  const stallObj = createStallObject(stall_name, cuisine, rating, image);
+  await update(ref(db, "stalls"), stallObj);
+}
+
+async function addMenuItem(stall_name, item_name, price, available = true) {
+  const itemObj = createMenuItemObject(item_name, price, available);
+  await update(ref(db, `stalls/${stall_name}/menuItems`), itemObj);
+}
+
+// createStallObject("Banana Leaf Nasi Lemak", "Malay", 4.0, "images/Banana Leaf Nasi Lemak Picture.jpg");
+async function loadMenu(stall_name) {
+  const snap = await get(ref(db, `stalls/${stall_name}/menuItems`));
+
+  if (!snap.exists()) {
+    console.log("No menu items");
+    return;
+  }
+
+  const menuItems = snap.val();
+  renderMenu(menuItems);
+}
+
+(async () => {
+  await uploadStall(
+    "Banana Leaf Nasi Lemak",
+    "Malay",
+    4.0,
+    "images/Banana Leaf Nasi Lemak Picture.jpg",
+  );
+  await addMenuItem(
+    "Banana Leaf Nasi Lemak",
+    "5 pcs spicy fish otah",
+    7.5,
+    true,
+  );
+
+  await uploadStall(
+    "Boon Lay Lu Wei",
+    "Chinese",
+    4.2,
+    "images/Boon Lay Lu Wei Picture.jpg",
+  );
+  await uploadStall(
+    "IMohamed Ismail Food Stall",
+    "Indian",
+    4.5,
+    "images/I.Mohamed Ismail Food Stall Picture.jpg",
+  );
+  await uploadStall(
+    "Boon Lay Fried Carrot Cake & Kway Teow Mee",
+    "Chinese",
+    4.2,
+    "images/Boon Lay Fried Carrot Cake & Kway Teow Mee Picture.jpg",
+  );
+  await uploadStall(
+    "Big Daddy’s Chicken & Noodle Stall",
+    "Others",
+    4.5,
+    "images/Big Daddy's Chicken & Noodle Picture.webp",
+  );
+})();
+
+function renderMenu(menuItems) {
+  const container = document.querySelector("#menuContainer");
+  container.innerHTML = ""; // clear old items
+
+  for (const item_name in menuItems) {
+    const item = menuItems[item_name];
+
+    const div = document.createElement("div");
+    div.className = "menu-item";
+
+    const name = document.createElement("h4");
+    name.textContent = item_name;
+
+    const price = document.createElement("p");
+    price.textContent = "$" + item.price.toFixed(2);
+
+    div.appendChild(name);
+    div.appendChild(price);
+    container.appendChild(div);
+  }
+}
+loadMenu("Banana Leaf Nasi Lemak");
+
+async function renderStalls() {
+  const grid = document.querySelector("#stall-grid");
+  grid.innerHTML = "";
+
+  const snap = await get(ref(db, "stalls"));
+
+  if (!snap.exists()) {
+    grid.textContent = "No stalls found.";
+    return;
+  }
+
+  const stalls = snap.val();
+
+  for (const stall_name in stalls) {
+    const stall = stalls[stall_name];
+
+    const card = document.createElement("div");
+    card.className = `stall-card ${stall.cuisine.toLowerCase()}`;
+
+    const img = document.createElement("img");
+    img.src = stall.image;
+
+    const info = document.createElement("div");
+    info.className = "stall-info";
+
+    const title = document.createElement("h4");
+    title.textContent = `${stall_name}`;
+    const meta = document.createElement("p");
+    meta.textContent = `⭐ ${stall.rating} · ${stall.cuisine}`;
+
+    info.appendChild(title);
+    info.appendChild(meta);
+
+    card.appendChild(img);
+    card.appendChild(info);
+
+    // click handler (optional)
+    card.onclick = () => {
+      console.log("Selected stall:", stall_name);
+      // loadMenu(stall_name);
+    };
+
+    grid.appendChild(card);
+  }
+}
+
+renderStalls();
+
 /*Mobile Navigation*/
 document.querySelectorAll(".mobile-nav-item").forEach((item) => {
   item.addEventListener("click", () => {
@@ -420,7 +576,6 @@ document.querySelectorAll(".mobile-nav-item").forEach((item) => {
     }
   });
 });
-
 /*Search Bar to search up stalls*/
 const searchInput = document.querySelector(".search-input");
 const stallCards = document.querySelectorAll(".stall-card");
@@ -440,130 +595,129 @@ if (searchInput) {
       }
     });
   });
+}
 
-  // Grab all cuisine cards
-  const cuisines = document.querySelectorAll(".cuisine-card");
+// Fetch all stalls from Firebase
+async function fetchStalls() {
+  const snap = await get(ref(db, "stalls"));
+  if (!snap.exists()) return;
 
-  // Grab all stall cards
-  const stalls = document.querySelectorAll(".stall-card");
+  allStalls = snap.val(); // save globally
+  renderStalls(allStalls); // initial render
+}
+document.addEventListener("DOMContentLoaded", async () => {
+  await fetchStalls(); // fetch and render stalls first
 
-  cuisines.forEach((cuisine) => {
-    cuisine.addEventListener("click", () => {
-      // check if this cuisine is already selected
-      const isSelected = cuisine.classList.contains("selected");
+  const filterDivs = document.querySelectorAll(".filter-btn");
 
-      // remove 'selected' from all cuisines
-      cuisines.forEach((c) => c.classList.remove("selected"));
+  filterDivs.forEach((div) => {
+    div.addEventListener("click", () => {
+      console.log("hi");
+      const cuisine = div.getAttribute("data-cuisine").trim().toLowerCase();
 
-      if (isSelected) {
-        // if clicked again, deselect and show all stalls
-        stalls.forEach((stall) => {
-          stall.style.display = "flex";
-        });
+      // Toggle behavior
+      if (selectedCuisine === cuisine) {
+        selectedCuisine = null;
+        renderStalls(allStalls);
+        filterDivs.forEach((d) => d.classList.remove("active"));
       } else {
-        // otherwise, select this cuisine
-        cuisine.classList.add("selected");
+        selectedCuisine = cuisine;
+        filterDivs.forEach((d) => d.classList.remove("active"));
+        div.classList.add("active");
 
-        // get the cuisine name from the <p> tag and normalize it
-        let chosenCuisine = cuisine
-          .querySelector("p")
-          .textContent.trim()
-          .toLowerCase();
+        const filtered = Object.fromEntries(
+          Object.entries(allStalls).filter(
+            ([_, stall]) => stall.cuisine.trim().toLowerCase() === cuisine,
+          ),
+        );
 
-        // filter stalls based on class
-        stalls.forEach((stall) => {
-          if (stall.classList.contains(chosenCuisine)) {
-            stall.style.display = "flex"; // show matching stalls
-          } else {
-            stall.style.display = "none"; // hide non-matching stalls
-          }
-        });
+        renderStalls(filtered);
       }
     });
   });
-}
+});
 
-import React from 'react';
-import { Home, Package, ShoppingBag, User, Clock } from 'lucide-react';
+// import React from 'react';
+// import { Home, Package, ShoppingBag, User, Clock } from 'lucide-react';
 
-const OrderDashboard = () => {
-  const orders = [
-    { id: 1, name: 'Tobi', phone: '432112340987', items: '1 Cap', time: '11:04am', day: 'Today' },
-    { id: 2, name: 'David', phone: '098712348765', items: '4 Caps', time: '08:04am', day: 'Today' },
-  ];
+// const OrderDashboard = () => {
+//   const orders = [
+//     { id: 1, name: 'Tobi', phone: '432112340987', items: '1 Cap', time: '11:04am', day: 'Today' },
+//     { id: 2, name: 'David', phone: '098712348765', items: '4 Caps', time: '08:04am', day: 'Today' },
+//   ];
 
-  return (
-    <div className="flex h-screen bg-gray-50 font-sans text-gray-900">
-      {/* 1. SIDEBAR (Desktop Navigation) */}
-      <aside className="w-64 bg-white border-r flex flex-col items-center py-8 gap-8">
-        <div className="text-orange-600 font-bold text-2xl mb-4">LOGO</div>
-        <nav className="flex flex-col gap-6 w-full px-6">
-          <NavItem icon={<Home size={20} />} label="Home" />
-          <NavItem icon={<Package size={20} />} label="Orders" active />
-          <NavItem icon={<ShoppingBag size={20} />} label="Inventory" />
-          <NavItem icon={<User size={20} />} label="Profile" />
-        </nav>
-      </aside>
+//   return (
+//     <div className="flex h-screen bg-gray-50 font-sans text-gray-900">
+//       {/* 1. SIDEBAR (Desktop Navigation) */}
+//       <aside className="w-64 bg-white border-r flex flex-col items-center py-8 gap-8">
+//         <div className="text-orange-600 font-bold text-2xl mb-4">LOGO</div>
+//         <nav className="flex flex-col gap-6 w-full px-6">
+//           <NavItem icon={<Home size={20} />} label="Home" />
+//           <NavItem icon={<Package size={20} />} label="Orders" active />
+//           <NavItem icon={<ShoppingBag size={20} />} label="Inventory" />
+//           <NavItem icon={<User size={20} />} label="Profile" />
+//         </nav>
+//       </aside>
 
-      {/* 2. MAIN CONTENT AREA */}
-      <main className="flex-1 overflow-y-auto p-10">
-        
-        {/* Header Stat Card */}
-        <div className="bg-orange-600 rounded-3xl p-8 text-white mb-10 flex justify-between items-center shadow-lg max-w-4xl">
-          <div>
-            <h2 className="text-xl opacity-90 font-medium">Pending Orders</h2>
-            <p className="text-6xl font-bold mt-2">20</p>
-          </div>
-          <div className="opacity-20 hidden md:block">
-             {/* Decorative pattern placeholder */}
-             <svg width="100" height="100" viewBox="0 0 100 100" fill="currentColor"><circle cx="50" cy="50" r="40" /></svg>
-          </div>
-        </div>
+//       {/* 2. MAIN CONTENT AREA */}
+//       <main className="flex-1 overflow-y-auto p-10">
 
-        {/* Tab Navigation */}
-        <div className="flex gap-8 border-b border-gray-200 mb-8 max-w-4xl">
-          {['Pending', 'In Progress', 'Shipped', 'Declined'].map((tab) => (
-            <button 
-              key={tab} 
-              className={`pb-4 px-2 text-sm font-semibold transition-all ${tab === 'Pending' ? 'text-orange-600 border-b-2 border-orange-600' : 'text-gray-400 hover:text-gray-600'}`}
-            >
-              {tab}
-            </button>
-          ))}
-        </div>
+//         {/* Header Stat Card */}
+//         <div className="bg-orange-600 rounded-3xl p-8 text-white mb-10 flex justify-between items-center shadow-lg max-w-4xl">
+//           <div>
+//             <h2 className="text-xl opacity-90 font-medium">Pending Orders</h2>
+//             <p className="text-6xl font-bold mt-2">20</p>
+//           </div>
+//           <div className="opacity-20 hidden md:block">
+//              {/* Decorative pattern placeholder */}
+//              <svg width="100" height="100" viewBox="0 0 100 100" fill="currentColor"><circle cx="50" cy="50" r="40" /></svg>
+//           </div>
+//         </div>
 
-        {/* Order List Section */}
-        <section className="max-w-4xl">
-          <h3 className="text-xl font-bold mb-6">Today</h3>
-          <div className="grid gap-4">
-            {orders.map(order => (
-              <div key={order.id} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex justify-between items-start hover:shadow-md transition-shadow">
-                <div className="flex gap-4">
-                  <div className="bg-orange-50 p-3 rounded-xl text-orange-600">
-                    <Clock size={24} />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-lg">Pending order</h4>
-                    <p className="text-gray-500 mt-1">You have an order from <span className="text-gray-800 font-medium">{order.name} ({order.phone})</span> for {order.items}.</p>
-                    <p className="text-sm text-gray-400 mt-2 italic">Please review and process the order.</p>
-                  </div>
-                </div>
-                <span className="text-gray-900 font-bold">{order.time}</span>
-              </div>
-            ))}
-          </div>
-        </section>
-      </main>
-    </div>
-  );
-};
+//         {/* Tab Navigation */}
+//         <div className="flex gap-8 border-b border-gray-200 mb-8 max-w-4xl">
+//           {['Pending', 'In Progress', 'Shipped', 'Declined'].map((tab) => (
+//             <button
+//               key={tab}
+//               className={`pb-4 px-2 text-sm font-semibold transition-all ${tab === 'Pending' ? 'text-orange-600 border-b-2 border-orange-600' : 'text-gray-400 hover:text-gray-600'}`}
+//             >
+//               {tab}
+//             </button>
+//           ))}
+//         </div>
 
-// Helper Component
-const NavItem = ({ icon, label, active = false }) => (
-  <button className={`flex items-center gap-4 w-full p-3 rounded-xl transition-colors ${active ? 'bg-orange-600 text-white shadow-md shadow-orange-200' : 'text-gray-400 hover:bg-gray-100'}`}>
-    {icon}
-    <span className="font-medium">{label}</span>
-  </button>
-);
+//         {/* Order List Section */}
+//         <section className="max-w-4xl">
+//           <h3 className="text-xl font-bold mb-6">Today</h3>
+//           <div className="grid gap-4">
+//             {orders.map(order => (
+//               <div key={order.id} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex justify-between items-start hover:shadow-md transition-shadow">
+//                 <div className="flex gap-4">
+//                   <div className="bg-orange-50 p-3 rounded-xl text-orange-600">
+//                     <Clock size={24} />
+//                   </div>
+//                   <div>
+//                     <h4 className="font-bold text-lg">Pending order</h4>
+//                     <p className="text-gray-500 mt-1">You have an order from <span className="text-gray-800 font-medium">{order.name} ({order.phone})</span> for {order.items}.</p>
+//                     <p className="text-sm text-gray-400 mt-2 italic">Please review and process the order.</p>
+//                   </div>
+//                 </div>
+//                 <span className="text-gray-900 font-bold">{order.time}</span>
+//               </div>
+//             ))}
+//           </div>
+//         </section>
+//       </main>
+//     </div>
+//   );
+// };
 
-export default OrderDashboard;
+// // Helper Component
+// const NavItem = ({ icon, label, active = false }) => (
+//   <button className={`flex items-center gap-4 w-full p-3 rounded-xl transition-colors ${active ? 'bg-orange-600 text-white shadow-md shadow-orange-200' : 'text-gray-400 hover:bg-gray-100'}`}>
+//     {icon}
+//     <span className="font-medium">{label}</span>
+//   </button>
+// );
+
+// export default OrderDashboard;

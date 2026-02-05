@@ -12,8 +12,7 @@
     <style>
       .card {
         display: flex;
-        width: 80%;
-        max-width: 400px;
+        flex: 1;
         flex-direction: column;
         font-family:
           system-ui,
@@ -34,27 +33,47 @@
       h1 {
         margin-bottom: 40px;
         font-family: "Kodchasan", Arial, sans-serif;
-        font-size: 80px;
+        font-size: clamp(64px, 6vw, 110px);
         font-style: italic;
         font-weight: 600;
+        text-align: center;
       }
 
       /* BUTTONS */
       .roleBtn {
-        width: 80%;
-        padding: 14px;
-        margin: 12px 0;
+        width: 50%;
+        padding: 2.2%;
+        margin: 12px;
         border-radius: 30px;
         border: none;
         background: #e6772e;
         color: white;
         font-size: 16px;
         cursor: pointer;
-        margin-left: 10%;
+        margin-left: 25%;
+        font-size: 1.2rem;
       }
 
       .roleBtn:hover {
         opacity: 0.9;
+      }
+      /* ================= MOBILE LAYOUT ================= */
+      @media (max-width: 992px) {
+        .card {
+          display: flex;
+          justify-content: center;
+          position: static;
+          padding: 0;
+          top: auto;
+          right: auto;
+        }
+        .roleBtn {
+          font-size: 1rem;
+          width: 75%;
+          padding: 1rem;
+          position: relative;
+          right: 12%;
+        }
       }
     </style>
   </head>
