@@ -189,13 +189,13 @@ async function loginMember() {
     sessionStorage.setItem("loggedInUser", username);
     showMessage("Login successful! 🎉", "green");
     if (role === "patron") {
-      sessionStorage.clear("currentRole");
+      //sessionStorage.clear("currentRole");
       window.location.href = "FED_ASG.html";
     } else if (role === "vendor") {
-      sessionStorage.clear("currentRole");
+      //sessionStorage.clear("currentRole");
       window.location.href = "PerformanceDashboard.html";
     } else {
-      sessionStorage.clear("currentRole");
+      //sessionStorage.clear("currentRole");
       window.location.href = "R&C inspection log all.html";
     }
   } catch (err) {
