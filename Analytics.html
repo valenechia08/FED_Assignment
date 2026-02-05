@@ -12,185 +12,469 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    :root {
+      --primary-orange: #FF8C3A;
+      --primary-yellow: #ffd400;
+      --dark-text: #111;
+    }
+
+    .navrectangle {
+      background: white;
+      margin-top: 25px;
+      position: relative;
+      z-index: 1000;
+      font-family: "Kodchasan", Arial;
+
+    }
+
+    /* NAV LAYOUT */
+    .top-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 70px;
+    }
+    /* Left / Center / Right locking */
+    .nav-left,
+    .nav-right {
+      flex: 0 0 auto;
+    }
+
+    .nav-center {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+    }
+
+
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .Logo {
+      display: flex;
+      align-items: center;
+      height: 70px;
+      overflow: hidden;
+    }
+
+    .Logo img {
+      height: 100%;
+      width: auto;
+      transform: scale(1.2);
+      transform-origin: left center;
+    }
+
+    .menu {
+      display: flex;
+      align-items: center;
+      gap: 65px;
+      list-style: none;
+    }
+
+    .menu a {
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 15px;
+      color: #111;
+    }
+
+    .menu a:hover {
+      color: var(--primary-orange);
+    }
+
+    .reserve-btn {
+      background: var(--primary-orange);
+      color: white;
+      border: 3px solid var(--primary-orange);
+      padding: 14px 30px;
+      border-radius: 22px;
+      font-weight: 800;
+      font-size: 15px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .reserve-btn:hover {
+      background: white;
+      color: var(--primary-orange);
+    }
+
+    .menu-item {
+      position: relative;
+    }
+
+    .dropdown {
+      position: absolute;
+      top: 130%;
+      left: 0;
+      background: var(--primary-yellow);
+      border-radius: 14px;
+      min-width: 160px;
+      padding: 10px 0;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+      display: none;
+    }
+
+    .dropdown li {
+      list-style: none;
+    }
+
+    .dropdown a {
+      display: block;
+      padding: 10px 18px;
+      font-weight: 700;
+      color: #111;
+    }
+
+    .dropdown a:hover {
+      background: rgba(0,0,0,0.08);
+    }
+
+    .menu-item.active .dropdown {
+      display: block;
+    }
+
+    .Nav-line {
+      border: none;
+      height: 1px;
+      background: #e0e0e0;
+      margin-top: 25px;
+      margin-bottom: 18px;
+    }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 4px;
+      cursor: pointer;
+      margin-left: 15px
+    }
+
+    .hamburger div {
+      width: 25px;
+      height: 3px;
+      background: #111;
+      border-radius: 2px;
+    }
+
+    /* MOBILE */
+    @media (max-width: 768px) {
+      .menu {
+        display: none;
+        position: absolute;
+        top: 90px;
+        right: 20px;
+        flex-direction: column;
+        background: white;
+        padding: 20px;
+        border-radius: 14px;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        gap: 20px;
+      }
+
+      .menu.show {
+        display: flex;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+    }
+    /* nav ends here */
+    
+    :root {
+      --primary: #FF8C3A;
+      --bg: #f4f6f8;
+      --card: #ffffff;
+      --shadow: 0 8px 20px rgba(0,0,0,0.08);
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       font-family: "Kodchasan", sans-serif;
-      background: #f5f5f5;
+      background: var(--bg);
+      color: #333;
     }
 
     h2 {
-      color: #FF8C3A;
-    }
-
-    section {
-      background: white;
-      padding: 1.5rem;
-      margin-bottom: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-
-    .dashboard-container {
-      max-width: 1100px;
-      margin: auto;
-      padding: 2rem;
+      margin: 0 0 0.5rem;
+      color: var(--primary);
     }
 
     label {
       font-weight: 600;
+      font-size: 0.9rem;
     }
 
     select {
-      margin: 10px 0 20px;
-      padding: 6px;
+      margin-top: 6px;
+      padding: 6px 10px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      font-family: inherit;
+    }
+
+    /* ===== DASHBOARD WRAPPER ===== */
+    .dashboard-container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 2rem 1.2rem;
+    }
+
+    /* ===== GRID LAYOUT ===== */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+
+    .full-width {
+      grid-column: span 2;
+    }
+
+    /* ===== CARD ===== */
+    section {
+      background: var(--card);
+      padding: 1.5rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
     }
 
     canvas {
-      max-width: 100%;
-      margin-top: 20px;
+      margin-top: 1.2rem;
+      max-height: 280px;
+    }
+
+    /* ===== MOBILE VIEW ===== */
+    @media (max-width: 768px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .full-width {
+        grid-column: span 1;
+      }
+
+      canvas {
+        max-height: 240px;
+      }
     }
   </style>
 </head>
 
 <body>
+  <nav class="navrectangle">
+    <div class="container">
+      <div class="top-nav">
 
-<div class="dashboard-container">
+        <div class="nav-left">
+          <div class="Logo">
+            <img src="/images/ShiokLah(cropped).jpeg" alt="Logo" />
+          </div>
+        </div>
 
-  <!-- ================= SALES ANALYTICS ================= -->
-  <section>
-    <h2>Sales Analytics</h2>
+        <div class="nav-center">
+          <ul class="menu" id="menu">
+            <li class="menu-item">
+              <a href="#">Home</a>
+              <ul class="dropdown">
+                <li><a href="FED_ASG.html">Start Order</a></li>
+              </ul>
+            </li>
 
-    <label>Filter by:</label>
-    <select id="salesFilter">
-      <option value="month">This Month</option>
-      <option value="3months">Last 3 Months</option>
-      <option value="6months">Last 6 Months</option>
-    </select>
+            <li class="menu-item">
+              <a href="#">Order History</a>
+              <ul class="dropdown">
+                <li><a href="OrderHistory.html">Past Orders</a></li>
+              </ul>
+            </li>
 
-    <canvas id="salesChart"></canvas>
-  </section>
+            <li class="menu-item">
+              <a href="#">Profile</a>
+              <ul class="dropdown">
+                <li><a href="UserProfile.html">Overview</a></li>
+                <li><a href="Analytics.html">Analytics & Reporting</a></li>
+                <li><a href="#">Customer Feedback</a></li>
+                <li><a href="#">Regulatory & Compliance</a></li>
+                <li><a href="#">Favourites</a></li>
+                <li><a href="#">Rewards</a></li>
+              </ul>
+            </li>
 
-  <!-- ================= CUSTOMER FEEDBACK ================= -->
-  <section>
-    <h2>Customer Feedback</h2>
+            <li class="menu-item">
+              <a href="SelectRole.html">Log Out</a>
+            </li>
+          </ul>
+        </div>
 
-    <label>Filter by:</label>
-    <select id="feedbackFilter">
-      <option value="month">This Month</option>
-      <option value="3months">Last 3 Months</option>
-      <option value="6months">Last 6 Months</option>
-    </select>
+        <div class="nav-right">
+          <button class="reserve-btn">Reserve A Table</button>
+          <div class="hamburger" id="hamburger">
+            <div></div><div></div><div></div>
+          </div>
+        </div>
 
-    <canvas id="feedbackChart"></canvas>
-  </section>
+      </div>
+    </div>
+  </nav>
+  <hr class="Nav-line" />
+    
+  <div class="dashboard-container">
 
-  <!-- ================= HYGIENE & INSPECTIONS ================= -->
-  <section>
-    <h2>Hygiene & Inspections</h2>
+    <div class="grid">
 
-    <label>Filter by:</label>
-    <select id="hygieneFilter">
-      <option value="month">This Month</option>
-      <option value="6months">Last 6 Months</option>
-      <option value="year">This Year</option>
-    </select>
+      <!-- SALES ANALYTICS -->
+      <section>
+        <div class="card-header">
+          <h2>Sales Analytics</h2>
+          <div>
+            <label>Filter</label><br>
+            <select id="salesFilter">
+              <option value="month">This Month</option>
+              <option value="3months">Last 3 Months</option>
+              <option value="6months">Last 6 Months</option>
+            </select>
+          </div>
+        </div>
+        <canvas id="salesChart"></canvas>
+      </section>
 
-    <canvas id="hygieneChart"></canvas>
-  </section>
+      <!-- CUSTOMER FEEDBACK -->
+      <section>
+        <div class="card-header">
+          <h2>Customer Feedback</h2>
+          <div>
+            <label>Filter</label><br>
+            <select id="feedbackFilter">
+              <option value="month">This Month</option>
+              <option value="3months">Last 3 Months</option>
+              <option value="6months">Last 6 Months</option>
+            </select>
+          </div>
+        </div>
+        <canvas id="feedbackChart"></canvas>
+      </section>
 
-</div>
+      <!-- HYGIENE & INSPECTIONS -->
+      <section class="full-width">
+        <div class="card-header">
+          <h2>Hygiene & Inspections</h2>
+          <div>
+            <label>Filter</label><br>
+            <select id="hygieneFilter">
+              <option value="month">This Month</option>
+              <option value="6months">Last 6 Months</option>
+              <option value="year">This Year</option>
+            </select>
+          </div>
+        </div>
+        <canvas id="hygieneChart"></canvas>
+      </section>
+
+    </div>
+  </div>
 
 <script>
-/* ================= SALES BAR CHART ================= */
-const salesCtx = document.getElementById("salesChart");
-
-const salesChart = new Chart(salesCtx, {
-  type: "bar",
-  data: {
-    labels: ["Chicken Rice", "Laksa", "Hokkien Mee"],
-    datasets: [{
-      label: "Orders",
-      data: [50, 40, 12],
-      backgroundColor: ["#FF8C3A", "#FFD400", "#66B2FF"]
-    }]
-  },
-  options: {
-    responsive: true,
-    plugins: { legend: { display: false } }
+/* ===== SALES BAR CHART ===== */
+const salesChart = new Chart(
+  document.getElementById("salesChart"),
+  {
+    type: "bar",
+    data: {
+      labels: ["Chicken Rice", "Laksa", "Hokkien Mee"],
+      datasets: [{
+        data: [50, 40, 12],
+        backgroundColor: ["#FF8C3A", "#FFD400", "#66B2FF"]
+      }]
+    },
+    options: {
+      plugins: { legend: { display: false } },
+      responsive: true
+    }
   }
-});
+);
 
-document.getElementById("salesFilter").addEventListener("change", function () {
-  if (this.value === "month") {
-    salesChart.data.datasets[0].data = [50, 40, 12];
-  } else if (this.value === "3months") {
-    salesChart.data.datasets[0].data = [150, 120, 40];
-  } else {
-    salesChart.data.datasets[0].data = [300, 250, 90];
-  }
+document.getElementById("salesFilter").addEventListener("change", e => {
+  salesChart.data.datasets[0].data =
+    e.target.value === "month" ? [50,40,12] :
+    e.target.value === "3months" ? [150,120,40] :
+    [300,250,90];
   salesChart.update();
 });
 
-
-/* ================= FEEDBACK DOUGHNUT CHART ================= */
-const feedbackCtx = document.getElementById("feedbackChart");
-
-const feedbackChart = new Chart(feedbackCtx, {
-  type: "doughnut",
-  data: {
-    labels: ["1★", "2★", "3★", "4★", "5★"],
-    datasets: [{
-      data: [3.4, 11.4, 22.7, 34.1, 28.4],
-      backgroundColor: [
-        "#ff4d4d",
-        "#ff944d",
-        "#ffd11a",
-        "#99cc00",
-        "#33cc33"
-      ]
-    }]
+/* ===== FEEDBACK DOUGHNUT ===== */
+const feedbackChart = new Chart(
+  document.getElementById("feedbackChart"),
+  {
+    type: "doughnut",
+    data: {
+      labels: ["1★","2★","3★","4★","5★"],
+      datasets: [{
+        data: [3.4,11.4,22.7,34.1,28.4],
+        backgroundColor: ["#ff4d4d","#ff944d","#ffd11a","#99cc00","#33cc33"]
+      }]
+    }
   }
-});
+);
 
-document.getElementById("feedbackFilter").addEventListener("change", function () {
-  if (this.value === "month") {
-    feedbackChart.data.datasets[0].data = [3.4, 11.4, 22.7, 34.1, 28.4];
-  } else if (this.value === "3months") {
-    feedbackChart.data.datasets[0].data = [8.2, 5.1, 30.6, 35.7, 20.4];
-  } else {
-    feedbackChart.data.datasets[0].data = [2.3, 17.2, 23, 34.5, 23];
-  }
+document.getElementById("feedbackFilter").addEventListener("change", e => {
+  feedbackChart.data.datasets[0].data =
+    e.target.value === "month" ? [3.4,11.4,22.7,34.1,28.4] :
+    e.target.value === "3months" ? [8.2,5.1,30.6,35.7,20.4] :
+    [2.3,17.2,23,34.5,23];
   feedbackChart.update();
 });
 
-
-/* ================= HYGIENE LINE CHART ================= */
-const hygieneCtx = document.getElementById("hygieneChart");
-
-const hygieneChart = new Chart(hygieneCtx, {
-  type: "line",
-  data: {
-    labels: ["Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-    datasets: [{
-      label: "Inspection Score (%)",
-      data: [70, 75, 85, 88, 90, 83],
-      borderColor: "#FF8C3A",
-      tension: 0.3,
-      fill: false
-    }]
+/* ===== HYGIENE LINE CHART ===== */
+const hygieneChart = new Chart(
+  document.getElementById("hygieneChart"),
+  {
+    type: "line",
+    data: {
+      labels: ["Jul","Aug","Sep","Oct","Nov","Dec"],
+      datasets: [{
+        data: [70,75,85,88,90,83],
+        borderColor: "#FF8C3A",
+        tension: 0.35,
+        fill: false
+      }]
+    }
   }
-});
+);
 
-document.getElementById("hygieneFilter").addEventListener("change", function () {
-  if (this.value === "month") {
+document.getElementById("hygieneFilter").addEventListener("change", e => {
+  if (e.target.value === "month") {
     hygieneChart.data.labels = ["Dec"];
     hygieneChart.data.datasets[0].data = [83];
-  } 
-  else if (this.value === "6months") {
-    hygieneChart.data.labels = ["Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    hygieneChart.data.datasets[0].data = [70, 75, 85, 88, 90, 83];
-  } 
-  else {
+  } else if (e.target.value === "6months") {
+    hygieneChart.data.labels = ["Jul","Aug","Sep","Oct","Nov","Dec"];
+    hygieneChart.data.datasets[0].data = [70,75,85,88,90,83];
+  } else {
     hygieneChart.data.labels = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
     hygieneChart.data.datasets[0].data = [72,74,70,76,80,78,70,75,85,88,90,83];
   }
