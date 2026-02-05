@@ -52,7 +52,7 @@ body {
       width: 220px;
       min-height: 100vh;
       flex-shrink: 0;
-      border-right:1px solid rgb(74, 74, 74);
+      border-right:1px solid rgb(232, 232, 232);
     }
 
     /* Brand */
@@ -158,7 +158,7 @@ body {
   position: relative;
   flex: 1;
   padding: 25px 30px;
-  background: #f7f7f7;
+  background: #fafafa;
 }
 
 /* HEADER */
