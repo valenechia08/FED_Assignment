@@ -5,6 +5,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebas
 import {
   getDatabase,
   ref,
+  onValue,   
   push,
   set,
   get,
@@ -42,6 +43,13 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 // const db = getFire(app); valene original code
+
+const rootRef = ref(db, "/");
+
+// ✅ Real-time listen to ALL data
+onValue(ref(db, "/"), (snapshot) => {
+  console.log("REAL-TIME DATA:", snapshot.val());
+});
 
 /* =========================
    HELPERS
@@ -137,6 +145,7 @@ async function registerMember() {
       username,
       email,
       passwordHash,
+      userType: "registered",   //  ADD THIS✅  valene add this
       createdAt: Date.now(),
     });
 
@@ -184,6 +193,14 @@ async function loginMember() {
       showMessage("Incorrect password.", "red");
       return;
     }
+    
+    // ✅ update both browser + firebase
+    sessionStorage.setItem("currentUserId", username);
+
+    await update(ref(db, `members/${username}`), {
+      userType: data.userType || "registered",
+      lastLoginAt: Date.now()
+    });
 
     // Save session + redirect
     sessionStorage.setItem("loggedInUser", username);
