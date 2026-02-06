@@ -611,7 +611,9 @@
       const db = getDatabase(app);
 
       // ✅ Declare DOM + userId BEFORE using them
-      const userId = "user123"; // replace with auth.currentUser.uid later
+      // const userId = "user123"; // replace with auth.currentUser.uid later
+      const userId = sessionStorage.getItem("currentUserId") || "guest";
+
       const orderList = document.getElementById("orderList");
 
       const firstTimeBox = document.querySelector(".order-box.first-time");
