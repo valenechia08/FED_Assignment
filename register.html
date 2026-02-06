@@ -2,19 +2,9 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <link rel="stylesheet" href="LoginPages.css" />
     <title>Register Account</title>
     <style>
-      .register-page {
-        display: flex;
-        height: 100vh; /* full screen height */
-      }
-
-      .register-image {
-        flex: 1; /* take half the width */
-        background-image: url("images/Noodles.jpeg");
-        background-size: cover;
-        background-position: center;
-      }
       .card {
         display: flex;
         flex-direction: column;
@@ -35,16 +25,11 @@
         top: -2%;
         font-size: 0.9rem;
       }
-      .register-form {
-        flex: 1; /* take the other half */
-        padding: 40px;
+      .right-pane {
         display: flex;
         flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        background-color: #fff;
       }
-      .register-form h2 {
+      h2 {
         margin-bottom: 5px;
         color: #333;
         font-size: 2.9rem;
@@ -57,13 +42,13 @@
       p {
         color: #666;
         margin-bottom: 20px;
-        width: 60%;
+        width: 50%;
         text-align: left;
         position: relative;
         left: 2.5%;
       }
 
-      .register-form input {
+      input {
         display: flex;
         flex-wrap: wrap;
         padding: 12px;
@@ -78,11 +63,11 @@
         font-size: 0.8rem;
       }
 
-      .register-form .inputs {
+      .inputs {
         margin-bottom: 16px;
       }
 
-      .register-form button {
+      button {
         width: 100%;
         padding: 0.9rem;
         background-color: #e47329;
@@ -189,13 +174,13 @@
     </style>
   </head>
   <body>
-    <div class="register-page">
+    <div class="container">
       <!-- Left side image -->
-      <div class="register-image"></div>
+      <div class="left-pane"></div>
 
       <!-- Right side form -->
       <div class="card">
-        <div class="register-form">
+        <div class="right-pane">
           <h2>Register</h2>
           <p>
             Enter the mobile number or email which you can be contacted. No one
@@ -203,8 +188,15 @@
           </p>
           <div class="message" id="message"></div>
           <div class="inputs">
+            <input type="name" id="name" placeholder="Full Name" />
+            <input type="email" id="email" placeholder="Email" />
             <input type="username" id="username" placeholder="Username" />
             <input type="password" id="password" placeholder="Password" />
+            <input
+              type="password"
+              id="confirmPassword"
+              placeholder="Confirm Password"
+            />
           </div>
           <button id="registerBtn">Create account</button>
 
