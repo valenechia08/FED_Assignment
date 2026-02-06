@@ -417,11 +417,56 @@
         font-size: 13px;
       }
 
-      /* Make selects look consistent */
       select {
         appearance: none;
         -webkit-appearance: none;
         -moz-appearance: none;
+      }
+
+      /* Browse-all toggle */
+      .toggle-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 8px;
+      }
+      .toggle-wrap label {
+        font-weight: 800;
+        font-size: 13px;
+        color: #111;
+      }
+      .toggle {
+        width: 48px;
+        height: 28px;
+        border-radius: 999px;
+        background: #e5e7eb;
+        border: 1px solid #d1d5db;
+        position: relative;
+        cursor: pointer;
+        transition: 0.2s;
+        flex: 0 0 auto;
+      }
+      .toggle::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 3px;
+        transform: translateY(-50%);
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: #fff;
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+        transition: 0.2s;
+      }
+      .toggle.on {
+        background: rgba(228, 115, 41, 0.18);
+        border-color: rgba(228, 115, 41, 0.35);
+      }
+      .toggle.on::after {
+        left: 23px;
+        background: var(--primary-orange);
       }
     </style>
   </head>
@@ -508,7 +553,6 @@
                 />
               </div>
 
-              <!-- NEW: Cuisine dropdown -->
               <div class="field">
                 <span>🍽️</span>
                 <select id="cuisineFilter">
@@ -516,7 +560,6 @@
                 </select>
               </div>
 
-              <!-- NEW: Sort dropdown -->
               <div class="field">
                 <span>↕️</span>
                 <select id="sortSelect">
@@ -526,7 +569,6 @@
                 </select>
               </div>
 
-              <!-- NEW: Stall dropdown -->
               <div class="field">
                 <span>🏪</span>
                 <select id="stallFilter">
@@ -536,11 +578,22 @@
 
               <button class="btn btn-danger" id="clearAllBtn">Clear all</button>
             </div>
+
+            <div class="toggle-wrap">
+              <label for="browseToggle">Browse all stalls</label>
+              <div
+                class="toggle"
+                id="browseToggle"
+                role="switch"
+                aria-checked="false"
+                tabindex="0"
+              ></div>
+            </div>
           </div>
 
           <!-- Grid -->
           <div class="section">
-            <h3>Your favourite stalls</h3>
+            <h3 id="gridTitle">Your favourite stalls</h3>
 
             <div id="grid" class="grid"></div>
 
@@ -551,7 +604,8 @@
             >
               <strong>No favourite stalls yet.</strong>
               <div style="margin-top: 6px">
-                Go to Home → Start Order, then tap ❤️ on a stall to save it.
+                Turn on <b>“Browse all stalls”</b> above to add favourites here,
+                or go to Home → Start Order and tap ❤️ on a stall.
               </div>
               <div style="margin-top: 14px">
                 <button
@@ -563,20 +617,7 @@
               </div>
             </div>
 
-            <div
-              style="
-                margin-top: 14px;
-                display: flex;
-                gap: 10px;
-                justify-content: flex-end;
-                flex-wrap: wrap;
-              "
-            >
-              <button class="btn btn-ghost" id="exportBtn">Export</button>
-              <button class="btn btn-primary" id="seedBtn">
-                + Seed favourites
-              </button>
-            </div>
+            <!-- ✅ Removed confusing buttons: Seed + Export -->
           </div>
         </div>
       </div>
@@ -587,15 +628,11 @@
       <p id="toastMsg">Done.</p>
     </div>
 
-    <!-- =========================
-         JS (INLINE)
-         - Uses your STALLS list with img paths
-         - Adds "stallFilter" dropdown
-    ========================== -->
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         /************************************************************
-         * STALL DATA (same as your JS)
+         * STALL DATA
+         * ✅ REAL IMAGE PATHS from your Master_page_javascript.js
          ************************************************************/
         const STALLS = [
           {
@@ -603,35 +640,35 @@
             name: "Banana Leaf Nasi Lemak",
             cuisine: "Malay",
             rating: 4.0,
-            img: "images/stalls/banana-leaf-nasi-lemak.jpg",
+            img: "images/Banana Leaf Nasi Lemak Picture.jpg",
           },
           {
             id: "ST02",
-            name: "Big Daddy’s Chicken & Noodle Stall",
-            cuisine: "Others",
-            rating: 4.5,
-            img: "images/stalls/big-daddys-chicken-noodle.jpg",
-          },
-          {
-            id: "ST03",
-            name: "Boon Lay Fried Carrot Cake & Kway Teow Mee",
-            cuisine: "Chinese",
-            rating: 4.2,
-            img: "images/stalls/boon-lay-fried-carrot-cake.jpg",
-          },
-          {
-            id: "ST04",
             name: "Boon Lay Lu Wei",
             cuisine: "Chinese",
             rating: 4.2,
-            img: "images/stalls/boon-lay-lu-wei.jpg",
+            img: "images/Boon Lay Lu Wei Picture.jpg",
           },
           {
-            id: "ST05",
+            id: "ST03",
             name: "IMohamed Ismail Food Stall",
             cuisine: "Indian",
             rating: 4.5,
-            img: "images/stalls/imohamed-ismail.jpg",
+            img: "images/I.Mohamed Ismail Food Stall Picture.jpg",
+          },
+          {
+            id: "ST04",
+            name: "Boon Lay Fried Carrot Cake & Kway Teow Mee",
+            cuisine: "Chinese",
+            rating: 4.2,
+            img: "images/Boon Lay Fried Carrot Cake & Kway Teow Mee Picture.jpg",
+          },
+          {
+            id: "ST05",
+            name: "Big Daddy’s Chicken & Noodle Stall",
+            cuisine: "Others",
+            rating: 4.5,
+            img: "images/Big Daddy's Chicken & Noodle Picture.webp",
           },
         ];
 
@@ -639,7 +676,6 @@
          * STORAGE
          ************************************************************/
         const FAV_KEY = "shioklah_fav_stalls_v1";
-
         function loadFavSet() {
           try {
             return new Set(JSON.parse(localStorage.getItem(FAV_KEY) || "[]"));
@@ -657,6 +693,7 @@
         const gridEl = document.getElementById("grid");
         const emptyEl = document.getElementById("emptyState");
         const countText = document.getElementById("countText");
+        const gridTitle = document.getElementById("gridTitle");
 
         const searchInput = document.getElementById("searchInput");
         const cuisineFilter = document.getElementById("cuisineFilter");
@@ -664,8 +701,9 @@
         const stallFilter = document.getElementById("stallFilter");
 
         const clearAllBtn = document.getElementById("clearAllBtn");
-        const exportBtn = document.getElementById("exportBtn");
-        const seedBtn = document.getElementById("seedBtn");
+
+        const browseToggle = document.getElementById("browseToggle");
+        let browseAll = false;
 
         const toast = document.getElementById("toast");
         const toastTitle = document.getElementById("toastTitle");
@@ -715,12 +753,10 @@
           cuisineFilter.value = cuisines.includes(current) ? current : "all";
         }
 
-        // NEW: stall dropdown (based on favourites only OR all stalls — your choice)
-        function refreshStallOptions(favStalls) {
+        // ✅ Always list ALL stalls so dropdown works even if no favourites
+        function refreshStallOptions() {
           const current = stallFilter.value || "all";
-          const names = Array.from(
-            new Set(favStalls.map((s) => s.name)),
-          ).sort();
+          const names = Array.from(new Set(STALLS.map((s) => s.name))).sort();
 
           stallFilter.innerHTML = `<option value="all">All stalls</option>`;
           names.forEach((name) => {
@@ -759,7 +795,6 @@
               return safeNumber(b.rating) - safeNumber(a.rating);
             if (sortBy === "nameAZ")
               return (a.name || "").localeCompare(b.name || "");
-            // "recent" (no timestamps yet) keep stable by name
             return (a.name || "").localeCompare(b.name || "");
           });
 
@@ -773,16 +808,25 @@
           const favs = loadFavSet();
           const favStalls = STALLS.filter((s) => favs.has(s.id));
 
-          countText.textContent = `(${favStalls.length} stall${favStalls.length === 1 ? "" : "s"})`;
-
           refreshCuisineOptions();
-          refreshStallOptions(favStalls);
+          refreshStallOptions();
+
+          const baseList = browseAll ? STALLS : favStalls;
+          const shown = applySearchFilterSort(baseList);
+
+          gridTitle.textContent = browseAll
+            ? "Browse stalls"
+            : "Your favourite stalls";
+
+          countText.textContent = browseAll
+            ? `(Showing ${shown.length} stall${shown.length === 1 ? "" : "s"})`
+            : `(${favStalls.length} favourite stall${favStalls.length === 1 ? "" : "s"})`;
 
           gridEl.innerHTML = "";
-          emptyEl.style.display = favStalls.length ? "none" : "block";
-          if (!favStalls.length) return;
 
-          const shown = applySearchFilterSort(favStalls);
+          emptyEl.style.display =
+            !browseAll && favStalls.length === 0 ? "block" : "none";
+          if (!browseAll && favStalls.length === 0) return;
 
           if (!shown.length) {
             gridEl.innerHTML = `
@@ -795,6 +839,9 @@
           }
 
           shown.forEach((s) => {
+            const isFav = favs.has(s.id);
+            const rating = safeNumber(s.rating).toFixed(1);
+
             const card = document.createElement("article");
             card.className = "stall-card";
 
@@ -802,13 +849,23 @@
               ? `<img src="${escapeHtml(s.img)}" alt="${escapeHtml(s.name)}" />`
               : "";
 
-            const rating = safeNumber(s.rating).toFixed(1);
+            // browseAll mode: show Add/Remove
+            const pillAction = browseAll
+              ? isFav
+                ? "remove"
+                : "add"
+              : "remove";
+            const pillLabel = browseAll
+              ? isFav
+                ? "❤️ Remove"
+                : "🤍 Add"
+              : "❤️ Remove";
 
             card.innerHTML = `
               <div class="thumb">
                 ${imgHtml}
-                <div class="pill">❤️
-                  <button data-action="remove" data-id="${escapeHtml(s.id)}">Remove</button>
+                <div class="pill">
+                  <button data-action="${pillAction}" data-id="${escapeHtml(s.id)}">${pillLabel}</button>
                 </div>
               </div>
 
@@ -843,11 +900,19 @@
         /************************************************************
          * ACTIONS
          ************************************************************/
+        function addFavourite(stallId) {
+          const favs = loadFavSet();
+          favs.add(stallId);
+          saveFavSet(favs);
+          showToast("Saved", "Added to favourites.");
+          render();
+        }
+
         function removeFavourite(stallId) {
           const favs = loadFavSet();
           favs.delete(stallId);
           saveFavSet(favs);
-          showToast("Removed", "Stall removed from favourites.");
+          showToast("Removed", "Removed from favourites.");
           render();
         }
 
@@ -855,25 +920,6 @@
           saveFavSet(new Set());
           showToast("Cleared", "All favourite stalls removed.");
           render();
-        }
-
-        function seedFavourites() {
-          const favs = loadFavSet();
-          STALLS.forEach((s) => favs.add(s.id));
-          saveFavSet(favs);
-          showToast("Seeded", "Added your current stalls as favourites.");
-          render();
-        }
-
-        function exportFavourites() {
-          const favIds = [...loadFavSet()];
-          const payload = { favouriteStallIds: favIds, count: favIds.length };
-
-          navigator.clipboard.writeText(JSON.stringify(payload, null, 2)).then(
-            () =>
-              showToast("Exported", "Copied favourite stall IDs to clipboard."),
-            () => showToast("Oops", "Clipboard permission blocked."),
-          );
         }
 
         /************************************************************
@@ -888,9 +934,9 @@
           if (!action || !id) return;
 
           if (action === "remove") removeFavourite(id);
+          if (action === "add") addFavourite(id);
 
           if (action === "start") {
-            // TODO: link later
             showToast(
               "Start order",
               "Link this button to your stall menu page later.",
@@ -905,6 +951,31 @@
           }
         });
 
+        function setToggleUI() {
+          if (!browseToggle) return;
+          browseToggle.classList.toggle("on", browseAll);
+          browseToggle.setAttribute(
+            "aria-checked",
+            browseAll ? "true" : "false",
+          );
+        }
+
+        function toggleBrowseAll() {
+          browseAll = !browseAll;
+          setToggleUI();
+          render();
+        }
+
+        if (browseToggle) {
+          browseToggle.addEventListener("click", toggleBrowseAll);
+          browseToggle.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              toggleBrowseAll();
+            }
+          });
+        }
+
         searchInput.addEventListener("input", render);
         cuisineFilter.addEventListener("change", render);
         stallFilter.addEventListener("change", render);
@@ -914,9 +985,6 @@
           if (!loadFavSet().size) return;
           clearAll();
         });
-
-        seedBtn.addEventListener("click", seedFavourites);
-        exportBtn.addEventListener("click", exportFavourites);
 
         /************************************************************
          * HELPERS FOR OTHER PAGES
@@ -936,6 +1004,7 @@
         /************************************************************
          * INIT
          ************************************************************/
+        setToggleUI();
         render();
       });
     </script>

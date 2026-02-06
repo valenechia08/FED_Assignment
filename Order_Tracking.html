@@ -1,0 +1,1229 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ShiokLah! • Order Tracking</title>
+
+    <!-- (Optional) If you already use fonts globally, you can remove these -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kodchasan:wght@400;600;700&family=Montserrat:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --primary-orange: #e47329;
+        --primary-yellow: #ffd400;
+        --bg: #fafafa;
+        --card: #ffffff;
+        --muted: #6b7280;
+        --text: #111827;
+        --line: #ececec;
+        --shadow: 0 14px 40px rgba(0, 0, 0, 0.08);
+        --radius: 20px;
+        --soft: rgba(228, 115, 41, 0.09);
+        --green: #22c55e;
+        --amber: #f59e0b;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family:
+          "Montserrat",
+          "Segoe UI",
+          system-ui,
+          -apple-system,
+          Arial,
+          sans-serif;
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--text);
+      }
+
+      /* =========================
+         TOP NAV (YOUR NAV STYLE)
+      ========================= */
+      .topNavBar {
+        position: sticky;
+        top: 0;
+        z-index: 2000;
+        background: #fff;
+        border-bottom: 1px solid var(--line);
+      }
+      .topNavBar .container {
+        width: 92%;
+        max-width: 1200px;
+        margin: auto;
+      }
+      .topNavBar .top-nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 70px;
+      }
+      .topNavBar .nav-left,
+      .topNavBar .nav-right {
+        flex: 0 0 auto;
+      }
+      .topNavBar .nav-center {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+      }
+      .topNavBar .Logo {
+        height: 60px;
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+      }
+      .topNavBar .Logo img {
+        height: 100%;
+        width: auto;
+        display: block;
+      }
+      .topNavBar .menu {
+        list-style: none;
+        display: flex;
+        align-items: center;
+        gap: 50px;
+      }
+      .topNavBar .menu a {
+        text-decoration: none;
+        font-weight: 800;
+        color: #111;
+        display: block;
+        padding: 8px 0;
+      }
+      .topNavBar .menu a:hover {
+        color: var(--primary-orange);
+      }
+      .topNavBar .menu-item {
+        position: relative;
+      }
+      .topNavBar .dropdown {
+        position: absolute;
+        top: 130%;
+        left: 0;
+        background: var(--primary-yellow);
+        border-radius: 12px;
+        padding: 10px 0;
+        min-width: 220px;
+        display: none;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      }
+      .topNavBar .dropdown li {
+        list-style: none;
+      }
+      .topNavBar .dropdown a {
+        padding: 10px 18px;
+        color: #111;
+        font-weight: 700;
+      }
+      .topNavBar .dropdown a:hover {
+        background: rgba(0, 0, 0, 0.08);
+      }
+      .topNavBar .menu-item:hover .dropdown {
+        display: block;
+      }
+
+      .nav-btn {
+        background: var(--primary-orange);
+        color: #fff;
+        border: none;
+        border-radius: 999px;
+        padding: 10px 16px;
+        font-weight: 900;
+        cursor: pointer;
+        box-shadow: 0 10px 22px rgba(228, 115, 41, 0.25);
+        transition: 0.15s;
+      }
+      .nav-btn:hover {
+        transform: translateY(-1px);
+        filter: brightness(0.98);
+      }
+      .nav-btn:active {
+        transform: translateY(0);
+      }
+
+      @media (max-width: 900px) {
+        .topNavBar .menu {
+          gap: 28px;
+        }
+      }
+      @media (max-width: 700px) {
+        .topNavBar .nav-center {
+          display: none;
+        }
+      }
+
+      /* =========================
+         PAGE LAYOUT (MORE SPACE)
+      ========================= */
+      main {
+        width: 92%;
+        max-width: 1120px;
+        margin: 34px auto 90px;
+      }
+
+      .page-head {
+        text-align: center;
+        margin: 18px 0 28px;
+      }
+      .page-head h1 {
+        font-size: 44px;
+        font-weight: 900;
+        letter-spacing: -0.5px;
+        color: var(--primary-orange);
+      }
+      .page-head p {
+        margin-top: 8px;
+        color: var(--muted);
+        font-weight: 600;
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: 1.15fr 0.85fr;
+        gap: 22px;
+        align-items: start;
+      }
+      @media (max-width: 980px) {
+        .layout {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .card {
+        background: var(--card);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        border: 1px solid rgba(0, 0, 0, 0.04);
+        overflow: hidden;
+      }
+
+      /* =========================
+         STATUS BANNER (LIKE YOUR REF)
+      ========================= */
+      .statusBanner {
+        background: var(--primary-orange);
+        color: #fff;
+        padding: 26px 26px 18px;
+        position: relative;
+      }
+      .statusTop {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+      }
+      .statusTop .left {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .statusTop .mins {
+        font-weight: 900;
+        font-size: 28px;
+        letter-spacing: -0.5px;
+      }
+      .statusTop .msg {
+        font-weight: 600;
+        opacity: 0.95;
+      }
+      .statusTop .face {
+        width: 54px;
+        height: 54px;
+        background: #fff;
+        border-radius: 999px;
+        display: grid;
+        place-items: center;
+        color: #111;
+        font-size: 26px;
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
+      }
+
+      .aheadPillWrap {
+        margin-top: 18px;
+        display: flex;
+        justify-content: center;
+      }
+      .aheadPill {
+        background: rgba(17, 24, 39, 0.22);
+        border: 1px solid rgba(255, 255, 255, 0.24);
+        backdrop-filter: blur(6px);
+        padding: 10px 16px;
+        border-radius: 999px;
+        font-weight: 800;
+      }
+
+      /* =========================
+         BODY CONTENT
+      ========================= */
+      .pad {
+        padding: 22px 24px;
+      }
+
+      .splitRow {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 14px;
+        margin-top: 18px;
+      }
+      @media (max-width: 820px) {
+        .splitRow {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .stat {
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 14px 14px;
+      }
+      .stat .k {
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 800;
+      }
+      .stat .v {
+        margin-top: 6px;
+        font-size: 18px;
+        font-weight: 900;
+      }
+
+      .divider {
+        height: 1px;
+        background: var(--line);
+        margin: 18px 0;
+      }
+
+      /* Timeline (Received → Preparing → Ready) */
+      .timeline {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+        margin-top: 10px;
+      }
+      @media (max-width: 600px) {
+        .timeline {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .step {
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 14px 14px;
+        background: #fff;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+      .dot {
+        width: 14px;
+        height: 14px;
+        border-radius: 999px;
+        background: #e5e7eb;
+        flex: 0 0 auto;
+      }
+      .step .label {
+        font-weight: 900;
+        font-size: 14px;
+      }
+      .step .sub {
+        font-size: 12px;
+        color: var(--muted);
+        font-weight: 700;
+        margin-top: 2px;
+      }
+
+      .step.done .dot {
+        background: var(--green);
+      }
+      .step.active .dot {
+        background: var(--amber);
+      }
+
+      /* Play button + ready banner */
+      .cta {
+        margin-top: 18px;
+        display: grid;
+        gap: 12px;
+      }
+
+      .playBtn {
+        width: 100%;
+        padding: 14px 16px;
+        border: none;
+        border-radius: 16px;
+        background: var(--primary-orange);
+        color: #fff;
+        font-weight: 900;
+        font-size: 16px;
+        cursor: pointer;
+        box-shadow: 0 12px 24px rgba(228, 115, 41, 0.25);
+        transition: 0.15s;
+      }
+      .playBtn:hover {
+        transform: translateY(-1px);
+        filter: brightness(0.98);
+      }
+      .playBtn:active {
+        transform: translateY(0);
+      }
+
+      .readyBanner {
+        display: none;
+        border-radius: 16px;
+        padding: 14px 16px;
+        background: rgba(34, 197, 94, 0.14);
+        border: 1px solid rgba(34, 197, 94, 0.35);
+        color: #166534;
+        font-weight: 900;
+        text-align: center;
+      }
+
+      /* =========================
+         ORDER SUMMARY (RIGHT)
+      ========================= */
+      .summaryTitle {
+        font-weight: 900;
+        font-size: 18px;
+        margin-bottom: 14px;
+      }
+
+      .summaryMeta {
+        display: grid;
+        gap: 8px;
+        color: var(--muted);
+        font-weight: 700;
+        margin-bottom: 10px;
+      }
+      .summaryMeta .big {
+        color: #111;
+        font-weight: 900;
+        font-size: 18px;
+      }
+
+      .items {
+        margin-top: 10px;
+        display: grid;
+        gap: 10px;
+      }
+      .item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 12px;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: #fff;
+      }
+      .item .name {
+        font-weight: 800;
+      }
+      .item .price {
+        font-weight: 900;
+        color: #111;
+      }
+
+      .totalRow {
+        margin-top: 12px;
+        padding-top: 12px;
+        border-top: 1px dashed var(--line);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: 900;
+        font-size: 18px;
+      }
+
+      .nextBtn {
+        margin-top: 18px;
+        width: 100%;
+        border: none;
+        border-radius: 999px;
+        padding: 12px 16px;
+        background: var(--primary-orange);
+        color: #fff;
+        font-weight: 900;
+        cursor: pointer;
+        transition: 0.15s;
+      }
+      .nextBtn:hover {
+        transform: translateY(-1px);
+        filter: brightness(0.98);
+      }
+
+      /* =========================
+         GAME MODAL (OPENS ON BUTTON)
+      ========================= */
+      .modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.52);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        padding: 20px;
+      }
+      .modal.show {
+        display: flex;
+      }
+      .modalCard {
+        width: 100%;
+        max-width: 520px;
+        background: #fff;
+        border-radius: 22px;
+        box-shadow: 0 18px 55px rgba(0, 0, 0, 0.25);
+        overflow: hidden;
+      }
+      .modalHead {
+        padding: 16px 18px;
+        border-bottom: 1px solid var(--line);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+      }
+      .modalHead h3 {
+        font-weight: 900;
+        font-size: 16px;
+      }
+      .modalClose {
+        border: 1px solid var(--line);
+        background: #fff;
+        border-radius: 12px;
+        padding: 8px 10px;
+        cursor: pointer;
+        font-weight: 900;
+      }
+      .modalBody {
+        padding: 18px;
+      }
+
+      .gameTop {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-bottom: 12px;
+      }
+      .score {
+        display: flex;
+        gap: 12px;
+        font-weight: 900;
+      }
+      .score span {
+        color: var(--muted);
+        font-weight: 800;
+      }
+
+      .board {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+      }
+      @media (max-width: 420px) {
+        .board {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+
+      .tile {
+        aspect-ratio: 1/1;
+        border-radius: 16px;
+        border: 1px solid var(--line);
+        background: linear-gradient(
+          135deg,
+          rgba(228, 115, 41, 0.18),
+          rgba(228, 115, 41, 0.06)
+        );
+        display: grid;
+        place-items: center;
+        font-size: 26px;
+        font-weight: 900;
+        cursor: pointer;
+        user-select: none;
+        transition: 0.12s;
+      }
+      .tile:hover {
+        transform: translateY(-1px);
+      }
+      .tile .front {
+        opacity: 0;
+        transform: scale(0.96);
+        transition: 0.15s;
+      }
+      .tile .back {
+        color: var(--primary-orange);
+        opacity: 1;
+        transition: 0.15s;
+      }
+      .tile.revealed .front {
+        opacity: 1;
+        transform: scale(1);
+      }
+      .tile.revealed .back {
+        opacity: 0;
+      }
+      .tile.matched {
+        border-color: rgba(34, 197, 94, 0.35);
+        background: rgba(34, 197, 94, 0.1);
+      }
+
+      .gameActions {
+        margin-top: 12px;
+        display: flex;
+        gap: 10px;
+      }
+      .btnGhost {
+        flex: 1;
+        border: 1px solid var(--line);
+        background: #fff;
+        border-radius: 14px;
+        padding: 10px 12px;
+        font-weight: 900;
+        cursor: pointer;
+      }
+      .btnPrimary {
+        flex: 1;
+        border: none;
+        background: var(--primary-orange);
+        color: #fff;
+        border-radius: 14px;
+        padding: 10px 12px;
+        font-weight: 900;
+        cursor: pointer;
+      }
+
+      .note {
+        margin-top: 10px;
+        color: var(--muted);
+        font-weight: 700;
+        font-size: 13px;
+        line-height: 1.35;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- NAV (YOUR HTML + Back button) -->
+    <nav class="topNavBar">
+      <div class="container">
+        <div class="top-nav">
+          <div class="nav-left">
+            <a href="FED_ASG.html" class="Logo" aria-label="ShiokLah Home">
+              <img src="images/ShiokLah(cropped).jpeg" alt="ShiokLah Logo" />
+            </a>
+          </div>
+
+          <div class="nav-center">
+            <ul class="menu" id="menu">
+              <li class="menu-item">
+                <a href="FED_ASG.html">Home</a>
+                <ul class="dropdown">
+                  <li><a href="FED_ASG.html">Start Order</a></li>
+                </ul>
+              </li>
+
+              <li class="menu-item">
+                <a href="#">Order History</a>
+                <ul class="dropdown">
+                  <li><a href="OrderHistory.html">Past Orders</a></li>
+                </ul>
+              </li>
+
+              <li class="menu-item">
+                <a href="UserProfile.html">Profile</a>
+                <ul class="dropdown">
+                  <li><a href="UserProfile.html">Overview</a></li>
+                  <li><a href="Analytics.html">Analytics & Reporting</a></li>
+                  <li><a href="CustomerFeedback.html">Customer Feedback</a></li>
+                  <li>
+                    <a href="Regulatory&Complianceinfo.html"
+                      >Regulatory & Compliance Info</a
+                    >
+                  </li>
+                  <li><a href="Favourites.html">Favourites</a></li>
+                  <li>
+                    <a href="Customer Vouchers and Rewards.html">Rewards</a>
+                  </li>
+                </ul>
+              </li>
+
+              <li class="menu-item">
+                <a href="SelectRole.html">Log Out</a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="nav-right">
+            <button class="nav-btn" onclick="location.href = 'FED_ASG.html'">
+              Back
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <main>
+      <div class="page-head">
+        <h1>Order Tracking</h1>
+        <p>Track your order + view summary. Play a quick game while waiting.</p>
+      </div>
+
+      <div class="layout">
+        <!-- LEFT: STATUS / TRACKING -->
+        <section class="card">
+          <div class="statusBanner">
+            <div class="statusTop">
+              <div class="left">
+                <div class="mins" id="minsText">20 mins</div>
+                <div class="msg" id="statusMsg">
+                  Almost done! Just a little longer :)
+                </div>
+              </div>
+              <div class="face" id="face">☺</div>
+            </div>
+
+            <div class="aheadPillWrap">
+              <div class="aheadPill" id="aheadPill">
+                There are 5 customers ahead of you.
+              </div>
+            </div>
+          </div>
+
+          <div class="pad">
+            <div class="splitRow">
+              <div class="stat">
+                <div class="k">Order Number</div>
+                <div class="v" id="orderNo">#SL58231</div>
+              </div>
+              <div class="stat">
+                <div class="k">Type</div>
+                <div class="v" id="orderType">Self-Pickup</div>
+              </div>
+              <div class="stat">
+                <div class="k">Table / Queue</div>
+                <div class="v" id="tableOrQueue">Table 05</div>
+              </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div style="font-weight: 900; font-size: 16px">Progress</div>
+            <div class="timeline" id="timeline">
+              <div class="step active" data-step="received">
+                <div class="dot"></div>
+                <div>
+                  <div class="label">Received</div>
+                  <div class="sub" id="tReceived">—</div>
+                </div>
+              </div>
+              <div class="step" data-step="preparing">
+                <div class="dot"></div>
+                <div>
+                  <div class="label">Preparing</div>
+                  <div class="sub" id="tPreparing">—</div>
+                </div>
+              </div>
+              <div class="step" data-step="ready">
+                <div class="dot"></div>
+                <div>
+                  <div class="label">Ready</div>
+                  <div class="sub" id="tReady">—</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="cta">
+              <button class="playBtn" id="playBtn">
+                🎮 Do you want to play a game while waiting?
+              </button>
+
+              <div class="readyBanner" id="readyBanner">
+                ✅ Your order is ready! Please collect now.
+              </div>
+
+              <div class="note">
+                If you selected <b>Dine-in</b>, show this screen to the stall
+                when it says <b>Ready</b>.
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- RIGHT: ORDER SUMMARY -->
+        <aside class="card">
+          <div class="pad">
+            <div class="summaryTitle">Order summary</div>
+
+            <div class="summaryMeta">
+              <div class="big" id="summaryTable">Table 05</div>
+              <div id="summaryType">Self-Pickup</div>
+            </div>
+
+            <div class="items" id="items">
+              <!-- Filled by JS (you can replace with Firebase later) -->
+            </div>
+
+            <div class="items" style="margin-top: 10px">
+              <div class="item">
+                <div class="name" style="color: var(--muted); font-weight: 800">
+                  Packaging and Utensils Fee
+                </div>
+                <div class="price" id="fee">$0.90</div>
+              </div>
+            </div>
+
+            <div class="totalRow">
+              <div>Total</div>
+              <div id="total">$11.30</div>
+            </div>
+
+            <button class="nextBtn" id="nextBtn">Next</button>
+
+            <div class="note" style="margin-top: 12px">
+              Tip: Order number is used for collection. Please keep your phone
+              available.
+            </div>
+          </div>
+        </aside>
+      </div>
+    </main>
+
+    <!-- GAME MODAL -->
+    <div class="modal" id="gameModal" aria-hidden="true">
+      <div class="modalCard" role="dialog" aria-modal="true">
+        <div class="modalHead">
+          <h3>Match the Cards</h3>
+          <button class="modalClose" id="closeGameBtn">✕</button>
+        </div>
+        <div class="modalBody">
+          <div class="gameTop">
+            <div class="score">
+              <div>Moves: <span id="moves">0</span></div>
+              <div>Matches: <span id="matches">0</span></div>
+            </div>
+            <div style="color: var(--muted); font-weight: 800; font-size: 13px">
+              Finish all pairs before your order is ready 😋
+            </div>
+          </div>
+
+          <div class="board" id="board"></div>
+
+          <div class="gameActions">
+            <button class="btnGhost" id="newGameBtn">New game</button>
+            <button class="btnPrimary" id="hintBtn">Hint</button>
+          </div>
+
+          <div class="note" id="gameNote">
+            Tap 2 cards. If they match, they stay open. If not, they flip back.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        /* =========================
+           DEMO ORDER DATA
+           (Replace with Firebase later)
+        ========================= */
+        const order = {
+          orderNo: "#SL58231",
+          type: "Self-Pickup", // or "Dine-in"
+          tableOrQueue: "Table 05",
+          etaMins: 20, // IMPORTANT: game closes when timer hits 0
+          ahead: 5,
+          items: [
+            { name: "Set Meal A", price: 5.0 },
+            { name: "Set Meal B", price: 4.0 },
+            { name: "Set Meal C", price: 4.0 },
+          ],
+          fee: 0.9,
+          status: "received", // received | preparing | ready
+          stamps: { received: null, preparing: null, ready: null },
+        };
+
+        /* =========================
+           DOM
+        ========================= */
+        const $ = (id) => document.getElementById(id);
+
+        const minsText = $("minsText");
+        const statusMsg = $("statusMsg");
+        const aheadPill = $("aheadPill");
+        const face = $("face");
+
+        const orderNo = $("orderNo");
+        const orderType = $("orderType");
+        const tableOrQueue = $("tableOrQueue");
+
+        const tReceived = $("tReceived");
+        const tPreparing = $("tPreparing");
+        const tReady = $("tReady");
+
+        const readyBanner = $("readyBanner");
+        const playBtn = $("playBtn");
+
+        const itemsEl = $("items");
+        const feeEl = $("fee");
+        const totalEl = $("total");
+
+        /* =========================
+           TIME HELPERS
+        ========================= */
+        function pad2(n) {
+          return String(n).padStart(2, "0");
+        }
+        function nowHHMM() {
+          const d = new Date();
+          return `${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
+        }
+
+        /* =========================
+           RENDER ORDER SUMMARY
+        ========================= */
+        function renderSummary() {
+          itemsEl.innerHTML = "";
+          order.items.forEach((it) => {
+            const row = document.createElement("div");
+            row.className = "item";
+            row.innerHTML = `
+              <div class="name">${escapeHtml(it.name)}</div>
+              <div class="price">$${Number(it.price).toFixed(2)}</div>
+            `;
+            itemsEl.appendChild(row);
+          });
+
+          feeEl.textContent = `$${Number(order.fee).toFixed(2)}`;
+
+          const itemsTotal = order.items.reduce(
+            (sum, it) => sum + Number(it.price || 0),
+            0,
+          );
+          const total = itemsTotal + Number(order.fee || 0);
+          totalEl.textContent = `$${total.toFixed(2)}`;
+
+          $("summaryTable").textContent = order.tableOrQueue;
+          $("summaryType").textContent = order.type;
+        }
+
+        function escapeHtml(str) {
+          return String(str)
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
+        }
+
+        /* =========================
+           STATUS + TIMELINE
+        ========================= */
+        const steps = Array.from(document.querySelectorAll(".step"));
+
+        function setStatus(newStatus) {
+          order.status = newStatus;
+
+          steps.forEach((s) => s.classList.remove("done", "active"));
+
+          if (newStatus === "received") {
+            mark("received", "active");
+          }
+          if (newStatus === "preparing") {
+            mark("received", "done");
+            mark("preparing", "active");
+          }
+          if (newStatus === "ready") {
+            mark("received", "done");
+            mark("preparing", "done");
+            mark("ready", "active");
+          }
+        }
+
+        function mark(step, cls) {
+          const el = steps.find((x) => x.dataset.step === step);
+          if (el) el.classList.add(cls);
+        }
+
+        function renderHeader() {
+          minsText.textContent = `${Math.max(0, order.etaMins)} mins`;
+
+          if (order.status === "ready") {
+            statusMsg.textContent = "Your food is ready! Please collect now.";
+            face.textContent = "😄";
+          } else if (order.etaMins <= 5) {
+            statusMsg.textContent = "Almost done! Just a little longer :)";
+            face.textContent = "🙂";
+          } else {
+            statusMsg.textContent = "Hang tight — we’re preparing your order.";
+            face.textContent = "☺";
+          }
+
+          aheadPill.textContent = `There are ${order.ahead} customers ahead of you.`;
+
+          orderNo.textContent = order.orderNo;
+          orderType.textContent = order.type;
+          tableOrQueue.textContent = order.tableOrQueue;
+        }
+
+        function renderStamps() {
+          tReceived.textContent = order.stamps.received || "—";
+          tPreparing.textContent = order.stamps.preparing || "—";
+          tReady.textContent = order.stamps.ready || "—";
+        }
+
+        /* =========================
+           GAME: MEMORY MATCH (REAL)
+        ========================= */
+        const modal = $("gameModal");
+        const closeGameBtn = $("closeGameBtn");
+        const board = $("board");
+        const movesEl = $("moves");
+        const matchesEl = $("matches");
+        const newGameBtn = $("newGameBtn");
+        const hintBtn = $("hintBtn");
+        const gameNote = $("gameNote");
+
+        const ICONS = ["🍜", "🍗", "🍛", "🥤", "🥟", "🍰", "🍢", "🍳"];
+        let tiles = [];
+        let firstPick = null;
+        let lock = false;
+        let moves = 0;
+        let matches = 0;
+
+        function shuffle(arr) {
+          for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+          }
+          return arr;
+        }
+
+        function openGame() {
+          // If already ready, don’t open
+          if (order.status === "ready") return;
+
+          modal.classList.add("show");
+          modal.setAttribute("aria-hidden", "false");
+        }
+
+        function closeGame(reason = "") {
+          modal.classList.remove("show");
+          modal.setAttribute("aria-hidden", "true");
+          if (reason) gameNote.textContent = reason;
+        }
+
+        function newGame() {
+          moves = 0;
+          matches = 0;
+          firstPick = null;
+          lock = false;
+          movesEl.textContent = "0";
+          matchesEl.textContent = "0";
+          gameNote.textContent =
+            "Tap 2 cards. If they match, they stay open. If not, they flip back.";
+
+          const picks = shuffle([...ICONS]).slice(0, 6); // 6 pairs (12 cards)
+          tiles = shuffle([...picks, ...picks]).map((icon, i) => ({
+            id: i,
+            icon,
+            revealed: false,
+            matched: false,
+          }));
+
+          renderBoard();
+        }
+
+        function renderBoard() {
+          board.innerHTML = "";
+          tiles.forEach((t) => {
+            const el = document.createElement("div");
+            el.className = "tile";
+            if (t.revealed) el.classList.add("revealed");
+            if (t.matched) el.classList.add("matched");
+
+            el.innerHTML = `
+              <div class="back">🟧</div>
+              <div class="front">${t.icon}</div>
+            `;
+
+            el.addEventListener("click", () => onTileClick(t.id));
+            board.appendChild(el);
+          });
+        }
+
+        function setTile(id, patch) {
+          tiles = tiles.map((t) => (t.id === id ? { ...t, ...patch } : t));
+        }
+
+        function onTileClick(id) {
+          if (lock) return;
+          if (order.status === "ready") return; // stop playing if ready
+
+          const t = tiles.find((x) => x.id === id);
+          if (!t || t.matched || t.revealed) return;
+
+          setTile(id, { revealed: true });
+          renderBoard();
+
+          if (firstPick === null) {
+            firstPick = id;
+            return;
+          }
+
+          moves++;
+          movesEl.textContent = String(moves);
+
+          const a = tiles.find((x) => x.id === firstPick);
+          const b = tiles.find((x) => x.id === id);
+
+          if (!a || !b) return;
+
+          if (a.icon === b.icon) {
+            setTile(a.id, { matched: true });
+            setTile(b.id, { matched: true });
+            matches++;
+            matchesEl.textContent = String(matches);
+            firstPick = null;
+            renderBoard();
+
+            if (matches === 6) {
+              gameNote.textContent = `You won in ${moves} moves! 🎉`;
+            }
+            return;
+          }
+
+          lock = true;
+          setTimeout(() => {
+            setTile(a.id, { revealed: false });
+            setTile(b.id, { revealed: false });
+            firstPick = null;
+            lock = false;
+            renderBoard();
+          }, 650);
+        }
+
+        function hint() {
+          if (order.status === "ready") return;
+
+          const hidden = tiles.filter((t) => !t.matched && !t.revealed);
+          if (hidden.length < 2) return;
+
+          const a = hidden[Math.floor(Math.random() * hidden.length)];
+          let b = hidden[Math.floor(Math.random() * hidden.length)];
+          while (b.id === a.id)
+            b = hidden[Math.floor(Math.random() * hidden.length)];
+
+          setTile(a.id, { revealed: true });
+          setTile(b.id, { revealed: true });
+          renderBoard();
+
+          lock = true;
+          setTimeout(() => {
+            const aa = tiles.find((t) => t.id === a.id);
+            const bb = tiles.find((t) => t.id === b.id);
+            if (aa && !aa.matched) setTile(a.id, { revealed: false });
+            if (bb && !bb.matched) setTile(b.id, { revealed: false });
+            lock = false;
+            renderBoard();
+          }, 650);
+        }
+
+        /* =========================
+           ORDER TIMER / AUTO READY
+           - If ETA starts at 20 mins,
+             when it hits 0 => ready, close game, show banner.
+           - For demo speed: 1 "min" per 3 seconds
+             Change DEMO_TICK_MS to 60000 for real minutes.
+        ========================= */
+        const DEMO_TICK_MS = 3000; // change to 60000 for real minute countdown
+
+        function tick() {
+          if (order.status === "ready") return;
+
+          order.etaMins = Math.max(0, order.etaMins - 1);
+
+          // reduce queue sometimes
+          if (order.ahead > 0) {
+            order.ahead = Math.max(
+              0,
+              order.ahead - (Math.random() < 0.7 ? 1 : 0),
+            );
+          }
+
+          // move progress based on time
+          if (order.etaMins <= 14 && order.status === "received") {
+            setStatus("preparing");
+            order.stamps.preparing = nowHHMM();
+          }
+          if (order.etaMins <= 0) {
+            setStatus("ready");
+            order.stamps.ready = nowHHMM();
+
+            readyBanner.style.display = "block";
+            playBtn.disabled = true;
+            playBtn.style.opacity = "0.6";
+            playBtn.style.cursor = "not-allowed";
+
+            // force close game when ready
+            closeGame("Order is ready — game closed automatically ✅");
+          }
+
+          renderHeader();
+          renderStamps();
+        }
+
+        /* =========================
+           EVENTS
+        ========================= */
+        playBtn.addEventListener("click", () => {
+          openGame();
+        });
+
+        closeGameBtn.addEventListener("click", () => {
+          closeGame();
+        });
+
+        modal.addEventListener("click", (e) => {
+          if (e.target === modal) closeGame();
+        });
+
+        newGameBtn.addEventListener("click", newGame);
+        hintBtn.addEventListener("click", hint);
+
+        $("nextBtn").addEventListener("click", () => {
+          // you can link to next flow page (e.g. receipt / feedback / home)
+          // location.href = "SomeNextPage.html";
+          alert("Next clicked (link this to your next page).");
+        });
+
+        /* =========================
+           INIT
+        ========================= */
+        order.stamps.received = nowHHMM();
+        setStatus(order.status);
+        renderHeader();
+        renderStamps();
+        renderSummary();
+        newGame();
+
+        setInterval(tick, DEMO_TICK_MS);
+      });
+    </script>
+  </body>
+</html>
