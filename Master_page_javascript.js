@@ -5,6 +5,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebas
 import {
   getDatabase,
   ref,
+  onValue,   
   push,
   set,
   get,
@@ -42,6 +43,13 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 // const db = getFire(app); valene original code
+
+const rootRef = ref(db, "/");
+
+// ✅ Real-time listen to ALL data
+onValue(ref(db, "/"), (snapshot) => {
+  console.log("REAL-TIME DATA:", snapshot.val());
+});
 
 /* =========================
    HELPERS
@@ -137,6 +145,7 @@ async function registerMember() {
       username,
       email,
       passwordHash,
+      userType: "registered",   //  ADD THIS✅  valene add this
       createdAt: Date.now(),
     });
 
@@ -184,6 +193,14 @@ async function loginMember() {
       showMessage("Incorrect password.", "red");
       return;
     }
+    
+    // ✅ update both browser + firebase
+    sessionStorage.setItem("currentUserId", username);
+
+    await update(ref(db, `members/${username}`), {
+      userType: data.userType || "registered",
+      lastLoginAt: Date.now()
+    });
 
     // Save session + redirect
     sessionStorage.setItem("loggedInUser", username);
@@ -236,6 +253,14 @@ document.addEventListener("DOMContentLoaded", () => {
     let guestDiv = $("guestLogin");
     guestDiv.style.display = "block";
     guestDiv.innerHTML = `<a href="FED_ASG.html">Continue as guest</a>`;
+  } else if (
+    window.location.pathname.endsWith("login.html") &&
+    sessionStorage.getItem("currentRole") === "officer"
+  ) {
+    let register = $("register-account");
+    let links = $("links");
+    register.style.display = "none";
+    links.classList.add("nea-alignment");
   }
 });
 document.addEventListener("DOMContentLoaded", () => {
@@ -278,7 +303,10 @@ async function resetPassword() {
   const confirmPassword = $("confirmPassword2")?.value ?? "";
 
   const rule = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{9,}$/;
-
+  if (!password) {
+    showMessage("Please enter a password", "red");
+    return;
+  }
   if (!rule.test(password)) {
     showMessage("Must be 9+ chars with letters & numbers only", "red");
     return;
@@ -388,29 +416,12 @@ document.addEventListener("DOMContentLoaded", () => {
 // });
 
 // Top Navigation
-document.querySelectorAll(".menu-item").forEach((item) => {
-  const mainLink = item.querySelector("a"); // main menu link
-  const dropdown = item.querySelector(".dropdown");
-
-  // Toggle dropdown when clicking the main menu link
-  if (mainLink && dropdown) {
-    mainLink.addEventListener("click", (e) => {
-      e.preventDefault(); // prevent navigation for main menu
-      dropdown.style.display =
-        dropdown.style.display === "block" ? "none" : "block";
-    });
-  }
-
-  // Allow submenu links to navigate normally
-  if (dropdown) {
-    dropdown.querySelectorAll("a").forEach((subLink) => {
-      subLink.addEventListener("click", () => {
-        // no preventDefault here → browser navigates to href
-        dropdown.style.display = "none"; // optional: close dropdown after click
+document.addEventListener("click", () => {
+        document
+          .querySelectorAll(".menu-item")
+          .forEach((item) => item.classList.remove("active"));
       });
-    });
-  }
-});
+
 
 //Create Stall Object & Menu Item
 function createStallObject(stall_name, cuisine, rating, image) {
@@ -424,11 +435,12 @@ function createStallObject(stall_name, cuisine, rating, image) {
   };
 }
 
-function createMenuItemObject(item_name, price, available = true) {
+function createMenuItemObject(item_name, price, available = true,image) {
   return {
     [item_name]: {
       price,
       available,
+      image,
     },
   };
 }
@@ -439,23 +451,12 @@ async function uploadStall(stall_name, cuisine, rating, image) {
   await update(ref(db, "stalls"), stallObj);
 }
 
-async function addMenuItem(stall_name, item_name, price, available = true) {
-  const itemObj = createMenuItemObject(item_name, price, available);
+async function addMenuItem(stall_name, item_name, price, available = true,image) {
+  const itemObj = createMenuItemObject(item_name, price, available,image);
   await update(ref(db, `stalls/${stall_name}/menuItems`), itemObj);
 }
 
 // createStallObject("Banana Leaf Nasi Lemak", "Malay", 4.0, "images/Banana Leaf Nasi Lemak Picture.jpg");
-async function loadMenu(stall_name) {
-  const snap = await get(ref(db, `stalls/${stall_name}/menuItems`));
-
-  if (!snap.exists()) {
-    console.log("No menu items");
-    return;
-  }
-
-  const menuItems = snap.val();
-  renderMenu(menuItems);
-}
 
 (async () => {
   await uploadStall(
@@ -466,10 +467,49 @@ async function loadMenu(stall_name) {
   );
   await addMenuItem(
     "Banana Leaf Nasi Lemak",
-    "5 pcs spicy fish otah",
+    "5 pcs Spicy Fish Otah",
     7.5,
     true,
+    "images/Otah Picture.webp",
   );
+  await addMenuItem(
+    "Banana Leaf Nasi Lemak",
+    "1 Pcs Spicy Fish Otah",
+    1.5,
+    true,
+    "images/Otah Picture.webp",
+  );
+
+  await addMenuItem(
+    "Banana Leaf Nasi Lemak",
+    "Set Meal A",
+    5,
+    true,
+    "images/Set Meal A Picture.jpg",
+  );
+
+  await addMenuItem(
+    "Banana Leaf Nasi Lemak",
+    "Set Meal B",
+    4,
+    true,
+    "images/Set Meal B Picture.jpg",
+  );
+  await addMenuItem(
+    "Banana Leaf Nasi Lemak",
+    "Set Meal C",
+    4,
+    true,
+    "images/Set Meal C Picture.jpg",
+  );
+  await addMenuItem(
+    "Banana Leaf Nasi Lemak",
+    "Set Meal D",
+    3.5,
+    true,
+    "images/Set Meal D Picture.jpg",
+  );
+
 
   await uploadStall(
     "Boon Lay Lu Wei",
@@ -497,25 +537,74 @@ async function loadMenu(stall_name) {
   );
 })();
 
-function renderMenu(menuItems) {
-  const container = document.querySelector("#menuContainer");
-  container.innerHTML = ""; // clear old items
+async function loadMenu(stall_name) {
+  const snap = await get(ref(db, `stalls/${stall_name}/menuItems`));
+
+  if (!snap.exists()) {
+    console.log("No menu items");
+    document.querySelector("#menuRoot").innerHTML = "<p>No menu items.</p>";
+    return;
+  }
+
+  const menuItems = snap.val();
+  renderMenu(menuItems, stall_name);
+}
+
+function renderMenu(menuItems, stall_name) {
+  const root = document.querySelector("#menuRoot");
+  root.innerHTML = ""; // clear old
+
+  // Optional heading
+  const heading = document.createElement("h2");
+  heading.textContent = "Menu";
+  heading.style.margin = "10px 0 16px";
+  root.appendChild(heading);
+
+  // grid container
+  const grid = document.createElement("div");
+  grid.className = "menu-grid"; // style in CSS if you want
+  root.appendChild(grid);
 
   for (const item_name in menuItems) {
     const item = menuItems[item_name];
 
-    const div = document.createElement("div");
-    div.className = "menu-item";
+    const card = document.createElement("div");
+    card.className = "menu-card";
 
-    const name = document.createElement("h4");
-    name.textContent = item_name;
+    const title = document.createElement("div");
+    title.className = "menu-title";
+    title.textContent = item_name;
 
-    const price = document.createElement("p");
-    price.textContent = "$" + item.price.toFixed(2);
+    const price = document.createElement("div");
+    price.className = "menu-price";
+    price.textContent = `$${Number(item.price).toFixed(2)}`;
 
-    div.appendChild(name);
-    div.appendChild(price);
-    container.appendChild(div);
+    const actions = document.createElement("div");
+    actions.className = "menu-actions";
+
+    const plusBtn = document.createElement("button");
+    plusBtn.className = "plus-btn";
+    plusBtn.type = "button";
+    plusBtn.textContent = "+";
+
+    // disable if unavailable
+    if (item.available === false) {
+      plusBtn.disabled = true;
+      plusBtn.textContent = "—";
+      card.classList.add("unavailable");
+    } else {
+      plusBtn.addEventListener("click", () => {
+        addToCart(stall_name, item_name, item.price);
+      });
+    }
+
+    actions.appendChild(plusBtn);
+
+    card.appendChild(title);
+    card.appendChild(price);
+    card.appendChild(actions);
+
+    grid.appendChild(card);
   }
 }
 loadMenu("Banana Leaf Nasi Lemak");
@@ -638,87 +727,27 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 });
 
-// import React from 'react';
-// import { Home, Package, ShoppingBag, User, Clock } from 'lucide-react';
+exports.placeOrder = functions.https.onRequest(async (req, res) => {
+  const { username, stall, items } = req.body;
 
-// const OrderDashboard = () => {
-//   const orders = [
-//     { id: 1, name: 'Tobi', phone: '432112340987', items: '1 Cap', time: '11:04am', day: 'Today' },
-//     { id: 2, name: 'David', phone: '098712348765', items: '4 Caps', time: '08:04am', day: 'Today' },
-//   ];
+  // Validate
+  if (!username || !stall || !items) {
+    return res.status(400).json({ error: "Invalid data" });
+  }
 
-//   return (
-//     <div className="flex h-screen bg-gray-50 font-sans text-gray-900">
-//       {/* 1. SIDEBAR (Desktop Navigation) */}
-//       <aside className="w-64 bg-white border-r flex flex-col items-center py-8 gap-8">
-//         <div className="text-orange-600 font-bold text-2xl mb-4">LOGO</div>
-//         <nav className="flex flex-col gap-6 w-full px-6">
-//           <NavItem icon={<Home size={20} />} label="Home" />
-//           <NavItem icon={<Package size={20} />} label="Orders" active />
-//           <NavItem icon={<ShoppingBag size={20} />} label="Inventory" />
-//           <NavItem icon={<User size={20} />} label="Profile" />
-//         </nav>
-//       </aside>
+  // Calculate total on SERVER
+  let total = 0;
+  for (const item of items) {
+    total += item.price * item.qty;
+  }
 
-//       {/* 2. MAIN CONTENT AREA */}
-//       <main className="flex-1 overflow-y-auto p-10">
+  await admin.database().ref("orders").push({
+    username,
+    stall,
+    items,
+    total,
+    createdAt: Date.now()
+  });
 
-//         {/* Header Stat Card */}
-//         <div className="bg-orange-600 rounded-3xl p-8 text-white mb-10 flex justify-between items-center shadow-lg max-w-4xl">
-//           <div>
-//             <h2 className="text-xl opacity-90 font-medium">Pending Orders</h2>
-//             <p className="text-6xl font-bold mt-2">20</p>
-//           </div>
-//           <div className="opacity-20 hidden md:block">
-//              {/* Decorative pattern placeholder */}
-//              <svg width="100" height="100" viewBox="0 0 100 100" fill="currentColor"><circle cx="50" cy="50" r="40" /></svg>
-//           </div>
-//         </div>
-
-//         {/* Tab Navigation */}
-//         <div className="flex gap-8 border-b border-gray-200 mb-8 max-w-4xl">
-//           {['Pending', 'In Progress', 'Shipped', 'Declined'].map((tab) => (
-//             <button
-//               key={tab}
-//               className={`pb-4 px-2 text-sm font-semibold transition-all ${tab === 'Pending' ? 'text-orange-600 border-b-2 border-orange-600' : 'text-gray-400 hover:text-gray-600'}`}
-//             >
-//               {tab}
-//             </button>
-//           ))}
-//         </div>
-
-//         {/* Order List Section */}
-//         <section className="max-w-4xl">
-//           <h3 className="text-xl font-bold mb-6">Today</h3>
-//           <div className="grid gap-4">
-//             {orders.map(order => (
-//               <div key={order.id} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex justify-between items-start hover:shadow-md transition-shadow">
-//                 <div className="flex gap-4">
-//                   <div className="bg-orange-50 p-3 rounded-xl text-orange-600">
-//                     <Clock size={24} />
-//                   </div>
-//                   <div>
-//                     <h4 className="font-bold text-lg">Pending order</h4>
-//                     <p className="text-gray-500 mt-1">You have an order from <span className="text-gray-800 font-medium">{order.name} ({order.phone})</span> for {order.items}.</p>
-//                     <p className="text-sm text-gray-400 mt-2 italic">Please review and process the order.</p>
-//                   </div>
-//                 </div>
-//                 <span className="text-gray-900 font-bold">{order.time}</span>
-//               </div>
-//             ))}
-//           </div>
-//         </section>
-//       </main>
-//     </div>
-//   );
-// };
-
-// // Helper Component
-// const NavItem = ({ icon, label, active = false }) => (
-//   <button className={`flex items-center gap-4 w-full p-3 rounded-xl transition-colors ${active ? 'bg-orange-600 text-white shadow-md shadow-orange-200' : 'text-gray-400 hover:bg-gray-100'}`}>
-//     {icon}
-//     <span className="font-medium">{label}</span>
-//   </button>
-// );
-
-// export default OrderDashboard;
+  res.json({ success: true, total });
+});

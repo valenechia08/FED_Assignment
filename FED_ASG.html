@@ -24,7 +24,6 @@
     <nav class="navrectangle">
       <div class="container">
         <div class="top-nav">
-
           <div class="nav-left">
             <div class="Logo">
               <img src="/images/ShiokLah(cropped).jpeg" alt="Logo" />
@@ -72,106 +71,67 @@
           <div class="nav-right">
             <button class="reserve-btn">Reserve A Table</button>
             <div class="hamburger" id="hamburger">
-              <div></div><div></div><div></div>
+              <div></div>
+              <div></div>
+              <div></div>
             </div>
           </div>
-
         </div>
       </div>
     </nav>
     <hr class="Nav-line" />
 
-      <!-- Banner -->
-      <div class="Banner">
-        <img
-          src="images/360_F_264005624_NyFEBO7k0OsNMQiI343zBZZ7WH89f6Ls.jpg"
-          alt="Banner Image"
+    <!-- Banner -->
+    <div class="Banner">
+      <img
+        class="banner-image"
+        src="images/360_F_264005624_NyFEBO7k0OsNMQiI343zBZZ7WH89f6Ls.jpg"
+        alt="Banner Image"
+      />
+    </div>
+
+    <!-- Welcome Section -->
+    <section class="home">
+      <div>
+        <h2 class="hello-text">Hello</h2>
+      </div>
+      <div class="searchBar">
+        <input
+          type="text"
+          placeholder="What would you like to eat?"
+          class="search-input"
         />
+        <button class="search-btn">⌕</button>
+      </div>
+    </section>
+
+    <!-- Cuisines -->
+    <section class="cuisines">
+      <div class="filter-btn cuisine-card" data-cuisine="Malay">
+        <img src="images/Malay Cuisine Picture.jpg" alt="Malay Cuisine" />
+        <p>Malay</p>
       </div>
 
-      <!-- Welcome Section -->
-      <section class="home">
-        <h1 class="welcome-text">Welcome!</h1>
-        <div class="searchBar">
-          <input
-            type="text"
-            placeholder="What would you like to eat?"
-            class="search-input"
-          />
-          <button class="search-btn">⌕</button>
-        </div>
-      </section>
+      <div class="filter-btn cuisine-card" data-cuisine="Chinese">
+        <img src="images/Chinese Cuisine Picture.jpg" alt="Chinese Cuisine" />
+        <p>Chinese</p>
+      </div>
 
-      <!-- Cuisines -->
-      <section class="cuisines">
-        <div class="filter-btn cuisine-card" data-cuisine="Malay">
-          <img src="images/Malay Cuisine Picture.jpg" alt="Malay Cuisine" />
-          <p>Malay</p>
-        </div>
+      <div class="filter-btn cuisine-card" data-cuisine="Indian">
+        <img src="images/Indian Cuisine Picture.webp" alt="Indian Cuisine" />
+        <p>Indian</p>
+      </div>
 
-        <div class="filter-btn cuisine-card" data-cuisine="Chinese">
-          <img src="images/Chinese Cuisine Picture.jpg" alt="Chinese Cuisine" />
-          <p>Chinese</p>
-        </div>
+      <div class="filter-btn cuisine-card" data-cuisine="Others">
+        <img src="images/Other Cuisines Picture.webp" alt="Other Cuisine" />
+        <p>Others</p>
+      </div>
+    </section>
 
-        <div class="filter-btn cuisine-card" data-cuisine="Indian">
-          <img src="images/Indian Cuisine Picture.webp" alt="Indian Cuisine" />
-          <p>Indian</p>
-        </div>
+    <hr class="Content-line" />
 
-        <div class="filter-btn cuisine-card" data-cuisine="Others">
-          <img src="images/Other Cuisines Picture.webp" alt="Other Cuisine" />
-          <p>Others</p>
-        </div>
-      </section>
-
-      <hr class="Content-line" />
-
-      <!-- Stall Grid -->
-      <section class="stall-grid" id="stall-grid">
-        <!-- <div class="stall-card malay">
-          <img src="images/Banana Leaf Nasi Lemak Picture.jpg" />
-          <div class="stall-info">
-            <h4>Banana Leaf Nasi Lemak</h4>
-            <p>⭐ 4.0 (200) · Malay</p>
-          </div>
-        </div>
-
-        <div class="stall-card chinese">
-          <img src="images/Boon Lay Lu Wei Picture.jpg" />
-          <div class="stall-info">
-            <h4>Boon Lay Lu Wei</h4>
-            <p>⭐ 4.2 (243) · Chinese</p>
-          </div>
-        </div>
-
-        <div class="stall-card indian">
-          <img src="images/I.Mohamed Ismail Food Stall Picture.jpg" />
-          <div class="stall-info">
-            <h4>I. Mohamed Ismail Food Stall</h4>
-            <p>⭐ 4.5 (531) · Indian</p>
-          </div>
-        </div>
-
-        <div class="stall-card chinese">
-          <img
-            src="images/Boon Lay Fried Carrot Cake & Kway Teow Mee Picture.jpg"
-          />
-          <div class="stall-info">
-            <h4>Boon Lay Fried Carrot Cake</h4>
-            <p>⭐ 4.2 (340) · Chinese</p>
-          </div>
-        </div>
-
-        <div class="stall-card others">
-          <img src="images/Big Daddy's Chicken & Noodle Picture.webp" />
-          <div class="stall-info">
-            <h4>Big Daddy's Chicken & Noodle Stall</h4>
-            <p>⭐ 4.5 (408) · Others</p>
-          </div>
-        </div> -->
-      </section>
-    </main>
+    <!-- Stall Grid -->
+    <section class="stall-grid" id="stall-grid"></section>
 
     <!-- Scripts -->
     <script type="module" src="Master_page_javascript.js"></script>

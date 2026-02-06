@@ -15,16 +15,197 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="Vendor.css" />
+    <style>
+      :root {
+        --bg: #f5f7fb;
+        --card: #ffffff;
+        --stroke: #e9eef6;
+        --shadow: 0 10px 30px rgba(17, 24, 39, 0.06);
+        --radius: 16px;
+        --text: #0f172a;
+        --muted: #64748b;
+      }
+      .dash-wrap {
+        width: 90%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 22px 0 40px;
+      }
+
+      .dash-wrap .kpi-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 14px;
+        margin-bottom: 18px;
+      }
+
+      .dash-wrap .kpi-card {
+        background: var(--card);
+        border: 1px solid var(--stroke);
+        border-radius: 14px;
+        box-shadow: var(--shadow);
+        padding: 14px 14px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        min-width: 0;
+      }
+
+      .dash-wrap .kpi-left { min-width: 0; }
+
+      .dash-wrap .kpi-title {
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--muted);
+        margin-bottom: 6px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .dash-wrap .kpi-value {
+        font-size: 22px;
+        font-weight: 800;
+        letter-spacing: -0.2px;
+        line-height: 1.1;
+      }
+
+      .dash-wrap .kpi-sub {
+        margin-top: 4px;
+        font-size: 12px;
+        color: var(--muted);
+        font-weight: 600;
+      }
+
+      .dash-wrap .kpi-badge {
+        flex: 0 0 auto;
+        padding: 8px 10px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 800;
+        border: 1px solid var(--stroke);
+        background: #f8fafc;
+        color: #0f172a;
+        white-space: nowrap;
+      }
+
+      .dash-wrap .kpi-badge.up {
+        background: rgba(34, 197, 94, 0.12);
+        border-color: rgba(34, 197, 94, 0.25);
+        color: #166534;
+      }
+
+      .dash-wrap .kpi-badge.down {
+        background: rgba(239, 68, 68, 0.12);
+        border-color: rgba(239, 68, 68, 0.25);
+        color: #7f1d1d;
+      }
+
+      .dash-wrap .grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+        align-items: stretch;
+      }
+
+      .dash-wrap .full-width { grid-column: 1 / -1; }
+
+      .dash-wrap section {
+        background: var(--card);
+        border: 1px solid var(--stroke);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 18px 18px 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        min-height: 0;
+      }
+
+      .dash-wrap section h2 { margin: 0; font-size: 18px; letter-spacing: -0.2px; }
+
+      .dash-wrap .card-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .dash-wrap .card-tools { display: flex; align-items: center; gap: 10px; flex-wrap: wrap;}
+
+      .dash-wrap label { font-weight: 700; color: var(--muted); font-size: 13px; }
+
+      .dash-wrap select {
+        height: 34px;
+        padding: 0 12px;
+        border-radius: 10px;
+        border: 1px solid var(--stroke);
+        background: #fff;
+        font-weight: 600;
+        color: var(--text);
+        outline: none;
+      }
+
+      .dash-wrap select:focus {
+        border-color: rgba(255, 140, 58, 0.45);
+        box-shadow: 0 0 0 4px rgba(255, 140, 58, 0.12);
+      }
+
+      .dash-wrap .card-divider { height: 1px; width: 100%; background: var(--stroke); }
+
+      .dash-wrap .insight {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        flex-wrap: wrap;
+        font-size: 12px;
+        color: var(--muted);
+        font-weight: 700;
+      }
+      .dash-wrap .insight strong { color: var(--text); }
+
+      .dash-wrap .chart-box {
+        position: relative;
+        width: 100%;
+        height: 300px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .dash-wrap .chart-box--large { height: 380px; }
+
+      .dash-wrap .chart-box--donut { display: flex; justify-content: center; align-items: center; }
+      .dash-wrap .donut-wrapper { height: 100%; aspect-ratio: 1 / 1; max-width: 320px; }
+
+      .dash-wrap .chart-box--donut canvas { width: 100%; height: 100%; }
+      .dash-wrap .chart-box canvas { width: 100%; height: 100%; }
+
+      @media (max-width: 980px) {
+        .dash-wrap .kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      }
+      @media (max-width: 900px) {
+        .dash-wrap .grid { grid-template-columns: 1fr; }
+        .dash-wrap .chart-box { height: 260px; }
+        .dash-wrap .chart-box--large { height: 320px; }
+      }
+      @media (max-width: 520px) {
+        .dash-wrap .kpi-grid { grid-template-columns: 1fr; }
+      }
+    </style>
   </head>
   <body>
     <!-- Vendor Home -->
      <section class="container vendornav">
       <nav class="navrectangle">
         <header class="brand">
-          <img src="images/ShiokLah.jpeg" alt="ShiokLah">
+          <img src="images/ShiokLahTransparent.png" alt="ShiokLah">
         </header>
 
-      <ul class="navBar">
+       <ul class="navBar">
         <li class="main toggle">
           <div class="title-row"><img src="images/statisctics.png" alt="ShiokLah">Dashboard</div>
           <!-- <ul class="submenu">
@@ -79,98 +260,141 @@
         </div>
       </nav>
 
-
-
   <main class="contents">
 
     <header class="page-header">
       <div class="header-row">
         <div class="title-block">
-          <h1>Edit Menu</h1>
-          <!-- <div class="divider"></div> -->
+          <h1>Performance Report</h1>
+          </div>
+        </div>
+        <div class="dash-wrap">
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-left">
+            <div class="kpi-title">Total Orders</div>
+            <div class="kpi-value" id="kpiTotalOrders">—</div>
+            <div class="kpi-sub" id="kpiOrdersSub">This Month</div>
+          </div>
+          <div class="kpi-badge up" id="kpiOrdersDelta">+0%</div>
         </div>
 
-        <div class="order limit">
-          Order Limit: <span>10</span>
+        <div class="kpi-card">
+          <div class="kpi-left">
+            <div class="kpi-title">Top Picks</div>
+            <div class="kpi-value" id="kpiTopItem">—</div>
+            <div class="kpi-sub" id="kpiTopItemSub">Share: —</div>
+          </div>
+          <div class="kpi-badge" id="kpiTopItemBadge">Hot</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-left">
+            <div class="kpi-title">Avg Rating</div>
+            <div class="kpi-value" id="kpiAvgRating">—</div>
+            <div class="kpi-sub" id="kpiRatingSub">From feedback mix</div>
+          </div>
+          <div class="kpi-badge" id="kpiRatingBadge">Stable</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-left">
+            <div class="kpi-title">Total Sales</div>
+            <div class="kpi-value" id="kpiInspectScore">—</div>
+            <div class="kpi-sub" id="kpiInspectSub">Latest period</div>
+          </div>
+          <div class="kpi-badge up" id="kpiInspectDelta">—</div>
         </div>
       </div>
-    </header>
 
-    <section class="order grid">
-
-      <section class="order box">
-        <h2 class="order status">Pending Orders</h2>
-        <div class="order scroll">
-          <!-- Order Card -->
-          <article class="order card">
-            <h3>Order #00001</h3>
-            <section class="order header">
-            <p>Today · 9:16am</p>
-            <p class="timer">Timer: 15:00</p>
-            </section>
-            <p>Set Meal A   $5.00 ×2  $10.00</p>
-            <div class="actions">
-              <button class="accept">Accept</button>
-              <button class="reject">Reject</button>
+      <div class="grid">
+        <section>
+          <div class="card-header">
+            <h2>Top 3 Picks</h2>
+            <div class="card-tools">
+              <select id="salesFilter">
+                <option value="month">This Month</option>
+                <option value="3months">Last 3 Months</option>
+                <option value="6months">Last 6 Months</option>
+              </select>
             </div>
-          </article>
+          </div>
 
-          <article class="order card">
-            <h3>Order #00002</h3>
-            <section class="order header">          
-            <p>Today · 9:22am</p>
-            <p class="timer">Timer: 15:00</p>
-            </section>
-            <p>Set Meal B   $4.00 ×1  $4.00</p>
-            <div class="actions">
-              <button class="accept">Accept</button>
-              <button class="reject">Reject</button>
+          <div class="insight">
+            <span id="salesInsightText">—</span>
+            <span><strong id="salesInsightStrong">—</strong></span>
+          </div>
+
+          <div class="card-divider"></div>
+
+          <div class="chart-box">
+            <canvas id="salesChart"></canvas>
+          </div>
+        </section>
+
+        <section>
+          <div class="card-header">
+            <h2>Customer Feedback</h2>
+            <div class="card-tools">
+              <select id="feedbackFilter">
+                <option value="month">This Month</option>
+                <option value="3months">Last 3 Months</option>
+                <option value="6months">Last 6 Months</option>
+              </select>
             </div>
-          </article>
-        </div>
-      </section>
+          </div>
 
-      <section class="order box">
-        <h2 class="green order status">Accepted Orders</h2>
-        <!-- <div class="order scroll"></div> -->
-        <div class="order scroll">
-          <!-- Order Card Hidden-->
-          <article class="order card hidden">
-            <h3>Order #00002</h3>
-            <section class="order header">
-            <p>Today · 9:22am</p>
-            <p class="timer">Timer: 15:00</p>
-            </section>
-            <p>Set Meal B  $4.00 ×1  $4.00</p>
-            <div class="actions">
-              <button class="accept">Accept</button>
-              <button class="reject">Reject</button>
+          <div class="insight">
+            <span id="feedbackInsightText">—</span>
+            <span><strong id="feedbackInsightStrong">—</strong></span>
+          </div>
+
+          <div class="card-divider"></div>
+
+          <div class="chart-box chart-box--donut">
+            <div class="donut-wrapper">
+              <canvas id="feedbackChart"></canvas>
             </div>
-          </article>
-        </div>
-      </section>
+          </div>
+        </section>
 
-      <section class="order box">
-        <h2 class="order status">Completed Orders</h2>
-        <div class="order scroll"></div>
-      </section>
+        <section class="full-width">
+          <div class="card-header">
+            <h2>Total Sales</h2>
+            <div class="card-tools">
+              <select id="hygieneFilter">
+                <option value="2026">2026</option>
+                <option value="2025">2025</option>
+                <option value="2024">2024</option>
+              </select>
+            </div>
+          </div>
 
-      <section class="order box">
-        <h2 class="red order status">Cancelled Orders</h2>
-        <div class="orders scroll"></div>
-      </section>
+          <div class="insight">
+            <span id="hygieneInsightText">—</span>
+            <span><strong id="hygieneInsightStrong">—</strong></span>
+          </div>
 
-    </section>
+          <div class="card-divider"></div>
+
+          <div class="chart-box chart-box--large">
+            <canvas id="hygieneChart"></canvas>
+          </div>
+        </section>
+      </header>
+
+
+        
   </main>
   <script>
-  document.querySelectorAll('.title-row').forEach(item => {
-    item.addEventListener('mouseenter', () => {
-      item.querySelector('.arrow img').src = "images/orangedown.png";
-    });
-    item.addEventListener('mouseleave', () => {
-      item.querySelector('.arrow img').src = "images/down.png";
-    });
+    // Expand button logic
+document.querySelectorAll(".expand-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const card = btn.closest(".chart-card, .totals-chart");
+    if (!card) return;
+    card.classList.toggle("expanded");
   });
+});
 
 //Navigation Dropdown
 document.querySelectorAll('.main.toggle').forEach(mainItem => {
@@ -200,7 +424,18 @@ document.querySelectorAll('.main.toggle').forEach(mainItem => {
     });
   });
 
+  
+ document.querySelectorAll('.title-row').forEach(item => {
+    item.addEventListener('mouseenter', () => {
+      item.querySelector('.arrow img').src = "images/orangedown.png";
+    });
+    item.addEventListener('mouseleave', () => {
+      item.querySelector('.arrow img').src = "images/down.png";
+    });
+  });
   </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="Chart.js"></script>
     <script type="module" src="Master_page_javascript.js"></script>
   </body>
 </html>

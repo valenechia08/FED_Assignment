@@ -1,202 +1,632 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>ShiokLah! Analytics Dashboard</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <head>
+    <meta charset="UTF-8" />
+    <title>ShiokLah! Analytics Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Kodchasan:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kodchasan:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="Master_page_stylesheet.css" />
+    <!-- Chart.js -->
+    
 
-  <!-- Chart.js -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      
 
-  <style>
-    body {
-      margin: 0;
-      font-family: "Kodchasan", sans-serif;
-      background: #f5f5f5;
-    }
+      /* ==========================
+         DASHBOARD (CONTENT ONLY)
+      ========================== */
+      :root {
+        --bg: #f5f7fb;
+        --card: #ffffff;
+        --stroke: #e9eef6;
+        --shadow: 0 10px 30px rgba(17, 24, 39, 0.06);
+        --radius: 16px;
+        --text: #0f172a;
+        --muted: #64748b;
+      }
 
-    h2 {
-      color: #FF8C3A;
-    }
+      .dash-wrap {
+        width: 90%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 22px 0 40px;
+        font-family:"Kodchasan",Arial, Helvetica, sans-serif;
+      }
 
-    section {
-      background: white;
-      padding: 1.5rem;
-      margin-bottom: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
+      .dash-wrap .kpi-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 14px;
+        margin-bottom: 18px;
+      }
 
-    .dashboard-container {
-      max-width: 1100px;
-      margin: auto;
-      padding: 2rem;
-    }
+      .dash-wrap .kpi-card {
+        background: var(--card);
+        border: 1px solid var(--stroke);
+        border-radius: 14px;
+        box-shadow: var(--shadow);
+        padding: 14px 14px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        min-width: 0;
+      }
 
-    label {
-      font-weight: 600;
-    }
+      .dash-wrap .kpi-left { min-width: 0; }
 
-    select {
-      margin: 10px 0 20px;
-      padding: 6px;
-    }
+      .dash-wrap .kpi-title {
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--muted);
+        margin-bottom: 6px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
 
-    canvas {
-      max-width: 100%;
-      margin-top: 20px;
-    }
-  </style>
-</head>
+      .dash-wrap .kpi-value {
+        font-size: 22px;
+        font-weight: 800;
+        letter-spacing: -0.2px;
+        line-height: 1.1;
+      }
 
-<body>
+      .dash-wrap .kpi-sub {
+        margin-top: 4px;
+        font-size: 12px;
+        color: var(--muted);
+        font-weight: 600;
+      }
 
-<div class="dashboard-container">
+      .dash-wrap .kpi-badge {
+        flex: 0 0 auto;
+        padding: 8px 10px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 800;
+        border: 1px solid var(--stroke);
+        background: #f8fafc;
+        color: #0f172a;
+        white-space: nowrap;
+      }
 
-  <!-- ================= SALES ANALYTICS ================= -->
-  <section>
-    <h2>Sales Analytics</h2>
+      .dash-wrap .kpi-badge.up {
+        background: rgba(34, 197, 94, 0.12);
+        border-color: rgba(34, 197, 94, 0.25);
+        color: #166534;
+      }
 
-    <label>Filter by:</label>
-    <select id="salesFilter">
-      <option value="month">This Month</option>
-      <option value="3months">Last 3 Months</option>
-      <option value="6months">Last 6 Months</option>
-    </select>
+      .dash-wrap .kpi-badge.down {
+        background: rgba(239, 68, 68, 0.12);
+        border-color: rgba(239, 68, 68, 0.25);
+        color: #7f1d1d;
+      }
 
-    <canvas id="salesChart"></canvas>
-  </section>
+      .dash-wrap .grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+        align-items: stretch;
+      }
 
-  <!-- ================= CUSTOMER FEEDBACK ================= -->
-  <section>
-    <h2>Customer Feedback</h2>
+      .dash-wrap .full-width { grid-column: 1 / -1; }
 
-    <label>Filter by:</label>
-    <select id="feedbackFilter">
-      <option value="month">This Month</option>
-      <option value="3months">Last 3 Months</option>
-      <option value="6months">Last 6 Months</option>
-    </select>
+      .dash-wrap section {
+        background: var(--card);
+        border: 1px solid var(--stroke);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 18px 18px 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        min-height: 0;
+      }
 
-    <canvas id="feedbackChart"></canvas>
-  </section>
+      .dash-wrap section h2 { margin: 0; font-size: 18px; letter-spacing: -0.2px; }
 
-  <!-- ================= HYGIENE & INSPECTIONS ================= -->
-  <section>
-    <h2>Hygiene & Inspections</h2>
+      .dash-wrap .card-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
 
-    <label>Filter by:</label>
-    <select id="hygieneFilter">
-      <option value="month">This Month</option>
-      <option value="6months">Last 6 Months</option>
-      <option value="year">This Year</option>
-    </select>
+      .dash-wrap .card-tools { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 
-    <canvas id="hygieneChart"></canvas>
-  </section>
+      .dash-wrap label { font-weight: 700; color: var(--muted); font-size: 13px; }
 
-</div>
+      .dash-wrap select {
+        height: 34px;
+        padding: 0 12px;
+        border-radius: 10px;
+        border: 1px solid var(--stroke);
+        background: #fff;
+        font-family: "Kodchasan",Arial, Helvetica, sans-serif;
+        font-weight: 600;
+        color: var(--text);
+        outline: none;
+      }
 
-<script>
-/* ================= SALES BAR CHART ================= */
-const salesCtx = document.getElementById("salesChart");
+      .dash-wrap select:focus {
+        border-color: rgba(255, 140, 58, 0.45);
+        box-shadow: 0 0 0 4px rgba(255, 140, 58, 0.12);
+      }
 
-const salesChart = new Chart(salesCtx, {
-  type: "bar",
-  data: {
-    labels: ["Chicken Rice", "Laksa", "Hokkien Mee"],
-    datasets: [{
-      label: "Orders",
-      data: [50, 40, 12],
-      backgroundColor: ["#FF8C3A", "#FFD400", "#66B2FF"]
-    }]
-  },
-  options: {
-    responsive: true,
-    plugins: { legend: { display: false } }
-  }
-});
+      .dash-wrap .card-divider { height: 1px; width: 100%; background: var(--stroke); }
 
-document.getElementById("salesFilter").addEventListener("change", function () {
-  if (this.value === "month") {
-    salesChart.data.datasets[0].data = [50, 40, 12];
-  } else if (this.value === "3months") {
-    salesChart.data.datasets[0].data = [150, 120, 40];
-  } else {
-    salesChart.data.datasets[0].data = [300, 250, 90];
-  }
-  salesChart.update();
-});
+      .dash-wrap .insight {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        flex-wrap: wrap;
+        font-size: 12px;
+        color: var(--muted);
+        font-weight: 700;
+      }
+      .dash-wrap .insight strong { color: var(--text); }
 
+      .dash-wrap .chart-box {
+        position: relative;
+        width: 100%;
+        height: 300px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
 
-/* ================= FEEDBACK DOUGHNUT CHART ================= */
-const feedbackCtx = document.getElementById("feedbackChart");
+      .dash-wrap .chart-box--large { height: 380px; }
 
-const feedbackChart = new Chart(feedbackCtx, {
-  type: "doughnut",
-  data: {
-    labels: ["1★", "2★", "3★", "4★", "5★"],
-    datasets: [{
-      data: [3.4, 11.4, 22.7, 34.1, 28.4],
-      backgroundColor: [
-        "#ff4d4d",
-        "#ff944d",
-        "#ffd11a",
-        "#99cc00",
-        "#33cc33"
-      ]
-    }]
-  }
-});
+      .dash-wrap .chart-box--donut { display: flex; justify-content: center; align-items: center; }
+      .dash-wrap .donut-wrapper { height: 100%; aspect-ratio: 1 / 1; max-width: 320px; }
 
-document.getElementById("feedbackFilter").addEventListener("change", function () {
-  if (this.value === "month") {
-    feedbackChart.data.datasets[0].data = [3.4, 11.4, 22.7, 34.1, 28.4];
-  } else if (this.value === "3months") {
-    feedbackChart.data.datasets[0].data = [8.2, 5.1, 30.6, 35.7, 20.4];
-  } else {
-    feedbackChart.data.datasets[0].data = [2.3, 17.2, 23, 34.5, 23];
-  }
-  feedbackChart.update();
-});
+      .dash-wrap .chart-box--donut canvas { width: 100%; height: 100%; }
+      .dash-wrap .chart-box canvas { width: 100%; height: 100%; }
 
+      @media (max-width: 980px) {
+        .dash-wrap .kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      }
+      @media (max-width: 900px) {
+        .dash-wrap .grid { grid-template-columns: 1fr; }
+        .dash-wrap .chart-box { height: 260px; }
+        .dash-wrap .chart-box--large { height: 320px; }
+      }
+      @media (max-width: 520px) {
+        .dash-wrap .kpi-grid { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
 
-/* ================= HYGIENE LINE CHART ================= */
-const hygieneCtx = document.getElementById("hygieneChart");
+  <body>
+    <nav class="navrectangle">
+      <div class="container">
+        <div class="top-nav">
+          <div class="nav-left">
+            <div class="Logo">
+              <img src="/images/ShiokLah(cropped).jpeg" alt="Logo" />
+            </div>
+          </div>
 
-const hygieneChart = new Chart(hygieneCtx, {
-  type: "line",
-  data: {
-    labels: ["Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-    datasets: [{
-      label: "Inspection Score (%)",
-      data: [70, 75, 85, 88, 90, 83],
-      borderColor: "#FF8C3A",
-      tension: 0.3,
-      fill: false
-    }]
-  }
-});
+          <div class="nav-center">
+            <ul class="menu" id="menu">
+              <li class="menu-item">
+                <a href="#">Home</a>
+                <ul class="dropdown">
+                  <li><a href="FED_ASG.html">Start Order</a></li>
+                </ul>
+              </li>
 
-document.getElementById("hygieneFilter").addEventListener("change", function () {
-  if (this.value === "month") {
-    hygieneChart.data.labels = ["Dec"];
-    hygieneChart.data.datasets[0].data = [83];
-  } 
-  else if (this.value === "6months") {
-    hygieneChart.data.labels = ["Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    hygieneChart.data.datasets[0].data = [70, 75, 85, 88, 90, 83];
-  } 
-  else {
-    hygieneChart.data.labels = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-    hygieneChart.data.datasets[0].data = [72,74,70,76,80,78,70,75,85,88,90,83];
-  }
-  hygieneChart.update();
-});
-</script>
+              <li class="menu-item">
+                <a href="#">Order History</a>
+                <ul class="dropdown">
+                  <li><a href="OrderHistory.html">Past Orders</a></li>
+                </ul>
+              </li>
 
-</body>
+              <li class="menu-item">
+                <a href="#">Profile</a>
+                <ul class="dropdown">
+                  <li><a href="UserProfile.html">Overview</a></li>
+                  <li><a href="Analytics.html">Analytics & Reporting</a></li>
+                  <li><a href="#">Customer Feedback</a></li>
+                  <li><a href="#">Regulatory & Compliance</a></li>
+                  <li><a href="#">Favourites</a></li>
+                  <li><a href="#">Rewards</a></li>
+                </ul>
+              </li>
+
+              <li class="menu-item">
+                <a href="SelectRole.html">Log Out</a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="nav-right">
+            <button class="reserve-btn">Reserve A Table</button>
+            <div class="hamburger" id="hamburger">
+              <div></div><div></div><div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <hr class="Nav-line" />
+
+    <div class="dash-wrap">
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-left">
+            <div class="kpi-title">Total Orders</div>
+            <div class="kpi-value" id="kpiTotalOrders">—</div>
+            <div class="kpi-sub" id="kpiOrdersSub">This Month</div>
+          </div>
+          <div class="kpi-badge up" id="kpiOrdersDelta">+0%</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-left">
+            <div class="kpi-title">Top Item</div>
+            <div class="kpi-value" id="kpiTopItem">—</div>
+            <div class="kpi-sub" id="kpiTopItemSub">Share: —</div>
+          </div>
+          <div class="kpi-badge" id="kpiTopItemBadge">Hot</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-left">
+            <div class="kpi-title">Avg Rating</div>
+            <div class="kpi-value" id="kpiAvgRating">—</div>
+            <div class="kpi-sub" id="kpiRatingSub">From feedback mix</div>
+          </div>
+          <div class="kpi-badge" id="kpiRatingBadge">Stable</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-left">
+            <div class="kpi-title">Inspection Score</div>
+            <div class="kpi-value" id="kpiInspectScore">—</div>
+            <div class="kpi-sub" id="kpiInspectSub">Latest period</div>
+          </div>
+          <div class="kpi-badge up" id="kpiInspectDelta">—</div>
+        </div>
+      </div>
+
+      <div class="grid">
+        <section>
+          <div class="card-header">
+            <h2>Sales Analytics</h2>
+            <div class="card-tools">
+              <label for="salesFilter">Filter</label>
+              <select id="salesFilter">
+                <option value="month">This Month</option>
+                <option value="3months">Last 3 Months</option>
+                <option value="6months">Last 6 Months</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="insight">
+            <span id="salesInsightText">—</span>
+            <span><strong id="salesInsightStrong">—</strong></span>
+          </div>
+
+          <div class="card-divider"></div>
+
+          <div class="chart-box">
+            <canvas id="salesChart"></canvas>
+          </div>
+        </section>
+
+        <section>
+          <div class="card-header">
+            <h2>Customer Feedback</h2>
+            <div class="card-tools">
+              <label for="feedbackFilter">Filter by</label>
+              <select id="feedbackFilter">
+                <option value="month">This Month</option>
+                <option value="3months">Last 3 Months</option>
+                <option value="6months">Last 6 Months</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="insight">
+            <span id="feedbackInsightText">—</span>
+            <span><strong id="feedbackInsightStrong">—</strong></span>
+          </div>
+
+          <div class="card-divider"></div>
+
+          <div class="chart-box chart-box--donut">
+            <div class="donut-wrapper">
+              <canvas id="feedbackChart"></canvas>
+            </div>
+          </div>
+        </section>
+
+        <section class="full-width">
+          <div class="card-header">
+            <h2>Hygiene & Inspections</h2>
+            <div class="card-tools">
+              <label for="hygieneFilter">Year</label>
+              <select id="hygieneFilter">
+                <option value="2026">2026</option>
+                <option value="2025">2025</option>
+                <option value="2024">2024</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="insight">
+            <span id="hygieneInsightText">—</span>
+            <span><strong id="hygieneInsightStrong">—</strong></span>
+          </div>
+
+          <div class="card-divider"></div>
+
+          <div class="chart-box chart-box--large">
+            <canvas id="hygieneChart"></canvas>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      /* ========= Helper functions for insights ========= */
+      function sum(arr) { return arr.reduce((a, b) => a + b, 0); }
+      function maxIndex(arr) {
+        let idx = 0;
+        for (let i = 1; i < arr.length; i++) if (arr[i] > arr[idx]) idx = i;
+        return idx;
+      }
+      function percentChange(current, previous) {
+        if (previous === 0) return 0;
+        return ((current - previous) / previous) * 100;
+      }
+      function fmtPct(n) { const sign = n >= 0 ? "+" : ""; return `${sign}${n.toFixed(1)}%`; }
+      function setDelta(el, value) {
+        el.textContent = fmtPct(value);
+        el.classList.remove("up", "down");
+        el.classList.add(value >= 0 ? "up" : "down");
+      }
+
+      /* ========= NAV JS (dropdown + hamburger) ========= */
+      document.querySelectorAll(".menu-item > a").forEach((a) => {
+        a.addEventListener("click", (e) => {
+          const item = a.parentElement;
+          const dropdown = item.querySelector(".dropdown");
+          if (dropdown) {
+            e.preventDefault();
+            document.querySelectorAll(".menu-item").forEach((i) => {
+              if (i !== item) i.classList.remove("active");
+            });
+            item.classList.toggle("active");
+          }
+        });
+      });
+
+      const hamburger = document.getElementById("hamburger");
+      const menu = document.getElementById("menu");
+      if (hamburger && menu) {
+        hamburger.addEventListener("click", () => menu.classList.toggle("show"));
+      }
+
+      /* ========= Data by filter ========= */
+      const salesDataByFilter = {
+        month:  { labels: ["Chicken Rice", "Laksa", "Hokkien Mee"], data: [50, 40, 12] },
+        "3months": { labels: ["Chicken Rice", "Laksa", "Hokkien Mee"], data: [150, 120, 40] },
+        "6months": { labels: ["Chicken Rice", "Laksa", "Hokkien Mee"], data: [300, 250, 90] }
+      };
+
+      const feedbackDataByFilter = {
+        month:    [3.4, 11.4, 22.7, 34.1, 28.4],
+        "3months":[8.2, 5.1, 30.6, 35.7, 20.4],
+        "6months":[2.3, 17.2, 23, 34.5, 23]
+      };
+
+      /* ========= HYGIENE DATA (by year) ========= */
+      const gradeMap = ["", "D", "C", "B", "A"]; // 1-4 -> D-A
+      const hygieneDataByYear = {
+        2026: { labels: ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"], data: [3,3,2,3,4,4,3,3,4,4,4,3] },
+        2025: { labels: ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"], data: [2,2,2,3,3,3,2,2,3,4,4,3] },
+        2024: { labels: ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"], data: [1,2,2,2,3,3,2,3,3,3,4,3] }
+      };
+
+      /* ========= Charts ========= */
+      const salesChart = new Chart(document.getElementById("salesChart"), {
+        type: "bar",
+        data: {
+          labels: salesDataByFilter.month.labels,
+          datasets: [{
+            label: "Orders",
+            data: salesDataByFilter.month.data,
+            backgroundColor: ["#FF8C3A", "#FFD400", "#66B2FF"]
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { grid: { display: false } },
+            y: { grid: { color: "rgba(15,23,42,0.06)" }, ticks: { precision: 0 } }
+          }
+        }
+      });
+
+      const feedbackChart = new Chart(document.getElementById("feedbackChart"), {
+        type: "doughnut",
+        data: {
+          labels: ["1★", "2★", "3★", "4★", "5★"],
+          datasets: [{
+            data: feedbackDataByFilter.month,
+            backgroundColor: ["#ff4d4d", "#ff944d", "#ffd11a", "#99cc00", "#33cc33"],
+            borderWidth: 2,
+            borderColor: "#ffffff"
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          cutout: "68%",
+          plugins: {
+            legend: {
+              position: "top",
+              labels: { boxWidth: 14, boxHeight: 10, padding: 16 }
+            }
+          }
+        }
+      });
+
+      const defaultYear = "2026";
+
+      // ✅ STRAIGHT LINES: set tension to 0 (no curve)
+      const hygieneChart = new Chart(document.getElementById("hygieneChart"), {
+        type: "line",
+        data: {
+          labels: hygieneDataByYear[defaultYear].labels,
+          datasets: [{
+            label: "Hygiene Grade",
+            data: hygieneDataByYear[defaultYear].data,
+            borderColor: "#FF8C3A",
+            tension: 0,          /* <-- straight line */
+            cubicInterpolationMode: "default",
+            fill: false,
+            pointRadius: 4,
+            pointHoverRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: true } },
+          scales: {
+            x: { grid: { display: false } },
+            y: {
+              min: 1,
+              max: 4,
+              title: { display: true, text: "Hygiene Grade" },
+              ticks: {
+                stepSize: 1,
+                callback: (value) => gradeMap[value]
+              },
+              grid: { color: "rgba(15,23,42,0.06)" }
+            }
+          }
+        }
+      });
+
+      /* ========= KPI + Insights updater ========= */
+      function updateKPIsAndInsights() {
+        const salesFilter = document.getElementById("salesFilter").value;
+        const feedbackFilter = document.getElementById("feedbackFilter").value;
+        const hygieneYear = document.getElementById("hygieneFilter").value;
+
+        // --- Sales KPIs
+        const salesNow = salesDataByFilter[salesFilter].data;
+        const salesPrev =
+          salesFilter === "month" ? salesDataByFilter["3months"].data
+          : salesFilter === "3months" ? salesDataByFilter["6months"].data
+          : salesDataByFilter["3months"].data;
+
+        const totalOrdersNow = sum(salesNow);
+        const totalOrdersPrev = sum(salesPrev);
+        const ordersDelta = percentChange(totalOrdersNow, totalOrdersPrev);
+
+        const idxTop = maxIndex(salesNow);
+        const topName = salesDataByFilter[salesFilter].labels[idxTop];
+        const topVal = salesNow[idxTop];
+        const topShare = (topVal / totalOrdersNow) * 100;
+
+        document.getElementById("kpiTotalOrders").textContent = totalOrdersNow.toLocaleString();
+        document.getElementById("kpiOrdersSub").textContent =
+          salesFilter === "month" ? "This Month"
+          : salesFilter === "3months" ? "Last 3 Months"
+          : "Last 6 Months";
+        setDelta(document.getElementById("kpiOrdersDelta"), ordersDelta);
+
+        document.getElementById("kpiTopItem").textContent = topName;
+        document.getElementById("kpiTopItemSub").textContent = `Share: ${topShare.toFixed(1)}%`;
+        document.getElementById("kpiTopItemBadge").textContent = topShare >= 45 ? "Hot" : "Steady";
+
+        document.getElementById("salesInsightText").textContent = `Top seller is ${topName} with`;
+        document.getElementById("salesInsightStrong").textContent = `${topVal} orders (${topShare.toFixed(1)}%)`;
+
+        // --- Feedback KPIs
+        const fb = feedbackDataByFilter[feedbackFilter];
+        const totalFb = sum(fb);
+        const avgRating = (1*fb[0] + 2*fb[1] + 3*fb[2] + 4*fb[3] + 5*fb[4]) / totalFb;
+        const positiveShare = ((fb[3] + fb[4]) / totalFb) * 100;
+        const avgLabel = `${avgRating.toFixed(2)}★`;
+
+        document.getElementById("kpiAvgRating").textContent = avgLabel;
+        document.getElementById("kpiRatingSub").textContent = `4★–5★ share: ${positiveShare.toFixed(1)}%`;
+        document.getElementById("kpiRatingBadge").textContent =
+          positiveShare >= 60 ? "Strong" : positiveShare >= 45 ? "Okay" : "Needs work";
+
+        document.getElementById("feedbackInsightText").textContent = `Positive feedback (4★–5★) is`;
+        document.getElementById("feedbackInsightStrong").textContent = `${positiveShare.toFixed(1)}%`;
+
+        // --- Hygiene KPIs (year)
+        const h = hygieneDataByYear[hygieneYear].data;
+        const latest = h[h.length - 1];
+        const first = h[0];
+
+        document.getElementById("kpiInspectScore").textContent = gradeMap[latest];
+        document.getElementById("kpiInspectSub").textContent = `Year ${hygieneYear}`;
+
+        let trendText = "Same";
+        let trendUp = true;
+        if (latest > first) { trendText = "Improved"; trendUp = true; }
+        else if (latest < first) { trendText = "Dropped"; trendUp = false; }
+
+        const deltaEl = document.getElementById("kpiInspectDelta");
+        deltaEl.textContent = trendText;
+        deltaEl.classList.remove("up", "down");
+        deltaEl.classList.add(trendUp ? "up" : "down");
+
+        const best = Math.max(...h);
+        document.getElementById("hygieneInsightText").textContent = `Best grade in ${hygieneYear} is`;
+        document.getElementById("hygieneInsightStrong").textContent =
+          `${gradeMap[best]} (latest: ${gradeMap[latest]})`;
+      }
+
+      /* ========= Filter handlers ========= */
+      document.getElementById("salesFilter").addEventListener("change", function () {
+        const pack = salesDataByFilter[this.value];
+        salesChart.data.labels = pack.labels;
+        salesChart.data.datasets[0].data = pack.data;
+        salesChart.update();
+        updateKPIsAndInsights();
+      });
+
+      document.getElementById("feedbackFilter").addEventListener("change", function () {
+        feedbackChart.data.datasets[0].data = feedbackDataByFilter[this.value];
+        feedbackChart.update();
+        updateKPIsAndInsights();
+      });
+
+      document.getElementById("hygieneFilter").addEventListener("change", function () {
+        const year = this.value;
+        const pack = hygieneDataByYear[year];
+        hygieneChart.data.labels = pack.labels;
+        hygieneChart.data.datasets[0].data = pack.data;
+        hygieneChart.update();
+        updateKPIsAndInsights();
+      });
+
+      // Initial render
+      document.getElementById("hygieneFilter").value = defaultYear;
+      updateKPIsAndInsights();
+    </script>
+  </body>
 </html>

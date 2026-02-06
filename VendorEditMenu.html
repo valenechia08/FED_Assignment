@@ -42,24 +42,32 @@
     /* TABLE */
     .table-header {
       display: grid;
-      grid-template-columns: 125px 1fr 125px 200px;
+      padding-left:15px;
+      grid-template-columns: 
+        minmax(80px, 1fr) 
+        2fr 
+        minmax(60px, 1fr) 
+        minmax(100px, 1.5fr);
       font-weight: 600;
       margin-top: 20px;
       padding-bottom: 10px;
+      align-items: center;
       border-bottom: 2px solid black;
-    }
-
-    .menu-list {
-      margin-top: 10px;
     }
 
     .menu-card {
       display: grid;
-      grid-template-columns: 100px 1fr 100px 120px;
+            grid-template-columns: 
+        minmax(80px, 1fr) 
+        2fr 
+        minmax(60px, 1fr) 
+        minmax(100px, 1.5fr);
+        font-weight: 600;
       align-items: center;
       padding: 15px;
+      height:120px;
       border-radius: 10px;
-      margin-bottom: 10px;
+      font-size: 18px;
       background: #FFDCC5;
     }
 
@@ -68,8 +76,8 @@
     }
 
     .menu-card img {
-      width: 70px;
-      height: 70px;
+      width: 80px;
+      height: 80px;
       object-fit: cover;
       border-radius: 6px;
     }
@@ -81,7 +89,7 @@
       background-size: contain;
     }
     .actions img{
-      width: 30%;
+      width: 35px;
       height: auto;   /* keeps proportions */
       object-fit: contain; 
     }
@@ -238,7 +246,6 @@
       </nav>
     <!--Contents-->
   <main class="contents">
-
     <header class="page-header">
       <div class="header-row">
         <div class="title-block">
@@ -294,7 +301,7 @@
   </div>
 
   <!-- MENU LIST -->
-  <div class="menu-list">
+  <div class="menu-list" id="menuList">
 
     <div class="menu-card">
       <img src="images/Set Meal A Picture.jpg" alt="Set Meal A">
@@ -306,6 +313,7 @@
       <img src="images/view.png" alt="View" class="icon">
       </div>
     </div>
+  </div>
 
     <div class="menu-card light">
       <img src="images/Set Meal B Picture.jpg" alt="Set Meal B">
@@ -315,6 +323,7 @@
       <img src="images/edit.png" alt="Edit" class="icon">
       <img src="images/delete.png" alt="Delete" class="icon delete">
       <img src="images/view.png" alt="View" class="icon">
+      </div>
       </div>
     </div>
 
@@ -327,6 +336,7 @@
       <img src="images/delete.png" alt="Delete" class="icon delete">
       <img src="images/view.png" alt="View" class="icon">
       </div>
+      </div>
     </div>
 
     <div class="menu-card light">
@@ -337,6 +347,7 @@
       <img src="images/edit.png" alt="Edit" class="icon">
       <img src="images/delete.png" alt="Delete" class="icon delete">
       <img src="images/view.png" alt="View" class="icon">
+      </div>
       </div>
     </div>
 
@@ -349,6 +360,7 @@
       <img src="images/delete.png" alt="Delete" class="icon delete">
       <img src="images/view.png" alt="View" class="icon">
       </div>
+      </div>
     </div>
 
     <div class="menu-card light">
@@ -360,17 +372,20 @@
       <img src="images/delete.png" alt="Delete" class="icon delete">
       <img src="images/view.png" alt="View" class="icon">
       </div>
+      </div>
 
     </div>
     </section>
 
   </main>
     <script>
-    document.getElementById("addMenuBtn").addEventListener("click", () => {
+      let editingItem = null;
+    const addBtn = document.getElementById("addMenuBtn");
     const form = document.querySelector(".addMenuForm");
-    // Toggle visibility
-    form.style.display = (form.style.display === "none") ? "block" : "none";
+    addBtn.addEventListener("click", () => {
+      form.style.display = "block";
     });
+    
   </script>
     <script type="module" src="Master_page_javascript.js"></script>
   </body>
