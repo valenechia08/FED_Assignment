@@ -343,6 +343,69 @@
           grid-template-columns: 1fr;
         }
       }
+
+      /* =========================================================
+         ADDED: TERMS & CONDITIONS POPUP (does NOT touch your layout)
+      ========================================================= */
+      .terms-card {
+        max-width: 780px; /* wider for reading */
+        text-align: left; /* readable */
+      }
+
+      .terms-meta {
+        font-size: 13px;
+        color: #666;
+        margin-bottom: 12px;
+      }
+
+      .terms-scroll {
+        max-height: 60vh;
+        overflow: auto;
+        padding-right: 6px;
+        margin: 12px 0 16px;
+      }
+
+      .terms-scroll h4 {
+        margin: 14px 0 6px;
+        color: #111;
+        font-size: 15px;
+      }
+
+      .terms-scroll p,
+      .terms-scroll li {
+        font-size: 14px;
+        line-height: 1.55;
+        color: #333;
+      }
+
+      .terms-scroll ul {
+        margin: 6px 0 10px 18px;
+      }
+
+      .terms-actions {
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+        flex-wrap: wrap;
+      }
+
+      .terms-actions .popup-close {
+        margin: 0;
+      }
+
+      .terms-actions .btn-secondary {
+        background: #fff;
+        color: var(--primary-orange);
+        border: 2px solid var(--primary-orange);
+        padding: 10px 18px;
+        border-radius: 999px;
+        cursor: pointer;
+        font-weight: bold;
+      }
+
+      .terms-actions .btn-secondary:hover {
+        filter: brightness(0.98);
+      }
     </style>
   </head>
 
@@ -457,8 +520,9 @@
       </div>
 
       <div class="refer">
-        <h2>Refer a Friend & Get $10 🎉</h2>
-        <button>Refer Now</button>
+        <h2>Terms and Conditions</h2>
+        <!-- ADDED: id so JS can open the terms popup -->
+        <button id="open-terms">Read</button>
       </div>
     </main>
 
@@ -468,6 +532,248 @@
         <h3 id="popup-title">You won!</h3>
         <p id="popup-text"></p>
         <button class="popup-close" id="popup-close">Nice!</button>
+      </div>
+    </div>
+
+    <!-- =========================================================
+         ADDED: TERMS & CONDITIONS POPUP (new modal)
+         - Uses the SAME .reward-popup overlay class you already have
+         - Only ADDITION, does not modify your existing popup
+    ========================================================= -->
+    <div class="reward-popup" id="terms-popup" aria-hidden="true">
+      <div
+        class="popup-card terms-card"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="terms-title"
+      >
+        <h3 id="terms-title">ShiokLah! Rewards – Terms & Conditions</h3>
+        <div class="terms-meta">
+          Last updated: <b>7 Feb 2026</b> • Applies to vouchers, points,
+          promotions and Lucky Spin
+        </div>
+
+        <div class="terms-scroll" id="terms-scroll">
+          <h4>1. Who we are</h4>
+          <p>
+            ShiokLah! (“<b>ShiokLah</b>”, “<b>we</b>”, “<b>us</b>”) is a hawker
+            centre ordering platform that connects customers with participating
+            stalls. These Terms & Conditions (“<b>Terms</b>”) govern your access
+            to and use of the Rewards page, vouchers, coupons, points,
+            promotions, referrals, and Lucky Spin (collectively, “<b
+              >Rewards Features</b
+            >”).
+          </p>
+
+          <h4>2. Eligibility</h4>
+          <ul>
+            <li>
+              You must have a ShiokLah account and be able to place orders using
+              the app or website.
+            </li>
+            <li>
+              Rewards Features are intended for genuine, personal use by end
+              customers (not resellers or commercial buyers).
+            </li>
+            <li>
+              We may require verification steps if we suspect abnormal activity
+              or policy breaches.
+            </li>
+          </ul>
+
+          <h4>3. Definitions</h4>
+          <ul>
+            <li>
+              <b>Voucher / Coupon</b>: a promotional benefit that may reduce
+              your payable amount, subject to conditions.
+            </li>
+            <li>
+              <b>Points</b>: non-cash loyalty credits earned or granted through
+              promotions, redeemable only as specified in-app.
+            </li>
+            <li>
+              <b>Lucky Spin</b>: a random prize feature that may award vouchers
+              or points, or a “Try Again”.
+            </li>
+            <li>
+              <b>Participating Stalls</b>: stalls that appear in ShiokLah and
+              accept ShiokLah orders.
+            </li>
+          </ul>
+
+          <h4>4. General Rewards rules</h4>
+          <ul>
+            <li>
+              Rewards have no cash value and cannot be exchanged for cash,
+              topped up, or transferred unless the app explicitly allows it.
+            </li>
+            <li>
+              Rewards are valid only within ShiokLah and only for participating
+              stalls that accept the specific reward type.
+            </li>
+            <li>
+              Rewards may be limited to one per transaction, unless stated
+              otherwise.
+            </li>
+            <li>
+              Rewards are subject to availability and may be withdrawn,
+              replaced, or modified at any time to comply with legal or
+              operational requirements.
+            </li>
+          </ul>
+
+          <h4>5. Voucher usage & restrictions</h4>
+          <ul>
+            <li>
+              Vouchers may require a <b>minimum spend</b>, may apply only to
+              selected stalls/items, and may exclude delivery/service fees (if
+              any are displayed at checkout).
+            </li>
+            <li>
+              Vouchers generally cannot be stacked with other vouchers or
+              promotions unless clearly stated in the voucher description.
+            </li>
+            <li>
+              Vouchers must be used <b>before their expiry date/time</b>. Once
+              expired, they cannot be reinstated.
+            </li>
+            <li>
+              If you return/cancel an order (where cancellation is permitted),
+              voucher reinstatement (if any) is at ShiokLah’s discretion and may
+              depend on whether the stall has begun preparation.
+            </li>
+          </ul>
+
+          <h4>6. “Use now” and “Used” status</h4>
+          <p>
+            When you click “Use now”, the reward may be marked as “Used” on this
+            device to prevent accidental reuse. A “Used” status may reflect
+            completion of redemption, reservation/locking for a transaction, or
+            a local record. Final redemption is confirmed at checkout and/or
+            upon successful order payment.
+          </p>
+
+          <h4>7. Lucky Spin rules</h4>
+          <ul>
+            <li>Lucky Spin outcomes are randomly generated by the system.</li>
+            <li>
+              Cooldown periods may apply (e.g., <b>48 hours</b>) and are shown
+              on the Rewards page. Changing devices, clearing storage, or using
+              incognito mode may reset local timers but does not guarantee
+              additional spins if server-side limits exist.
+            </li>
+            <li>
+              “Try Again” grants an additional spin opportunity, but does not
+              guarantee a voucher win.
+            </li>
+            <li>
+              ShiokLah may adjust prize pools, odds, cooldowns, and eligibility
+              criteria to prevent abuse and ensure fairness.
+            </li>
+          </ul>
+
+          <h4>8. Points & loyalty</h4>
+          <ul>
+            <li>
+              Points (including “Bonus Points”) may be earned through qualifying
+              purchases or awarded through promotions.
+            </li>
+            <li>
+              Points may expire and may be forfeited if your account is inactive
+              for an extended period or if misuse is detected.
+            </li>
+            <li>
+              Points cannot be sold, transferred, or exchanged outside ShiokLah.
+            </li>
+          </ul>
+
+          <h4>9. Referrals & promotions</h4>
+          <ul>
+            <li>
+              Referral promotions (if shown) are for genuine new-user referrals.
+              Self-referrals or bulk/automated invitations are not allowed.
+            </li>
+            <li>
+              We may delay, reverse, or withhold referral rewards pending fraud
+              checks or verification.
+            </li>
+            <li>
+              Promotions may be limited by time, location, stall participation,
+              user segment, and other conditions shown in-app.
+            </li>
+          </ul>
+
+          <h4>10. Fraud, abuse, and prohibited activity</h4>
+          <ul>
+            <li>
+              Do not attempt to exploit bugs, manipulate the Lucky Spin, create
+              multiple accounts, or use automated scripts/bots.
+            </li>
+            <li>
+              Do not buy/sell vouchers or points or attempt to trade them
+              outside ShiokLah.
+            </li>
+            <li>
+              If we reasonably suspect abuse, we may suspend rewards, remove
+              vouchers/points, disable features, or restrict your account
+              without prior notice.
+            </li>
+          </ul>
+
+          <h4>11. Orders, stalls, and fulfilment</h4>
+          <ul>
+            <li>
+              Stalls are independent merchants. Menu availability and pricing
+              may change without notice.
+            </li>
+            <li>
+              Stall fulfilment (preparation time, stock availability) may affect
+              whether certain rewards can be applied to an order.
+            </li>
+            <li>
+              If an item is unavailable, the stall may substitute, refund, or
+              cancel (depending on stall policy and app options).
+            </li>
+          </ul>
+
+          <h4>12. Liability & disclaimers</h4>
+          <p>
+            Rewards Features are provided on an “as is” and “as available”
+            basis. To the maximum extent permitted by law, ShiokLah is not
+            liable for losses arising from rewards availability, expiry, user
+            error, device storage resets, or interruptions due to maintenance,
+            network failures, or third-party issues.
+          </p>
+
+          <h4>13. Privacy</h4>
+          <p>
+            We may collect and use data related to reward redemptions and
+            interactions to operate the program, prevent fraud, and improve user
+            experience. Where applicable, notifications are shown only if you
+            grant permission in your browser/device.
+          </p>
+
+          <h4>14. Changes to these Terms</h4>
+          <p>
+            We may update these Terms at any time. Updates will take effect once
+            posted on this page. Your continued use of Rewards Features after
+            changes means you accept the updated Terms.
+          </p>
+
+          <h4>15. Contact</h4>
+          <p>
+            If you have questions about rewards, expiry, or redemption issues,
+            contact ShiokLah support through the app help section or your course
+            project contact channel (for demo builds).
+          </p>
+        </div>
+
+        <div class="terms-actions">
+          <button class="btn-secondary" id="terms-scroll-top">
+            Back to top
+          </button>
+          <button class="popup-close" id="terms-close">Close</button>
+        </div>
       </div>
     </div>
 
@@ -514,6 +820,40 @@
         popup.addEventListener("click", (e) => {
           if (e.target === popup) popup.classList.remove("show");
         });
+
+        /***********************
+         * ADDED: TERMS POPUP LOGIC (only additions)
+         ***********************/
+        const openTermsBtn = document.getElementById("open-terms");
+        const termsPopup = document.getElementById("terms-popup");
+        const termsCloseBtn = document.getElementById("terms-close");
+        const termsScrollTopBtn = document.getElementById("terms-scroll-top");
+        const termsScroll = document.getElementById("terms-scroll");
+
+        function openTerms() {
+          if (!termsPopup) return;
+          termsPopup.classList.add("show");
+          termsPopup.setAttribute("aria-hidden", "false");
+        }
+
+        function closeTerms() {
+          if (!termsPopup) return;
+          termsPopup.classList.remove("show");
+          termsPopup.setAttribute("aria-hidden", "true");
+        }
+
+        if (openTermsBtn) openTermsBtn.addEventListener("click", openTerms);
+        if (termsCloseBtn) termsCloseBtn.addEventListener("click", closeTerms);
+        if (termsScrollTopBtn && termsScroll) {
+          termsScrollTopBtn.addEventListener("click", () =>
+            termsScroll.scrollTo({ top: 0, behavior: "smooth" }),
+          );
+        }
+        if (termsPopup) {
+          termsPopup.addEventListener("click", (e) => {
+            if (e.target === termsPopup) closeTerms();
+          });
+        }
 
         /***********************
          * DESKTOP NOTIFICATION
