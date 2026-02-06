@@ -416,29 +416,12 @@ document.addEventListener("DOMContentLoaded", () => {
 // });
 
 // Top Navigation
-document.querySelectorAll(".menu-item").forEach((item) => {
-  const mainLink = item.querySelector("a"); // main menu link
-  const dropdown = item.querySelector(".dropdown");
-
-  // Toggle dropdown when clicking the main menu link
-  if (mainLink && dropdown) {
-    mainLink.addEventListener("click", (e) => {
-      e.preventDefault(); // prevent navigation for main menu
-      dropdown.style.display =
-        dropdown.style.display === "block" ? "none" : "block";
-    });
-  }
-
-  // Allow submenu links to navigate normally
-  if (dropdown) {
-    dropdown.querySelectorAll("a").forEach((subLink) => {
-      subLink.addEventListener("click", () => {
-        // no preventDefault here → browser navigates to href
-        dropdown.style.display = "none"; // optional: close dropdown after click
+document.addEventListener("click", () => {
+        document
+          .querySelectorAll(".menu-item")
+          .forEach((item) => item.classList.remove("active"));
       });
-    });
-  }
-});
+
 
 //Create Stall Object & Menu Item
 function createStallObject(stall_name, cuisine, rating, image) {
