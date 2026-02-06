@@ -5,6 +5,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebas
 import {
   getDatabase,
   ref,
+  onValue,   
   push,
   set,
   get,
@@ -42,6 +43,13 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 // const db = getFire(app); valene original code
+
+const rootRef = ref(db, "/");
+
+// ✅ Real-time listen to ALL data
+onValue(ref(db, "/"), (snapshot) => {
+  console.log("REAL-TIME DATA:", snapshot.val());
+});
 
 /* =========================
    HELPERS
@@ -137,6 +145,7 @@ async function registerMember() {
       username,
       email,
       passwordHash,
+      userType: "registered",   //  ADD THIS✅  valene add this
       createdAt: Date.now(),
     });
 
@@ -184,6 +193,14 @@ async function loginMember() {
       showMessage("Incorrect password.", "red");
       return;
     }
+    
+    // ✅ update both browser + firebase
+    sessionStorage.setItem("currentUserId", username);
+
+    await update(ref(db, `members/${username}`), {
+      userType: data.userType || "registered",
+      lastLoginAt: Date.now()
+    });
 
     // Save session + redirect
     sessionStorage.setItem("loggedInUser", username);
@@ -398,30 +415,15 @@ document.addEventListener("DOMContentLoaded", () => {
 //   });
 // });
 
+
+
 // Top Navigation
-document.querySelectorAll(".menu-item").forEach((item) => {
-  const mainLink = item.querySelector("a"); // main menu link
-  const dropdown = item.querySelector(".dropdown");
-
-  // Toggle dropdown when clicking the main menu link
-  if (mainLink && dropdown) {
-    mainLink.addEventListener("click", (e) => {
-      e.preventDefault(); // prevent navigation for main menu
-      dropdown.style.display =
-        dropdown.style.display === "block" ? "none" : "block";
-    });
-  }
-
-  // Allow submenu links to navigate normally
-  if (dropdown) {
-    dropdown.querySelectorAll("a").forEach((subLink) => {
-      subLink.addEventListener("click", () => {
-        // no preventDefault here → browser navigates to href
-        dropdown.style.display = "none"; // optional: close dropdown after click
+document.addEventListener("click", () => {
+        document
+          .querySelectorAll(".menu-item")
+          .forEach((item) => item.classList.remove("active"));
       });
-    });
-  }
-});
+
 
 //Create Stall Object & Menu Item
 function createStallObject(stall_name, cuisine, rating, image) {
@@ -444,6 +446,7 @@ function createMenuItemObject(item_name, price, available = true, image) {
     },
   };
 }
+
 
 async function uploadStall(stall_name, cuisine, rating, image) {
   const stallObj = createStallObject(stall_name, cuisine, rating, image);
@@ -738,87 +741,27 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 });
 
-// import React from 'react';
-// import { Home, Package, ShoppingBag, User, Clock } from 'lucide-react';
+exports.placeOrder = functions.https.onRequest(async (req, res) => {
+  const { username, stall, items } = req.body;
 
-// const OrderDashboard = () => {
-//   const orders = [
-//     { id: 1, name: 'Tobi', phone: '432112340987', items: '1 Cap', time: '11:04am', day: 'Today' },
-//     { id: 2, name: 'David', phone: '098712348765', items: '4 Caps', time: '08:04am', day: 'Today' },
-//   ];
+  // Validate
+  if (!username || !stall || !items) {
+    return res.status(400).json({ error: "Invalid data" });
+  }
 
-//   return (
-//     <div className="flex h-screen bg-gray-50 font-sans text-gray-900">
-//       {/* 1. SIDEBAR (Desktop Navigation) */}
-//       <aside className="w-64 bg-white border-r flex flex-col items-center py-8 gap-8">
-//         <div className="text-orange-600 font-bold text-2xl mb-4">LOGO</div>
-//         <nav className="flex flex-col gap-6 w-full px-6">
-//           <NavItem icon={<Home size={20} />} label="Home" />
-//           <NavItem icon={<Package size={20} />} label="Orders" active />
-//           <NavItem icon={<ShoppingBag size={20} />} label="Inventory" />
-//           <NavItem icon={<User size={20} />} label="Profile" />
-//         </nav>
-//       </aside>
+  // Calculate total on SERVER
+  let total = 0;
+  for (const item of items) {
+    total += item.price * item.qty;
+  }
 
-//       {/* 2. MAIN CONTENT AREA */}
-//       <main className="flex-1 overflow-y-auto p-10">
+  await admin.database().ref("orders").push({
+    username,
+    stall,
+    items,
+    total,
+    createdAt: Date.now()
+  });
 
-//         {/* Header Stat Card */}
-//         <div className="bg-orange-600 rounded-3xl p-8 text-white mb-10 flex justify-between items-center shadow-lg max-w-4xl">
-//           <div>
-//             <h2 className="text-xl opacity-90 font-medium">Pending Orders</h2>
-//             <p className="text-6xl font-bold mt-2">20</p>
-//           </div>
-//           <div className="opacity-20 hidden md:block">
-//              {/* Decorative pattern placeholder */}
-//              <svg width="100" height="100" viewBox="0 0 100 100" fill="currentColor"><circle cx="50" cy="50" r="40" /></svg>
-//           </div>
-//         </div>
-
-//         {/* Tab Navigation */}
-//         <div className="flex gap-8 border-b border-gray-200 mb-8 max-w-4xl">
-//           {['Pending', 'In Progress', 'Shipped', 'Declined'].map((tab) => (
-//             <button
-//               key={tab}
-//               className={`pb-4 px-2 text-sm font-semibold transition-all ${tab === 'Pending' ? 'text-orange-600 border-b-2 border-orange-600' : 'text-gray-400 hover:text-gray-600'}`}
-//             >
-//               {tab}
-//             </button>
-//           ))}
-//         </div>
-
-//         {/* Order List Section */}
-//         <section className="max-w-4xl">
-//           <h3 className="text-xl font-bold mb-6">Today</h3>
-//           <div className="grid gap-4">
-//             {orders.map(order => (
-//               <div key={order.id} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex justify-between items-start hover:shadow-md transition-shadow">
-//                 <div className="flex gap-4">
-//                   <div className="bg-orange-50 p-3 rounded-xl text-orange-600">
-//                     <Clock size={24} />
-//                   </div>
-//                   <div>
-//                     <h4 className="font-bold text-lg">Pending order</h4>
-//                     <p className="text-gray-500 mt-1">You have an order from <span className="text-gray-800 font-medium">{order.name} ({order.phone})</span> for {order.items}.</p>
-//                     <p className="text-sm text-gray-400 mt-2 italic">Please review and process the order.</p>
-//                   </div>
-//                 </div>
-//                 <span className="text-gray-900 font-bold">{order.time}</span>
-//               </div>
-//             ))}
-//           </div>
-//         </section>
-//       </main>
-//     </div>
-//   );
-// };
-
-// // Helper Component
-// const NavItem = ({ icon, label, active = false }) => (
-//   <button className={`flex items-center gap-4 w-full p-3 rounded-xl transition-colors ${active ? 'bg-orange-600 text-white shadow-md shadow-orange-200' : 'text-gray-400 hover:bg-gray-100'}`}>
-//     {icon}
-//     <span className="font-medium">{label}</span>
-//   </button>
-// );
-
-// export default OrderDashboard;
+  res.json({ success: true, total });
+});

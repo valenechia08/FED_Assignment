@@ -1,0 +1,914 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Submit a Complaint | ShiokLah!</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kodchasan:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --primary-orange: #e47329;
+        --primary-yellow: #ffd400;
+        --bg: #fff;
+        --text: #222;
+        --muted: #666;
+        --line: #eee;
+        --card: #ffffff;
+        --shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+        --radius: 18px;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family:
+          "Montserrat",
+          "Segoe UI",
+          system-ui,
+          -apple-system,
+          Roboto,
+          Arial,
+          sans-serif;
+      }
+
+      body {
+        background:
+          radial-gradient(
+            circle at 30% 0%,
+            rgba(228, 115, 41, 0.12),
+            transparent 40%
+          ),
+          radial-gradient(
+            circle at 80% 20%,
+            rgba(255, 212, 0, 0.12),
+            transparent 45%
+          ),
+          var(--bg);
+        color: var(--text);
+      }
+
+      /* TOP NAV */
+      .topNavBar {
+        position: sticky;
+        top: 0;
+        z-index: 2000;
+        background: #fff;
+        border-bottom: 1px solid var(--line);
+      }
+      .topNavBar .container {
+        width: 92%;
+        max-width: 1200px;
+        margin: auto;
+      }
+      .topNavBar .top-nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 70px;
+      }
+      .topNavBar .nav-left,
+      .topNavBar .nav-right {
+        flex: 0 0 auto;
+      }
+      .topNavBar .nav-center {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+      }
+      .topNavBar .Logo {
+        height: 60px;
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+      }
+      .topNavBar .Logo img {
+        height: 100%;
+        width: auto;
+        display: block;
+      }
+      .topNavBar .menu {
+        list-style: none;
+        display: flex;
+        align-items: center;
+        gap: 50px;
+      }
+      .topNavBar .menu a {
+        text-decoration: none;
+        font-weight: 800;
+        color: #111;
+        display: block;
+        padding: 8px 0;
+      }
+      .topNavBar .menu a:hover {
+        color: var(--primary-orange);
+      }
+      .topNavBar .menu-item {
+        position: relative;
+      }
+      .topNavBar .dropdown {
+        position: absolute;
+        top: 130%;
+        left: 0;
+        background: var(--primary-yellow);
+        border-radius: 12px;
+        padding: 10px 0;
+        min-width: 220px;
+        display: none;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      }
+      .topNavBar .dropdown li {
+        list-style: none;
+      }
+      .topNavBar .dropdown a {
+        padding: 10px 18px;
+        color: #111;
+        font-weight: 700;
+      }
+      .topNavBar .dropdown a:hover {
+        background: rgba(0, 0, 0, 0.08);
+      }
+      .topNavBar .menu-item:hover .dropdown {
+        display: block;
+      }
+      .topNavBar .nav-right {
+        width: 60px;
+      }
+
+      @media (max-width: 900px) {
+        .topNavBar .menu {
+          gap: 28px;
+        }
+      }
+      @media (max-width: 700px) {
+        .topNavBar .nav-center {
+          display: none;
+        }
+      }
+
+      /* PAGE */
+      main {
+        width: 92%;
+        max-width: 1100px;
+        margin: 28px auto 80px;
+      }
+
+      .page-title {
+        text-align: center;
+        margin-top: 10px;
+        margin-bottom: 12px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: 700;
+        font-size: 44px;
+        color: var(--primary-orange);
+      }
+
+      .page-subtitle {
+        text-align: center;
+        color: var(--muted);
+        margin-bottom: 26px;
+      }
+
+      .card {
+        background: var(--card);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        overflow: hidden;
+        border: 1px solid rgba(0, 0, 0, 0.04);
+      }
+
+      .card-inner {
+        padding: 22px;
+      }
+
+      .section {
+        padding: 18px 0;
+        border-top: 1px solid var(--line);
+      }
+      .section:first-child {
+        border-top: 0;
+        padding-top: 6px;
+      }
+
+      .section h3 {
+        font-size: 16px;
+        margin-bottom: 12px;
+        color: #222;
+      }
+
+      /* FORM GRID */
+      .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+      }
+      @media (max-width: 820px) {
+        .form-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      label {
+        font-weight: 800;
+        color: #333;
+        font-size: 14px;
+      }
+
+      input[type="text"],
+      input[type="email"],
+      input[type="tel"],
+      input[type="date"],
+      input[type="time"],
+      select,
+      textarea {
+        width: 100%;
+        border-radius: 14px;
+        border: 1px solid rgba(0, 0, 0, 0.12);
+        padding: 12px 14px;
+        font-size: 15px;
+        outline: none;
+        background: #fff;
+      }
+      input:focus,
+      select:focus,
+      textarea:focus {
+        border-color: rgba(228, 115, 41, 0.55);
+        box-shadow: 0 0 0 4px rgba(228, 115, 41, 0.12);
+      }
+
+      textarea {
+        min-height: 120px;
+        resize: vertical;
+      }
+
+      .help {
+        font-size: 12px;
+        color: #777;
+        margin-top: -4px;
+      }
+
+      /* STALL MULTI SELECT (same style as feedback) */
+      .stall-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(260px, 1fr));
+        gap: 14px;
+        margin-top: 10px;
+      }
+
+      .stall-option {
+        position: relative;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        border-radius: 14px;
+        background: #fff;
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.05);
+        overflow: hidden;
+        transition:
+          transform 0.12s ease,
+          border-color 0.12s ease;
+      }
+
+      .stall-option:hover {
+        transform: translateY(-2px);
+        border-color: rgba(228, 115, 41, 0.35);
+      }
+
+      .stall-option input {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        cursor: pointer;
+      }
+
+      .stall-content {
+        display: grid;
+        grid-template-columns: 92px 1fr;
+        gap: 12px;
+        padding: 12px;
+        align-items: center;
+      }
+
+      .stall-thumb {
+        width: 92px;
+        height: 72px;
+        border-radius: 12px;
+        object-fit: cover;
+        background: #f2f2f2;
+        border: 1px solid rgba(0, 0, 0, 0.06);
+      }
+
+      .stall-name {
+        font-weight: 900;
+        color: #222;
+        margin-bottom: 6px;
+      }
+
+      .stall-meta {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        color: #666;
+        font-size: 13px;
+      }
+
+      .mini-star {
+        color: var(--primary-orange);
+        font-size: 14px;
+      }
+
+      .check-pill {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        width: 22px;
+        height: 22px;
+        border-radius: 6px;
+        border: 2px solid rgba(228, 115, 41, 0.5);
+        background: #fff;
+        display: grid;
+        place-items: center;
+        pointer-events: none;
+      }
+
+      .check-pill::after {
+        content: "✓";
+        font-weight: 900;
+        font-size: 14px;
+        color: #fff;
+        transform: scale(0);
+        transition: transform 0.12s ease;
+      }
+
+      .stall-option input:checked ~ .check-pill {
+        background: var(--primary-orange);
+        border-color: var(--primary-orange);
+      }
+      .stall-option input:checked ~ .check-pill::after {
+        transform: scale(1);
+      }
+      .stall-option input:checked ~ .stall-content {
+        outline: 3px solid rgba(228, 115, 41, 0.22);
+        outline-offset: -3px;
+        border-radius: 14px;
+      }
+
+      @media (max-width: 820px) {
+        .stall-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* OUTCOME */
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 6px;
+      }
+      .chip {
+        border: 1px solid rgba(0, 0, 0, 0.12);
+        background: #fff;
+        border-radius: 999px;
+        padding: 10px 12px;
+        font-weight: 700;
+        font-size: 14px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .chip input {
+        accent-color: var(--primary-orange);
+      }
+
+      /* EVIDENCE */
+      input[type="file"] {
+        padding: 10px;
+      }
+
+      /* CONSENT */
+      .consent {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        font-size: 14px;
+        color: #333;
+      }
+      .consent input {
+        margin-top: 3px;
+        accent-color: var(--primary-orange);
+      }
+
+      /* SUBMIT */
+      .actions-row {
+        display: flex;
+        justify-content: center;
+        padding-top: 8px;
+      }
+
+      .submit-btn {
+        background: linear-gradient(135deg, #e47329, #ff944d);
+        border: none;
+        color: white;
+        padding: 14px 34px;
+        border-radius: 999px;
+        font-weight: 900;
+        cursor: pointer;
+        font-size: 18px;
+        box-shadow: 0 16px 30px rgba(228, 115, 41, 0.25);
+      }
+
+      .submit-btn:active {
+        transform: translateY(1px);
+      }
+
+      /* POPUP */
+      .popup {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.35);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 3000;
+        padding: 20px;
+      }
+      .popup.show {
+        display: flex;
+      }
+      .popup-card {
+        width: 100%;
+        max-width: 420px;
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 14px 40px rgba(0, 0, 0, 0.25);
+        padding: 22px;
+        text-align: center;
+      }
+      .popup-card h4 {
+        color: var(--primary-orange);
+        margin-bottom: 10px;
+        font-size: 20px;
+      }
+      .popup-card p {
+        color: #333;
+        margin-bottom: 16px;
+      }
+      .popup-card button {
+        background: var(--primary-orange);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 999px;
+        cursor: pointer;
+        font-weight: 800;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- TOP NAV -->
+    <nav class="topNavBar">
+      <div class="container">
+        <div class="top-nav">
+          <div class="nav-left">
+            <a href="FED_ASG.html" class="Logo" aria-label="ShiokLah Home">
+              <img src="images/ShiokLah(cropped).jpeg" alt="ShiokLah Logo" />
+            </a>
+          </div>
+
+          <div class="nav-center">
+            <ul class="menu" id="menu">
+              <li class="menu-item">
+                <a href="FED_ASG.html">Home</a>
+                <ul class="dropdown">
+                  <li><a href="FED_ASG.html">Start Order</a></li>
+                </ul>
+              </li>
+
+              <li class="menu-item">
+                <a href="#">Order History</a>
+                <ul class="dropdown">
+                  <li><a href="OrderHistory.html">Past Orders</a></li>
+                </ul>
+              </li>
+
+              <li class="menu-item">
+                <a href="UserProfile.html">Profile</a>
+                <ul class="dropdown">
+                  <li><a href="UserProfile.html">Overview</a></li>
+                  <li><a href="Analytics.html">Analytics & Reporting</a></li>
+                  <li><a href="CustomerFeedback.html">Customer Feedback</a></li>
+                  <li>
+                    <a href="Regulatory&Complianceinfo.html"
+                      >Regulatory & Compliance Info</a
+                    >
+                  </li>
+                  <li><a href="#">Favourites</a></li>
+                  <li>
+                    <a href="Customer Vouchers and Rewards.html">Rewards</a>
+                  </li>
+                </ul>
+              </li>
+
+              <li class="menu-item">
+                <a href="SelectRole.html">Log Out</a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="nav-right"></div>
+        </div>
+      </div>
+    </nav>
+
+    <main>
+      <h1 class="page-title">Submit a Complaint</h1>
+      <p class="page-subtitle">
+        Tell us what went wrong — we’ll investigate and follow up 🧡
+      </p>
+
+      <section class="card">
+        <div class="card-inner">
+          <!-- CONTACT -->
+          <div class="section">
+            <h3>Your details</h3>
+
+            <div class="form-grid">
+              <div class="field">
+                <label for="name">Name</label>
+                <input id="name" type="text" placeholder="e.g. Aisyah Tan" />
+              </div>
+
+              <div class="field">
+                <label for="email">Email</label>
+                <input
+                  id="email"
+                  type="email"
+                  placeholder="e.g. aisyah@email.com"
+                />
+              </div>
+
+              <div class="field">
+                <label for="phone">Phone (optional)</label>
+                <input id="phone" type="tel" placeholder="e.g. 9123 4567" />
+              </div>
+
+              <div class="field">
+                <label for="contactPref">Preferred contact method</label>
+                <select id="contactPref">
+                  <option value="email" selected>Email</option>
+                  <option value="phone">Phone</option>
+                </select>
+              </div>
+            </div>
+
+            <p class="help">
+              We’ll only use this to contact you about the complaint.
+            </p>
+          </div>
+
+          <!-- STALLS -->
+          <div class="section">
+            <h3>Which stall is this about?</h3>
+
+            <div class="stall-grid">
+              <label class="stall-option">
+                <input
+                  type="checkbox"
+                  name="stalls"
+                  value="Banana Leaf Nasi Lemak"
+                />
+                <span class="check-pill"></span>
+                <div class="stall-content">
+                  <img
+                    class="stall-thumb"
+                    src="images/Banana Leaf Nasi Lemak Picture.jpg"
+                    alt="Banana Leaf Nasi Lemak"
+                  />
+                  <div>
+                    <div class="stall-name">Banana Leaf Nasi Lemak</div>
+                    <div class="stall-meta">
+                      <span class="mini-star">★</span>
+                      <span>4.0 · Malay</span>
+                    </div>
+                  </div>
+                </div>
+              </label>
+
+              <label class="stall-option">
+                <input
+                  type="checkbox"
+                  name="stalls"
+                  value="Big Daddy's Chicken & Noodle Stall"
+                />
+                <span class="check-pill"></span>
+                <div class="stall-content">
+                  <img
+                    class="stall-thumb"
+                    src="images/Big Daddy's Chicken & Noodle Picture.webp"
+                    alt="Big Daddy's Chicken & Noodle Stall"
+                  />
+                  <div>
+                    <div class="stall-name">
+                      Big Daddy's Chicken &amp; Noodle Stall
+                    </div>
+                    <div class="stall-meta">
+                      <span class="mini-star">★</span>
+                      <span>4.5 · Others</span>
+                    </div>
+                  </div>
+                </div>
+              </label>
+
+              <label class="stall-option">
+                <input
+                  type="checkbox"
+                  name="stalls"
+                  value="Boon Lay Fried Carrot Cake & Kway Teow Mee"
+                />
+                <span class="check-pill"></span>
+                <div class="stall-content">
+                  <img
+                    class="stall-thumb"
+                    src="images/Boon Lay Fried Carrot Cake & Kway Teow Mee Picture.jpg"
+                    alt="Boon Lay Fried Carrot Cake & Kway Teow Mee"
+                  />
+                  <div>
+                    <div class="stall-name">
+                      Boon Lay Fried Carrot Cake &amp; Kway Teow Mee
+                    </div>
+                    <div class="stall-meta">
+                      <span class="mini-star">★</span>
+                      <span>4.2 · Chinese</span>
+                    </div>
+                  </div>
+                </div>
+              </label>
+
+              <label class="stall-option">
+                <input type="checkbox" name="stalls" value="Boon Lay Lu Wei" />
+                <span class="check-pill"></span>
+                <div class="stall-content">
+                  <img
+                    class="stall-thumb"
+                    src="images/Boon Lay Lu Wei Picture.jpg"
+                    alt="Boon Lay Lu Wei"
+                  />
+                  <div>
+                    <div class="stall-name">Boon Lay Lu Wei</div>
+                    <div class="stall-meta">
+                      <span class="mini-star">★</span>
+                      <span>4.2 · Chinese</span>
+                    </div>
+                  </div>
+                </div>
+              </label>
+
+              <label class="stall-option">
+                <input
+                  type="checkbox"
+                  name="stalls"
+                  value="I. Mohamed Ismail Food Stall"
+                />
+                <span class="check-pill"></span>
+                <div class="stall-content">
+                  <img
+                    class="stall-thumb"
+                    src="images/I.Mohamed Ismail Food Stall Picture.jpg"
+                    alt="I. Mohamed Ismail Food Stall"
+                  />
+                  <div>
+                    <div class="stall-name">I. Mohamed Ismail Food Stall</div>
+                    <div class="stall-meta">
+                      <span class="mini-star">★</span>
+                      <span>4.5 · Indian</span>
+                    </div>
+                  </div>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- DETAILS -->
+          <div class="section">
+            <h3>Complaint details</h3>
+
+            <div class="form-grid">
+              <div class="field">
+                <label for="category">Category</label>
+                <select id="category">
+                  <option value="" selected disabled>Select a category</option>
+                  <option>Food quality / Taste</option>
+                  <option>Hygiene / Cleanliness</option>
+                  <option>Service / Staff attitude</option>
+                  <option>Wrong order / Missing items</option>
+                  <option>Pricing / Overcharged</option>
+                  <option>Long waiting time</option>
+                  <option>Allergens / Dietary issues</option>
+                  <option>Other</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="orderId">Order ID / Receipt no. (optional)</label>
+                <input id="orderId" type="text" placeholder="e.g. ORD-10293" />
+              </div>
+
+              <div class="field">
+                <label for="date">Date</label>
+                <input id="date" type="date" />
+              </div>
+
+              <div class="field">
+                <label for="time">Time (approx.)</label>
+                <input id="time" type="time" />
+              </div>
+            </div>
+
+            <div class="field" style="margin-top: 14px">
+              <label for="details">What happened?</label>
+              <textarea
+                id="details"
+                placeholder="Describe the issue clearly (what you bought, what went wrong, etc.)"
+              ></textarea>
+              <div class="help">
+                Tip: include what item you ordered + what the issue was.
+              </div>
+            </div>
+          </div>
+
+          <!-- EVIDENCE -->
+          <div class="section">
+            <h3>Evidence (optional)</h3>
+            <div class="field">
+              <label for="evidence">Upload photo (receipt / food / etc.)</label>
+              <input id="evidence" type="file" accept="image/*" />
+              <div class="help">
+                Front-end only for now (no real upload yet).
+              </div>
+            </div>
+          </div>
+
+          <!-- OUTCOME -->
+          <div class="section">
+            <h3>What outcome would you like?</h3>
+            <div class="chips">
+              <label class="chip">
+                <input type="checkbox" name="outcome" value="Refund" />
+                Refund
+              </label>
+              <label class="chip">
+                <input type="checkbox" name="outcome" value="Replacement" />
+                Replacement
+              </label>
+              <label class="chip">
+                <input type="checkbox" name="outcome" value="Follow-up" />
+                Follow-up / Call me
+              </label>
+              <label class="chip">
+                <input type="checkbox" name="outcome" value="Investigate" />
+                Investigate / Take action
+              </label>
+            </div>
+          </div>
+
+          <!-- CONSENT + SUBMIT -->
+          <div class="section">
+            <label class="consent">
+              <input id="consent" type="checkbox" />
+              <span
+                >I confirm the details provided are accurate and I agree to be
+                contacted about this complaint.</span
+              >
+            </label>
+
+            <div class="actions-row" style="margin-top: 14px">
+              <button class="submit-btn" id="submitBtn" type="button">
+                Submit Complaint
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- POPUP -->
+    <div class="popup" id="popup">
+      <div class="popup-card">
+        <h4>Submitted 🧡</h4>
+        <p id="popupMsg">Your complaint has been recorded.</p>
+        <button id="closePopup">Ok</button>
+      </div>
+    </div>
+
+    <script>
+      const submitBtn = document.getElementById("submitBtn");
+
+      function getCheckedValues(selector) {
+        return Array.from(document.querySelectorAll(selector))
+          .filter((x) => x.checked)
+          .map((x) => x.value);
+      }
+
+      function clearErrors() {
+        document
+          .querySelectorAll(".error-field")
+          .forEach((el) => el.classList.remove("error-field"));
+        document
+          .querySelectorAll(".error-msg")
+          .forEach((el) => el.classList.remove("show"));
+      }
+
+      function markError(element, message) {
+        const field = element.closest(".field, .section");
+        field.classList.add("error-field");
+
+        let msg = field.querySelector(".error-msg");
+        if (!msg) {
+          msg = document.createElement("div");
+          msg.className = "error-msg";
+          field.appendChild(msg);
+        }
+
+        msg.textContent = message;
+        msg.classList.add("show");
+
+        return field;
+      }
+
+      submitBtn.addEventListener("click", () => {
+        clearErrors();
+
+        const name = document.getElementById("name");
+        const email = document.getElementById("email");
+        const stalls = document.querySelector(".stall-grid");
+        const category = document.getElementById("category");
+        const details = document.getElementById("details");
+        const consent = document.getElementById("consent");
+
+        let firstError = null;
+
+        if (!name.value.trim()) {
+          firstError = firstError || markError(name, "Name is required");
+        }
+
+        if (!email.value.trim() || !email.value.includes("@")) {
+          firstError =
+            firstError || markError(email, "Valid email is required");
+        }
+
+        if (getCheckedValues('input[name="stalls"]').length === 0) {
+          firstError =
+            firstError || markError(stalls, "Please select at least one stall");
+        }
+
+        if (!category.value) {
+          firstError =
+            firstError ||
+            markError(category, "Please choose a complaint category");
+        }
+
+        if (!details.value.trim() || details.value.length < 10) {
+          firstError =
+            firstError ||
+            markError(details, "Please describe the issue (min 10 characters)");
+        }
+
+        if (!consent.checked) {
+          firstError =
+            firstError ||
+            markError(consent, "You must agree before submitting");
+        }
+
+        if (firstError) {
+          firstError.scrollIntoView({ behavior: "smooth", block: "center" });
+          alert(
+            "Please fill in the required fields before submitting your complaint.",
+          );
+          return;
+        }
+
+        // success
+        alert("Complaint submitted successfully 🧡");
+      });
+    </script>
+  </body>
+</html>

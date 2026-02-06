@@ -14,186 +14,8 @@
       rel="stylesheet"
     />
     <link rel="icon" type="image/jpeg" href="/images/ShiokLah(cropped).jpeg" />
-
+    <link rel="stylesheet" href="Master_page_stylesheet.css" />
   <style>
-    
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-    :root {
-      --primary-orange: #FF8C3A;
-      --primary-yellow: #ffd400;
-      --dark-text: #111;
-    }
-
-      .navrectangle {
-        background: white;
-        margin-top: 25px;
-        position: relative;
-        z-index: 1000;
-        font-family: "Kodchasan", Arial;
-      }
-
-      /* NAV LAYOUT */
-      .top-nav {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        height: 70px;
-      }
-      /* Left / Center / Right locking */
-      .nav-left,
-      .nav-right {
-        flex: 0 0 auto;
-      }
-
-      .nav-center {
-        flex: 1;
-        display: flex;
-        justify-content: center;
-      }
-
-      .container {
-        width: 90%;
-        max-width: 1200px;
-        margin: auto;
-      }
-
-      .Logo {
-        display: flex;
-        align-items: center;
-        height: 70px;
-        overflow: hidden;
-      }
-
-      .Logo img {
-        height: 100%;
-        width: auto;
-        transform: scale(1.2);
-        transform-origin: left center;
-      }
-
-      .menu {
-        display: flex;
-        align-items: center;
-        gap: 65px;
-        list-style: none;
-      }
-
-      .menu a {
-        text-decoration: none;
-        font-weight: 800;
-        font-size: 15px;
-        color: #111;
-      }
-
-      .menu a:hover {
-        color: var(--primary-orange);
-      }
-
-      .reserve-btn {
-        background: var(--primary-orange);
-        color: white;
-        border: 3px solid var(--primary-orange);
-        padding: 14px 30px;
-        border-radius: 22px;
-        font-weight: 800;
-        font-size: 15px;
-        cursor: pointer;
-        transition: all 0.25s ease;
-      }
-
-      .reserve-btn:hover {
-        background: white;
-        color: var(--primary-orange);
-      }
-
-      .menu-item {
-        position: relative;
-      }
-
-      .dropdown {
-        position: absolute;
-        top: 130%;
-        left: 0;
-        background: var(--primary-yellow);
-        border-radius: 14px;
-        min-width: 160px;
-        padding: 10px 0;
-        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
-        display: none;
-      }
-
-      .dropdown li {
-        list-style: none;
-      }
-
-      .dropdown a {
-        display: block;
-        padding: 10px 18px;
-        font-weight: 700;
-        color: #111;
-      }
-
-      .dropdown a:hover {
-        background: rgba(0, 0, 0, 0.08);
-      }
-
-      .menu-item.active .dropdown {
-        display: block;
-      }
-
-      .Nav-line {
-        border: none;
-        height: 1px;
-        background: #e0e0e0;
-        margin-top: 25px;
-        margin-bottom: 18px;
-      }
-
-      /* Hamburger */
-      .hamburger {
-        display: none;
-        flex-direction: column;
-        gap: 4px;
-        cursor: pointer;
-        margin-left: 15px;
-      }
-
-      .hamburger div {
-        width: 25px;
-        height: 3px;
-        background: #111;
-        border-radius: 2px;
-      }
-
-      /* MOBILE */
-      @media (max-width: 768px) {
-        .menu {
-          display: none;
-          position: absolute;
-          top: 90px;
-          right: 20px;
-          flex-direction: column;
-          background: white;
-          padding: 20px;
-          border-radius: 14px;
-          box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
-          gap: 20px;
-        }
-
-        .menu.show {
-          display: flex;
-        }
-
-        .hamburger {
-          display: flex;
-        }
-      }
-      /* nav ends here */
-
       /* content */
       .order-box {
         max-width: 600px;
@@ -411,6 +233,204 @@
           display: flex;
         }
       }
+      /* ===================== MOBILE FIRST IMPROVEMENTS ===================== */
+
+      /* ===================== MOBILE SIZE TUNING ===================== */
+  
+
+    @media (max-width: 576px) {
+      .navrectangle {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        margin-top: 0;                 /* remove your desktop top spacing */
+        background: rgba(255,255,255,0.96);
+        backdrop-filter: blur(10px);
+        border-top: 1px solid #eee;
+        z-index: 9999;
+      }
+
+      /* Prevent content hiding behind bottom nav */
+      body {
+        padding-bottom: 88px;          /* space for bottom nav */
+      }
+
+      /* Hide reserve button in mobile */
+      .reserve-btn {
+        display: none;
+      }
+
+      /* Logo stays top-left (optional: keep your design) */
+      .nav-left {
+        position: fixed;
+        top: 10px;
+        left: 12px;
+        z-index: 10000;
+        background: white;
+        padding: 6px 8px;
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+      }
+      .Logo img {
+        width: 34px;
+        height: auto;
+        display: block;
+      }
+
+      /* Push main content below the floating logo */
+      .main-content {
+        padding-top: 70px;
+      }
+
+      /* IMPORTANT: SHOW NAV WORDS */
+      .nav-center {
+        display: block;               /* ✅ bring text back */
+        width: 100%;
+      }
+
+      /* Bottom nav layout: menu becomes a row */
+      .top-nav {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 72px;
+        padding: 10px 12px;
+        gap: 0;
+      }
+
+      /* Hide hamburger (since we’re showing the words as bottom nav) */
+      .nav-right {
+        display: none;
+      }
+
+      /* Remove the line under nav */
+      .Nav-line {
+        display: none;
+      }
+
+      /* Turn your UL into a bottom nav bar */
+      #menu.menu {
+        display: flex !important;
+        justify-content: space-around;
+        align-items: center;
+        width: 100%;
+        gap: 6px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      /* Each main item becomes a “tab” */
+      #menu .menu-item {
+        position: relative;
+        flex: 1;
+        text-align: center;
+      }
+
+      /* Main link style (the words at the bottom) */
+      #menu .menu-item > a {
+        display: block;
+        padding: 10px 6px;
+        border-radius: 14px;
+        font-family: "Kodchasan", Arial;
+        font-size: 12px;
+        font-weight: 700;
+        color: #222;
+        text-decoration: none;
+        line-height: 1.1;
+        transition: transform 0.15s ease, background 0.2s ease;
+        user-select: none;
+      }
+
+      /* Nice tap feedback */
+      #menu .menu-item > a:active {
+        transform: scale(0.98);
+      }
+
+      /* When submenu open (your JS adds .active on .menu-item) */
+      #menu .menu-item.active > a {
+        background: #fff1e6;
+        color: #ff7a18;
+      }
+
+      /* Dropdown becomes a pop-up ABOVE the bottom nav */
+      #menu .dropdown {
+        display: none;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 58px;                  /* lifts above nav bar */
+        min-width: 190px;
+        background: white;
+        border: 1px solid #eee;
+        border-radius: 14px;
+        padding: 8px;
+        box-shadow: 0 14px 30px rgba(0,0,0,0.12);
+        z-index: 10001;
+      }
+
+      /* Show dropdown when active */
+      #menu .menu-item.active .dropdown {
+        display: block;
+      }
+
+      #menu .dropdown li {
+        list-style: none;
+      }
+
+      #menu .dropdown a {
+        display: block;
+        padding: 10px 10px;
+        border-radius: 10px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #222;
+        text-decoration: none;
+        font-family: "Kodchasan", Arial;
+      }
+
+      #menu .dropdown a:hover {
+        background: #fff6ef;
+      }
+
+      /* Make your “No orders yet” card look nicer on mobile */
+      .order-box {
+        margin: 18px 12px;
+        padding: 24px 16px;
+        border-radius: 20px;
+        box-shadow: 0 10px 26px rgba(0,0,0,0.08);
+      }
+
+      .order-box h2 {
+        font-size: 20px;
+        margin-bottom: 10px;
+        text-align: center;
+      }
+
+      .order-box p {
+        font-size: 13px;
+        margin-bottom: 14px;
+        text-align: center;
+      }
+
+      .teaser img {
+        width: 92px;
+        border-radius: 14px;
+      }
+
+      .order-btn {
+        width: 100%;
+        max-width: 320px;
+        padding: 12px 16px;
+        font-size: 14px;
+        text-align: center;
+      }
+    }
+
+
+
     </style>
   </head>
   <body>
@@ -611,7 +631,9 @@
       const db = getDatabase(app);
 
       // ✅ Declare DOM + userId BEFORE using them
-      const userId = "user123"; // replace with auth.currentUser.uid later
+      // const userId = "user123"; // replace with auth.currentUser.uid later
+      const userId = sessionStorage.getItem("currentUserId") || "guest";
+
       const orderList = document.getElementById("orderList");
 
       const firstTimeBox = document.querySelector(".order-box.first-time");
@@ -736,6 +758,7 @@
         });
       });
 
+      //closes submenu when user click other main menu option
       document.addEventListener("click", () => {
         document
           .querySelectorAll(".menu-item")
