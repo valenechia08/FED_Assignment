@@ -1,15 +1,22 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ShiokLah Dashboard</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ShiokLah Dashboard</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Kodchasan:wght@400;600;700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&family=Open+Sans:wght@300..800&family=Roboto:wght@100..900&display=swap" rel="stylesheet"/>
-  <link rel="icon" type="image/jpeg" href="/images/ShiokLah(cropped).jpeg">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kodchasan:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&family=Open+Sans:wght@300..800&family=Roboto:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/jpeg" href="/images/ShiokLah(cropped).jpeg" />
 
   <style>
+    
     * {
       box-sizing: border-box;
       margin: 0;
@@ -21,474 +28,506 @@
       --dark-text: #111;
     }
 
-    .navrectangle {
-      background: white;
-      margin-top: 25px;
-      position: relative;
-      z-index: 1000;
-      font-family: "Kodchasan", Arial;
-
-    }
-
-    /* NAV LAYOUT */
-    .top-nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 70px;
-    }
-    /* Left / Center / Right locking */
-    .nav-left,
-    .nav-right {
-      flex: 0 0 auto;
-    }
-
-    .nav-center {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-    }
-
-
-    .container {
-      width: 90%;
-      max-width: 1200px;
-      margin: auto;
-    }
-
-    .Logo {
-      display: flex;
-      align-items: center;
-      height: 70px;
-      overflow: hidden;
-    }
-
-    .Logo img {
-      height: 100%;
-      width: auto;
-      transform: scale(1.2);
-      transform-origin: left center;
-    }
-
-    .menu {
-      display: flex;
-      align-items: center;
-      gap: 65px;
-      list-style: none;
-    }
-
-    .menu a {
-      text-decoration: none;
-      font-weight: 800;
-      font-size: 15px;
-      color: #111;
-    }
-
-    .menu a:hover {
-      color: var(--primary-orange);
-    }
-
-    .reserve-btn {
-      background: var(--primary-orange);
-      color: white;
-      border: 3px solid var(--primary-orange);
-      padding: 14px 30px;
-      border-radius: 22px;
-      font-weight: 800;
-      font-size: 15px;
-      cursor: pointer;
-      transition: all 0.25s ease;
-    }
-
-    .reserve-btn:hover {
-      background: white;
-      color: var(--primary-orange);
-    }
-
-    .menu-item {
-      position: relative;
-    }
-
-    .dropdown {
-      position: absolute;
-      top: 130%;
-      left: 0;
-      background: var(--primary-yellow);
-      border-radius: 14px;
-      min-width: 160px;
-      padding: 10px 0;
-      box-shadow: 0 12px 30px rgba(0,0,0,0.2);
-      display: none;
-    }
-
-    .dropdown li {
-      list-style: none;
-    }
-
-    .dropdown a {
-      display: block;
-      padding: 10px 18px;
-      font-weight: 700;
-      color: #111;
-    }
-
-    .dropdown a:hover {
-      background: rgba(0,0,0,0.08);
-    }
-
-    .menu-item.active .dropdown {
-      display: block;
-    }
-
-    .Nav-line {
-      border: none;
-      height: 1px;
-      background: #e0e0e0;
-      margin-top: 25px;
-      margin-bottom: 18px;
-    }
-
-    /* Hamburger */
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      gap: 4px;
-      cursor: pointer;
-      margin-left: 15px
-    }
-
-    .hamburger div {
-      width: 25px;
-      height: 3px;
-      background: #111;
-      border-radius: 2px;
-    }
-
-    /* MOBILE */
-    @media (max-width: 768px) {
-      .menu {
-        display: none;
-        position: absolute;
-        top: 90px;
-        right: 20px;
-        flex-direction: column;
+      .navrectangle {
         background: white;
-        padding: 20px;
+        margin-top: 25px;
+        position: relative;
+        z-index: 1000;
+        font-family: "Kodchasan", Arial;
+      }
+
+      /* NAV LAYOUT */
+      .top-nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 70px;
+      }
+      /* Left / Center / Right locking */
+      .nav-left,
+      .nav-right {
+        flex: 0 0 auto;
+      }
+
+      .nav-center {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+      }
+
+      .container {
+        width: 90%;
+        max-width: 1200px;
+        margin: auto;
+      }
+
+      .Logo {
+        display: flex;
+        align-items: center;
+        height: 70px;
+        overflow: hidden;
+      }
+
+      .Logo img {
+        height: 100%;
+        width: auto;
+        transform: scale(1.2);
+        transform-origin: left center;
+      }
+
+      .menu {
+        display: flex;
+        align-items: center;
+        gap: 65px;
+        list-style: none;
+      }
+
+      .menu a {
+        text-decoration: none;
+        font-weight: 800;
+        font-size: 15px;
+        color: #111;
+      }
+
+      .menu a:hover {
+        color: var(--primary-orange);
+      }
+
+      .reserve-btn {
+        background: var(--primary-orange);
+        color: white;
+        border: 3px solid var(--primary-orange);
+        padding: 14px 30px;
+        border-radius: 22px;
+        font-weight: 800;
+        font-size: 15px;
+        cursor: pointer;
+        transition: all 0.25s ease;
+      }
+
+      .reserve-btn:hover {
+        background: white;
+        color: var(--primary-orange);
+      }
+
+      .menu-item {
+        position: relative;
+      }
+
+      .dropdown {
+        position: absolute;
+        top: 130%;
+        left: 0;
+        background: var(--primary-yellow);
         border-radius: 14px;
-        box-shadow: 0 8px 30px rgba(0,0,0,0.15);
-        gap: 20px;
+        min-width: 160px;
+        padding: 10px 0;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+        display: none;
       }
 
-      .menu.show {
-        display: flex;
+      .dropdown li {
+        list-style: none;
       }
 
+      .dropdown a {
+        display: block;
+        padding: 10px 18px;
+        font-weight: 700;
+        color: #111;
+      }
+
+      .dropdown a:hover {
+        background: rgba(0, 0, 0, 0.08);
+      }
+
+      .menu-item.active .dropdown {
+        display: block;
+      }
+
+      .Nav-line {
+        border: none;
+        height: 1px;
+        background: #e0e0e0;
+        margin-top: 25px;
+        margin-bottom: 18px;
+      }
+
+      /* Hamburger */
       .hamburger {
-        display: flex;
+        display: none;
+        flex-direction: column;
+        gap: 4px;
+        cursor: pointer;
+        margin-left: 15px;
       }
-    }
-    /* nav ends here */
 
-    /* content */
-    .order-box {
-      max-width: 600px;
-      margin: 40px auto;
-      padding: 80px 60px;
-      background: #fff8f0;
-      border: 2px dashed #ff8c3a;
-      border-radius: 18px;
-      text-align: center;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-      transition: all 0.3s ease;
-    }
+      .hamburger div {
+        width: 25px;
+        height: 3px;
+        background: #111;
+        border-radius: 2px;
+      }
 
-    .order-box h2 {
-      font-size: 28px;
-      font-weight: 700;
-      color: #ff7a18;
-      margin-bottom: 12px;
-      font-family: "Montserrat", sans-serif;
-    }
+      /* MOBILE */
+      @media (max-width: 768px) {
+        .menu {
+          display: none;
+          position: absolute;
+          top: 90px;
+          right: 20px;
+          flex-direction: column;
+          background: white;
+          padding: 20px;
+          border-radius: 14px;
+          box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+          gap: 20px;
+        }
 
-    .order-box p {
-      font-size: 16px;
-      color: #444;
-      margin-bottom: 24px;
-      font-family: "Kodchasan", Arial;
-    }
+        .menu.show {
+          display: flex;
+        }
 
-    .order-box a {
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 15px;
-      color: white;
-    }
-    .order-btn {
-      display: inline-block;
-      margin: 20px auto 0;
-      background: #ff8c3a;
-      color: #fff;
-      text-decoration: none;
-      padding: 12px 40px;
-      font-size: 15px;
-      font-weight: 700;
-      border-radius: 999px;
-      transition: background 0.3s ease, transform 0.2s ease; /* enables animation */
-    }
+        .hamburger {
+          display: flex;
+        }
+      }
+      /* nav ends here */
 
-    .order-btn:hover {
-      background: #e6762f;
-      transform: scale(1.05); /* hover animation */
-    }
+      /* content */
+      .order-box {
+        max-width: 600px;
+        margin: 40px auto;
+        padding: 80px 60px;
+        background: #fff8f0;
+        border: 2px dashed #ff8c3a;
+        border-radius: 18px;
+        text-align: center;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease;
+      }
 
+      .order-box h2 {
+        font-size: 28px;
+        font-weight: 700;
+        color: #ff7a18;
+        margin-bottom: 12px;
+        font-family: "Montserrat", sans-serif;
+      }
 
-    .teaser {
-      margin: 20px 0;
-      text-align: center;
-    }
+      .order-box p {
+        font-size: 16px;
+        color: #444;
+        margin-bottom: 24px;
+        font-family: "Kodchasan", Arial;
+      }
 
-    .teaser img {
-      width: 120px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease;
-    }
+      .order-box a {
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 15px;
+        color: white;
+      }
+      .order-btn {
+        display: inline-block;
+        margin: 20px auto 0;
+        background: #ff8c3a;
+        color: #fff;
+        text-decoration: none;
+        padding: 12px 40px;
+        font-size: 15px;
+        font-weight: 700;
+        border-radius: 999px;
+        transition:
+          background 0.3s ease,
+          transform 0.2s ease; /* enables animation */
+      }
 
-    .teaser img:hover {
-      transform: scale(1.05);
-    }
+      .order-btn:hover {
+        background: #e6762f;
+        transform: scale(1.05); /* hover animation */
+      }
 
-    .teaser p {
-      font-size: 14px;
-      color: #555;
-      margin-top: 8px;
-      font-style: italic;
-    }
+      .teaser {
+        margin: 20px 0;
+        text-align: center;
+      }
 
-    .filter-box {
-      margin: 15px auto;
-      max-width: 400px;
-      text-align: center;
-    }
+      .teaser img {
+        width: 120px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+      }
 
-    .filter-box input {
-      width: 100%;
-      padding: 10px 14px;
-      border: 2px solid #ff8c3a;
-      border-radius: 8px;
-      font-size: 14px;
-      outline: none;
-      transition: border-color 0.3s ease;
-    }
+      .teaser img:hover {
+        transform: scale(1.05);
+      }
 
-    .filter-box input:focus {
-      border-color: #e6762f;
-    }
-    .order-list {
-      list-style: none;
-      padding: 0;
-      margin: 20px auto;
-      max-width: 500px;
-    }
+      .teaser p {
+        font-size: 14px;
+        color: #555;
+        margin-top: 8px;
+        font-style: italic;
+      }
 
-    .order-list li {
-      margin-bottom: 12px;
-    }
+      .filter-box {
+        margin: 15px auto;
+        max-width: 400px;
+        text-align: center;
+      }
 
-    .order-card {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: #fff;
-      border: 1px solid #eee;
-      border-radius: 12px;
-      padding: 12px 18px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
+      .filter-box input {
+        width: 100%;
+        padding: 10px 14px;
+        border: 2px solid #ff8c3a;
+        border-radius: 8px;
+        font-size: 14px;
+        outline: none;
+        transition: border-color 0.3s ease;
+      }
 
-    .order-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 6px 14px rgba(0,0,0,0.1);
-    }
+      .filter-box input:focus {
+        border-color: #e6762f;
+      }
+      .order-list {
+        list-style: none;
+        padding: 0;
+        margin: 20px auto;
+        max-width: 500px;
+      }
 
-    .order-card .dish {
-      font-weight: 600;
-      font-size: 15px;
-      color: #333;
-    }
+      .order-list li {
+        margin-bottom: 12px;
+      }
 
-    .order-card .date {
-      font-size: 13px;
-      color: #777;
-      font-style: italic;
-    }
-    
-    .menu-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      justify-content: center;
-    }
+      .order-card {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #fff;
+        border: 1px solid #eee;
+        border-radius: 12px;
+        padding: 12px 18px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease;
+      }
 
-    .menu-card {
-      width: 180px; /* fixed width */
-      border: 1px solid #eee;
-      border-radius: 12px;
-      padding: 10px;
-      text-align: center;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      transition: transform 0.2s ease;
-    }
+      .order-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+      }
 
-    .menu-card img {
-      width: 100%;      /* scales image to card width */
-      height: 120px;    /* fixed height */
-      object-fit: cover; /* crop and fill nicely */
-      border-radius: 8px;
-    }
+      .order-card .dish {
+        font-weight: 600;
+        font-size: 15px;
+        color: #333;
+      }
 
-    .menu-card .name {
-      margin-top: 8px;
-      font-weight: 600;
-    }
+      .order-card .date {
+        font-size: 13px;
+        color: #777;
+        font-style: italic;
+      }
 
-    .menu-card .price {
-      margin-top: 4px;
-      color: var(--primary-orange);
-      font-weight: 700;
-    }
+      .menu-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+      }
 
+      .menu-card {
+        width: 180px; /* fixed width */
+        border: 1px solid #eee;
+        border-radius: 12px;
+        padding: 10px;
+        text-align: center;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s ease;
+      }
 
-    /* -------------------- MOBILE RESPONSIVE -------------------- */
-    .hamburger { display:none; flex-direction:column; gap:4px; cursor:pointer; }
-    .hamburger div { width:25px; height:3px; background:#111; border-radius:2px; }
+      .menu-card img {
+        width: 100%; /* scales image to card width */
+        height: 120px; /* fixed height */
+        object-fit: cover; /* crop and fill nicely */
+        border-radius: 8px;
+      }
 
+      .menu-card .name {
+        margin-top: 8px;
+        font-weight: 600;
+      }
 
+      .menu-card .price {
+        margin-top: 4px;
+        color: var(--primary-orange);
+        font-weight: 700;
+      }
 
-  /* Extra small devices (phones < 576px) */
-  @media(max-width:576px){
-      .order-box { margin:20px 10px; padding:25px 15px; }
-      .order-box h2 { font-size:20px; }
-      .order-box p { font-size:13px; }
-      .order-btn { padding:10px 20px; font-size:13px; }
-      .teaser img { width:80px; }
-      .teaser p { font-size:12px; }
-      .order-list li {font-size: 13px;padding: 8px;}
-      .hamburger { display:flex; }
-    }
+      /* -------------------- MOBILE RESPONSIVE -------------------- */
+      .hamburger {
+        display: none;
+        flex-direction: column;
+        gap: 4px;
+        cursor: pointer;
+      }
+      .hamburger div {
+        width: 25px;
+        height: 3px;
+        background: #111;
+        border-radius: 2px;
+      }
 
-  </style>
-</head>
+      /* Extra small devices (phones < 576px) */
+      @media (max-width: 576px) {
+        .order-box {
+          margin: 20px 10px;
+          padding: 25px 15px;
+        }
+        .order-box h2 {
+          font-size: 20px;
+        }
+        .order-box p {
+          font-size: 13px;
+        }
+        .order-btn {
+          padding: 10px 20px;
+          font-size: 13px;
+        }
+        .teaser img {
+          width: 80px;
+        }
+        .teaser p {
+          font-size: 12px;
+        }
+        .order-list li {
+          font-size: 13px;
+          padding: 8px;
+        }
+        .hamburger {
+          display: flex;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navrectangle">
+      <div class="container">
+        <div class="top-nav">
+          <div class="nav-left">
+            <div class="Logo">
+              <img src="/images/ShiokLah(cropped).jpeg" alt="Logo" />
+            </div>
+          </div>
 
-<body>
-  <nav class="navrectangle">
-    <div class="container">
-      <div class="top-nav">
+          <div class="nav-center">
+            <ul class="menu" id="menu">
+              <li class="menu-item">
+                <a href="#">Home</a>
+                <ul class="dropdown">
+                  <li><a href="FED_ASG.html">Start Order</a></li>
+                </ul>
+              </li>
 
-        <div class="nav-left">
-          <div class="Logo">
-            <img src="/images/ShiokLah(cropped).jpeg" alt="Logo" />
+              <li class="menu-item">
+                <a href="#">Order History</a>
+                <ul class="dropdown">
+                  <li><a href="OrderHistory.html">Past Orders</a></li>
+                </ul>
+              </li>
+
+              <li class="menu-item">
+                <a href="#">Profile</a>
+                <ul class="dropdown">
+                  <li><a href="UserProfile.html">Overview</a></li>
+                  <li><a href="Analytics.html">Analytics & Reporting</a></li>
+                  <li><a href="#">Customer Feedback</a></li>
+                  <li><a href="#">Regulatory & Compliance</a></li>
+                  <li><a href="#">Favourites</a></li>
+                  <li><a href="#">Rewards</a></li>
+                </ul>
+              </li>
+
+              <li class="menu-item">
+                <a href="SelectRole.html">Log Out</a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="nav-right">
+            <button class="reserve-btn">Reserve A Table</button>
+            <div class="hamburger" id="hamburger">
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
           </div>
         </div>
+      </div>
+    </nav>
+    <hr class="Nav-line" />
 
-        <div class="nav-center">
-          <ul class="menu" id="menu">
-            <li class="menu-item">
-              <a href="#">Home</a>
-              <ul class="dropdown">
-                <li><a href="FED_ASG.html">Start Order</a></li>
-              </ul>
-            </li>
+    <!-- MAIN -->
+    <main class="main-content">
+      <!-- FIRST TIME REGISTERED USER -->
+      <div class="order-box first-time">
+        <h2>🛒 No orders yet</h2>
+        <p>Place your first order to see it here.</p>
 
-            <li class="menu-item">
-              <a href="#">Order History</a>
-              <ul class="dropdown">
-                <li><a href="OrderHistory.html">Past Orders</a></li>
-              </ul>
-            </li>
-
-            <li class="menu-item">
-              <a href="#">Profile</a>
-              <ul class="dropdown">
-                <li><a href="UserProfile.html">Overview</a></li>
-                <li><a href="Analytics.html">Analytics & Reporting</a></li>
-                <li><a href="#">Customer Feedback</a></li>
-                <li><a href="#">Regulatory & Compliance</a></li>
-                <li><a href="#">Favourites</a></li>
-                <li><a href="#">Rewards</a></li>
-              </ul>
-            </li>
-
-            <li class="menu-item">
-              <a href="SelectRole.html">Log Out</a>
-            </li>
-          </ul>
+        <div class="teaser">
+          <img src="images/Malay Cuisine Picture.jpg" alt="Teaser Dish" />
+          <p>Try our bestselling Nasi Lemak today!</p>
         </div>
 
-        <div class="nav-right">
-          <button class="reserve-btn">Reserve A Table</button>
-          <div class="hamburger" id="hamburger">
-            <div></div><div></div><div></div>
-          </div>
+        <small class="tagline"
+          >Your hawker favourites are just a click away!</small
+        >
+        <br />
+        <a href="FED_ASG.html" class="order-btn">Start Ordering</a>
+      </div>
+
+      <!-- GUEST USER -->
+      <div class="order-box guest">
+        <h2>👤 Guest User</h2>
+        <p>
+          You’re browsing as a guest. Sign up or log in to start ordering and
+          track your history.
+        </p>
+
+        <div class="teaser">
+          <img src="images/Chinese Cuisine Picture.jpg" alt="Guest Teaser" />
+          <p>Join ShiokLah to unlock rewards!</p>
         </div>
 
-      </div>
-    </div>
-  </nav>
-  <hr class="Nav-line" />
-
-
-
-
-  <!-- MAIN -->
-  <main class="main-content">
-    <!-- FIRST TIME REGISTERED USER -->
-    <div class="order-box first-time">
-      <h2>🛒 No orders yet</h2>
-      <p>Place your first order to see it here.</p>
-
-      <div class="teaser">
-        <img src="images/Malay Cuisine Picture.jpg" alt="Teaser Dish" />
-        <p>Try our bestselling Nasi Lemak today!</p>
+        <small class="tagline"
+          >Create an account to enjoy hawker favourites anytime.</small
+        >
+        <br />
+        <a href="login.html" class="order-btn">Sign Up / Log In</a>
       </div>
 
-      <small class="tagline">Your hawker favourites are just a click away!</small>
-      <br/>
-      <a href="FED_ASG.html" class="order-btn">Start Ordering</a>
-    </div>
+      <!-- REGISTERED USER WITH MULTIPLE ORDERS -->
+      <div class="order-box registered">
+        <h2>📦 Your Order History</h2>
+        <p>Here are your recent orders:</p>
 
-    <!-- GUEST USER -->
-    <div class="order-box guest">
-      <h2>👤 Guest User</h2>
-      <p>You’re browsing as a guest. Sign up or log in to start ordering and track your history.</p>
+        <!-- Filter Box -->
+        <div class="filter-box">
+          <input
+            type="text"
+            id="orderFilter"
+            placeholder="Filter orders by dish or date..."
+          />
+        </div>
 
-      <div class="teaser">
-        <img src="images/Chinese Cuisine Picture.jpg" alt="Guest Teaser" />
-        <p>Join ShiokLah to unlock rewards!</p>
-      </div>
+        <div id="menuList" class="menu-container"></div>
 
-      <small class="tagline">Create an account to enjoy hawker favourites anytime.</small>
-      <br/>
-      <a href="login.html" class="order-btn">Sign Up / Log In</a>
-    </div>
-
-    <!-- REGISTERED USER WITH MULTIPLE ORDERS -->
-    <div class="order-box registered">
-      <h2>📦 Your Order History</h2>
-      <p>Here are your recent orders:</p>
-      
-      
-      <!-- Filter Box -->
-      <div class="filter-box">
-        <input type="text" id="orderFilter" placeholder="Filter orders by dish or date..." />
-      </div>
-
-      <div id="menuList" class="menu-container"></div>
-
-      <!-- Order History List -->
-      <ul id="orderList" class="order-list">
-        <!-- <li>
+        <!-- Order History List -->
+        <ul id="orderList" class="order-list">
+          <!-- <li>
           <div class="order-card">
             <span class="dish">🍲 Nasi Lemak</span>
             <span class="date">Jan 20, 2026</span>
@@ -536,215 +575,236 @@
             <span class="date">Feb 15, 2026</span>
           </div>
         </li> -->
-      </ul>
+        </ul>
 
+        <small class="tagline"
+          >Keep enjoying your favourites – we’ll save them here!</small
+        >
+        <br />
+        <a href="FED_ASG.html" class="order-btn">Order Again</a>
+      </div>
+    </main>
 
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+      import {
+        getDatabase,
+        ref,
+        onValue,
+        set,
+        push,
+      } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-      <small class="tagline">Keep enjoying your favourites – we’ll save them here!</small>
-      <br/>
-      <a href="FED_ASG.html" class="order-btn">Order Again</a>
-    </div>
-  </main>
+      // ================= Firebase config =================
+      const firebaseConfig = {
+        apiKey: "AIzaSyCoYoGP4NYJPHqA-kV_swajQ4LSQYdyWV4",
+        authDomain: "grp3fedapp.firebaseapp.com",
+        databaseURL:
+          "https://grp3fedapp-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "grp3fedapp",
+        storageBucket: "grp3fedapp.firebasestorage.app",
+        messagingSenderId: "791146838729",
+        appId: "1:791146838729:web:446baee191feeb036e2b18",
+      };
 
+      const app = initializeApp(firebaseConfig);
+      const db = getDatabase(app);
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import {
-      getDatabase,
-      ref,
-      get,
-      set,
-      push
-    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+      // ✅ Declare DOM + userId BEFORE using them
+      const userId = "user123"; // replace with auth.currentUser.uid later
+      const orderList = document.getElementById("orderList");
 
+      const firstTimeBox = document.querySelector(".order-box.first-time");
+      const guestBox = document.querySelector(".order-box.guest");
+      const registeredBox = document.querySelector(".order-box.registered");
 
-    /* ================================
-      Firebase configuration
-    =============================== */
-    const firebaseConfig = {
-      apiKey: "AIzaSyCoYoGP4NYJPHqA-kV_swajQ4LSQYdyWV4",
-      authDomain: "grp3fedapp.firebaseapp.com",
-      databaseURL: "https://grp3fedapp-default-rtdb.asia-southeast1.firebasedatabase.app",
-      projectId: "grp3fedapp",
-      storageBucket: "grp3fedapp.firebasestorage.app",
-      messagingSenderId: "791146838729",
-      appId: "1:791146838729:web:446baee191feeb036e2b18",
-    };
-
-    /* ================================
-      Initialize Firebase
-    =============================== */
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
-
-    
-    function Menu() {
-      const menuRef = ref(db, "menu");
-      set(menuRef, {
-        nasi_lemak: {
-          name: "🍲 Nasi Lemak",
-          price: 6.5,
-          category: "Malay",
-          image: "images/Malay Cuisine Picture.jpg"
-        },
-        chicken_rice: {
-          name: "🥠 Hainanese Chicken Rice",
-          price: 5.0,
-          category: "Chinese",
-          image: "images/Chinese Cuisine Picture.jpg"
-        },
-        laksa: {
-          name: "🍜 Laksa",
-          price: 6.0,
-          category: "Peranakan",
-          image: "images/White Carrot Cake Picture.jpg"
-        },
-        Satay: {
-          name: "🥟 Chicken Satay",
-          price: 2.0,
-          category: "Malay",
-          image: "images/Malay Cuisine Picture.jpg"
-        }
-      });
-    }
-
-        
-    Menu();
-
-    async function loadMenu() {
-      try {
-        const menuRef = ref(db, "menu");
-        const snapshot = await get(menuRef);
-
-        const menuList = document.getElementById("menuList");
-        menuList.innerHTML = "";
-
-        if(snapshot.exists()) {
-          const menu = snapshot.val();
-
-          Object.values(menu).forEach(item => {
-            const card = document.createElement("div");
-            card.className = "menu-card";
-
-            card.innerHTML = `
-              ${item.image ? `<img src="${item.image}" alt="${item.name}">` : ""}
-              <div class="name">${item.name}</div>
-              <div class="price">$${item.price.toFixed(2)}</div>
-            `;
-
-            menuList.appendChild(card);
-          });
-        } else {
-          menuList.innerHTML = "<p>No menu items found.</p>";
-        }
-      } catch (error) {
-        console.error("Error loading menu:", error);
+      function showOnly(box) {
+        [firstTimeBox, guestBox, registeredBox].forEach((b) => {
+          if (b) b.style.display = "none";
+        });
+        if (box) box.style.display = "block";
       }
-    }
 
-    // Load menu immediately
-    loadMenu();
+      function formatDate(d) {
+        const dt = new Date(d);
+        if (isNaN(dt.getTime())) return "";
+        return dt.toLocaleDateString(undefined, {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+        });
+      }
 
+      function orderTitle(order) {
+        if (order.dish) return order.dish;
 
-    // ================= NAVIGATION DROPDOWN =================
-    document.querySelectorAll(".menu-item").forEach((item) => {
-      const mainLink = item.querySelector("a");
-      const dropdown = item.querySelector(".dropdown");
-      if (!dropdown) return;
-
-      mainLink.addEventListener("click", e => {
-        e.preventDefault(); e.stopPropagation();
-        document.querySelectorAll(".menu-item").forEach(i => { if(i !== item) i.classList.remove("active"); });
-        item.classList.toggle("active");
-      });
-    });
-
-    document.addEventListener("click", () => {
-      document.querySelectorAll(".menu-item").forEach(item => item.classList.remove("active"));
-    });
-
-    // Hamburger toggle
-    const hamburger = document.getElementById('hamburger');
-    const menu = document.getElementById('menu');
-    hamburger.addEventListener('click', () => menu.classList.toggle('show'));
-
-    document.querySelectorAll('.menu-item > a').forEach(link => {
-      link.addEventListener('click', e => {
-        const dropdown = link.nextElementSibling;
-        if(dropdown && window.innerWidth <= 768){
-          e.preventDefault();
-          dropdown.classList.toggle('show');
+        if (Array.isArray(order.items) && order.items.length > 0) {
+          const firstName = order.items[0]?.name || "Order";
+          const more = order.items.length - 1;
+          return more > 0 ? `${firstName} + ${more} more` : firstName;
         }
+
+        return "Order";
+      }
+
+      // ✅ REALTIME LISTENER (read-only)
+      function renderOrdersRealtime(uid) {
+        const ordersRef = ref(db, `orders/${uid}`);
+
+        onValue(
+          ordersRef,
+          (snapshot) => {
+            orderList.innerHTML = "";
+
+            if (!snapshot.exists()) {
+              showOnly(firstTimeBox);
+              return;
+            }
+
+            showOnly(registeredBox);
+
+            const ordersObj = snapshot.val();
+            const ordersArray = Object.entries(ordersObj).map(([id, data]) => ({
+              id,
+              ...data,
+            }));
+
+            ordersArray.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            ordersArray.forEach((order) => {
+              const li = document.createElement("li");
+              li.innerHTML = `
+                <div class="order-card">
+                  <span class="dish">🍲 ${orderTitle(order)}</span>
+                  <span class="date">${formatDate(order.date)}</span>
+                </div>
+              `;
+              orderList.appendChild(li);
+            });
+          },
+          (error) => {
+            console.error("Realtime order listener error:", error);
+            showOnly(firstTimeBox);
+          }
+        );
+      }
+
+      renderOrdersRealtime(userId);
+
+      // ================= TEST ONLY (writes 1 order) =================
+      // Set this to true ONCE to test, then set back to false.
+      const RUN_SEED_TEST = false;
+
+      async function seedTestOrder() {
+        try {
+          const ordersRef = ref(db, `orders/${userId}`);
+          const testOrderRef = push(ordersRef);
+
+          await set(testOrderRef, {
+            stall: "Banana Leaf Nasi Lemak",
+            items: [
+              { name: "Set Meal A", qty: 1, price: 5 },
+              { name: "1 Pcs Spicy Fish Otah", qty: 2, price: 1.5 },
+            ],
+            total: 8,
+            date: new Date().toISOString(),
+          });
+
+          console.log("✅ Test order written to:", `orders/${userId}`);
+        } catch (e) {
+          console.error("❌ seedTestOrder failed:", e);
+          alert("seedTestOrder failed — check Console for error (likely permissions).");
+        }
+      }
+
+      if (RUN_SEED_TEST) seedTestOrder();
+
+
+      // ================= NAVIGATION DROPDOWN =================
+      document.querySelectorAll(".menu-item").forEach((item) => {
+        const mainLink = item.querySelector("a");
+        const dropdown = item.querySelector(".dropdown");
+        if (!dropdown) return;
+
+        mainLink.addEventListener("click", (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          document.querySelectorAll(".menu-item").forEach((i) => {
+            if (i !== item) i.classList.remove("active");
+          });
+          item.classList.toggle("active");
+        });
       });
-    });
 
-    // ================= USER TYPE DISPLAY =================
-    const userType = "registered";  // change: guest, firstTime, registered
-    const firstTimeBox = document.querySelector(".order-box.first-time");
-    const guestBox = document.querySelector(".order-box.guest");
-    const registeredBox = document.querySelector(".order-box.registered");
-    [firstTimeBox, guestBox, registeredBox].forEach(box => { if(box) box.style.display="none"; });
-
-    if(userType === "guest" && guestBox) guestBox.style.display="block";
-    else if(userType === "firstTime" && firstTimeBox) firstTimeBox.style.display="block";
-    else if(userType === "registered" && registeredBox) registeredBox.style.display="block";
-
-    // Animate visible box
-    const visibleBox = document.querySelector(".order-box[style*='block']");
-    if(visibleBox){
-      visibleBox.style.opacity = 0;
-      setTimeout(() => {
-        visibleBox.style.transition = "opacity 0.5s ease";
-        visibleBox.style.opacity = 1;
-      }, 50);
-    }
-
-    // ================= FILTER ORDERS =================
-    const filterInput = document.getElementById("orderFilter");
-    const orderList = document.getElementById("orderList");
-
-    filterInput.addEventListener("keyup", function() {
-      const filterValue = filterInput.value.toLowerCase();
-      Array.from(orderList.children).forEach(li => {
-        li.style.display = li.textContent.toLowerCase().includes(filterValue) ? "" : "none";
+      document.addEventListener("click", () => {
+        document
+          .querySelectorAll(".menu-item")
+          .forEach((item) => item.classList.remove("active"));
       });
-    });
 
-    // ================= FIREBASE ORDERS (Realtime DB) =================
-    const userId = "user123"; // replace with auth.currentUser.uid after login
+      // Hamburger toggle
+      const hamburger = document.getElementById("hamburger");
+      const menu = document.getElementById("menu");
+      hamburger.addEventListener("click", () => menu.classList.toggle("show"));
 
-    async function loadOrders(userId){
-      try {
-        const ordersRef = ref(db, `orders/${userId}`); // path: /orders/user123
-        const snapshot = await get(ordersRef);
-        orderList.innerHTML = "";
+      document.querySelectorAll(".menu-item > a").forEach((link) => {
+        link.addEventListener("click", (e) => {
+          const dropdown = link.nextElementSibling;
+          if (dropdown && window.innerWidth <= 768) {
+            e.preventDefault();
+            dropdown.classList.toggle("show");
+          }
+        });
+      });
 
-        if(snapshot.exists()){
-          const orders = snapshot.val(); // orders is an object
-          // Convert object to array sorted by date descending
-          const ordersArray = Object.values(orders).sort((a, b) => new Date(b.date) - new Date(a.date));
+      
+      // ================= FILTER ORDERS =================
+      const filterInput = document.getElementById("orderFilter");
+      const orderLists = document.getElementById("orderList");
 
-          ordersArray.forEach(order => {
-            const li = document.createElement("li");
-            li.innerHTML = `
+      filterInput.addEventListener("keyup", function () {
+        const filterValue = filterInput.value.toLowerCase();
+        Array.from(orderLists.children).forEach((li) => {
+          li.style.display = li.textContent.toLowerCase().includes(filterValue)
+            ? ""
+            : "none";
+        });
+      });
+
+      // ================= FIREBASE ORDERS (Realtime DB) =================
+      //const userId = "user123"; // replace with auth.currentUser.uid after login
+
+      async function loadOrders(userId) {
+        try {
+          const ordersRef = ref(db, `orders/${userId}`); // path: /orders/user123
+          const snapshot = await get(ordersRef);
+          orderList.innerHTML = "";
+
+          if (snapshot.exists()) {
+            const orders = snapshot.val(); // orders is an object
+            // Convert object to array sorted by date descending
+            const ordersArray = Object.values(orders).sort(
+              (a, b) => new Date(b.date) - new Date(a.date),
+            );
+
+            ordersArray.forEach((order) => {
+              const li = document.createElement("li");
+              li.innerHTML = `
               <div class="order-card">
                 <span class="dish">${order.dish}</span>
                 <span class="date">${new Date(order.date).toLocaleDateString()}</span>
               </div>`;
-            orderList.appendChild(li);
-          });
-        } else {
-          console.log("No orders found for user:", userId);
+              orderList.appendChild(li);
+            });
+          } else {
+            console.log("No orders found for user:", userId);
+          }
+        } catch (error) {
+          console.error("Error loading orders:", error);
         }
-      } catch (error) {
-        console.error("Error loading orders:", error);
       }
-    }
 
-    loadOrders(userId);
-
-
-</script>
-
-</body>
+      loadOrders(userId);
+    </script>
+  </body>
 </html>

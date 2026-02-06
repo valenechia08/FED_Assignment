@@ -435,11 +435,12 @@ function createStallObject(stall_name, cuisine, rating, image) {
   };
 }
 
-function createMenuItemObject(item_name, price, available = true) {
+function createMenuItemObject(item_name, price, available = true,image) {
   return {
     [item_name]: {
       price,
       available,
+      image,
     },
   };
 }
@@ -449,8 +450,8 @@ async function uploadStall(stall_name, cuisine, rating, image) {
   await update(ref(db, "stalls"), stallObj);
 }
 
-async function addMenuItem(stall_name, item_name, price, available = true) {
-  const itemObj = createMenuItemObject(item_name, price, available);
+async function addMenuItem(stall_name, item_name, price, available = true,image) {
+  const itemObj = createMenuItemObject(item_name, price, available,image);
   await update(ref(db, `stalls/${stall_name}/menuItems`), itemObj);
 }
 
@@ -465,10 +466,49 @@ async function addMenuItem(stall_name, item_name, price, available = true) {
   );
   await addMenuItem(
     "Banana Leaf Nasi Lemak",
-    "5 pcs spicy fish otah",
+    "5 pcs Spicy Fish Otah",
     7.5,
     true,
+    "images/Otah Picture.webp",
   );
+  await addMenuItem(
+    "Banana Leaf Nasi Lemak",
+    "1 Pcs Spicy Fish Otah",
+    1.5,
+    true,
+    "images/Otah Picture.webp",
+  );
+
+  await addMenuItem(
+    "Banana Leaf Nasi Lemak",
+    "Set Meal A",
+    5,
+    true,
+    "images/Set Meal A Picture.jpg",
+  );
+
+  await addMenuItem(
+    "Banana Leaf Nasi Lemak",
+    "Set Meal B",
+    4,
+    true,
+    "images/Set Meal B Picture.jpg",
+  );
+  await addMenuItem(
+    "Banana Leaf Nasi Lemak",
+    "Set Meal C",
+    4,
+    true,
+    "images/Set Meal C Picture.jpg",
+  );
+  await addMenuItem(
+    "Banana Leaf Nasi Lemak",
+    "Set Meal D",
+    3.5,
+    true,
+    "images/Set Meal D Picture.jpg",
+  );
+
 
   await uploadStall(
     "Boon Lay Lu Wei",
