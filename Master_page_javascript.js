@@ -435,7 +435,7 @@ function createStallObject(stall_name, cuisine, rating, image) {
   };
 }
 
-function createMenuItemObject(item_name, price, available = true,image) {
+function createMenuItemObject(item_name, price, available = true, image) {
   return {
     [item_name]: {
       price,
@@ -450,8 +450,14 @@ async function uploadStall(stall_name, cuisine, rating, image) {
   await update(ref(db, "stalls"), stallObj);
 }
 
-async function addMenuItem(stall_name, item_name, price, available = true,image) {
-  const itemObj = createMenuItemObject(item_name, price, available,image);
+async function addMenuItem(
+  stall_name,
+  item_name,
+  price,
+  available = true,
+  image,
+) {
+  const itemObj = createMenuItemObject(item_name, price, available, image);
   await update(ref(db, `stalls/${stall_name}/menuItems`), itemObj);
 }
 
@@ -509,7 +515,6 @@ async function addMenuItem(stall_name, item_name, price, available = true,image)
     "images/Set Meal D Picture.jpg",
   );
 
-
   await uploadStall(
     "Boon Lay Lu Wei",
     "Chinese",
@@ -535,19 +540,6 @@ async function addMenuItem(stall_name, item_name, price, available = true,image)
     "images/Big Daddy's Chicken & Noodle Picture.webp",
   );
 })();
-
-async function loadMenu(stall_name) {
-  const snap = await get(ref(db, `stalls/${stall_name}/menuItems`));
-
-  if (!snap.exists()) {
-    console.log("No menu items");
-    document.querySelector("#menuRoot").innerHTML = "<p>No menu items.</p>";
-    return;
-  }
-
-  const menuItems = snap.val();
-  renderMenu(menuItems, stall_name);
-}
 
 function renderMenu(menuItems, stall_name) {
   const root = document.querySelector("#menuRoot");
@@ -606,6 +598,19 @@ function renderMenu(menuItems, stall_name) {
     grid.appendChild(card);
   }
 }
+async function loadMenu(stall_name) {
+  const snap = await get(ref(db, `stalls/${stall_name}/menuItems`));
+
+  if (!snap.exists()) {
+    console.log("No menu items");
+    document.querySelector("#menuRoot").innerHTML = "<p>No menu items.</p>";
+    return;
+  }
+
+  const menuItems = snap.val();
+  console.log("you have menu items!");
+  renderMenu(menuItems, stall_name);
+}
 loadMenu("Banana Leaf Nasi Lemak");
 
 async function renderStalls() {
@@ -647,8 +652,15 @@ async function renderStalls() {
     // click handler (optional)
     card.onclick = () => {
       console.log("Selected stall:", stall_name);
-      // loadMenu(stall_name);
+      if (stall_name === "Banana Leaf Nasi Lemak") {
+        window.location.href = "BananaLeafNasiLemak.html";
+        return;
+      }
+
+      // fallback: if no page exists, at least load menu on same page (optional)
+      loadMenu(stall_name);
     };
+    // ===== Stall Click Navigation =====
 
     grid.appendChild(card);
   }
