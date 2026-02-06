@@ -433,6 +433,7 @@ function createMenuItemObject(item_name, price, available = true) {
   };
 }
 
+
 async function uploadStall(stall_name, cuisine, rating, image) {
   const stallObj = createStallObject(stall_name, cuisine, rating, image);
   await update(ref(db, "stalls"), stallObj);

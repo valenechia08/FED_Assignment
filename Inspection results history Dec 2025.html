@@ -17,6 +17,15 @@
         font-family: system-ui, -apple-system, sans-serif;
       }
 
+      :root {
+        --table-columns: 90px 1.2fr 1.4fr 100px;
+      }
+
+      @media (max-width: 700px) {
+        :root {
+          --table-columns: 70px 1fr 1fr 70px;
+        }
+      }
       body {
         margin: 0;
         background: #fff;
@@ -103,18 +112,27 @@
         background: #5cb85c;
       }
 
+      .grade-c {
+        background: #f0ad4e;
+      }
       /* Responsive */
       @media (max-width: 700px) {
         .table-header,
         .stall-card {
-          grid-template-columns: 70px 1fr 1fr 70px;
+          display: grid;
+          grid-template-columns: var(--table-columns);
+          gap: 1rem;
         }
 
-        .stall-card img {
-          width: 70px;
-          height: 70px;
+        .table-header {
+          font-weight: 600;
+          padding: 0.5rem 0;
         }
-      }
+
+        .stall-card {
+          align-items: center;
+        }
+      }   
 
 
     </style> 
@@ -196,7 +214,7 @@
 
     <section class="stall-list">
       <!-- Stall item -->
-      <article class="stall-card">
+      <!-- <article class="stall-card">
         <img src="images/Banana Leaf Nasi Lemak Picture.jpg" alt="Banana Leaf Nasi Lemak">
         <div class="stall-name">Banana Leaf<br>Nasi Lemak</div>
         <div class="ratings">
@@ -254,7 +272,110 @@
           <strong>Total - 83.3%</strong>
         </div>
         <div class="grade grade-b">B</div>
-      </article>
+      </article> -->
+
     </section>
+
+    <script>
+    const stallsData = [
+      {
+        name: "Banana Leaf Nasi Lemak",
+        image: "images/Banana Leaf Nasi Lemak Picture.jpg",
+        ratings: {
+          cleanliness,
+          handling,
+          efficiency,
+        },
+      },
+      {
+        name: "Boon Lay Fried Carrot Cake & Kway Teow Mee",
+        image: "images/Boon Lay Fried Carrot Cake & Kway Teow Mee Picture.jpg",
+        ratings: {
+          cleanliness: 86,
+          handling: 83,
+          efficiency: 90,
+        },
+      },
+      {
+        name: "Boon Lay Lu Wei",
+        image: "images/Boon Lay Lu Wei Picture.jpg",
+        ratings: {
+          cleanliness: 81,
+          handling: 84,
+          efficiency: 84,
+        },
+      },
+      {
+        name: "I. Mohamed Ismail Food Stall",
+        image: "images/I.Mohamed Ismail Food Stall Picture.jpg",
+        ratings: {
+          cleanliness: 82,
+          handling: 78,
+          efficiency: 74,
+        },
+      },
+      {
+        name: "Big Daddy's Chicken & Noodle Stall",
+        image: "images/Big Daddy's Chicken & Noodle Picture.webp",
+        ratings: {
+          cleanliness: 89,
+          handling: 84,
+          efficiency: 77,
+        },
+      },
+    ];
+
+    function calculateAverage({ cleanliness, handling, efficiency }) {
+      return ((cleanliness + handling + efficiency) / 3).toFixed(1);
+    }
+
+        function getHygieneGrade(avg) {
+      if (avg >= 85) return "A";
+      if (avg >= 75) return "B";
+      if (avg >= 65) return "C";
+      return "D";
+    }
+
+        function getGradeClass(grade) {
+      return `grade-${grade.toLowerCase()}`;
+    }
+
+    function renderInspectionList(stalls) {
+      const list = document.querySelector(".stall-list");
+      list.innerHTML = "";
+
+      stalls.forEach((stall) => {
+        const avg = calculateAverage(stall.ratings);
+        const grade = getHygieneGrade(avg);
+
+        const card = document.createElement("article");
+        card.className = "stall-card";
+
+        card.innerHTML = `
+          <img src="${stall.image}" alt="${stall.name}">
+          
+          <div class="stall-name">
+            ${stall.name}
+          </div>
+
+          <div class="ratings">
+            Cleanliness - ${stall.ratings.cleanliness}%<br>
+            Handling - ${stall.ratings.handling}%<br>
+            Efficiency - ${stall.ratings.efficiency}%<br>
+            <strong>Total - ${avg}%</strong>
+          </div>
+
+          <div class="grade ${getGradeClass(grade)}">
+            ${grade}
+          </div>
+        `;
+
+        list.appendChild(card);
+      });
+    }
+
+    renderInspectionList(stallsData);
+    
+    </script>
   </main>
 </main>
