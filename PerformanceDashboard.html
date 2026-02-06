@@ -15,123 +15,186 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="Vendor.css" />
-    <style>.stats-cards {
-      display: flex;
-      gap: 20px;
-      margin-bottom: 30px;
-    }
-    .card {
-      background-color: #fff;
-      flex: 1;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-    }
-    .card h2 {
-      font-size: 30px;
-      margin-bottom: 10px;
-    }
-    .card p {
-      font-size: 15px;
-      font-weight: 600;
-    }
-    .card .change {
-      font-size: 18px;
-      margin-top: 12px;
-      font-weight:500;
-    }
-    .card .details{
+    <style>
+            :root {
+        --bg: #f5f7fb;
+        --card: #ffffff;
+        --stroke: #e9eef6;
+        --shadow: 0 10px 30px rgba(17, 24, 39, 0.06);
+        --radius: 16px;
+        --text: #0f172a;
+        --muted: #64748b;
+      }
+      .dash-wrap {
+        width: 90%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 22px 0 40px;
+      }
+
+      .dash-wrap .kpi-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 14px;
+        margin-bottom: 18px;
+      }
+
+      .dash-wrap .kpi-card {
+        background: var(--card);
+        border: 1px solid var(--stroke);
+        border-radius: 14px;
+        box-shadow: var(--shadow);
+        padding: 14px 14px;
         display: flex;
-        gap:20px;
-    }
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        min-width: 0;
+      }
 
+      .dash-wrap .kpi-left { min-width: 0; }
 
-    .green { color: green; }
-    .red { color: red; }
+      .dash-wrap .kpi-title {
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--muted);
+        margin-bottom: 6px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
 
-    /* Charts section */
-    .charts {
-      display: flex;
-      gap: 20px;
-      margin-bottom: 30px;
-    }
-    .chart-card {
-      background-color: #fff;
-      flex: 1;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-    .chart-card h3 {
-      margin-bottom: 20px;
-      font-size: 18px;
-    }
+      .dash-wrap .kpi-value {
+        font-size: 22px;
+        font-weight: 800;
+        letter-spacing: -0.2px;
+        line-height: 1.1;
+      }
 
-    /* Placeholder charts */
-    .donut, .bar {
-      width: 100%;
-      height: 250px;
-      background-color: #e2e8f0;
-      border-radius: 10px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: #64748b;
-      font-weight: 600;
-    }
+      .dash-wrap .kpi-sub {
+        margin-top: 4px;
+        font-size: 12px;
+        color: var(--muted);
+        font-weight: 600;
+      }
 
-    /* Lead totals chart */
-    .totals-chart {
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      margin-bottom: 30px;
-    }
+      .dash-wrap .kpi-badge {
+        flex: 0 0 auto;
+        padding: 8px 10px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 800;
+        border: 1px solid var(--stroke);
+        background: #f8fafc;
+        color: #0f172a;
+        white-space: nowrap;
+      }
 
-    .chart-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-}
+      .dash-wrap .kpi-badge.up {
+        background: rgba(34, 197, 94, 0.12);
+        border-color: rgba(34, 197, 94, 0.25);
+        color: #166534;
+      }
 
-.chart-actions {
-  display: flex;
-  gap: 8px;
-}
+      .dash-wrap .kpi-badge.down {
+        background: rgba(239, 68, 68, 0.12);
+        border-color: rgba(239, 68, 68, 0.25);
+        color: #7f1d1d;
+      }
 
-.icon-btn {
-  border: none;
-  background: #f1f5f9;
-  border-radius: 6px;
-  padding: 6px 8px;
-  cursor: pointer;
-  font-size: 14px;
-}
+      .dash-wrap .grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+        align-items: stretch;
+      }
 
-.icon-btn:hover {
-  background: #e2e8f0;
-}
+      .dash-wrap .full-width { grid-column: 1 / -1; }
 
-/* Expand mode */
-.chart-card.expanded,
-.totals-chart.expanded {
-  position: fixed;
-  inset: 50% auto auto 50%;
-  transform: translate(-50%, -50%);
-  width: 90vw;
-  height: 85vh;
-  z-index: 1000;
-  background: #fff;
-  padding: 30px;
-}
+      .dash-wrap section {
+        background: var(--card);
+        border: 1px solid var(--stroke);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 18px 18px 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        min-height: 0;
+      }
 
-.chart-card.expanded canvas,
-.totals-chart.expanded canvas {
-  height: 100% !important;
-}
+      .dash-wrap section h2 { margin: 0; font-size: 18px; letter-spacing: -0.2px; }
 
+      .dash-wrap .card-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .dash-wrap .card-tools { display: flex; align-items: center; gap: 10px; flex-wrap: wrap;}
+
+      .dash-wrap label { font-weight: 700; color: var(--muted); font-size: 13px; }
+
+      .dash-wrap select {
+        height: 34px;
+        padding: 0 12px;
+        border-radius: 10px;
+        border: 1px solid var(--stroke);
+        background: #fff;
+        font-weight: 600;
+        color: var(--text);
+        outline: none;
+      }
+
+      .dash-wrap select:focus {
+        border-color: rgba(255, 140, 58, 0.45);
+        box-shadow: 0 0 0 4px rgba(255, 140, 58, 0.12);
+      }
+
+      .dash-wrap .card-divider { height: 1px; width: 100%; background: var(--stroke); }
+
+      .dash-wrap .insight {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        flex-wrap: wrap;
+        font-size: 12px;
+        color: var(--muted);
+        font-weight: 700;
+      }
+      .dash-wrap .insight strong { color: var(--text); }
+
+      .dash-wrap .chart-box {
+        position: relative;
+        width: 100%;
+        height: 300px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .dash-wrap .chart-box--large { height: 380px; }
+
+      .dash-wrap .chart-box--donut { display: flex; justify-content: center; align-items: center; }
+      .dash-wrap .donut-wrapper { height: 100%; aspect-ratio: 1 / 1; max-width: 320px; }
+
+      .dash-wrap .chart-box--donut canvas { width: 100%; height: 100%; }
+      .dash-wrap .chart-box canvas { width: 100%; height: 100%; }
+
+      @media (max-width: 980px) {
+        .dash-wrap .kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      }
+      @media (max-width: 900px) {
+        .dash-wrap .grid { grid-template-columns: 1fr; }
+        .dash-wrap .chart-box { height: 260px; }
+        .dash-wrap .chart-box--large { height: 320px; }
+      }
+      @media (max-width: 520px) {
+        .dash-wrap .kpi-grid { grid-template-columns: 1fr; }
+      }
     </style>
   </head>
   <body>
@@ -142,60 +205,46 @@
           <img src="images/ShiokLahTransparent.png" alt="ShiokLah">
         </header>
 
-        <ul class="navBar">
-          <li>
-            <a href="FED_ASG.html" class="main toggle">
-              🏠 Home
-            </a>
-          </li>
+       <ul class="navBar">
+        <li class="main toggle">
+          <div class="title-row"><img src="images/statisctics.png" alt="ShiokLah">Dashboard</div>
+          <!-- <ul class="submenu">
+            <li><button class="subpoint">• Start Order</button></li>
+          </ul> -->
+        </li>
 
-          <!-- <li class="divider"></li> -->
-
-           <li>
-            <a href="VendorEditMenu.html" class="main toggle">
-              🍽️ Edit Menu
-            </a>
-          </li>
-
-          <!-- <li class="divider"></li> -->
-
-          <li class="main toggle ven-profile">
-            <span>👤 Profile</span>
-            <span class="usernameDisplay"></span>
-            <span class="arrow">v</span>
-          </li>
+        <li class="main toggle">
+          <div class="title-row"><img src="images/ShiokLah.jpeg" alt="ShiokLah">Orders <span class="arrow"><img src="images/down.png"></span></div>
           <ul class="submenu">
-            <li>
-              <button onclick="window.location.href='StallHygieneGrades.html';" class="subpoint">
-               • Stall Hygiene Grades
-              </button>
-            </li>
-            <li>
-             <button onclick="window.location.href='PerformanceDashboard.html';" class="subpoint">
-               • Performance Dashboard
-              </button>
-            </li>
-            <li>
-              <button onclick="window.location.href='RentalAgreement.html';" class="subpoint">
-              • My Rental Agreements
-              </button>
-            </li>
-
-            <li>
-            <button onclick="window.location.href='CustomerFeedBack.html';" class="subpoint">
-              • Customer Feedback
-              </button>
-            </li>
-            <li class="subpoint settings">• Settings</li>
+            <li><button class="subpoint">• Past Orders</button></li>
           </ul>
+        </li>
+        
+        <li class="main toggle">
+          <div class="title-row"><img src="images/menu (2).png" alt="ShiokLah">Menu <span class="arrow"><img src="images/down.png"></span></div>
+          <ul class="submenu">
+            <li><button class="subpoint">• Profile</button></li>
+            <li><button class="subpoint">• Favourites</button></li>
+            <li><button class="subpoint">• Rewards</button></li>
+          </ul>
+        </li>
 
-          <!-- <li class="divider"></li> -->
-          <li class="subpoint logout">Log out</li>
-        </ul>
-      </nav>
+        <li class="main toggle">
+          <div class="title-row"><img src="images/user.png" alt="ShiokLah">Profile <span class="arrow"><img src="images/down.png"></span></div>
+          <ul class="submenu">
+            <li><button class="subpoint">• Profile</button></li>
+            <li><button class="subpoint">• Favourites</button></li>
+            <li><button class="subpoint">• Rewards</button></li>
+          </ul>
+        </li>
 
-      <nav class="mobile-nav vendornav">
-        <div class="mobile-nav-item active" data-link="FED_ASG.html">
+        <li class="main toggle logout">
+          <button onclick="window.location.href='login.html';" class="subpoint"><img src="images/logout.png" alt="ShiokLah">Log Out</button>
+        </li>
+      </ul>
+    </nav>
+            <nav class="mobile-nav vendornav">
+        <div class="mobile-nav-item active" data-link="PerformanceDashboard.html">
           <span>🏠</span>
           <small>Home</small>
         </div>
@@ -219,83 +268,123 @@
           <h1>Performance Report</h1>
           </div>
         </div>
+        <div class="dash-wrap">
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-left">
+            <div class="kpi-title">Total Orders</div>
+            <div class="kpi-value" id="kpiTotalOrders">—</div>
+            <div class="kpi-sub" id="kpiOrdersSub">This Month</div>
+          </div>
+          <div class="kpi-badge up" id="kpiOrdersDelta">+0%</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-left">
+            <div class="kpi-title">Top Picks</div>
+            <div class="kpi-value" id="kpiTopItem">—</div>
+            <div class="kpi-sub" id="kpiTopItemSub">Share: —</div>
+          </div>
+          <div class="kpi-badge" id="kpiTopItemBadge">Hot</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-left">
+            <div class="kpi-title">Avg Rating</div>
+            <div class="kpi-value" id="kpiAvgRating">—</div>
+            <div class="kpi-sub" id="kpiRatingSub">From feedback mix</div>
+          </div>
+          <div class="kpi-badge" id="kpiRatingBadge">Stable</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-left">
+            <div class="kpi-title">Total Sales</div>
+            <div class="kpi-value" id="kpiInspectScore">—</div>
+            <div class="kpi-sub" id="kpiInspectSub">Latest period</div>
+          </div>
+          <div class="kpi-badge up" id="kpiInspectDelta">—</div>
+        </div>
+      </div>
+
+      <div class="grid">
+        <section>
+          <div class="card-header">
+            <h2>Top 3 Picks</h2>
+            <div class="card-tools">
+              <select id="salesFilter">
+                <option value="month">This Month</option>
+                <option value="3months">Last 3 Months</option>
+                <option value="6months">Last 6 Months</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="insight">
+            <span id="salesInsightText">—</span>
+            <span><strong id="salesInsightStrong">—</strong></span>
+          </div>
+
+          <div class="card-divider"></div>
+
+          <div class="chart-box">
+            <canvas id="salesChart"></canvas>
+          </div>
+        </section>
+
+        <section>
+          <div class="card-header">
+            <h2>Customer Feedback</h2>
+            <div class="card-tools">
+              <select id="feedbackFilter">
+                <option value="month">This Month</option>
+                <option value="3months">Last 3 Months</option>
+                <option value="6months">Last 6 Months</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="insight">
+            <span id="feedbackInsightText">—</span>
+            <span><strong id="feedbackInsightStrong">—</strong></span>
+          </div>
+
+          <div class="card-divider"></div>
+
+          <div class="chart-box chart-box--donut">
+            <div class="donut-wrapper">
+              <canvas id="feedbackChart"></canvas>
+            </div>
+          </div>
+        </section>
+
+        <section class="full-width">
+          <div class="card-header">
+            <h2>Total Sales</h2>
+            <div class="card-tools">
+              <select id="hygieneFilter">
+                <option value="2026">2026</option>
+                <option value="2025">2025</option>
+                <option value="2024">2024</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="insight">
+            <span id="hygieneInsightText">—</span>
+            <span><strong id="hygieneInsightStrong">—</strong></span>
+          </div>
+
+          <div class="card-divider"></div>
+
+          <div class="chart-box chart-box--large">
+            <canvas id="hygieneChart"></canvas>
+          </div>
+        </section>
       </header>
 
 
-        <div class="stats-cards">
-      <div class="card">
-        <h2>100</h2>
-        <div class="details">
-        <p>Total Orders</p>
-        <div class="change green">+3.5%</div>
-        </div>
-      </div>
-      <div class="card">
-        <h2>80</h2>
-        <div class="details">
-        <p>Total Customers</p>
-        <div class="change red">-10%</div>
-        </div>
-      </div>
-      <div class="card">
-        <h2>120</h2>
-        <div class="details">
-        <p>Stall Rating</p>
-        <div class="change">→</div>
-        </div>
-      </div>
-      <div class="card">
-        <h2>$18,000</h2>
-        <div class="details">
-        <p>Total sales</p>
-        <div class="change green">+2%</div>
-        </div>
-      </div>
-    </div>
-
-      <div class="charts">
-              <div class="chart-card">
-      <div class="chart-header">
-        <h3>Orders</h3>
-        <div class="chart-actions">
-          <button class="icon-btn filter-btn" title="Filter">🔍</button>
-          <button class="icon-btn expand-btn" title="Expand">⤢</button>
-        </div>
-      </div>
-
-      <canvas id="leadsBar"></canvas>
-    </div>
-
-        <div class="chart-card">
-      <div class="chart-header">
-        <h3>Rating</h3>
-        <div class="chart-actions">
-          <button class="icon-btn filter-btn" title="Filter">🔍</button>
-          <button class="icon-btn expand-btn" title="Expand">⤢</button>
-        </div>
-      </div>
-
-      <canvas id="costsDonut"></canvas>
-    </div>
-
-    </div>
-
-
-<div class="totals-chart">
-  <div class="chart-header">
-    <h3>Total leads by vendor</h3>
-    <div class="chart-actions">
-      <button class="icon-btn filter-btn" title="Filter">🔍</button>
-      <button class="icon-btn expand-btn" title="Expand">⤢</button>
-    </div>
-  </div>
-
-  <canvas id="totalLeadsBar"></canvas>
-</div>
-
-
-
-    </section>
+        
   </main>
   <script>
     // Expand button logic
@@ -306,22 +395,6 @@ document.querySelectorAll(".expand-btn").forEach(btn => {
     card.classList.toggle("expanded");
   });
 });
-
-// Filter button placeholder
-document.querySelectorAll(".filter-btn").forEach(btn => {
-  btn.addEventListener("click", () => {
-    alert("Filter options coming soon 👀");
-  });
-});
-
- document.querySelectorAll('.title-row').forEach(item => {
-    item.addEventListener('mouseenter', () => {
-      item.querySelector('.arrow img').src = "images/orangedown.png";
-    });
-    item.addEventListener('mouseleave', () => {
-      item.querySelector('.arrow img').src = "images/down.png";
-    });
-  });
 
 //Navigation Dropdown
 document.querySelectorAll('.main.toggle').forEach(mainItem => {
@@ -348,6 +421,16 @@ document.querySelectorAll('.main.toggle').forEach(mainItem => {
         mainItem.classList.add('active');
         submenu.style.display = 'block';
       }
+    });
+  });
+
+  
+ document.querySelectorAll('.title-row').forEach(item => {
+    item.addEventListener('mouseenter', () => {
+      item.querySelector('.arrow img').src = "images/orangedown.png";
+    });
+    item.addEventListener('mouseleave', () => {
+      item.querySelector('.arrow img').src = "images/down.png";
     });
   });
   </script>
