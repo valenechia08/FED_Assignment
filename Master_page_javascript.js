@@ -415,6 +415,8 @@ document.addEventListener("DOMContentLoaded", () => {
 //   });
 // });
 
+
+
 // Top Navigation
 document.addEventListener("click", () => {
         document
@@ -444,6 +446,7 @@ function createMenuItemObject(item_name, price, available = true,image) {
     },
   };
 }
+
 
 async function uploadStall(stall_name, cuisine, rating, image) {
   const stallObj = createStallObject(stall_name, cuisine, rating, image);

@@ -194,7 +194,7 @@
     </div>
 
     <section class="stall-list">
-      <!-- Stall item -->
+      <!-- Stall item
       <article class="stall-card">
         <img src="images/Banana Leaf Nasi Lemak Picture.jpg" alt="Banana Leaf Nasi Lemak">
         <div class="stall-name">Banana Leaf<br>Nasi Lemak</div>
@@ -253,7 +253,108 @@
           <strong>Total - 83.6%</strong>
         </div>
         <div class="grade grade-b">B</div>
-      </article>
+      </article> -->
     </section>
+    <script>
+    const stallsData = [
+      {
+        name: "Banana Leaf Nasi Lemak",
+        image: "images/Banana Leaf Nasi Lemak Picture.jpg",
+        ratings: {
+          cleanliness,
+          handling,
+          efficiency,
+        },
+      },
+      {
+        name: "Boon Lay Fried Carrot Cake & Kway Teow Mee",
+        image: "images/Boon Lay Fried Carrot Cake & Kway Teow Mee Picture.jpg",
+        ratings: {
+          cleanliness,
+          handling,
+          efficiency,
+        },
+      },
+      {
+        name: "Boon Lay Lu Wei",
+        image: "images/Boon Lay Lu Wei Picture.jpg",
+        ratings: {
+          cleanliness,
+          handling,
+          efficiency,
+        },
+      },
+      {
+        name: "I. Mohamed Ismail Food Stall",
+        image: "images/I.Mohamed Ismail Food Stall Picture.jpg",
+        ratings: {
+          cleanliness,
+          handling,
+          efficiency,
+        },
+      },
+      {
+        name: "Big Daddy's Chicken & Noodle Stall",
+        image: "images/Big Daddy's Chicken & Noodle Picture.webp",
+        ratings: {
+          cleanliness,
+          handling,
+          efficiency,
+        },
+      },
+    ];
+
+    function calculateAverage({ cleanliness, handling, efficiency }) {
+      return ((cleanliness + handling + efficiency) / 3).toFixed(1);
+    }
+
+        function getHygieneGrade(avg) {
+      if (avg >= 85) return "A";
+      if (avg >= 75) return "B";
+      if (avg >= 65) return "C";
+      return "D";
+    }
+
+        function getGradeClass(grade) {
+      return `grade-${grade.toLowerCase()}`;
+    }
+
+    function renderInspectionList(stalls) {
+      const list = document.querySelector(".stall-list");
+      list.innerHTML = "";
+
+      stalls.forEach((stall) => {
+        const avg = calculateAverage(stall.ratings);
+        const grade = getHygieneGrade(avg);
+
+        const card = document.createElement("article");
+        card.className = "stall-card";
+
+        card.innerHTML = `
+          <img src="${stall.image}" alt="${stall.name}">
+          
+          <div class="stall-name">
+            ${stall.name}
+          </div>
+
+          <div class="ratings">
+            Cleanliness - ${stall.ratings.cleanliness}%<br>
+            Handling - ${stall.ratings.handling}%<br>
+            Efficiency - ${stall.ratings.efficiency}%<br>
+            <strong>Total - ${avg}%</strong>
+          </div>
+
+          <div class="grade ${getGradeClass(grade)}">
+            ${grade}
+          </div>
+        `;
+
+        list.appendChild(card);
+      });
+    }
+
+    renderInspectionList(stallsData);
+    
+    </script>
   </main>
 </main>
