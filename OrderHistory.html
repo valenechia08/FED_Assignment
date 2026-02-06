@@ -233,6 +233,204 @@
           display: flex;
         }
       }
+      /* ===================== MOBILE FIRST IMPROVEMENTS ===================== */
+
+      /* ===================== MOBILE SIZE TUNING ===================== */
+  
+
+    @media (max-width: 576px) {
+      .navrectangle {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        margin-top: 0;                 /* remove your desktop top spacing */
+        background: rgba(255,255,255,0.96);
+        backdrop-filter: blur(10px);
+        border-top: 1px solid #eee;
+        z-index: 9999;
+      }
+
+      /* Prevent content hiding behind bottom nav */
+      body {
+        padding-bottom: 88px;          /* space for bottom nav */
+      }
+
+      /* Hide reserve button in mobile */
+      .reserve-btn {
+        display: none;
+      }
+
+      /* Logo stays top-left (optional: keep your design) */
+      .nav-left {
+        position: fixed;
+        top: 10px;
+        left: 12px;
+        z-index: 10000;
+        background: white;
+        padding: 6px 8px;
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+      }
+      .Logo img {
+        width: 34px;
+        height: auto;
+        display: block;
+      }
+
+      /* Push main content below the floating logo */
+      .main-content {
+        padding-top: 70px;
+      }
+
+      /* IMPORTANT: SHOW NAV WORDS */
+      .nav-center {
+        display: block;               /* ✅ bring text back */
+        width: 100%;
+      }
+
+      /* Bottom nav layout: menu becomes a row */
+      .top-nav {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 72px;
+        padding: 10px 12px;
+        gap: 0;
+      }
+
+      /* Hide hamburger (since we’re showing the words as bottom nav) */
+      .nav-right {
+        display: none;
+      }
+
+      /* Remove the line under nav */
+      .Nav-line {
+        display: none;
+      }
+
+      /* Turn your UL into a bottom nav bar */
+      #menu.menu {
+        display: flex !important;
+        justify-content: space-around;
+        align-items: center;
+        width: 100%;
+        gap: 6px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      /* Each main item becomes a “tab” */
+      #menu .menu-item {
+        position: relative;
+        flex: 1;
+        text-align: center;
+      }
+
+      /* Main link style (the words at the bottom) */
+      #menu .menu-item > a {
+        display: block;
+        padding: 10px 6px;
+        border-radius: 14px;
+        font-family: "Kodchasan", Arial;
+        font-size: 12px;
+        font-weight: 700;
+        color: #222;
+        text-decoration: none;
+        line-height: 1.1;
+        transition: transform 0.15s ease, background 0.2s ease;
+        user-select: none;
+      }
+
+      /* Nice tap feedback */
+      #menu .menu-item > a:active {
+        transform: scale(0.98);
+      }
+
+      /* When submenu open (your JS adds .active on .menu-item) */
+      #menu .menu-item.active > a {
+        background: #fff1e6;
+        color: #ff7a18;
+      }
+
+      /* Dropdown becomes a pop-up ABOVE the bottom nav */
+      #menu .dropdown {
+        display: none;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 58px;                  /* lifts above nav bar */
+        min-width: 190px;
+        background: white;
+        border: 1px solid #eee;
+        border-radius: 14px;
+        padding: 8px;
+        box-shadow: 0 14px 30px rgba(0,0,0,0.12);
+        z-index: 10001;
+      }
+
+      /* Show dropdown when active */
+      #menu .menu-item.active .dropdown {
+        display: block;
+      }
+
+      #menu .dropdown li {
+        list-style: none;
+      }
+
+      #menu .dropdown a {
+        display: block;
+        padding: 10px 10px;
+        border-radius: 10px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #222;
+        text-decoration: none;
+        font-family: "Kodchasan", Arial;
+      }
+
+      #menu .dropdown a:hover {
+        background: #fff6ef;
+      }
+
+      /* Make your “No orders yet” card look nicer on mobile */
+      .order-box {
+        margin: 18px 12px;
+        padding: 24px 16px;
+        border-radius: 20px;
+        box-shadow: 0 10px 26px rgba(0,0,0,0.08);
+      }
+
+      .order-box h2 {
+        font-size: 20px;
+        margin-bottom: 10px;
+        text-align: center;
+      }
+
+      .order-box p {
+        font-size: 13px;
+        margin-bottom: 14px;
+        text-align: center;
+      }
+
+      .teaser img {
+        width: 92px;
+        border-radius: 14px;
+      }
+
+      .order-btn {
+        width: 100%;
+        max-width: 320px;
+        padding: 12px 16px;
+        font-size: 14px;
+        text-align: center;
+      }
+    }
+
+
+
     </style>
   </head>
   <body>
