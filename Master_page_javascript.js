@@ -236,6 +236,14 @@ document.addEventListener("DOMContentLoaded", () => {
     let guestDiv = $("guestLogin");
     guestDiv.style.display = "block";
     guestDiv.innerHTML = `<a href="FED_ASG.html">Continue as guest</a>`;
+  } else if (
+    window.location.pathname.endsWith("login.html") &&
+    sessionStorage.getItem("currentRole") === "officer"
+  ) {
+    let register = $("register-account");
+    let links = $("links");
+    register.style.display = "none";
+    links.classList.add("nea-alignment");
   }
 });
 document.addEventListener("DOMContentLoaded", () => {
@@ -278,7 +286,10 @@ async function resetPassword() {
   const confirmPassword = $("confirmPassword2")?.value ?? "";
 
   const rule = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{9,}$/;
-
+  if (!password) {
+    showMessage("Please enter a password", "red");
+    return;
+  }
   if (!rule.test(password)) {
     showMessage("Must be 9+ chars with letters & numbers only", "red");
     return;
@@ -445,17 +456,6 @@ async function addMenuItem(stall_name, item_name, price, available = true,image)
 }
 
 // createStallObject("Banana Leaf Nasi Lemak", "Malay", 4.0, "images/Banana Leaf Nasi Lemak Picture.jpg");
-async function loadMenu(stall_name) {
-  const snap = await get(ref(db, `stalls/${stall_name}/menuItems`));
-
-  if (!snap.exists()) {
-    console.log("No menu items");
-    return;
-  }
-
-  const menuItems = snap.val();
-  renderMenu(menuItems);
-}
 
 (async () => {
   await uploadStall(
@@ -536,25 +536,74 @@ async function loadMenu(stall_name) {
   );
 })();
 
-function renderMenu(menuItems) {
-  const container = document.querySelector("#menuContainer");
-  container.innerHTML = ""; // clear old items
+async function loadMenu(stall_name) {
+  const snap = await get(ref(db, `stalls/${stall_name}/menuItems`));
+
+  if (!snap.exists()) {
+    console.log("No menu items");
+    document.querySelector("#menuRoot").innerHTML = "<p>No menu items.</p>";
+    return;
+  }
+
+  const menuItems = snap.val();
+  renderMenu(menuItems, stall_name);
+}
+
+function renderMenu(menuItems, stall_name) {
+  const root = document.querySelector("#menuRoot");
+  root.innerHTML = ""; // clear old
+
+  // Optional heading
+  const heading = document.createElement("h2");
+  heading.textContent = "Menu";
+  heading.style.margin = "10px 0 16px";
+  root.appendChild(heading);
+
+  // grid container
+  const grid = document.createElement("div");
+  grid.className = "menu-grid"; // style in CSS if you want
+  root.appendChild(grid);
 
   for (const item_name in menuItems) {
     const item = menuItems[item_name];
 
-    const div = document.createElement("div");
-    div.className = "menu-item";
+    const card = document.createElement("div");
+    card.className = "menu-card";
 
-    const name = document.createElement("h4");
-    name.textContent = item_name;
+    const title = document.createElement("div");
+    title.className = "menu-title";
+    title.textContent = item_name;
 
-    const price = document.createElement("p");
-    price.textContent = "$" + item.price.toFixed(2);
+    const price = document.createElement("div");
+    price.className = "menu-price";
+    price.textContent = `$${Number(item.price).toFixed(2)}`;
 
-    div.appendChild(name);
-    div.appendChild(price);
-    container.appendChild(div);
+    const actions = document.createElement("div");
+    actions.className = "menu-actions";
+
+    const plusBtn = document.createElement("button");
+    plusBtn.className = "plus-btn";
+    plusBtn.type = "button";
+    plusBtn.textContent = "+";
+
+    // disable if unavailable
+    if (item.available === false) {
+      plusBtn.disabled = true;
+      plusBtn.textContent = "—";
+      card.classList.add("unavailable");
+    } else {
+      plusBtn.addEventListener("click", () => {
+        addToCart(stall_name, item_name, item.price);
+      });
+    }
+
+    actions.appendChild(plusBtn);
+
+    card.appendChild(title);
+    card.appendChild(price);
+    card.appendChild(actions);
+
+    grid.appendChild(card);
   }
 }
 loadMenu("Banana Leaf Nasi Lemak");

@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stall Menu</title>
+    <link rel="stylesheet" href="FoodStalls.css" />
+  </head>
+
+  <body>
+    <!-- Top header -->
+    <header class="topbar">
+      <button class="back-btn" onclick="history.back()">←</button>
+
+      <div class="stall-head">
+        <img id="stallImg" class="stall-img" alt="Stall" />
+        <div class="stall-meta">
+          <h1 id="stallName" class="stall-name">Loading…</h1>
+          <div class="stall-sub">
+            <span class="star">★</span>
+            <span id="stallRating">-</span>
+            <span id="stallReviews">(-)</span>
+            <span class="dot">•</span>
+            <span id="stallCuisine">-</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="divider"></div>
+
+    <!-- Menu categories render here -->
+    <main class="page">
+      <div id="menuRoot"></div>
+    </main>
+
+    <!-- Simple cart pill (optional but useful) -->
+    <button id="cartPill" class="cart-pill" type="button">
+      Cart: <span id="cartCount">0</span>
+    </button>
+
+    <script type="module" src="stall.js"></script>
+  </body>
+</html>
