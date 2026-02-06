@@ -12,22 +12,124 @@
     <link rel="stylesheet" href="Master_page_stylesheet.css" />
 </head>
 
+<style>
+  h1 {
+      font-size: 32px;
+      margin-bottom: 24px;
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 32px;
+      margin-bottom: 32px;
+    }
+
+    .tab {
+      font-size: 16px;
+      color: var(--text-muted);
+      cursor: pointer;
+      position: relative;
+      padding-bottom: 8px;
+    }
+
+    .tab.active {
+      color: var(--text-dark);
+      font-weight: 600;
+    }
+
+    .tab.active::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 3px;
+      background: var(--primary);
+      border-radius: 2px;
+    }
+
+    /* Inspection list */
+    .inspection-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .inspection-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 24px;
+      border-radius: 8px;
+      background: var(--primary-soft-2);
+      background-color: #FF8C3A;
+    }
+
+    .inspection-item.upcoming {
+      background: var(--primary-soft);
+      background-color: #FF8C3A;
+    }
+
+    .inspection-left {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .inspection-date-completed {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .inspection-date {
+      font-size: 16px;
+      font-weight: 600;
+      color: #ffffff;
+    }
+
+    .inspection-status-completed {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .inspection-status {
+      font-size: 13px;
+      color: #ffffff
+    }
+
+    .inspection-actions button {
+      background: var(--button);
+      border: none;
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .inspection-actions button:hover {
+      opacity: 0.9;
+    }
+</style>
+
 <body>
   <main class="container">
       <nav class="navrectangle">
-        <header class="top-nav">
-          <!-- Logo -->
-          <div class="Logo">
-            <img src="/images/ShiokLah(cropped).jpeg" alt="Logo" />
+      <div class="container">
+        <div class="top-nav">
+          <div class="nav-left">
+            <div class="Logo">
+              <img src="/images/ShiokLah(cropped).jpeg" alt="Logo" />
+            </div>
           </div>
 
-          <!-- Main Menu -->
-          <nav>
-            <ul class="menu">
+          <div class="nav-center">
+            <ul class="menu" id="menu">
               <li class="menu-item">
                 <a href="#">Home</a>
                 <ul class="dropdown">
-                  <li><a href="#">Start Order</a></li>
+                  <li><a href="FED_ASG.html">Start Order</a></li>
                 </ul>
               </li>
 
@@ -44,11 +146,7 @@
                   <li><a href="UserProfile.html">Overview</a></li>
                   <li><a href="Analytics.html">Analytics & Reporting</a></li>
                   <li><a href="#">Customer Feedback</a></li>
-                  <li>
-                    <a href="R&C inspection log all.html"
-                      >Regulatory & Compliance</a
-                    >
-                  </li>
+                  <li><a href="#">Regulatory & Compliance</a></li>
                   <li><a href="#">Favourites</a></li>
                   <li><a href="#">Rewards</a></li>
                 </ul>
@@ -58,16 +156,18 @@
                 <a href="SelectRole.html">Log Out</a>
               </li>
             </ul>
-          </nav>
-
-          <!-- Right Action -->
-          <div class="nav-action">
-            <button class="reserve-btn">Reserve A Table</button>
           </div>
-        </header>
-      </nav>
 
-      <hr class="Nav-line" />
+          <div class="nav-right">
+            <button class="reserve-btn">Reserve A Table</button>
+            <div class="hamburger" id="hamburger">
+              <div></div><div></div><div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <hr class="Nav-line" />
 
       <main class="contents">
         <header class="page-header">
