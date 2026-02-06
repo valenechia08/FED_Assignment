@@ -2,32 +2,14 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Patron Login</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Kodchasan:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="LoginPages.css" />
     <style>
-      .container {
-        display: flex;
-        height: 100vh;
-      }
-
-      .left-pane {
-        flex: 1;
-        background-image: url("images/Noodles.jpeg");
-        background-size: cover;
-        background-position: center;
-      }
-
-      .right-pane {
-        flex: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: #fff;
-      }
-
       .card {
         display: flex;
         flex: 1;
@@ -45,7 +27,8 @@
           "Helvetica Neue",
           sans-serif;
         position: relative;
-        padding-bottom: 50%;
+        padding-bottom: 40%;
+        margin-bottom: 5%;
         top: 1%;
         right: 2%;
         font-size: 1rem;
@@ -93,7 +76,7 @@
         color: #007bff;
       }
 
-      .card button {
+      #loginBtn {
         display: flex;
         background-color: #e47329;
         color: white;
@@ -127,11 +110,11 @@
       .backBtn {
         border: none;
         background: none;
-        font-size: 24px;
+        font-size: 2rem;
         cursor: pointer;
         position: relative;
-        right: 8%;
-        margin-bottom: 75%;
+        margin-bottom: 72%;
+        left: 10%;
       }
       .guestLogin {
         text-decoration: none;
@@ -247,6 +230,7 @@
     <div class="container">
       <div class="left-pane"></div>
       <div class="right-pane">
+        <button class="backBtn">←</button>
         <div class="card">
           <h1>ShiokLah!</h1>
           <div class="message" id="message"></div>
