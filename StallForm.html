@@ -257,6 +257,24 @@
     }
   });
 
+  document.querySelector(".submit-btn").addEventListener("mouseover", function() {
+    this.style.background = "white";
+    this.style.color = "#FF8C3A";
+    this.style.border = "2px solid #FF8C3A";
+  });
+
+  document.querySelector(".submit-btn").addEventListener("mouseout", function() {
+    this.style.background = "#FF8C3A";
+    this.style.color = "white";
+    this.style.border = "none";
+  });
+
+  document.addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+      submitData();
+    }
+  });
+
 </script>
 
 </body>
