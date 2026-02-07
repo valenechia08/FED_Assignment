@@ -563,6 +563,19 @@
     </section>
   </main>
   <script type="module">
+
+    function generateAID() {
+      // unique enough for school projects
+      const rand = Math.floor(1000 + Math.random() * 9000); // 4 digits
+      return `AG-${Date.now()}-${rand}`;
+    }
+
+    function getAgreementStatus(endDateStr) {
+      const end = new Date(endDateStr);
+      const now = new Date();
+      return end >= now ? "active" : "expired";
+    }
+
     const $ = (id) => document.getElementById(id);
 
     const requiredIds = ["storeLoc","storeAddr","centre","tradeType","rent","startDate","endDate"];
@@ -697,37 +710,43 @@
 
     $("btnReset").addEventListener("click", resetAll);
     $("btnCancel").addEventListener("click", () => {
-      // Demo behavior; replace with your navigation logic.
-      resetAll();
-      alert("Cancelled (demo).");
+      window.location.href = "RentalAgreement.html";
     });
 
-    function onCreate(){
-      if(!validate()){
-        $("errBox").classList.add("show");
-        return;
-      }
+    async function onCreate() {
+  if (!validate()) {
+    $("errBox").classList.add("show");
+    return;
+  }
 
-      const endDate = $("endDate").value; // make sure you have an end date field
+  // ✅ get logged-in username (your backend uses this)
+    const username = sessionStorage.getItem("loggedInUser")
+    const AID = generateAID();
+    const endDate = $("endDate").value;
 
-      const payload = {
-        storeLocation: $("storeLoc").value.trim(),
-        storeAddress: $("storeAddr").value.trim(),
-        centre: $("centre").value.trim(),
-        tradeType: $("tradeType").value.trim(),
-        rent: $("rent").value.trim(),
-        startDate: $("startDate").value,
-        endDate: endDate,
-        status: getAgreementStatus(endDate),
-        noteTitle: $("noteTitle").value.trim(),
-        notes: $("notes").value.trim()
-      };
+    const payload = {
+      AID,
+      storeLocation: $("storeLoc").value.trim(),
+      storeAddress: $("storeAddr").value.trim(),
+      centre: $("centre").value.trim(),
+      tradeType: $("tradeType").value.trim(),
+      rent: Number(($("rent").value || "").trim()),
+      startDate: $("startDate").value,
+      endDate,
+      status: getAgreementStatus(endDate),
+      noteTitle: $("noteTitle").value.trim(),
+      notes: $("notes").value.trim(),
+      createdAt: Date.now(),
+    };
 
+    // ✅ store under members/{username}/rentalAgreements/{AID}
+    await set(ref(db, `members/${username}/rentalAgreements/${AID}`), payload);
 
-      console.log("Create Rental Agreement payload:", payload);
-      alert("Created! (demo)\nCheck console for payload.");
-      resetAll();
-    }
+    alert(`Created! ✅\nAgreement ID: ${AID}`);
+
+    window.location.href = "RentalAgreement.html";
+  }
+
     $("btnCreate2").addEventListener("click", onCreate);
 
     // init
