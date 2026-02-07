@@ -408,169 +408,134 @@
 
     <script type="module" src="Master_page_javascript.js"></script>
     <script type="module">
+      // We assume Master_page_javascript.js already initialized firebase + has db, ref, onValue, get
+      // If not, tell me and I’ll adjust.
 
-      // ✅ Declare DOM + userId BEFORE using them
-      // const userId = "user123"; // replace with auth.currentUser.uid later
-      const userId = sessionStorage.getItem("currentUserId") || "guest";
+      document.addEventListener("DOMContentLoaded", async () => {
+        const userId = sessionStorage.getItem("currentUserId"); // registered only, else null
 
-      const orderList = document.getElementById("orderList");
+        const orderList = document.getElementById("orderList");
+        const filterInput = document.getElementById("orderFilter");
 
-      const firstTimeBox = document.querySelector(".order-box.first-time");
-      const guestBox = document.querySelector(".order-box.guest");
-      const registeredBox = document.querySelector(".order-box.registered");
+        const firstTimeBox = document.querySelector(".order-box.first-time");
+        const guestBox = document.querySelector(".order-box.guest");
+        const registeredBox = document.querySelector(".order-box.registered");
 
-      function showOnly(box) {
-        [firstTimeBox, guestBox, registeredBox].forEach((b) => {
-          if (b) b.style.display = "none";
-        });
-        if (box) box.style.display = "block";
-      }
-
-      function formatDate(d) {
-        const dt = new Date(d);
-        if (isNaN(dt.getTime())) return "";
-        return dt.toLocaleDateString(undefined, {
-          year: "numeric",
-          month: "short",
-          day: "numeric",
-        });
-      }
-
-      function orderTitle(order) {
-        if (order.dish) return order.dish;
-
-        if (Array.isArray(order.items) && order.items.length > 0) {
-          const firstName = order.items[0]?.name || "Order";
-          const more = order.items.length - 1;
-          return more > 0 ? `${firstName} + ${more} more` : firstName;
+        function showOnly(box) {
+          [firstTimeBox, guestBox, registeredBox].forEach((b) => b && (b.style.display = "none"));
+          if (box) box.style.display = "block";
         }
 
-        return "Order";
-      }
-
-      // ✅ REALTIME LISTENER (read-only)
-      function renderOrdersRealtime(uid) {
-        const ordersRef = ref(db, `orders/${uid}`);
-
-        onValue(
-          ordersRef,
-          (snapshot) => {
-            orderList.innerHTML = "";
-
-            if (!snapshot.exists()) {
-              showOnly(firstTimeBox);
-              return;
-            }
-
-            showOnly(registeredBox);
-
-            const ordersObj = snapshot.val();
-            const ordersArray = Object.entries(ordersObj).map(([id, data]) => ({
-              id,
-              ...data,
-            }));
-
-            ordersArray.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-            ordersArray.forEach((order) => {
-              const li = document.createElement("li");
-              li.innerHTML = `
-                <div class="order-card">
-                  <span class="dish">🍲 ${orderTitle(order)}</span>
-                  <span class="date">${formatDate(order.date)}</span>
-                </div>
-              `;
-              orderList.appendChild(li);
-            });
-          },
-          (error) => {
-            console.error("Realtime order listener error:", error);
-            showOnly(firstTimeBox);
-          }
-        );
-      }
-
-      renderOrdersRealtime(userId);
-
-      // ================= TEST ONLY (writes 1 order) =================
-      // Set this to true ONCE to test, then set back to false.
-      const RUN_SEED_TEST = false;
-
-      async function seedTestOrder() {
-        try {
-          const ordersRef = ref(db, `orders/${userId}`);
-          const testOrderRef = push(ordersRef);
-
-          await set(testOrderRef, {
-            stall: "Banana Leaf Nasi Lemak",
-            items: [
-              { name: "Set Meal A", qty: 1, price: 5 },
-              { name: "1 Pcs Spicy Fish Otah", qty: 2, price: 1.5 },
-            ],
-            total: 8,
-            date: new Date().toISOString(),
-          });
-
-          console.log("✅ Test order written to:", `orders/${userId}`);
-        } catch (e) {
-          console.error("❌ seedTestOrder failed:", e);
-          alert("seedTestOrder failed — check Console for error (likely permissions).");
-        }
-      }
-
-      if (RUN_SEED_TEST) seedTestOrder();
-
-
-    
-
-      
-      // ================= FILTER ORDERS =================
-      const filterInput = document.getElementById("orderFilter");
-      const orderLists = document.getElementById("orderList");
-
-      filterInput.addEventListener("keyup", function () {
-        const filterValue = filterInput.value.toLowerCase();
-        Array.from(orderLists.children).forEach((li) => {
-          li.style.display = li.textContent.toLowerCase().includes(filterValue)
+        function formatDate(d) {
+          const dt = new Date(d);
+          return isNaN(dt.getTime())
             ? ""
-            : "none";
+            : dt.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+        }
+
+        function orderTitle(order) {
+          if (order.dish) return order.dish;
+          if (Array.isArray(order.items) && order.items.length > 0) {
+            const firstName = order.items[0]?.name || "Order";
+            const more = order.items.length - 1;
+            return more > 0 ? `${firstName} + ${more} more` : firstName;
+          }
+          return "Order";
+        }
+
+        // =========================
+        // GUEST MODE (session only)
+        // =========================
+        function renderGuestOrders() {
+          showOnly(guestBox);
+
+          // OPTIONAL: if you still want guest to "see" temp orders on this page:
+          // Save guest orders somewhere like sessionStorage "guestOrders"
+          const guestOrders = JSON.parse(sessionStorage.getItem("guestOrders") || "[]");
+
+          // If you don't want to display guest orders at all, remove below.
+          if (guestOrders.length > 0) {
+            showOnly(registeredBox);
+            orderList.innerHTML = "";
+            guestOrders
+              .sort((a, b) => new Date(b.date) - new Date(a.date))
+              .forEach((order) => {
+                const li = document.createElement("li");
+                li.innerHTML = `
+                  <div class="order-card">
+                    <span class="dish">🍲 ${orderTitle(order)}</span>
+                    <span class="date">${formatDate(order.date)}</span>
+                  </div>
+                `;
+                orderList.appendChild(li);
+              });
+          }
+        }
+
+        // =========================
+        // REGISTERED MODE (Firebase realtime)
+        // =========================
+        function renderOrdersRealtime(uid) {
+          const ordersRef = ref(db, `orders/${uid}`);
+
+          onValue(
+            ordersRef,
+            (snapshot) => {
+              orderList.innerHTML = "";
+
+              if (!snapshot.exists()) {
+                showOnly(firstTimeBox); // registered but no orders yet
+                return;
+              }
+
+              showOnly(registeredBox);
+
+              const ordersObj = snapshot.val();
+              const ordersArray = Object.entries(ordersObj).map(([id, data]) => ({ id, ...data }));
+              ordersArray.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+              ordersArray.forEach((order) => {
+                const li = document.createElement("li");
+                li.innerHTML = `
+                  <div class="order-card">
+                    <span class="dish">🍲 ${orderTitle(order)}</span>
+                    <span class="date">${formatDate(order.date)}</span>
+                  </div>
+                `;
+                orderList.appendChild(li);
+              });
+            },
+            (err) => {
+              console.error("Realtime orders error:", err);
+              showOnly(firstTimeBox);
+            }
+          );
+        }
+
+        // =========================
+        // MAIN DECISION
+        // =========================
+        if (!userId) {
+          renderGuestOrders();
+        } else {
+          // optional: confirm user exists in members + is registered
+          const memberSnap = await get(ref(db, `members/${userId}`));
+          if (!memberSnap.exists() || (memberSnap.val().userType || "").toLowerCase() !== "registered") {
+            renderGuestOrders();
+            return;
+          }
+          renderOrdersRealtime(userId);
+        }
+
+        // Filter (works for both)
+        filterInput?.addEventListener("keyup", () => {
+          const v = filterInput.value.toLowerCase();
+          Array.from(orderList.children).forEach((li) => {
+            li.style.display = li.textContent.toLowerCase().includes(v) ? "" : "none";
+          });
         });
       });
-
-      // ================= FIREBASE ORDERS (Realtime DB) =================
-      //const userId = "user123"; // replace with auth.currentUser.uid after login
-
-      async function loadOrders(userId) {
-        try {
-          const ordersRef = ref(db, `orders/${userId}`); // path: /orders/user123
-          const snapshot = await get(ordersRef);
-          orderList.innerHTML = "";
-
-          if (snapshot.exists()) {
-            const orders = snapshot.val(); // orders is an object
-            // Convert object to array sorted by date descending
-            const ordersArray = Object.values(orders).sort(
-              (a, b) => new Date(b.date) - new Date(a.date),
-            );
-
-            ordersArray.forEach((order) => {
-              const li = document.createElement("li");
-              li.innerHTML = `
-              <div class="order-card">
-                <span class="dish">${order.dish}</span>
-                <span class="date">${new Date(order.date).toLocaleDateString()}</span>
-              </div>`;
-              orderList.appendChild(li);
-            });
-          } else {
-            console.log("No orders found for user:", userId);
-          }
-        } catch (error) {
-          console.error("Error loading orders:", error);
-        }
-      }
-
-      loadOrders(userId);
     </script>
+
   </body>
 </html>

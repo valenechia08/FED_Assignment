@@ -350,6 +350,14 @@ function goLogin(role) {
 ========================= */
 
 document.addEventListener("DOMContentLoaded", () => {
+  // ✅ SelectRole page
+  document.querySelectorAll(".roleBtn").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault(); // safe if buttons are inside a form
+      goLogin(btn.dataset.role);
+    });
+  });
+
   const backBtn = document.querySelector(".backBtn");
   bind(".backBtn", "click", () => {
   window.location.href = "SelectRole.html";
@@ -377,6 +385,7 @@ document.addEventListener("DOMContentLoaded", () => {
 //       goLogin(btn.dataset.role);
 //     });
 //   });
+// });
 
   // Register page
   if ($("registerBtn")) {
