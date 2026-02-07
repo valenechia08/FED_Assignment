@@ -1,0 +1,759 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ShiokLah!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kodchasan:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="Vendor.css" />
+    <style>
+/*Form*/
+      :root{
+  --bg: #eef1f6;
+  --panel: #f7f8fb;
+  --card: #ffffff;
+  --text: #101828;
+  --muted: #667085;
+  --line: #d8dee9;
+  --line2: #e8ecf3;
+
+  --brand: #ff8c3a;
+  --focus: rgba(255,140,58,.35);
+}
+
+    .page{
+          max-width: 1050px;
+          margin: 22px auto;
+          padding: 0 18px;
+        }
+
+    .shell{
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .topbar{
+      border-bottom: 1px solid var(--line);
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .topbar,.footer{
+      background-color:#ffdfae;
+    }
+
+    .title-wrap{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
+    .title{
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .subtitle{
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .actions{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex: 0 0 auto;
+    }
+
+    .btn{
+      height: 40px;
+      padding: 0 14px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: #344054;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items:center;
+      gap:10px;
+      transition: transform .08s ease, background .15s ease, border-color .15s ease;
+    }
+    .btn:active{ transform: scale(.98); }
+
+    .btn-primary{
+  background: #ff8c3a;          /* ShiokLah orange */
+  color: #ffffff;
+  border: none;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  box-shadow: 0 6px 16px rgba(255,140,58,.35);
+  transition: 
+    background .15s ease,
+    box-shadow .15s ease,
+    transform .08s ease;
+}
+
+    .btn-primary[disabled]{
+      opacity: .55;
+      cursor: not-allowed;
+      transform:none;
+    }
+
+    .btn svg{ width:18px; height:18px; fill: currentColor; }
+
+    .content{
+      padding: 18px 20px 20px;
+      display: grid;
+      grid-template-columns: 1.3fr .7fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 980px){
+      .content{ grid-template-columns: 1fr; }
+    }
+
+    .section{
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    .section-hd{
+      padding: 14px 16px;
+      background: #ffe7ea;
+      border-bottom: 1px solid var(--line);
+    }
+    .section-hd .h{
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: .06em;
+      margin-top:5px;
+      color: #344054;
+    }
+    .section-hd .p{
+      margin-top: 6px;
+      font-size: 12.5px;
+      color: var(--muted);
+      line-height: 1.35;
+    }
+
+    .section-bd{
+      padding: 16px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .grid-2{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    @media (max-width: 680px){
+      .grid-2{ grid-template-columns: 1fr; }
+    }
+
+    label{
+      display:block;
+      font-size: 12.5px;
+      font-weight: 800;
+      color: #344054;
+      margin-bottom: 6px;
+    }
+    .req::after{ content:" *"; color: var(--danger); font-weight: 900; }
+
+    .field{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
+
+    input, select, textarea{
+      width: 100%;
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 12px;
+      padding: 12px 12px;
+      font-size: 15px;
+      color: var(--text);
+      outline: none;
+      transition: box-shadow .15s ease, border-color .15s ease;
+    }
+    input::placeholder, textarea::placeholder{ color: #98a2b3; }
+
+    input:focus, select:focus, textarea:focus{
+      border-color: rgba(255,140,58,.55);
+      box-shadow: 0 0 0 4px var(--focus);
+    }
+
+    .help{
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    /* toolbar + editor like screenshot */
+    .editor{
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      overflow:hidden;
+      background:#fff;
+    }
+
+    .toolbar{
+      display:flex;
+      align-items:center;
+      gap: 6px;
+      padding: 10px;
+      border-bottom: 1px solid var(--line2);
+      background: #fbfcff;
+      flex-wrap: wrap;
+    }
+
+    .tool{
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      border: 1px solid var(--line2);
+      background: #fff;
+      color: #344054;
+      cursor: pointer;
+      display:grid;
+      place-items:center;
+      font-weight: 900;
+      user-select:none;
+      transition: background .15s ease, transform .08s ease;
+    }
+    .tool:hover{ background:#f6f8ff; }
+    .tool:active{ transform: scale(.98); }
+    .tool svg{ width: 16px; height:16px; fill: #344054; }
+
+    textarea{
+      border: none;
+      border-radius: 0;
+      padding: 14px 12px;
+      min-height: 170px;
+      resize: vertical;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .editor-ft{
+      display:flex;
+      justify-content: flex-end;
+      padding: 8px 12px 10px;
+      border-top: 1px solid var(--line2);
+      background: #fff;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    /* right preview card */
+    .preview{
+      display:flex;
+      flex-direction:column;
+      gap: 12px;
+    }
+
+    .mini{
+      padding: 14px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background:#fff;
+    }
+    .mini .mini-title{
+      font-weight: 900;
+      font-size: 13px;
+      color:#344054;
+      margin-bottom: 10px;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+    .kv{
+      display:flex;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px dashed var(--line2);
+      font-size: 13.5px;
+    }
+    .kv:last-child{ border-bottom:none; }
+    .k{ color: var(--muted); font-weight: 700; }
+    .v{ color: var(--text); font-weight: 800; text-align:right; word-break: break-word; }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      width:250px;
+      height:40px;
+      padding: 9px 10px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 900;
+      border: 1px solid rgba(30,127,58,.18);
+      color: var(--success);
+      background: var(--successBg);
+    }
+
+    .error{
+      display:none;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(217,45,32,.20);
+      background: var(--dangerBg);
+      color: var(--danger);
+      font-size: 13px;
+      font-weight: 800;
+    }
+    .error.show{ display:block; }
+
+    .footer{
+      padding: 14px 20px 18px;
+      border-top: 1px solid var(--line);
+      display:flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .btn-ghost{
+      background:#fff;
+    }
+
+    </style>
+  </head>
+  <body>
+    <!-- Vendor Home -->
+     <section class="container vendornav">
+      <nav class="navrectangle">
+        <header class="brand">ShiokLah!</header>
+
+        <ul class="navBar">
+          <li>
+            <a href="PerformanceDashboard.html" class="main toggle">
+              📊 Dashboard
+            </a>
+          </li>
+
+          <!-- <li class="divider"></li> -->
+
+           <li>
+            <a href="VendorEditMenu.html" class="main toggle">
+              🍽️ Edit Menu
+            </a>
+          </li>
+
+          <!-- <li class="divider"></li> -->
+
+          <li class="main toggle ven-profile">
+            <span>👤 Profile</span>
+            <span class="usernameDisplay"></span>
+            <span class="arrow">v</span>
+          </li>
+          <ul class="submenu">
+            <li>
+              <button onclick="window.location.href='StallHygieneGrades.html';" class="subpoint">
+               • Stall Hygiene Grades
+              </button>
+            </li>
+            <li>
+             <button onclick="window.location.href='PerformanceDashboard.html';" class="subpoint">
+               • Performance Dashboard
+              </button>
+            </li>
+            <li>
+              <button onclick="window.location.href='RentalAgreement.html';" class="subpoint">
+              • My Rental Agreements
+              </button>
+            </li>
+
+            <li>
+            <button onclick="window.location.href='CustomerFeedBack.html';" class="subpoint">
+              • Customer Feedback
+              </button>
+            </li>
+            <li class="subpoint settings">• Settings</li>
+          </ul>
+
+          <!-- <li class="divider"></li> -->
+          <li class="subpoint logout">Log out</li>
+        </ul>
+      </nav>
+
+      <nav class="mobile-nav vendornav">
+        <div class="mobile-nav-item active" data-link="FED_ASG.html">
+          <span>🏠</span>
+          <small>Home</small>
+        </div>
+
+        <div class="mobile-nav-item" data-link="VendorEditMenu.html">
+          <span>🍽️</span>
+          <small>Edit Menu</small>
+        </div>
+
+        <div class="mobile-nav-item" data-link="VendorProfile.html">
+          <span>👤</span>
+          <small>Profile</small>
+        </div>
+      </nav>
+
+  <main class="contents">
+<div class="page">
+    <div class="shell">
+      <div class="topbar">
+        <div class="title-wrap">
+          <div class="title">Renew Rental Agreement</div>
+          <div class="subtitle">Fill in the agreement details.</div>
+        </div>
+
+        <div class="actions">
+          <button class="btn btn-ghost" type="button" id="btnReset">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5V2L8 6l4 4V7c3.31 0 6 2.69 6 6a6 6 0 0 1-11.31 3H4.54A8 8 0 0 0 20 13c0-4.42-3.58-8-8-8Z"/></svg>
+            Reset
+          </button>
+        </div>
+      </div>
+
+      <div class="content">
+        <!-- LEFT: form -->
+        <div>
+          <div class="section">
+            <div class="section-hd">
+              <div class="h">AGREEMENT DETAILS</div>
+              <div class="p">Note that required fields must be filled before you can renew.</div>
+            </div>
+
+            <div class="section-bd">
+              <div class="error" id="errBox">Please fill in all required fields.</div>
+
+              <div class="grid-2">
+
+                <div class="field">
+                  <label class="req" for="centre">Centre</label>
+                  <input id="centre" placeholder="e.g., Boon Lay" maxlength="40" />
+                </div>
+
+                <div class="field">
+                  <label class="req" for="storeLoc">Store Location (Without #)</label>
+                  <input id="storeLoc" placeholder="e.g., 01-132" maxlength="12" />
+                </div>
+              </div>
+
+              <div class="field">
+                <label class="req" for="storeAddr">Store Address</label>
+                <input id="storeAddr" placeholder="e.g., Boon Lay Place Food Village, 221A/B Boon Lay Place" />
+              </div>
+
+              <div class="grid-2">
+                <div class="field">
+                  <label class="req" for="rent">Rent</label>
+                  <input id="rent" placeholder="e.g., 1000" inputmode="numeric" />
+                  <div class="help">Numbers only (e.g., 1000).</div>
+                </div>
+                
+
+                <div class="field">
+                  <label class="req" for="tradeType">Trade Type</label>
+                  <select id="tradeType">
+                    <option value="">Select Trade Type</option>
+                    <option value="Cooked Food">Cooked Food</option>
+                    <option value="Uncooked Food">Uncooked Food</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="grid-2">
+                
+
+                <div class="field">
+                  <label class="req" for="startDate">Start Date</label>
+                  <input id="startDate" type="date" />
+                </div>
+              
+
+                <div class="field">
+                  <label class="req" for="endDate">End Date</label>
+                  <input id="endDate" type="date" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="height:14px"></div>
+
+          <div class="section">
+            <div class="section-hd">
+              <div class="h">ADDITIONAL NOTES</div>
+              <div class="p">Add any extra notes (this is styled like the first picture). Character limit: 1000.</div>
+            </div>
+
+            <div class="section-bd">
+              <div class="field">
+                <label for="noteTitle">Title</label>
+                <input id="noteTitle" placeholder="e.g., Renewal / Special terms / Utilities" />
+              </div>
+
+              <div class="editor" aria-label="Notes editor">
+                <div class="toolbar">
+                  <button class="tool" type="button" data-cmd="bold" title="Bold"><b>B</b></button>
+                  <button class="tool" type="button" data-cmd="italic" title="Italic"><i>I</i></button>
+                  <button class="tool" type="button" data-cmd="ul" title="Bullet list">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h2v2H4V6Zm4 0h14v2H8V6ZM4 11h2v2H4v-2Zm4 0h14v2H8v-2ZM4 16h2v2H4v-2Zm4 0h14v2H8v-2Z"/></svg>
+                  </button>
+                  <button class="tool" type="button" data-cmd="ol" title="Numbered list">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h1V5H4V4h2v4H4V7Zm0 6h2v1H5v1h1v1H4v-1h1v-1H4v-2Zm4-8h14v2H8V5Zm0 6h14v2H8v-2Zm0 6h14v2H8v-2Z"/></svg>
+                  </button>
+                  <button class="tool" type="button" data-cmd="link" title="Insert link">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.9 12a5 5 0 0 1 5-5h3v2h-3a3 3 0 0 0 0 6h3v2h-3a5 5 0 0 1-5-5Zm7.1 1h2v-2h-2v2Zm4-6h3a5 5 0 1 1 0 10h-3v-2h3a3 3 0 1 0 0-6h-3V7Z"/></svg>
+                  </button>
+                </div>
+
+                <textarea id="notes" maxlength="1000" placeholder="Type details..."></textarea>
+
+                <div class="editor-ft">
+                  <span id="charCount">0 / 1000</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: live preview -->
+        <div class="preview">
+          <div class="mini">
+            <div class="mini-title">Live Preview</div>
+            <div class="kv"><div class="k">Store Location</div><div class="v" id="pvLoc">—</div></div>
+            <div class="kv"><div class="k">Store Address</div><div class="v" id="pvAddr">—</div></div>
+            <div class="kv"><div class="k">Centre</div><div class="v" id="pvCentre">—</div></div>
+            <div class="kv"><div class="k">Trade Type</div><div class="v" id="pvTrade">—</div></div>
+            <div class="kv"><div class="k">Rent</div><div class="v" id="pvRent">—</div></div>
+            <div class="kv"><div class="k">Start Date</div><div class="v" id="pvStartDate">—</div></div>
+            <div class="kv"><div class="k">End Date</div><div class="v" id="pvEndDate">—</div></div>
+
+          </div>
+
+          <div class="mini">
+            <div class="mini-title">Status</div>
+            <div class="pill" id="statusPill"></div>
+            <div class="help" style="margin-top:10px; line-height:1.45;">Ready to create when required fields filled</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="footer">
+        <button class="btn btn-ghost" type="button" id="btnCancel">Cancel</button>
+        <button class="btn btn-primary" type="button" id="btnCreate2" disabled>Create</button>
+      </div>
+    </div>
+  </div>
+    </section>
+  </main>
+  <script type="module">
+
+    function generateAID() {
+      // unique enough for school projects
+      const rand = Math.floor(1000 + Math.random() * 9000); // 4 digits
+      return `AG-${Date.now()}-${rand}`;
+    }
+
+    function getAgreementStatus(endDateStr) {
+      const end = new Date(endDateStr);
+      const now = new Date();
+      return end >= now ? "active" : "expired";
+    }
+
+    const $ = (id) => document.getElementById(id);
+
+    const requiredIds = ["storeLoc","storeAddr","centre","tradeType","rent","startDate","endDate"];
+
+
+
+    function setText(id, value){
+      $(id).textContent = value && value.trim() ? value.trim() : "—";
+    }
+
+    function sanitizeDigits(v){
+      return v.replace(/[^\d]/g, "");
+    }
+
+    function validate(){
+      const missing = requiredIds.some(id => {
+        const el = $(id);
+        return !String(el.value || "").trim();
+      });
+
+      const rentOk = /^\d+$/.test(($("rent").value || "").trim());
+
+      const start = $("startDate").value;
+      const end = $("endDate").value;
+      const dateOk = start && end && new Date(end) > new Date(start);
+
+      const ok = !missing && rentOk && dateOk;
+
+      const pill = $("statusPill");
+      if(ok){
+        pill.textContent = "Ready to create";
+      } else if(start && end && !dateOk){
+        pill.textContent = "End date must be after start date";
+      } else {
+        pill.textContent = "Incomplete";
+      }
+
+      $("btnCreate2").disabled = !ok;
+      $("errBox").classList.toggle("show", !ok && touchedCount > 0);
+
+      return ok;
+    }
+
+    function updatePreview(){
+      setText("pvLoc", $("storeLoc").value);
+      setText("pvAddr", $("storeAddr").value);
+      setText("pvCentre", $("centre").value);
+      setText("pvTrade", $("tradeType").value);
+      setText("pvRent", $("rent").value ? "$" + $("rent").value.trim() : "");
+      setText("pvStartDate", $("startDate").value);
+      setText("pvEndDate", $("endDate").value);
+    }
+
+    // character count for notes
+    function updateCharCount(){
+      const len = ($("notes").value || "").length;
+      $("charCount").textContent = len + " / 1000";
+    }
+
+    // lightweight toolbar behavior (adds simple markers in textarea)
+    function wrapSelection(textarea, before, after){
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const value = textarea.value;
+
+      const selected = value.slice(start, end);
+      const next = value.slice(0, start) + before + selected + after + value.slice(end);
+
+      textarea.value = next;
+      textarea.focus();
+
+      const cursor = start + before.length + selected.length + after.length;
+      textarea.setSelectionRange(cursor, cursor);
+      updateCharCount();
+    }
+
+    function insertAtLineStart(textarea, prefix){
+      const start = textarea.selectionStart;
+      const value = textarea.value;
+      const lineStart = value.lastIndexOf("\n", start - 1) + 1;
+      textarea.value = value.slice(0, lineStart) + prefix + value.slice(lineStart);
+      textarea.focus();
+      const cursor = start + prefix.length;
+      textarea.setSelectionRange(cursor, cursor);
+      updateCharCount();
+    }
+
+    // ----- wire up -----
+    let touchedCount = 0;
+
+    ["storeLoc","storeAddr","centre","tradeType","rent","startDate","endDate"].forEach(id => {
+      const el = $(id);
+
+      el.addEventListener("input", () => {
+        if(id === "rent"){
+          const cleaned = sanitizeDigits(el.value);
+          if(el.value !== cleaned) el.value = cleaned;
+        }
+        updatePreview();
+        validate();
+      });
+
+      el.addEventListener("blur", () => {
+        touchedCount++;
+        validate();
+      });
+    });
+
+    $("notes").addEventListener("input", updateCharCount);
+
+    document.querySelectorAll(".tool").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const cmd = btn.dataset.cmd;
+        const ta = $("notes");
+
+        if(cmd === "bold") wrapSelection(ta, "**", "**");
+        if(cmd === "italic") wrapSelection(ta, "_", "_");
+        if(cmd === "ul") insertAtLineStart(ta, "• ");
+        if(cmd === "ol") insertAtLineStart(ta, "1. ");
+        if(cmd === "link") wrapSelection(ta, "[", "](https://)");
+      });
+    });
+
+    function resetAll(){
+      ["storeLoc","storeAddr","centre","tradeType","rent","startDate","endDate"].forEach(id => $(id).value = "");
+      touchedCount = 0;
+      updatePreview();
+      updateCharCount();
+      validate();
+      $("errBox").classList.remove("show");
+    }
+
+    $("btnReset").addEventListener("click", resetAll);
+    $("btnCancel").addEventListener("click", () => {
+      window.location.href = "RentalAgreement.html";
+    });
+
+    async function onCreate() {
+  if (!validate()) {
+    $("errBox").classList.add("show");
+    return;
+  }
+
+  // ✅ get logged-in username (your backend uses this)
+    const username = sessionStorage.getItem("loggedInUser")
+    const AID = generateAID();
+    const endDate = $("endDate").value;
+
+    const payload = {
+      AID,
+      storeLocation: $("storeLoc").value.trim(),
+      storeAddress: $("storeAddr").value.trim(),
+      centre: $("centre").value.trim(),
+      tradeType: $("tradeType").value.trim(),
+      rent: Number(($("rent").value || "").trim()),
+      startDate: $("startDate").value,
+      endDate,
+      status: getAgreementStatus(endDate),
+      noteTitle: $("noteTitle").value.trim(),
+      notes: $("notes").value.trim(),
+      createdAt: Date.now(),
+    };
+
+    // ✅ store under members/{username}/rentalAgreements/{AID}
+    await set(ref(db, `members/${username}/rentalAgreements/${AID}`), payload);
+
+    alert(`Created! ✅\nAgreement ID: ${AID}`);
+
+    window.location.href = "RentalAgreement.html";
+  }
+
+    $("btnCreate2").addEventListener("click", onCreate);
+
+    // init
+    updatePreview();
+    updateCharCount();
+    validate();
+  </script>
+    <script type="module" src="Master_page_javascript.js"></script>
+  </body>
+</html>
