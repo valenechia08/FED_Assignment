@@ -284,7 +284,10 @@ function generateCode() {
 document.addEventListener("DOMContentLoaded", () => {
   const path = window.location.pathname.toLowerCase(); // safer
 
-  if (path.endsWith("login.html") && sessionStorage.getItem("currentRole") === "patron") {
+  if (
+    path.endsWith("login.html") &&
+    sessionStorage.getItem("currentRole") === "patron"
+  ) {
     const guestDiv = document.getElementById("guestLogin"); // use real DOM call
     if (guestDiv) {
       guestDiv.style.display = "block";
@@ -292,7 +295,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  if (path.endsWith("login.html") && sessionStorage.getItem("currentRole") === "officer") {
+  if (
+    path.endsWith("login.html") &&
+    sessionStorage.getItem("currentRole") === "officer"
+  ) {
     const register = document.getElementById("register-account");
     const links = document.getElementById("links");
 
@@ -953,12 +959,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const menuRoot = document.querySelector("#menuRoot");
 
-if (!stallName) {
-  if (menuRoot) {
-    menuRoot.innerHTML = "<p>No stall selected.</p>";
+  if (!stallName) {
+    if (menuRoot) {
+      menuRoot.innerHTML = "<p>No stall selected.</p>";
+    }
+    return;
   }
-  return;
-}
 
   // Optional: show stall name on the page somewhere
   const titleEl = document.getElementById("stallTitle");
@@ -1089,7 +1095,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const stallName = params.get("stall");
 
   if (!stallName) {
-
     menuRoot.innerHTML = "<p>No stall selected.</p>";
     return;
   }
@@ -1302,7 +1307,7 @@ function renderCart() {
 
     const img = document.createElement("img");
     img.alt = row.item;
-    img.src = row.image || "images/placeholder.png";
+    img.src = row.image;
     img.onerror = () => (img.src = "images/placeholder.png");
     thumb.appendChild(img);
 
@@ -1426,28 +1431,100 @@ function renderCart() {
 /* =========================
    INIT
 ========================= */
+// document.addEventListener("DOMContentLoaded", () => {
+//   renderCart();
+//   initPaymentPicker();
+//   initOrderModeToggle();
+
+//   const placeBtn = document.getElementById("placeOrderBtn");
+//   if (placeBtn) {
+//     placeBtn.addEventListener("click", () => {
+//       const cart = getCart();
+//       if (!cart.length) return alert("Cart is empty.");
+
+//       const payment = sessionStorage.getItem("paymentMethod") || "visa";
+//       const mode = getOrderMode();
+
+//       // redirect if Add Card selected
+//       if (payment === "add-card") {
+//         window.location.href = "PaymentFailed.html";
+//         return;
+//       }
+//       window.location.href = "PaymentSuccess.html";
+//     });
+//   }
+// });
+
+//For OrderSummary.html
+function generateOrderId() {
+  const rand = Math.floor(1000 + Math.random() * 9000); // 1000–9999
+  return `ORD-${rand}`;
+}
+
+async function placeOrderAndSave() {
+  const cart = getCart();
+  if (!cart.length) return null;
+
+  const orderNo = generateOrderId();
+  const username = sessionStorage.getItem("loggedInUser");
+
+  const order = {
+    orderNo: orderNo,
+    username: username,
+    createdAt: Date.now(),
+    items: cart,
+    orderMode: sessionStorage.getItem("orderMode") || "pickup",
+    paymentMethod: sessionStorage.getItem("paymentMethod") || "visa",
+    status: "Pending",
+  };
+
+  // ✅ safest: push under /orders
+  const newRef = push(ref(db, "orders"));
+  await set(newRef, order);
+
+  sessionStorage.setItem("lastOrderNo", orderNo);
+  return orderNo;
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   renderCart();
   initPaymentPicker();
   initOrderModeToggle();
 
   const placeBtn = document.getElementById("placeOrderBtn");
-  if (placeBtn) {
-    placeBtn.addEventListener("click", () => {
-      const cart = getCart();
-      if (!cart.length) return alert("Cart is empty.");
+  if (!placeBtn) return;
 
-      const payment = sessionStorage.getItem("paymentMethod") || "visa";
-      const mode = getOrderMode();
+  placeBtn.addEventListener("click", async () => {
+    const cart = getCart();
+    if (!cart.length) return alert("Cart is empty.");
 
-      // redirect if Add Card selected
-      if (payment === "add-card") {
-        window.location.href = "PaymentFailed.html";
-        return;
-      }
+    const payment = sessionStorage.getItem("paymentMethod") || "visa";
+    const mode = getOrderMode();
+
+    // ❌ Payment failed path (do NOT store)
+    if (payment === "add-card") {
+      window.location.href = "PaymentFailed.html";
+      return;
+    }
+
+    // ✅ Payment successful path (store THEN redirect)
+    try {
+      const orderNo = await placeOrderAndSave(); // <-- this writes to Firebase
+      if (!orderNo) return;
+
+      // optional: clear cart only AFTER storing successfully
+      sessionStorage.removeItem("cart");
+
+      // optional: keep last order info for success page
+      sessionStorage.setItem("lastOrderNo", orderNo);
+      sessionStorage.setItem("lastOrderMode", mode);
+
       window.location.href = "PaymentSuccess.html";
-    });
-  }
+    } catch (err) {
+      console.error("❌ Failed to save order:", err);
+      alert("Order could not be saved. Please try again.");
+    }
+  });
 });
 
 // sessionStorage.removeItem("cart");
