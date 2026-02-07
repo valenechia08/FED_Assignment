@@ -531,147 +531,147 @@ async function addMenuItem(
   const itemObj = createMenuItemObject(item_name, price, available, image,description);
   await update(ref(db, `stalls/${stall_name}/menuItems`), itemObj);
 }
+//Can remove since data has already been created
+// // createStallObject("Banana Leaf Nasi Lemak", "Malay", 4.0, "images/Banana Leaf Nasi Lemak Picture.jpg");
 
-// createStallObject("Banana Leaf Nasi Lemak", "Malay", 4.0, "images/Banana Leaf Nasi Lemak Picture.jpg");
+// (async () => {
+//   await uploadStall(
+//     "Banana Leaf Nasi Lemak",
+//     "Malay",
+//     4.0,
+//     "images/Banana Leaf Nasi Lemak Picture.jpg",
+//    );
+//   await addMenuItem(
+//     "Banana Leaf Nasi Lemak",
+//     "5 pcs Spicy Fish Otah",
+//     7.5,
+//     true,
+//     "images/Otah Picture.webp",
+//     "Homemade fish otah",
+//   );
+//   await addMenuItem(
+//     "Banana Leaf Nasi Lemak",
+//     "1 Pcs Spicy Fish Otah",
+//     1.5,
+//     true,
+//     "images/Otah Picture.webp",
+//     "Homemade fish otah",
+//   );
 
-(async () => {
-  await uploadStall(
-    "Banana Leaf Nasi Lemak",
-    "Malay",
-    4.0,
-    "images/Banana Leaf Nasi Lemak Picture.jpg",
-   );
-  await addMenuItem(
-    "Banana Leaf Nasi Lemak",
-    "5 pcs Spicy Fish Otah",
-    7.5,
-    true,
-    "images/Otah Picture.webp",
-    "Homemade fish otah",
-  );
-  await addMenuItem(
-    "Banana Leaf Nasi Lemak",
-    "1 Pcs Spicy Fish Otah",
-    1.5,
-    true,
-    "images/Otah Picture.webp",
-    "Homemade fish otah",
-  );
+//   await addMenuItem(
+//     "Banana Leaf Nasi Lemak",
+//     "Set Meal A",
+//     5,
+//     true,
+//     "images/Set Meal A Picture.jpg",
+//     "Our bestseller featuring a chicken wing, fish fillet, egg, bergedil and more!",
+//   );
 
-  await addMenuItem(
-    "Banana Leaf Nasi Lemak",
-    "Set Meal A",
-    5,
-    true,
-    "images/Set Meal A Picture.jpg",
-    "Our bestseller featuring a chicken wing, fish fillet, egg, bergedil and more!",
-  );
-
-  await addMenuItem(
-    "Banana Leaf Nasi Lemak",
-    "Set Meal B",
-    4,
-    true,
-    "images/Set Meal B Picture.jpg",
-    "One of the top-picks featuring a chicken wing, egg and more! ",
-  );
-  await addMenuItem(
-    "Banana Leaf Nasi Lemak",
-    "Set Meal C",
-    4,
-    true,
-    "images/Set Meal C Picture.png",
-    "Delicious nasi lemak featuring spicy selar fish, egg and more! ",
-  );
-  await addMenuItem(
-    "Banana Leaf Nasi Lemak",
-    "Set Meal D",
-    3.5,
-    true,
-    "images/Set Meal D Picture.jpg",
-    "Delicious nasi lemak featuring fish fillet, egg and more!",
-  );
-  await uploadStall(
-    "Boon Lay Fried Carrot Cake & Kway Teow Mee",
-    "Chinese",
-    4.2,
-    "images/Boon Lay Fried Carrot Cake & Kway Teow Mee Picture.jpg",
-  );
-  await addMenuItem(
-    "Boon Lay Fried Carrot Cake & Kway Teow Mee",
-    "Black Carrot Cake (Small)",
-    3,
-    true,
-    "images/Black Carrot Cake Picture.jpg",
-    "",
-  );
-  await addMenuItem(
-    "Boon Lay Fried Carrot Cake & Kway Teow Mee",
-    "Black Carrot Cake (Medium)",
-    4,
-    true,
-    "images/Black Carrot Cake Picture.jpg",
-    "",
-  );
-  await addMenuItem(
-    "Boon Lay Fried Carrot Cake & Kway Teow Mee",
-    "Black Carrot Cake (Large)",
-    5,
-    true,
-    "images/Black Carrot Cake Picture.jpg",
-    "",
-  );
-  await addMenuItem(
-    "Boon Lay Fried Carrot Cake & Kway Teow Mee",
-    "White Carrot Cake (Small)",
-    3,
-    true,
-    "images/White Carrot Cake Picture.jpg",
-    "",
-  );
-  await addMenuItem(
-    "Boon Lay Fried Carrot Cake & Kway Teow Mee",
-    "White Carrot Cake (Medium)",
-    4,
-    true,
-    "images/White Carrot Cake Picture.jpg",
-    "",
-  );
-  await addMenuItem(
-    "Boon Lay Fried Carrot Cake & Kway Teow Mee",
-    "White Carrot Cake (Large)",
-    5,
-    true,
-    "images/White Carrot Cake Picture.jpg",
-    "",
-  );
-  await addMenuItem(
-    "Boon Lay Fried Carrot Cake & Kway Teow Mee",
-    "Char Kway Teow",
-    4.5,
-    true,
-    "images/Char Kway Teow Picture.webp",
-    "",
-  );
-  await uploadStall(
-    "Boon Lay Lu Wei",
-    "Chinese",
-    4.2,
-    "images/Boon Lay Lu Wei Picture.jpg",
-  );
-  await uploadStall(
-    "IMohamed Ismail Food Stall",
-    "Indian",
-    4.5,
-    "images/I.Mohamed Ismail Food Stall Picture.jpg",
-  );
-  await uploadStall(
-    "Big Daddy’s Chicken & Noodle Stall",
-    "Others",
-    4.5,
-    "images/Big Daddy's Chicken & Noodle Picture.webp",
-  );
-})();
+//   await addMenuItem(
+//     "Banana Leaf Nasi Lemak",
+//     "Set Meal B",
+//     4,
+//     true,
+//     "images/Set Meal B Picture.jpg",
+//     "One of the top-picks featuring a chicken wing, egg and more! ",
+//   );
+//   await addMenuItem(
+//     "Banana Leaf Nasi Lemak",
+//     "Set Meal C",
+//     4,
+//     true,
+//     "images/Set Meal C Picture.png",
+//     "Delicious nasi lemak featuring spicy selar fish, egg and more! ",
+//   );
+//   await addMenuItem(
+//     "Banana Leaf Nasi Lemak",
+//     "Set Meal D",
+//     3.5,
+//     true,
+//     "images/Set Meal D Picture.jpg",
+//     "Delicious nasi lemak featuring fish fillet, egg and more!",
+//   );
+//   await uploadStall(
+//     "Boon Lay Fried Carrot Cake & Kway Teow Mee",
+//     "Chinese",
+//     4.2,
+//     "images/Boon Lay Fried Carrot Cake & Kway Teow Mee Picture.jpg",
+//   );
+//   await addMenuItem(
+//     "Boon Lay Fried Carrot Cake & Kway Teow Mee",
+//     "Black Carrot Cake (Small)",
+//     3,
+//     true,
+//     "images/Black Carrot Cake Picture.jpg",
+//     "",
+//   );
+//   await addMenuItem(
+//     "Boon Lay Fried Carrot Cake & Kway Teow Mee",
+//     "Black Carrot Cake (Medium)",
+//     4,
+//     true,
+//     "images/Black Carrot Cake Picture.jpg",
+//     "",
+//   );
+//   await addMenuItem(
+//     "Boon Lay Fried Carrot Cake & Kway Teow Mee",
+//     "Black Carrot Cake (Large)",
+//     5,
+//     true,
+//     "images/Black Carrot Cake Picture.jpg",
+//     "",
+//   );
+//   await addMenuItem(
+//     "Boon Lay Fried Carrot Cake & Kway Teow Mee",
+//     "White Carrot Cake (Small)",
+//     3,
+//     true,
+//     "images/White Carrot Cake Picture.jpg",
+//     "",
+//   );
+//   await addMenuItem(
+//     "Boon Lay Fried Carrot Cake & Kway Teow Mee",
+//     "White Carrot Cake (Medium)",
+//     4,
+//     true,
+//     "images/White Carrot Cake Picture.jpg",
+//     "",
+//   );
+//   await addMenuItem(
+//     "Boon Lay Fried Carrot Cake & Kway Teow Mee",
+//     "White Carrot Cake (Large)",
+//     5,
+//     true,
+//     "images/White Carrot Cake Picture.jpg",
+//     "",
+//   );
+//   await addMenuItem(
+//     "Boon Lay Fried Carrot Cake & Kway Teow Mee",
+//     "Char Kway Teow",
+//     4.5,
+//     true,
+//     "images/Char Kway Teow Picture.webp",
+//     "",
+//   );
+//   await uploadStall(
+//     "Boon Lay Lu Wei",
+//     "Chinese",
+//     4.2,
+//     "images/Boon Lay Lu Wei Picture.jpg",
+//   );
+//   await uploadStall(
+//     "IMohamed Ismail Food Stall",
+//     "Indian",
+//     4.5,
+//     "images/I.Mohamed Ismail Food Stall Picture.jpg",
+//   );
+//   await uploadStall(
+//     "Big Daddy’s Chicken & Noodle Stall",
+//     "Others",
+//     4.5,
+//     "images/Big Daddy's Chicken & Noodle Picture.webp",
+//   );
+// })();
 async function loadStallInfo(stallName) {
   const snap = await get(ref(db, `stalls/${stallName}`));
 

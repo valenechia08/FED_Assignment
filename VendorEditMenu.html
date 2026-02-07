@@ -147,19 +147,18 @@
 }
 
 .icon-btn {
-  width: 46px;
-  height: 46px;
-  border-radius: 14px;
-  border: 1px solid #eceff5;
-  background: #fff;
   display: grid;
   place-items: center;
   cursor: pointer;
+  border-radius: 14px;
+  overflow: hidden;
+  background-color: white;
+  border: 1px solid #eceff5;
   transition: transform .08s ease, background .15s ease;
 }
 .icon-btn:hover { background: #f7f8fb; }
 .icon-btn:active { transform: scale(.98); }
-.icon-btn img { width: 22px; height: 22px; object-fit: contain; }
+.icon-btn img { width: 22px; height: 22px;object-fit: contain;display: block; }
 
 /* ====== MODAL FORM ====== */
 .modal {
@@ -544,8 +543,6 @@
     Images are loaded from <b>/images/</b>
   </div>
 
-
-
   <button type="button" id="removeImageBtn" class="remove-image-btn" style="display:none;">
     Remove image
   </button>
@@ -829,8 +826,5 @@ if (removeImageBtn) {
 }
 
 </script>
-
-
-    <script type="module" src="Master_page_javascript.js"></script>
   </body>
 </html>
