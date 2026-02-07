@@ -335,6 +335,10 @@ body {
 
 /* MOBILE */
 @media (max-width: 768px) {
+  .reserve-btn{
+    display:none;
+  }
+  
   .menu {
     display: none;
     position: absolute;
@@ -360,19 +364,24 @@ body {
 /* nav ends here */
 
 .Banner {
-  width: 100vw;
-  /* full screen width */
-  height: 100vh;
-  margin: 0;
+  width: 100%;
+  height: 70vh;
   overflow: hidden;
+  display: flex;                /* ✅ centers the image element */
+  justify-content: center;
+  align-items: center;
+  background: #fff;             /* optional */
 }
 
 .banner-image {
   width: 100%;
   height: 100%;
-  background-size: cover;
+  object-fit: cover;            /* ✅ no stretch */
+  object-position: center;      /* ✅ keeps center */
   display: block;
 }
+
+
 
 /* HOME */
 .home {
@@ -416,6 +425,9 @@ body {
 }
 
 /* CUISINES */
+/* =============================
+   CUISINE SECTION
+============================= */
 .cuisines {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -423,40 +435,53 @@ body {
   margin-bottom: 24px;
 }
 
-.cuisine-card {
+/* Base card */
+.filter-btn.cuisine-card {
   text-align: center;
-  transition: all 0.25s ease;
-  /* smooth highlight */
+  cursor: pointer;
+  transition: transform 0.25s ease;
 }
 
-.cuisine-card img {
+/* Image */
+.filter-btn.cuisine-card img {
   width: 85%;
   height: 160px;
-  /* fixed height */
   object-fit: cover;
   border-radius: 18px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-  transition: box-shadow 0.25s ease, transform 0.25s ease;
+  transition: 
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    filter 0.25s ease;
 }
 
-.cuisine-card p {
-  margin-top: 8px;
+/* Text */
+.filter-btn.cuisine-card p {
+  margin-top: 10px;
   font-size: 16px;
   font-weight: 600;
-  /* fixed weight so it doesn’t jump */
+  transition: color 0.25s ease;
 }
 
-/* Selected state */
-.cuisine-card.selected img {
-  box-shadow: 0 0 12px #ff7a18;
-  /* highlight with glow */
-  transform: scale(1.02);
-  /* optional subtle effect, doesn’t affect text */
+/* Hover (preview effect) */
+.filter-btn.cuisine-card:hover img {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.18);
 }
 
-.cuisine-card.selected p {
+/* =============================
+   ACTIVE / SELECTED STATE
+============================= */
+.filter-btn.cuisine-card.active img {
+  transform: translateY(-10px) scale(1.04);
+  box-shadow: 0 16px 36px rgba(255, 140, 58, 0.45);
+  filter: brightness(1.08) saturate(1.1);
+}
+
+.filter-btn.cuisine-card.active p {
   color: var(--primary-orange);
 }
+
 
 
 /* DIVIDER */
@@ -473,43 +498,39 @@ body {
 
 /* STALL GRID */
 .stall-grid {
-  display: flex;
-  flex-wrap: wrap;
-  grid-template-columns: repeat(3, 1fr);
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto 60px;
+
+  display: grid;                             /* ✅ use grid */
+  grid-template-columns: repeat(3, 1fr);     /* ✅ 3 in a row (desktop) */
   gap: 30px;
-  margin-bottom: 60px;
-  align-items: center;
 }
 
 .stall-card {
   background: white;
   border-radius: 18px;
-  /* consistent rounded corners */
   overflow: hidden;
+
   display: flex;
   flex-direction: column;
-  /* stack image on top, text below */
   align-items: center;
-  /* center text under image */
   text-align: center;
-  /* text alignment */
-  width: 30%;
-  height: 32%;
-}
 
+  padding: 14px;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+
+  width: auto;    /* ✅ remove fixed width */
+  height: auto;   /* ✅ remove fixed height */
+}
 
 .stall-card img {
-  display: flex;
-  justify-content: space-evenly;
-  width: 80%;
-  /* image fills card width */
+  width: 100%;
   height: 200px;
-  /* fixed height for consistency */
   object-fit: cover;
-  /* crop without distortion */
-  border-radius: 18px;
-  /* rounded top corners only */
+  border-radius: 16px;
 }
+
 
 .stall-info {
   padding: 12px;
@@ -529,8 +550,137 @@ body {
 }
 
 
+
+/* =========================
+   MOBILE SIDE NAV (Drawer)
+========================= */
+@media (max-width: 768px) {
+  /* hide reserve button (you already do this) */
+  .reserve-btn {
+    display: none;
+  }
+
+  /* hamburger stays */
+  .hamburger {
+    display: flex;
+  }
+
+  /* turn menu into a side drawer */
+  .menu {
+    display: flex;                 /* keep flex, but hidden by transform */
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: min(82vw, 320px);
+
+    background: #fff;
+    padding: 90px 18px 18px;       /* space for top bar */
+    box-shadow: -18px 0 40px rgba(0,0,0,0.18);
+
+    transform: translateX(110%);
+    transition: transform 0.25s ease;
+    z-index: 3000;
+  }
+
+  /* show drawer */
+  .menu.show {
+    transform: translateX(0);
+  }
+
+  /* dark overlay behind drawer */
+  .nav-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.35);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+    z-index: 2500;
+  }
+
+  .nav-overlay.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* bigger tap targets */
+  .menu > .menu-item > a {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 12px 12px;
+    border-radius: 12px;
+    font-size: 16px;
+  }
+
+  .menu > .menu-item > a:active {
+    background: rgba(0,0,0,0.05);
+  }
+
+  /* dropdown becomes inline section (not floating) */
+  .dropdown {
+    position: static;
+    min-width: unset;
+    width: 100%;
+    margin: 6px 0 10px;
+    padding: 8px 8px;
+
+    background: #fff7cf;
+    border-radius: 14px;
+    box-shadow: none;
+
+    /* hide by default (mobile) */
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    display: none;
+  }
+
+  /* open dropdown when menu-item has .open */
+  .menu-item.open > .dropdown {
+    display: block;
+  }
+
+  .dropdown a {
+    padding: 10px 12px;
+    border-radius: 10px;
+  }
+
+  /* remove hover-open behaviour on mobile */
+  .menu-item:hover > .dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+
+  /* optional: add a caret on items with dropdown */
+  .menu-item.has-dropdown > a::after {
+    content: "▾";
+    font-size: 14px;
+    margin-left: 10px;
+    opacity: 0.7;
+    transform: rotate(0deg);
+    transition: transform 0.2s ease;
+  }
+
+  .menu-item.has-dropdown.open > a::after {
+    transform: rotate(180deg);
+  }
+}
+
 /* RESPONSIVE */
 @media (max-width: 900px) {
+  .reserve-btn{
+    display:none;
+  }
+
   .home {
     flex-direction: column;
     gap: 20px;
@@ -548,210 +698,317 @@ body {
   .menu {
     display: none;
   }
+  .stall-grid {
+    width: min(1200px, 92%);
+    margin: 0 auto 60px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
+  }
+
+  .Banner {
+    height: 55vh;
+  }
 }
 
 
-@media (max-width: 600px) {
+
+
   .reserve-btn {
-    padding: 10px 18px;
-    font-size: 14px;
+    display:none;
   }
 
   .logo {
     font-size: 24px;
+  }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
 
-    body {
-      font-family: "Open Sans", sans-serif;
-      background: #fff;
-      color: #222;
-    }
+  body {
+    font-family: "Open Sans", sans-serif;
+    background: #fff;
+    color: #222;
+  }
 
-    :root {
-      --primary-orange: #ff7a18;
-      --primary-yellow: #ffd400;
-      --dark-text: #111;
-    }
+  :root {
+    --primary-orange: #ff7a18;
+    --primary-yellow: #ffd400;
+    --dark-text: #111;
+  }
 
-    /* CONTAINER */
-    .container {
-      width: 90%;
-      max-width: 1200px;
-      margin: auto;
-    }
+  /* CONTAINER */
+  .container {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+  }
 
-    /* NAVBAR */
-    .navrectangle {
-      background: white;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      border-bottom: 1px solid #eee;
-      /* Optional: adds definition if margin is low */
-    }
+  /* NAVBAR */
+  .navrectangle {
+    background: white;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 1px solid #eee;
+    /* Optional: adds definition if margin is low */
+  }
 
-    .top-nav {
-      display: grid;
-      grid-template-columns: auto 1fr auto;
-      align-items: center;
-      height: 50px;
-      /* Reduced from 80px */
-      gap: 20px;
-      /* Reduced gap for better mobile fit */
-    }
+  .top-nav {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    height: 50px;
+    /* Reduced from 80px */
+    gap: 20px;
+    /* Reduced gap for better mobile fit */
+  }
 
-    .top-nav>nav {
-      justify-self: center;
-    }
+  .top-nav>nav {
+    justify-self: center;
+  }
 
-    .logo {
-      font-family: "Kodchasan", sans-serif;
-      font-size: 28px;
-      font-weight: 700;
-      color: #ff7a18;
-    }
+  .logo {
+    font-family: "Kodchasan", sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: #ff7a18;
+  }
 
-    .menu {
-      display: flex;
-      align-items: center;
-      gap: 36px;
-      list-style: none;
-    }
+  .menu {
+    display: flex;
+    align-items: center;
+    gap: 36px;
+    list-style: none;
+  }
 
-    .menu a {
-      text-decoration: none;
-      font-weight: 800;
-      font-size: 15px;
-      padding-top: 8px;
-      color: #111;
-    }
+  .menu a {
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 15px;
+    padding-top: 8px;
+    color: #111;
+  }
 
-    .menu a:hover {
-      color: var(--primary-orange);
-    }
+  .menu a:hover {
+    color: var(--primary-orange);
+  }
 
-    .reserve-btn {
-      background: var(--primary-orange);
-      color: white;
-      border: 3px solid var(--primary-orange);
-      padding: 10px 24px;
-      /* Slightly tighter padding */
-      border-radius: 22px;
-      font-weight: 800;
-      font-size: 15px;
-      cursor: pointer;
-      transition: all 0.25s ease;
-    }
+  .reserve-btn {
+    background: var(--primary-orange);
+    color: white;
+    border: 3px solid var(--primary-orange);
+    padding: 10px 24px;
+    /* Slightly tighter padding */
+    border-radius: 22px;
+    font-weight: 800;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
 
-    /* HOME SECTION (WELCOME & SEARCH) */
-    .home {
-      display: grid;
-      grid-template-columns: auto 1fr;
-      align-items: center;
-      gap: 40px;
-      margin: 30px 0 20px;
-      /* Reduced margin: was 60px 0 40px */
-    }
+  /* HOME SECTION (WELCOME & SEARCH) */
+  .home {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 40px;
+    margin: 30px 0 20px;
+    /* Reduced margin: was 60px 0 40px */
+  }
 
-    .welcome-text {
-      font-size: clamp(16px, 5vw, 26px);
-      /* Responsive font size */
-      font-weight: 700;
-      font-family: 'Kodchasan', Arial, Helvetica, sans-serif;
-    }
+  .welcome-text {
+    font-size: clamp(16px, 5vw, 26px);
+    /* Responsive font size */
+    font-weight: 700;
+    font-family: 'Kodchasan', Arial, Helvetica, sans-serif;
+  }
 
-    .searchBar {
-      justify-self: center;
-      display: flex;
-      align-items: center;
-      background: #e5e5e5;
-      border-radius: 999px;
-      padding: 12px 20px;
-      width: 100%;
-      /* Changed to 100% for responsiveness */
-      max-width: 480px;
-      /* Keeps the original look on desktop */
-    }
+  .searchBar {
+    justify-self: center;
+    display: flex;
+    align-items: center;
+    background: #e5e5e5;
+    border-radius: 999px;
+    padding: 12px 20px;
+    width: 100%;
+    /* Changed to 100% for responsiveness */
+    max-width: 480px;
+    /* Keeps the original look on desktop */
+  }
 
-    .searchBar input {
-      border: none;
-      background: transparent;
-      flex: 1;
-      font-size: 16px;
-      outline: none;
-    }
+  .searchBar input {
+    border: none;
+    background: transparent;
+    flex: 1;
+    font-size: 16px;
+    outline: none;
+  }
 
-    /* CUISINES */
-    .cuisines {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      /* Better responsiveness */
-      gap: 30px;
-      margin-bottom: 20px;
-      /* Reduced from 40px */
-    }
+  /* CUISINES */
+  .cuisines {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    /* Better responsiveness */
+    gap: 30px;
+    margin-bottom: 20px;
+    /* Reduced from 40px */
+  }
 
-    .cuisine-card {
-      text-align: center;
-    }
+  .cuisine-card {
+    text-align: center;
+  }
 
-    .cuisine-card img {
-      width: 100%;
-      height: 160px;
-      object-fit: cover;
-      border-radius: 18px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-    }
+  .cuisine-card img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 18px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  }
 
-    /* DIVIDER */
-    hr {
-      border: none;
-      height: 1px;
-      background: #e0e0e0;
-      margin: 20px 0;
-      /* Reduced from 40px */
-    }
+  /* DIVIDER */
+  hr {
+    border: none;
+    height: 1px;
+    background: #e0e0e0;
+    margin: 20px 0;
+    /* Reduced from 40px */
+  }
+  .Banner {
+    height: 42vh;
+  }
 
-    /* STALL GRID */
-    .stall-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      /* Responsive columns */
-      gap: 30px;
-      margin-bottom: 40px;
-    }
+  /* STALL GRID */
+  /* STALL GRID (clean + responsive) */
+  
+  .stall-grid {
+    display: grid;
+    grid-template-columns: 1fr;  /* ✅ 1 stall per row */
+    gap: 16px;
+  }
 
-    .stall-card {
-      background: white;
-      border-radius: 18px;
-      overflow: hidden;
-    }
+  .stall-card {
+    width: 100%;
+  }
 
-    /* RESPONSIVE BREAKPOINTS */
-    @media (max-width: 900px) {
-      .home {
-        grid-template-columns: 1fr;
-        /* Stack welcome text and search */
-        text-align: center;
-        gap: 15px;
-        margin: 20px 0;
-      }
+  .stall-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 34px rgba(0,0,0,0.12);
+  }
 
-      .top-nav {
-        grid-template-columns: auto auto;
-        /* Logo and Reserve button */
-        justify-content: space-between;
-      }
+  .stall-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 16px;
+  }
 
-      .menu {
-        display: none;
-        /* Consider a hamburger menu for mobile later */
-      }
-    }
+  .stall-info {
+    padding-top: 12px;
+    width: 100%;
+  }
+
+  .stall-info h4 {
+    margin: 8px 0 6px;
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 1.2;
+  }
+
+  .stall-info p {
+    margin: 0;
+    font-size: 14px;
+    color: #555;
+  }
+
+
+
+
+
+@media (max-width: 900px) {
+  .home {
+    flex-direction: column;
+    gap: 14px;
+    margin: 18px 0;
+    padding: 0 16px;
+  }
+
+  .searchBar {
+    width: 100%;
+    max-width: 520px;
+  }
+
+  .cuisines {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    padding: 0 16px;
+  }
+
+  .stall-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
   }
 }
+
+@media (max-width: 600px) {
+  .top-nav {
+    height: 60px;
+  }
+
+  .reserve-btn {
+    padding: 10px 14px;
+    font-size: 13px;
+    border-width: 2px;
+    border-radius: 18px;
+  }
+
+  .hello-text {
+    font-size: 1.6rem;
+  }
+
+  .searchBar {
+    height: 40px;
+    padding: 10px 16px;
+  }
+
+  .cuisines {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .filter-btn.cuisine-card img {
+    width: 100%;
+    height: 120px;
+  }
+
+  .stall-grid {
+    width: min(1200px, 92%);
+    margin: 0 auto 60px;
+    display: grid;                     /* ✅ grid not flex */
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
+    align-items: stretch;
+  }
+  .stall-card {
+    width: auto;            /* ✅ remove fixed width */
+    height: auto;
+    background: white;
+    border-radius: 18px;
+    overflow: hidden;
+    padding: 14px 14px 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+  }
+
+  .stall-card img {
+    height: 220px;
+  }
+
+  /* banner not too huge on mobile */
+  .Banner {
+    height: 52vh;
+  }
+}
+
+  
