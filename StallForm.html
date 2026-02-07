@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stall Inspection Results Form</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+  body {
+    font-family: system-ui, sans-serif;
+    background: #fdeee6;
+    margin: 0;
+    padding: 1rem;
+  }
+
+  .card {
+    max-width: 420px;
+    margin: auto;
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+  }
+
+  h2 {
+    margin-top: 0;
+    text-align: center;
+  }
+
+  label {
+    display: block;
+    margin-top: 1rem;
+    font-weight: 600;
+  }
+
+  input {
+    width: 100%;
+    padding: 0.6rem;
+    margin-top: 0.4rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+  }
+
+  button {
+    width: 100%;
+    margin-top: 1rem;
+    padding: 0.7rem;
+    border-radius: 8px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .calc-btn { background: #5cb85c; color: white; }
+  .submit-btn { background: #0275d8; color: white; }
+
+  .grade-display {
+    margin-top: 1rem;
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: bold;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <h2>Edit ratings</h2>
+  <h2 id="stallTitle">Stall</h2>
+  
+
+  <label>Cleanliness (%)</label>
+  <input type="number" id="cleanliness" min="0" max="100">
+
+  <label>Handling (%)</label>
+  <input type="number" id="handling" min="0" max="100">
+
+  <label>Efficiency (%)</label>
+  <input type="number" id="efficiency" min="0" max="100">
+
+  <button class="calc-btn" onclick="calculateGrade()">Calculate Hygiene Grade</button>
+
+  <div id="gradeResult" class="grade-display"></div>
+
+  <button class="submit-btn" onclick="submitData()">Confirm</button>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+      import {
+        getDatabase,
+        ref,
+        onValue,   
+        push,
+        set,
+        get,
+        update,
+        remove,
+        child,
+      } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyCoYoGP4NYJPHqA-kV_swajQ4LSQYdyWV4",
+        authDomain: "grp3fedapp.firebaseapp.com",
+        databaseURL:
+          "https://grp3fedapp-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "grp3fedapp",
+        storageBucket: "grp3fedapp.firebasestorage.app",
+        messagingSenderId: "791146838729",
+        appId: "1:791146838729:web:446baee191feeb036e2b18",
+      };
+
+      /* ================================
+        Initialize Firebase
+      ================================ */
+      const app = initializeApp(firebaseConfig);
+      const db = getDatabase(app);
+
+      const rootRef = ref(db, "/");
+
+      // ✅ Real-time listen to ALL data
+      onValue(ref(db, "/"), (snapshot) => {
+        console.log("REAL-TIME DATA:", snapshot.val());
+      });
+
+  const params = new URLSearchParams(window.location.search);
+  const stallName = params.get("stall");
+
+  document.getElementById("stallTitle").textContent = stallName;
+
+  function getGrade(avg) {
+    if (avg >= 85) return "A";
+    if (avg >= 75) return "B";
+    if (avg >= 65) return "C";
+    return "D";
+  }
+
+  window.calculateGrade = () => {
+    const c = Number(cleanliness.value);
+    const h = Number(handling.value);
+    const e = Number(efficiency.value);
+
+    const avg = (c + h + e) / 3;
+    const grade = getGrade(avg);
+
+    document.getElementById("gradeResult").textContent =
+      `Hygiene Grade: ${grade}`;
+  };
+
+  window.submitData = async () => {
+    const c = Number(cleanliness.value) / 100;
+    const h = Number(handling.value) / 100;
+    const e = Number(efficiency.value) / 100;
+
+    await update(ref(db, `stalls/${stallName}`), {
+      cleanliness: c,
+      handling: h,
+      efficiency: e,
+      lastUpdated: new Date().toISOString()
+    });
+    window.location.href = "Inspection results history Jan 2026.html";
+  };
+</script>
+
+</body>
+</html>

@@ -361,7 +361,12 @@
     card.className = "stall-card";
 
     card.innerHTML = `
-      <img src="${stall.image || "images/placeholder.jpg"}" alt="${stallName}">
+      <img 
+        src="${stall.image || "images/placeholder.jpg"}" 
+        alt="${stallName}"
+        style="cursor:pointer"
+        onclick="window.location.href='stallForm.html?stall=${encodeURIComponent(stallName)}'"
+      >
       <div class="stall-name">${stallName}</div>
       <div class="ratings">${ratingLines.join("<br>")}</div>
       <div class="grade ${grade ? getGradeClass(grade) : ""}">
