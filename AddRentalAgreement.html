@@ -736,7 +736,8 @@
   }
 
   // ✅ get logged-in username (your backend uses this)
-    const username = sessionStorage.getItem("loggedInUser")
+    const username = getCurrentUsername();
+
     const AID = generateAID();
     const endDate = $("endDate").value;
 
@@ -758,7 +759,7 @@
     // ✅ store under members/{username}/rentalAgreements/{AID}
     await set(ref(db, `members/${username}/rentalAgreements/${AID}`), payload);
 
-    alert(`Created! ✅\nAgreement ID: ${AID}`);
+    alert(`Created! ✅ You'll be directed back to the Rental Agreements.`);
 
     window.location.href = "RentalAgreement.html";
   }

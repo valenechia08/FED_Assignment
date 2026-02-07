@@ -202,6 +202,7 @@ async function loginMember() {
 
     // ✅ update both browser + firebase
     sessionStorage.setItem("currentUserId", username);
+    
 
     await update(ref(db, `members/${username}`), {
       userType: data.userType || "registered",
@@ -209,6 +210,7 @@ async function loginMember() {
     });
 
     // Save session + redirect
+    localStorage.setItem("loggedInUser", username);
     sessionStorage.setItem("loggedInUser", username);
     showMessage("Login successful! 🎉", "green");
     if (role === "patron") {
@@ -226,6 +228,13 @@ async function loginMember() {
     showMessage(`Login failed: ${err?.message ?? "Unknown error"}`, "red");
   }
 }
+window.getCurrentUsername = function () {
+  return (
+    localStorage.getItem("loggedInUser") ||
+    sessionStorage.getItem("loggedInUser") ||
+    ""
+  ).trim();
+};
 // =========================
 // SHOW USERNAME IN GREETING
 // =========================
@@ -434,9 +443,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
 //   // Logout
 //   document.querySelector(".logout").addEventListener("click", () => {
+//   localStorage.removeItem("loggedInUser");
 //     sessionStorage.removeItem("loggedInUser");
 //     window.location.href = "login.html";
 //   });
+// });
+//Makes sure all tabs where user is logged in, gets logout!
+//window.addEventListener("storage", (e) => {
+//   if (e.key === "loggedInUser" && !e.newValue) {
+//     // logged out in another tab
+//     window.location.href = "login.html";
+//   }
 // });
 
 //loading stalls(bananaleafhtml)

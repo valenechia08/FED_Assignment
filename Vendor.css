@@ -9,7 +9,6 @@
   --shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
   --radius: 14px;
 }
-
 * {
   box-sizing: border-box;
 }
@@ -70,6 +69,11 @@ body {
       padding: 0;
       margin: 0;
       font-family: system-ui, Arial, sans-serif;
+    }
+
+    .title-row span,.subpoint span{
+      display:flex;
+      justify-content:flex-start;
     }
 
     /* MAIN MENU ITEM */
