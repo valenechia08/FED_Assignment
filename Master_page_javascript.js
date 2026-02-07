@@ -306,6 +306,25 @@ document.addEventListener("DOMContentLoaded", () => {
     if (links) links.classList.add("nea-alignment");
   }
 });
+document.addEventListener("DOMContentLoaded", () => {
+  /* =========================
+     LOGOUT → CLEAR SESSION
+  ========================= */
+  const logoutLink = document.querySelector('a[href="SelectRole.html"]');
+
+  if (logoutLink) {
+    logoutLink.addEventListener("click", (e) => {
+      e.preventDefault(); // stop instant redirect
+
+      // 🧹 clear everything for this session
+      sessionStorage.clear();
+
+      // optional cleanup if you used localStorage too
+      localStorage.removeItem("loggedInUser");
+      window.location.href = "SelectRole.html";
+    });
+  }
+});
 
 // Verify OTP
 document.addEventListener("DOMContentLoaded", () => {
