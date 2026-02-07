@@ -16,158 +16,378 @@
     />
     <link rel="stylesheet" href="Vendor.css" />
     <style>
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+    /* ====== PAGE LAYOUT ====== */
 
-    .cuisine-dropdown{
-      display: flex;
-      max-width:auto;
-      height:50px;
-      gap: 10px;
-    }
-    select {
-      padding: 6px 10px;
-    }
+.page-header {
+  background: transparent;              /* was #ffdfae */
+  box-shadow: 0 4px 12px rgba(16,24,40,.06);  /* less shadow */
+  border-radius: 16px;
+  padding: 16px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+}
 
-     .add-btn {
-      background-color: transparent;
-      border: none;
-      cursor: pointer;
-      padding: 0;
-    }
+.title-block h1 {
+  font-size: 22px;
+  margin: 0;
+  font-weight: 600;     /* was 800 */
+  color: #000000;
+}
 
-    /* TABLE */
-    .table-header {
-      display: grid;
-      padding-left:15px;
-      grid-template-columns: 
-        minmax(80px, 1fr) 
-        2fr 
-        minmax(60px, 1fr) 
-        minmax(100px, 1.5fr);
-      font-weight: 600;
-      margin-top: 20px;
-      padding-bottom: 10px;
-      align-items: center;
-      border-bottom: 2px solid black;
-    }
+.cuisine-dropdown {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
-    .menu-card {
-      display: grid;
-            grid-template-columns: 
-        minmax(80px, 1fr) 
-        2fr 
-        minmax(60px, 1fr) 
-        minmax(100px, 1.5fr);
-        font-weight: 600;
-      align-items: center;
-      padding: 15px;
-      height:120px;
-      border-radius: 10px;
-      font-size: 18px;
-      background: #FFDCC5;
-    }
+.cuisine-dropdown select {
+  height: 40px;
+  border-radius: 12px;
+  border: 1px solid #7f848d;
+  padding: 0 12px;
+  font-weight: 500;
+}
 
-    .menu-card.light {
-      background: #FFF0E6;
-    }
+.add-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: none;
+  background: #ff8c3a;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(255,140,58,.25);
+  transition: transform .08s ease;
+}
+.add-btn:active { transform: scale(.98); }
+.add-btn img { width: 18px; height: 18px; filter: brightness(0) invert(1); }
 
-    .menu-card img {
-      width: 80px;
-      height: 80px;
-      object-fit: cover;
-      border-radius: 6px;
-    }
-
-    .actions {
-      display: flex;
-      gap: 20px;
-      align-items: center;
-      background-size: contain;
-    }
-    .actions img{
-      width: 35px;
-      height: auto;   /* keeps proportions */
-      object-fit: contain; 
-    }
-    .add-icon{
-      background-color: transparent;
-      width: 50px;
-      height: 50px;
-    }
-    .add-btn button{
-      background-color: transparent;
-      width: 50px;
-      height: 50px;
-    }
-
-   .menu-form {
-   position: absolute;
-   display:none;
-  top: 20px;       /* distance from top */
-  left: 50%;
-  transform: translateX(-50%);
+/* ====== TABLE HEADER + LIST ====== */
+.menu {
+  margin-top: 16px;
   background: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.2);
-  z-index: 1000; 
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  border-radius: 16px;
+  border: 1px solid #eceff5;
+  box-shadow: 0 10px 28px rgba(16,24,40,.08);
+  overflow: hidden;
+}
 
+.table-header {
+  display: grid;
+  grid-template-columns: 90px 1.6fr 110px 160px;
+  gap: 12px;
+  align-items: center;
+  padding: 14px 16px;
+  background: #fff7ef;
+  border-bottom: 1px solid #eceff5;
+  color: #000;          /* was #344054 */
+  font-weight: 700; 
+}
+
+.menu-list {
+  display: grid;
+  gap: 0;
+}
+
+/* ====== MENU ROW (CARD-LIKE) ====== */
+.menu-card {
+  display: grid;
+  grid-template-columns: 90px 1.6fr 110px 160px;
+  gap: 12px;
+  align-items: center;
+  object-fit: contain; 
+  padding: 14px 16px;
+  border-bottom: 1px solid #eceff5;
+  background: #FFDCC5;
+}
+
+.menu-card:nth-child(even) { background: #FFF0E6; }
+.menu-card:last-child { border-bottom: none; }
+
+.menu-card img {
+  width: 74px;
+  height: 74px;
+  border-radius: 12px;
+  object-fit: cover;
+  border: 1px solid #eceff5;
+}
+
+.item-name {
+  font-size: 16px;
+  font-weight: 900;
+  color: #101828;
+  line-height: 1.2;
+}
+
+.item-desc {
+  margin-top: 6px;
+  font-size: 13px;
+  color: #667085;
+  font-weight: 600;
+  max-width: 520px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.price {
+  font-size: 13px;
+  font-weight: 600;
+  color: #101828;
+}
+
+/* ====== ACTIONS ====== */
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.icon-btn {
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  border-radius: 14px;
+  overflow: hidden;
+  background-color: white;
+  border: 1px solid #eceff5;
+  transition: transform .08s ease, background .15s ease;
+}
+.icon-btn:hover { background: #f7f8fb; }
+.icon-btn:active { transform: scale(.98); }
+.icon-btn img { width: 22px; height: 22px;object-fit: contain;display: block; }
+
+/* ====== MODAL FORM ====== */
+.modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  z-index: 3000;
+}
+.modal.show { display: block; }
+
+.modal-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,.35);
+}
+
+.menu-form {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(980px, 94vw);      /* bigger than 860px */
+  max-height: 86vh;             /* prevents going off-screen */
+  overflow: auto;               /* scroll inside if needed */
+  padding: 22px; 
+  background: #fff;
+  padding: 18px;
+  border-radius: 16px;
+  box-shadow: 0 20px 50px rgba(0,0,0,.20);
+}
+.modal-grid{
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr; /* left bigger */
+  gap: 18px;
+  margin-top: 12px;
+  align-items: start;
+}
+.modal-left label,
+.modal-right label{
+  display: block;
+  margin-top: 12px;
+  font-weight: 700; /* lower than 800 */
+  color: #344054;
+  font-size: 13px;
+}
+.modal-left label:first-child,
+.modal-right label:first-child{
+  margin-top: 0;
+}
+.menu-form h2{
+  margin: 0 0 10px;
+  font-size: 18px;
+  font-weight: 900;
+  color: #344054;
 }
 
 .menu-form label {
   display: block;
-  margin-top: 15px;
-  font-weight: bold;
+  margin-top: 12px;
+  font-weight: 800;
+  color: #344054;
+  font-size: 13px;
 }
 
-.menu-form input[type="text"],
-.menu-form input[type="number"],
-.menu-form input[type="file"],
+.menu-form input,
 .menu-form textarea {
   width: 100%;
-  padding: 8px;
-  margin-top: 5px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  box-sizing: border-box;
+  margin-top: 6px;
+  border-radius: 12px;
+  border: 1px solid #e8ecf3;
+  padding: 10px 12px;
+  font-size: 14px;
+  outline: none;
 }
-
-.menu-form textarea {
-  resize: vertical;
+.menu-form input:focus,
+.menu-form textarea:focus {
+  border-color: rgba(255,140,58,.55);
+  box-shadow: 0 0 0 4px rgba(255,140,58,.25);
 }
 
 .form-buttons {
   display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 14px;
 }
 
 .confirm-btn, .cancel-btn {
-  padding: 10px 20px;
+  height: 40px;
+  padding: 0 14px;
+  border-radius: 12px;
+  font-weight: 900;
   border: none;
-  border-radius: 6px;
-  font-weight: bold;
   cursor: pointer;
 }
 
-.confirm-btn {
-  background-color: #E47329;
-  color: white;
+.confirm-btn { background: #ff8c3a; color: #fff; }
+.cancel-btn { background: #fff; color: #344054; border: 1px solid #e8ecf3; }
+
+/* ====== RESPONSIVE ====== */
+@media (max-width: 720px){
+  .menu-form{
+    width: min(560px, 94vw);
+    max-height: 90vh;
+  }
+  .image-picker{
+    height: 220px;
+  }
+  .page-header{
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .table-header { display: none; }
+
+  .modal-grid{
+    grid-template-columns: 1fr;
+  }
+
+  .menu-card{
+    grid-template-columns: 90px 1fr;
+    grid-template-areas:
+      "img name"
+      "img price"
+      "actions actions";
+    row-gap: 8px;
+  }
+
+  .menu-card img { grid-area: img; }
+  .menu-card .name-wrap { grid-area: name; }
+  .menu-card .price { grid-area: price; }
+  .menu-card .actions { grid-area: actions; justify-content: flex-start; }
+}
+.create-btn {
+  width:36px;
+  height:36px;
+  border-radius:10px;
+  border:none;
+  background:#ff8c3a;
+  color:white;
+  font-size:20px;
+  font-weight:700;
+  cursor:pointer;
 }
 
-.cancel-btn {
-  background-color: #763322;
-  color: white;
+.create-btn:hover {
+  opacity: 0.92;
 }
-.add-btn img{
-  width:35px;
-  height:auto;
+/* Make the header row behave like agreements-header */
+.page-header .header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* title left, controls right */
+  width: 100%;
+  gap: 14px;
 }
+
+/* This is your agreements-actions */
+.page-header .cuisine-dropdown {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+/* This replaces .status-filter */
+.page-header .cuisine-dropdown select {
+  height: 42px;                 /* match create button height */
+  padding: 0 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: #fff;
+  font-size: 14px;
+  outline: none;
+}
+.image-preview {
+  object-fit: cover;
+  display: none;
+  margin-top: 10px;
+  width: 100%;
+  max-height: 220px;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid #e8ecf3;
+  display: none;
+}
+
+.image-picker{
+  margin-top: 8px;
+  width: 100%;
+  height: 360px;  
+  border-radius: 12px;
+  border: 1px dashed #cfd6e4;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  background: #fafbff;
+  overflow: hidden;
+}
+
+.image-hint{
+  font-size: 13px;
+  font-weight: 600;
+  color: #667085;
+  padding: 0 10px;
+  text-align: center;
+  padding: 0 10px;
+}
+.image-meta{
+  margin-top: 10px;
+  font-size: 12px;
+  color: #667085;
+  font-weight: 600;
+}
+.remove-image-btn{
+  margin-top: 10px;
+  height: 40px;
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid #e8ecf3;
+  background: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+.remove-image-btn:hover{
+  background: #f7f8fb;
+}
+
     </style>
   </head>
   <body>
@@ -253,140 +473,358 @@
           <!-- <div class="divider"></div> -->
         </div>
         <div class="cuisine-dropdown">
-      <select>
-        <option>Select specialized cuisine</option>
-        <option>Malay</option>
-        <option>Chinese</option>
-        <option>Indian</option>
-      </select>
-      <!-- <button class="add-btn">
-        <img src="images/add.png" alt="Add Menu">
-      </button> -->
-     <button id="addMenuBtn" class="add-btn">
-      <img src="images/add.png" alt="Add" class="icon">
-    </button>
+      <select id="cuisineSelect">
+      <option value="" disabled selected>Select specialized cuisine</option>
+      <option value="Malay">Malay</option>
+      <option value="Chinese">Chinese</option>
+      <option value="Indian">Indian</option>
+      <option value="Others">Others</option>
+    </select>
+     <button id="addBtn" class="create-btn" type="button" type="button">+</button>
     </div>
   </div>
       </div>
     </header>
-    <form class="addMenuForm menu-form">
-      <label for="itemName">Item:</label>
-      <input type="text" class="itemName" name="itemName" placeholder="Enter menu item">
 
-      <label for="price">Price:</label>
-      <input type="number" class="price" name="price" placeholder="Enter price" step="0.01">
+<div class="modal" id="menuModal">
+  <div class="modal-overlay" id="menuOverlay"></div>
 
-      <label for="ewt">EWT:</label>
-      <input type="number" class="ewt" name="ewt" placeholder="Enter estimated waiting time">
+  <form class="menu-form" id="menuForm">
+    <h2 id="formTitle">Add Menu Item</h2>
 
-      <label for="imageUpload">Upload Image:</label>
-      <input type="file" class="imageUpload" name="imageUpload" accept="image/*">
+    <div class="modal-grid">
+      <!-- LEFT -->
+      <div class="modal-left">
+        <label>Item:</label>
+        <input type="text" class="itemName" id="itemName" placeholder="Enter menu item" required>
 
-      <label for="description">Description:</label>
-      <textarea id="description" class="description" rows="3" placeholder="Enter a description of your food"></textarea>
+        <label>Price:</label>
+        <input type="number" class="price" id="itemPrice" placeholder="Enter price" step="0.01" required>
 
-      <div class="form-buttons">
-        <button type="submit" class="confirm-btn">Confirm</button>
-        <button type="button" class="cancel-btn">Cancel</button>
+        <label>EWT (mins):</label>
+        <input type="number" class="ewt" id="itemEWT" placeholder="Enter estimated waiting time">
+
+        <label>Description:</label>
+        <textarea class="description" id="itemDesc" rows="4" placeholder="Enter a description of your food"></textarea>
       </div>
-    </form>
 
-  <!-- TABLE HEADER -->
+      <!-- RIGHT -->
+      <div class="modal-right">
+  <label>Upload Image:</label>
+
+
+  <div id="imagePicker" class="image-picker" role="button" tabindex="0">
+    <img id="imagePreview" class="image-preview" alt="Image preview" />
+    <div id="imageHint" class="image-hint">Click to upload image</div>
+  </div>
+  
+  <label style="margin-top:12px;">Image filename (saved in images/menu/)</label>
+  <label style="margin-top:12px;">Select image</label>
+
+<select id="imageSelect"
+  style="margin-top:6px; width:100%; padding:10px 12px;
+         border-radius:12px; border:1px solid #e8ecf3;">
+  <option value="">No image (use placeholder)</option>
+
+    <!-- ✅ List images that exist in /images/ -->
+    <option value="Set Meal A Picture.jpg">Set Meal A</option>
+    <option value="Set Meal B Picture.jpg">Set Meal B</option>
+    <option value="Set Meal C Picture.png">Set Meal C</option>
+    <option value="Set Meal D Picture.jpg">Set Meal D</option>
+    <option value="Otah Picture.webp">Otah</option>
+    <option value="malaysiacurry.jpg">Malaysia Curry</option>
+    <option value="meebakso.jpg">Mee Bakso</option>
+    <option value="nasi-sambal-goreng-daging.jpg">Nasi Sambal Goreng Daging</option>
+    <option value="nasilemak.jpg">Original Nasi Lemak</option>
+    <option value="rendangayam.webp">Rendangayam</option>
+  </select>
+
+  <div class="image-meta">
+    Images are loaded from <b>/images/</b>
+  </div>
+
+  <button type="button" id="removeImageBtn" class="remove-image-btn" style="display:none;">
+    Remove image
+  </button>
+</div>
+    </div>
+
+    <div class="form-buttons">
+      <button type="button" class="cancel-btn" id="cancelModal">Cancel</button>
+      <button type="submit" class="confirm-btn">Confirm</button>
+    </div>
+  </form>
+</div>
+
   <section class="menu">
   <div class="table-header">
     <span>Image</span>
     <span>Item</span>
     <span>Price</span>
-    <span>Actions</span>
+    <span style="text-align:right;">Actions</span>
   </div>
 
-  <!-- MENU LIST -->
   <div class="menu-list" id="menuList">
 
     <div class="menu-card">
-      <img src="images/Set Meal A Picture.jpg" alt="Set Meal A">
-      <span>Set Meal A</span>
-      <span>5.00</span>
+      <img src="images/Set Meal A Picture.jpg" alt="Set Meal A" />
+      <div class="name-wrap">
+        <div class="item-name">Set Meal A</div>
+        <div class="item-desc">Optional description appears here (nice on desktop)</div>
+      </div>
+      <div class="price">$5.00</div>
+
       <div class="actions">
-      <img src="images/edit.png" alt="Edit" class="icon">
-      <img src="images/delete.png" alt="Delete" class="icon delete">
-      <img src="images/view.png" alt="View" class="icon">
+        <button class="icon-btn" type="button" title="Edit">
+          <img src="images/edit.png" alt="Edit">
+        </button>
+        <button class="icon-btn" type="button" title="Delete">
+          <img src="images/delete.png" alt="Delete">
+        </button>
+        <button class="icon-btn" type="button" title="View">
+          <img src="images/view.png" alt="View">
+        </button>
       </div>
     </div>
+
   </div>
+</section>
 
-    <div class="menu-card light">
-      <img src="images/Set Meal B Picture.jpg" alt="Set Meal B">
-      <span>Set Meal B</span>
-      <span>4.00</span>
-      <div class="actions">
-      <img src="images/edit.png" alt="Edit" class="icon">
-      <img src="images/delete.png" alt="Delete" class="icon delete">
-      <img src="images/view.png" alt="View" class="icon">
-      </div>
-      </div>
-    </div>
-
-    <div class="menu-card">
-      <img src="images/Set Meal C Picture.png" alt="Set Meal C">
-      <span>Set Meal C</span>
-      <span>4.00</span>
-      <div class="actions">
-      <img src="images/edit.png" alt="Edit" class="icon">
-      <img src="images/delete.png" alt="Delete" class="icon delete">
-      <img src="images/view.png" alt="View" class="icon">
-      </div>
-      </div>
-    </div>
-
-    <div class="menu-card light">
-      <img src="images/Set Meal D Picture.jpg" alt="Set Meal D">
-      <span>Set Meal D</span>
-      <span>3.50</span>
-      <div class="actions">
-      <img src="images/edit.png" alt="Edit" class="icon">
-      <img src="images/delete.png" alt="Delete" class="icon delete">
-      <img src="images/view.png" alt="View" class="icon">
-      </div>
-      </div>
-    </div>
-
-    <div class="menu-card">
-      <img src="images/Otah Picture.webp" alt="1 pcs Spicy Fish Otah">
-      <span>1 pcs Spicy Fish Otah</span>
-      <span>1.50</span>
-      <div class="actions">
-      <img src="images/edit.png" alt="Edit" class="icon">
-      <img src="images/delete.png" alt="Delete" class="icon delete">
-      <img src="images/view.png" alt="View" class="icon">
-      </div>
-      </div>
-    </div>
-
-    <div class="menu-card light">
-      <img src="images/Otah Picture.webp" alt="5 pcs Spicy Fish Otah">
-      <span>5 pcs Spicy Fish Otah</span>
-      <span>7.50</span>
-      <div class="actions">
-      <img src="images/edit.png" alt="Edit" class="icon">
-      <img src="images/delete.png" alt="Delete" class="icon delete">
-      <img src="images/view.png" alt="View" class="icon">
-      </div>
-      </div>
-
-    </div>
     </section>
 
   </main>
-    <script>
-      let editingItem = null;
-    const addBtn = document.getElementById("addMenuBtn");
-    const form = document.querySelector(".addMenuForm");
-    addBtn.addEventListener("click", () => {
-      form.style.display = "block";
+<script type="module">
+  import { getDatabase, ref, get, update, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+const firebaseConfig = {
+    apiKey: "AIzaSyCoYoGP4NYJPHqA-kV_swajQ4LSQYdyWV4",
+    authDomain: "grp3fedapp.firebaseapp.com",
+    databaseURL: "https://grp3fedapp-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "grp3fedapp",
+    storageBucket: "grp3fedapp.firebasestorage.app",
+    messagingSenderId: "791146838729",
+    appId: "1:791146838729:web:446baee191feeb036e2b18",
+  };
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+function renderVendorMenu(menuItems) {
+  const list = document.getElementById("menuList");
+  if (!list) return;
+
+  list.innerHTML = "";
+
+  if (!menuItems) {
+    list.innerHTML = "<p style='padding:16px;'>No menu items found.</p>";
+    return;
+  }
+
+  Object.entries(menuItems).forEach(([itemName, item]) => {
+    const card = document.createElement("div");
+    card.className = "menu-card";
+
+    card.innerHTML = `
+      <img src="${item.image || ""}" alt="${itemName}">
+      <div class="name-wrap">
+        <div class="item-name">${itemName}</div>
+        <div class="item-desc">${item.description || ""}</div>
+      </div>
+      <div class="price">$${Number(item.price || 0).toFixed(2)}</div>
+      <div class="actions">
+        <button class="icon-btn" type="button" title="Edit"><img src="images/edit.png" alt="Edit"></button>
+        <button class="icon-btn" type="button" title="Delete"><img src="images/delete.png" alt="Delete"></button>
+        <button class="icon-btn" type="button" title="View"><img src="images/view.png" alt="View"></button>
+      </div>
+    `;
+
+    list.appendChild(card);
+  });
+}
+
+// Banana Leaf Nasi Lemak Menu
+const stallName = "Banana Leaf Nasi Lemak";
+const menuRef = ref(db, `stalls/${stallName}/menuItems`);
+
+onValue(menuRef, (snap) => {
+  renderVendorMenu(snap.val());
+});
+
+const cuisineSelect = document.getElementById("cuisineSelect");
+
+// A small helper for UI feedback (optional)
+function setCuisineStatus(text) {
+  console.log(text);
+}
+
+// 1) Load current cuisine and reflect in dropdown (realtime)
+const stallRef = ref(db, `stalls/${stallName}`);
+onValue(stallRef, (snap) => {
+  if (!snap.exists()) {
+    setCuisineStatus("Stall not found.");
+    return;
+  }
+
+  const stall = snap.val();
+  if (cuisineSelect && stall.cuisine) {
+    cuisineSelect.value = stall.cuisine; // sets dropdown to current cuisine
+  }
+});
+
+// 2) Update cuisine when user changes dropdown
+if (cuisineSelect) {
+  cuisineSelect.addEventListener("change", async () => {
+    const newCuisine = cuisineSelect.value;
+
+    if (!newCuisine) return;
+
+    try {
+      await update(ref(db, `stalls/${stallName}`), {
+        cuisine: newCuisine,
+        cuisineUpdatedAt: Date.now(),
+      });
+
+      setCuisineStatus(`Cuisine updated to: ${newCuisine}`);
+    } catch (err) {
+      console.error(err);
+      setCuisineStatus("Failed to update cuisine.");
+    }
+  });
+}
+// ==== ADD MENU ITEM & UPLOAD IMAGE INTO FIREBASE ==== //
+ const menuForm = document.getElementById("menuForm");
+
+function safeKey(str) {
+  return (str || "").trim().replace(/[.#$[\]/]/g, "_");
+}
+
+if (!menuForm) console.error("menuForm not found!");
+else {
+menuForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const itemName = document.getElementById("itemName").value.trim();
+  const price = Number(document.getElementById("itemPrice").value);
+  const ewt = Number(document.getElementById("itemEWT").value || 0);
+  const description = document.getElementById("itemDesc").value.trim() || "";
+
+  const imgSelect = document.getElementById("imageSelect");
+  const imgName = imgSelect ? imgSelect.value : "";
+
+
+  if (!itemName || !Number.isFinite(price)) {
+    alert("Please fill in item name and valid price.");
+    return;
+  }
+
+  // If no image provided, use a placeholder
+  const imageUrl = imgName
+  ? `images/${imgName}`     // ✅ correct path
+  : "images/placeholder.jpg";
+
+
+  const itemKey = safeKey(itemName);
+
+  try {
+    await update(ref(db, `stalls/${stallName}/menuItems/${itemKey}`), {
+      displayName: itemName,
+      price,
+      ewt,
+      description,
+      available: true,
+      image: imageUrl,
+      updatedAt: Date.now(),
     });
-    
-  </script>
-    <script type="module" src="Master_page_javascript.js"></script>
+
+    alert("✅ Menu item saved!");
+  console.log("Writing to:", `stalls/${stallName}/menuItems/${itemKey}`);
+  console.log("Data:", { itemName, price, ewt, description, imageUrl });
+
+    menuForm.reset();
+
+    // reset preview UI
+    clearImage();
+    const imgField = document.getElementById("imageFileName");
+    if (imgField) imgField.value = "";
+
+  } catch (err) {
+    console.error(err);
+    alert("❌ Failed to save menu item.");
+  }
+});
+}
+
+  // ===== MODAL =====
+  const addBtn = document.getElementById("addBtn");
+  const modal = document.getElementById("menuModal");
+  const overlay = document.getElementById("menuOverlay");
+  const cancel = document.getElementById("cancelModal");
+
+  function openModal() {
+    modal.classList.add("show");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeModal() {
+    modal.classList.remove("show");
+    document.body.style.overflow = "";
+  }
+
+  if (addBtn) addBtn.addEventListener("click", openModal);
+  if (overlay) overlay.addEventListener("click", closeModal);
+  if (cancel) cancel.addEventListener("click", closeModal);
+
+  // ===== IMAGE PICKER + PREVIEW (NO CROP) =====
+const imagePicker = document.getElementById("imagePicker");
+const previewImg = document.getElementById("imagePreview");
+const hint = document.getElementById("imageHint");
+const removeImageBtn = document.getElementById("removeImageBtn");
+const removeBtn = document.getElementById("removeImageBtn");
+const imageSelect = document.getElementById("imageSelect");
+
+if (imageSelect) {
+  imageSelect.addEventListener("change", () => {
+    const file = imageSelect.value;
+
+    if (!file) {
+      clearImage();
+      return;
+    }
+
+    previewImg.src = `images/${file}`;   // ✅ new path
+    previewImg.style.display = "block";
+    if (hint) hint.style.display = "none";
+    showRemoveBtn(true);
+  });
+}
+
+
+function showRemoveBtn(show){
+  if (!removeImageBtn) return;
+  removeImageBtn.style.display = show ? "block" : "none";
+}
+
+function clearImage(){
+  if (previewImg) { previewImg.src = ""; previewImg.style.display = "none"; }
+  if (hint) hint.style.display = "block";
+  showRemoveBtn(false);
+  if (imageSelect) imageSelect.value = "";
+}
+
+if (imagePicker && imageSelect) {
+  imagePicker.addEventListener("click", () => imageSelect.focus());
+  imagePicker.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") imageSelect.focus();
+  });
+}
+
+
+//Remove button only appears when image has been loaded
+
+// remove image button
+if (removeImageBtn) {
+  removeImageBtn.addEventListener("click", clearImage);
+}
+
+</script>
   </body>
 </html>
