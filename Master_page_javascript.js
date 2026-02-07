@@ -202,7 +202,6 @@ async function loginMember() {
 
     // ✅ update both browser + firebase
     sessionStorage.setItem("currentUserId", username);
-    
 
     await update(ref(db, `members/${username}`), {
       userType: data.userType || "registered",
@@ -221,7 +220,7 @@ async function loginMember() {
       window.location.href = "PerformanceDashboard.html";
     } else {
       //sessionStorage.clear("currentRole");
-      window.location.href = "R&C inspection log all.html";
+      window.location.href = "Regulatory&Complianceinfo.html";
     }
   } catch (err) {
     console.error(err);
@@ -235,6 +234,13 @@ window.getCurrentUsername = function () {
     ""
   ).trim();
 };
+
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+      document.getElementById("loginBtn").click();
+    }
+  });
+  
 // =========================
 // SHOW USERNAME IN GREETING
 // =========================
@@ -688,33 +694,75 @@ async function loadStallInfo(stallName) {
 }
 
 //Update cart number
+function getCartCount() {
+  return getCart().reduce((sum, x) => sum + (x.qty || 1), 0); // ✅ count items incl qty
+}
+
 function updateCartUI() {
-  const cart = JSON.parse(sessionStorage.getItem("cart") || "[]");
-  const countEl = document.getElementById("cartCount");
-  if (countEl) {
-    countEl.textContent = cart.length;
-  }
+  const el = document.getElementById("cartCount");
+  if (!el) return;
+  el.textContent = String(getCartCount());
 }
 
 // =========================
 // CART (simple test version)
 // =========================
-function addToCart(stall_name, item_name, price) {
+function addToCart(stall_name, item_name, price, image = "") {
   const cart = JSON.parse(sessionStorage.getItem("cart") || "[]");
 
-  cart.push({
-    stall: stall_name,
-    item: item_name,
-    price: Number(price),
-    qty: 1,
-    addedAt: Date.now(),
-  });
+  const existing = cart.find(
+    (x) =>
+      x.stall === stall_name &&
+      x.item === item_name &&
+      Number(x.price) === Number(price),
+  );
+
+  if (existing) {
+    existing.qty = (existing.qty || 0) + 1;
+    if (!existing.image && image) existing.image = image;
+  } else {
+    cart.push({
+      stall: stall_name,
+      item: item_name,
+      price: Number(price),
+      qty: 1,
+      image,
+      addedAt: Date.now(),
+    });
+  }
 
   sessionStorage.setItem("cart", JSON.stringify(cart));
+  updateCartUI();
+}
+function removeFromCart(stall_name, item_name, price) {
+  const cart = JSON.parse(sessionStorage.getItem("cart") || "[]");
 
-  updateCartUI(); // ✅ update number immediately
+  const idx = cart.findIndex(
+    (x) =>
+      x.stall === stall_name &&
+      x.item === item_name &&
+      Number(x.price) === Number(price),
+  );
 
-  console.log("✅ Added to cart:", stall_name, item_name, price);
+  if (idx === -1) return;
+
+  cart[idx].qty = (cart[idx].qty || 0) - 1;
+
+  if (cart[idx].qty <= 0) cart.splice(idx, 1);
+
+  sessionStorage.setItem("cart", JSON.stringify(cart));
+  updateCartUI();
+}
+
+function getItemQty(stall_name, item_name, price) {
+  const cart = JSON.parse(sessionStorage.getItem("cart") || "[]");
+  const row = cart.find(
+    (x) =>
+      x.stall === stall_name &&
+      x.item === item_name &&
+      Number(x.price) === Number(price),
+  );
+  return row ? row.qty || 0 : 0;
 }
 
 /* =========================
@@ -758,21 +806,49 @@ function renderMenu(menuItems, stall_name) {
     const actions = document.createElement("div");
     actions.className = "menu-actions";
 
+    // ===== Qty Stepper (− qty +) =====
+    const stepper = document.createElement("div");
+    stepper.className = "qty-stepper";
+
+    const minusBtn = document.createElement("button");
+    minusBtn.type = "button";
+    minusBtn.className = "qty-btn";
+    minusBtn.textContent = "−";
+
+    const qtyVal = document.createElement("span");
+    qtyVal.className = "qty-val";
+    qtyVal.textContent = String(getItemQty(stall_name, item_name, item.price));
+
     const plusBtn = document.createElement("button");
-    plusBtn.className = "plus-btn";
+    plusBtn.type = "button";
+    plusBtn.className = "qty-btn qty-plus";
     plusBtn.textContent = "+";
 
     if (item.available === false) {
+      minusBtn.disabled = true;
       plusBtn.disabled = true;
-      plusBtn.textContent = "—";
       card.classList.add("unavailable");
     } else {
-      plusBtn.onclick = () => {
-        addToCart(stall_name, item_name, item.price);
-      };
+      minusBtn.addEventListener("click", () => {
+        removeFromCart(stall_name, item_name, item.price);
+        qtyVal.textContent = String(
+          getItemQty(stall_name, item_name, item.price),
+        );
+      });
+
+      plusBtn.addEventListener("click", () => {
+        addToCart(stall_name, item_name, item.price, item.image);
+        qtyVal.textContent = String(
+          getItemQty(stall_name, item_name, item.price),
+        );
+      });
     }
+
+    stepper.appendChild(minusBtn);
+    stepper.appendChild(qtyVal);
+    stepper.appendChild(plusBtn);
+    actions.appendChild(stepper);
     card.appendChild(img);
-    actions.appendChild(plusBtn);
     card.appendChild(title);
     card.appendChild(price);
     card.appendChild(actions);
@@ -1002,11 +1078,6 @@ exports.placeOrder = functions.https.onRequest(async (req, res) => {
   res.json({ success: true, total });
 });
   */
-
-//Update cart number
-// document.addEventListener("DOMContentLoaded", () => {
-//   updateCartUI();
-// });
 document.addEventListener("DOMContentLoaded", () => {
   updateCartUI();
 
@@ -1024,6 +1095,12 @@ document.addEventListener("DOMContentLoaded", () => {
   // ✅ load stall header info
   loadStallInfo(stallName);
 });
+const cartPill = document.getElementById("cartPill");
+if (cartPill) {
+  cartPill.addEventListener("click", () => {
+    window.location.href = "OrderSummary.html";
+  });
+}
 
 // example
 // listenToMenu("Banana Leaf Nasi Lemak");
@@ -1067,3 +1144,317 @@ menu.querySelectorAll("a").forEach((link) => {
     if (window.innerWidth <= 768) closeNav();
   });
 });
+
+/* =========================
+   ORDER MODE (pickup/takeaway)
+========================= */
+function getOrderMode() {
+  return sessionStorage.getItem("orderMode") || "pickup"; // default
+}
+function setOrderMode(mode) {
+  sessionStorage.setItem("orderMode", mode);
+}
+
+/* =========================
+   MONEY + CART STORAGE
+========================= */
+function money(n) {
+  return `$${Number(n || 0).toFixed(2)}`;
+}
+
+function getCart() {
+  return JSON.parse(sessionStorage.getItem("cart") || "[]");
+}
+
+function setCart(cart) {
+  sessionStorage.setItem("cart", JSON.stringify(cart));
+}
+
+/* =========================
+   TOTALS (includes packaging)
+   takeaway = $0.30 per item
+========================= */
+function computeTotals(cart) {
+  const subtotal = cart.reduce(
+    (sum, x) => sum + Number(x.price) * (x.qty || 1),
+    0,
+  );
+  const voucher = 0;
+
+  const mode = getOrderMode();
+  const itemsCount = cart.reduce((sum, x) => sum + (x.qty || 1), 0);
+
+  const packaging = mode === "takeaway" ? itemsCount * 0.3 : 0;
+  const total = Math.max(0, subtotal - voucher + packaging);
+
+  return { subtotal, voucher, packaging, total, mode, itemsCount };
+}
+
+/* =========================
+   STALL TITLE
+========================= */
+function updateStallTitle(lines) {
+  const titleEl = document.getElementById("stallTitle");
+  if (!titleEl) return;
+
+  const stalls = Array.from(new Set(lines.map((x) => x.stall).filter(Boolean)));
+  titleEl.textContent = stalls.length === 1 ? stalls[0] : "Order Summary";
+}
+
+/* =========================
+   PAYMENT PICKER
+========================= */
+function setPayment(method) {
+  sessionStorage.setItem("paymentMethod", method);
+
+  document.querySelectorAll(".pay-row").forEach((row) => {
+    const dot = row.querySelector(".dotpick");
+    if (!dot) return;
+    dot.classList.toggle("active", row.dataset.method === method);
+  });
+}
+
+function initPaymentPicker() {
+  const rows = document.querySelectorAll(".pay-row");
+  if (!rows.length) return;
+
+  const saved = sessionStorage.getItem("paymentMethod") || "visa";
+  setPayment(saved);
+
+  rows.forEach((row) => {
+    row.addEventListener("click", () => {
+      const method = row.dataset.method;
+      if (!method) return;
+      setPayment(method);
+    });
+  });
+}
+
+/* =========================
+   ORDER TYPE TOGGLE UI
+   (expects .mode-btn buttons)
+========================= */
+function initOrderModeToggle() {
+  const btns = document.querySelectorAll(".mode-btn");
+  if (!btns.length) return;
+
+  function applyUI(mode) {
+    btns.forEach((b) => b.classList.toggle("active", b.dataset.mode === mode));
+
+    const note = document.getElementById("modeNote"); // optional
+    if (note) note.style.display = mode === "takeaway" ? "block" : "none";
+  }
+
+  const saved = getOrderMode();
+  applyUI(saved);
+
+  btns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const mode = btn.dataset.mode;
+      if (!mode) return;
+      setOrderMode(mode);
+      applyUI(mode);
+      renderCart(); // ✅ recalc totals immediately
+    });
+  });
+}
+
+/* =========================
+   RENDER CART
+========================= */
+function renderCart() {
+  const itemsRoot = document.getElementById("itemsRoot");
+  const emptyState = document.getElementById("emptyState");
+  const placeBtn = document.getElementById("placeOrderBtn");
+
+  if (!itemsRoot || !emptyState) return;
+
+  const lines = getCart();
+  itemsRoot.innerHTML = "";
+
+  if (lines.length === 0) {
+    emptyState.style.display = "block";
+    if (placeBtn) placeBtn.disabled = true;
+
+    const subtotalEl = document.getElementById("subtotalVal");
+    const voucherEl = document.getElementById("voucherVal");
+    const totalBreakdown = document.getElementById("totalValBreakdown");
+    const totalSticky = document.getElementById("totalVal");
+
+    if (subtotalEl) subtotalEl.textContent = money(0);
+    if (voucherEl) voucherEl.textContent = `-${money(0).slice(1)}`;
+    if (totalBreakdown) totalBreakdown.textContent = money(0);
+    if (totalSticky) totalSticky.textContent = money(0);
+
+    const packLabel = document.getElementById("packagingLabel");
+    const packVal = document.getElementById("packagingVal");
+    if (packLabel) packLabel.style.display = "none";
+    if (packVal) packVal.style.display = "none";
+    return;
+  }
+
+  emptyState.style.display = "none";
+  if (placeBtn) placeBtn.disabled = false;
+
+  updateStallTitle(lines);
+
+  // ---- Render each line
+  lines.forEach((row) => {
+    const wrap = document.createElement("div");
+    wrap.className = "item-row";
+
+    const thumb = document.createElement("div");
+    thumb.className = "thumb";
+
+    const img = document.createElement("img");
+    img.alt = row.item;
+    img.src = row.image || "images/placeholder.png";
+    img.onerror = () => (img.src = "images/placeholder.png");
+    thumb.appendChild(img);
+
+    const mid = document.createElement("div");
+    mid.className = "item-mid";
+
+    const name = document.createElement("p");
+    name.className = "item-name";
+    name.textContent = row.item;
+
+    const sub = document.createElement("div");
+    sub.className = "item-sub";
+
+    const qty = document.createElement("div");
+    qty.className = "qty";
+
+    const minus = document.createElement("button");
+    minus.type = "button";
+    minus.textContent = "−";
+
+    const qtyVal = document.createElement("span");
+    qtyVal.textContent = String(row.qty || 1);
+
+    const plus = document.createElement("button");
+    plus.type = "button";
+    plus.textContent = "+";
+
+    qty.appendChild(minus);
+    qty.appendChild(qtyVal);
+    qty.appendChild(plus);
+
+    const perItem = document.createElement("span");
+    perItem.textContent = `${money(row.price)} each`;
+
+    sub.appendChild(qty);
+    sub.appendChild(perItem);
+
+    mid.appendChild(name);
+    mid.appendChild(sub);
+
+    const price = document.createElement("div");
+    price.className = "price";
+    price.textContent = money(Number(row.price) * (row.qty || 1));
+
+    // ✅ minus updates qty + removes when 0
+    minus.addEventListener("click", () => {
+      const cart = getCart();
+      const i = cart.findIndex(
+        (x) =>
+          x.stall === row.stall &&
+          x.item === row.item &&
+          Number(x.price) === Number(row.price),
+      );
+      if (i < 0) return;
+
+      cart[i].qty = (cart[i].qty || 1) - 1;
+      if (cart[i].qty <= 0) cart.splice(i, 1);
+
+      setCart(cart);
+      renderCart();
+    });
+
+    // ✅ plus updates qty (or adds if missing)
+    plus.addEventListener("click", () => {
+      const cart = getCart();
+      const i = cart.findIndex(
+        (x) =>
+          x.stall === row.stall &&
+          x.item === row.item &&
+          Number(x.price) === Number(row.price),
+      );
+
+      if (i >= 0) {
+        cart[i].qty = (cart[i].qty || 1) + 1;
+      } else {
+        cart.push({
+          stall: row.stall,
+          item: row.item,
+          price: Number(row.price),
+          qty: 1,
+          image: row.image,
+          addedAt: Date.now(),
+        });
+      }
+
+      setCart(cart);
+      renderCart();
+    });
+
+    wrap.appendChild(thumb);
+    wrap.appendChild(mid);
+    wrap.appendChild(price);
+    itemsRoot.appendChild(wrap);
+  });
+
+  // ---- Totals
+  const totals = computeTotals(lines);
+
+  const subtotalEl = document.getElementById("subtotalVal");
+  const voucherEl = document.getElementById("voucherVal");
+  const totalBreakdown = document.getElementById("totalValBreakdown"); // main totals line
+  const totalSticky = document.getElementById("totalVal"); // bottom bar total
+
+  if (subtotalEl) subtotalEl.textContent = money(totals.subtotal);
+  if (voucherEl) voucherEl.textContent = `-${money(totals.voucher).slice(1)}`;
+
+  // packaging row (optional elements in HTML)
+  const packLabel = document.getElementById("packagingLabel");
+  const packVal = document.getElementById("packagingVal");
+  if (packLabel && packVal) {
+    const showPack = totals.mode === "takeaway";
+    packLabel.style.display = showPack ? "block" : "none";
+    packVal.style.display = showPack ? "block" : "none";
+    packVal.textContent = money(totals.packaging);
+  }
+
+  if (totalBreakdown) totalBreakdown.textContent = money(totals.total);
+  if (totalSticky) totalSticky.textContent = money(totals.total);
+}
+
+/* =========================
+   INIT
+========================= */
+document.addEventListener("DOMContentLoaded", () => {
+  renderCart();
+  initPaymentPicker();
+  initOrderModeToggle();
+
+  const placeBtn = document.getElementById("placeOrderBtn");
+  if (placeBtn) {
+    placeBtn.addEventListener("click", () => {
+      const cart = getCart();
+      if (!cart.length) return alert("Cart is empty.");
+
+      const payment = sessionStorage.getItem("paymentMethod") || "visa";
+      const mode = getOrderMode();
+
+      // redirect if Add Card selected
+      if (payment === "add-card") {
+        window.location.href = "PaymentFailed.html";
+        return;
+      }
+      window.location.href = "PaymentSuccess.html";
+    });
+  }
+});
+
+// sessionStorage.removeItem("cart");
+// renderCart();

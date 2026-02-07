@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Stall Inspection Results Form</title>
+
+<style>
+  body {
+    font-family: system-ui, sans-serif;
+    background: #fdeee6;
+    margin: 0;
+    padding: 1.5rem;
+  }
+
+  /* MAIN CONTAINER — NOW WIDE */
+  .card {
+    max-width: 1200px;
+    margin: auto;
+    background: white;
+    padding: 2rem;
+    border-radius: 16px;
+  }
+
+  h2 {
+    margin-top: 0;
+  }
+
+  /* LAYOUT */
+  .inspection-layout {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 2rem;
+    align-items: start;
+  }
+
+  /* LEFT */
+  .stall-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .stall-title {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .stall-image img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 12px;
+  }
+
+  /* RIGHT CONTENT */
+  .inspection-content h2 {
+    margin-bottom: 1rem;
+  }
+
+  /* FORM GRID */
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2rem;
+  }
+
+  label {
+    font-weight: 600;
+  }
+
+  input {
+    width: 100%;
+    padding: 0.6rem;
+    margin-top: 0.4rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+  }
+
+  /* SCORE + GRADE */
+  .score-display {
+    margin-top: 1.5rem;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+
+  .grade-display {
+    margin-top: 0.5rem;
+    padding: 1rem;
+    border-radius: 14px;
+    font-size: 2rem;
+    font-weight: 800;
+    text-align: center;
+    color: white;
+  }
+
+  /* BUTTON */
+  .submit-btn {
+    margin-top: 1.5rem;
+    padding: 0.9rem;
+    border-radius: 10px;
+    border: none;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    background: #FF8C3A;
+    color: white;
+    width: 100%;
+  }
+
+  /* GRADE COLORS */
+  .grade-a { background: #d9534f; }
+  .grade-b { background: #5cb85c; }
+  .grade-c { background: #f0ad4e; }
+  .grade-d { background: #777; }
+
+  /* MOBILE */
+  @media (max-width: 768px) {
+    .inspection-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .form-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .stall-image img {
+      width: 160px;
+      height: 160px;
+    }
+  }
+</style>
+</head>
+
+<body>
+
+<div class="card inspection-layout">
+  <!-- LEFT -->
+  <div class="stall-left">
+    <h2 id="stallTitle" class="stall-title">Stall</h2>
+    <div class="stall-image">
+      <img id="stallImage" src="images/placeholder.jpg" alt="Stall image">
+    </div>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="inspection-content">
+    <h2>Edit results</h2>
+
+    <div class="form-grid">
+      <div>
+        <label>Cleanliness (%)</label>
+        <input type="number" id="cleanliness" min="0" max="100">
+      </div>
+
+      <div>
+        <label>Handling (%)</label>
+        <input type="number" id="handling" min="0" max="100">
+      </div>
+
+      <div>
+        <label>Efficiency (%)</label>
+        <input type="number" id="efficiency" min="0" max="100">
+      </div>
+    </div>
+
+    <!-- TOTAL SCORE ABOVE GRADE -->
+    <div id="scoreResult" class="score-display"></div>
+    <div id="gradeResult" class="grade-display"></div>
+
+    <button class="submit-btn" onclick="submitData()">Done</button>
+  </div>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import {
+    getDatabase, ref, onValue, get, update
+  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCoYoGP4NYJPHqA-kV_swajQ4LSQYdyWV4",
+    authDomain: "grp3fedapp.firebaseapp.com",
+    databaseURL: "https://grp3fedapp-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "grp3fedapp",
+    storageBucket: "grp3fedapp.firebasestorage.app",
+    messagingSenderId: "791146838729",
+    appId: "1:791146838729:web:446baee191feeb036e2b18",
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+
+  const params = new URLSearchParams(window.location.search);
+  const stallName = params.get("stall");
+  document.getElementById("stallTitle").textContent = stallName;
+
+  get(ref(db, `stalls/${stallName}`)).then(snapshot => {
+    if (snapshot.exists() && snapshot.val().image) {
+      stallImage.src = snapshot.val().image;
+    }
+  });
+
+  function getGrade(avg) {
+    if (avg >= 85) return "A";
+    if (avg >= 75) return "B";
+    if (avg >= 65) return "C";
+    return "D";
+  }
+
+  function updateGrade() {
+    const c = Number(cleanliness.value);
+    const h = Number(handling.value);
+    const e = Number(efficiency.value);
+
+    if ([c, h, e].some(v => isNaN(v))) {
+      scoreResult.textContent = "";
+      gradeResult.textContent = "";
+      gradeResult.className = "grade-display";
+      return;
+    }
+
+    const avg = (c + h + e) / 3;
+    const grade = getGrade(avg);
+
+    scoreResult.textContent = `Total ${avg.toFixed(1)}%`;
+    gradeResult.textContent = grade;
+    gradeResult.className = `grade-display grade-${grade.toLowerCase()}`;
+  }
+
+  ["cleanliness", "handling", "efficiency"].forEach(id =>
+    document.getElementById(id).addEventListener("input", updateGrade)
+  );
+
+  window.submitData = async () => {
+    await update(ref(db, `stalls/${stallName}`), {
+      cleanliness: Number(cleanliness.value) / 100,
+      handling: Number(handling.value) / 100,
+      efficiency: Number(efficiency.value) / 100,
+      lastUpdated: new Date().toISOString()
+    });
+    window.location.href = "Inspection results history Jan 2026.html";
+  };
+
+  // Pre-fill form if data exists
+  get(ref(db, `stalls/${stallName}`)).then(snapshot => {
+    if (snapshot.exists()) {
+      const data = snapshot.val();
+      if (data.cleanliness !== undefined)
+        cleanliness.value = (data.cleanliness * 100).toFixed(0);
+      if (data.handling !== undefined)
+        handling.value = (data.handling * 100).toFixed(0);
+      if (data.efficiency !== undefined)
+        efficiency.value = (data.efficiency * 100).toFixed(0);
+      updateGrade();
+    }
+  });
+
+</script>
+
+</body>
+</html>

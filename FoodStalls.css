@@ -391,6 +391,43 @@ body {
   transform: translateY(-4px);
 }
 
+.qty-stepper {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.qty-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  border: 1px solid #eee;
+  background: #fff;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 900;
+  display: grid;
+  place-items: center;
+}
+
+.qty-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.qty-val {
+  min-width: 18px;
+  text-align: center;
+  font-weight: 900;
+  color: #222;
+}
+
+.qty-plus {
+  background: linear-gradient(135deg, #ff8c3a, #ffb703);
+  border: none;
+  color: #fff;
+}
+
 /* =========================
    MOBILE TWEAKS
 ========================= */

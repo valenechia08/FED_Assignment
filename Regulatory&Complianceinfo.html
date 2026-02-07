@@ -13,24 +13,66 @@
 
     <style>
 
+      .content {
+          flex: 1;
+          margin: 60px;
+          padding-top:20px;
+        }
+
+        .content h1 {
+          margin-top: 0;
+          font-size: 28px;
+        }
+
+        /* Buttons */
+        .button-list {
+          margin-top: 30px;
+          margin-left: 60px;
+          margin-right: 60px;
+          max-width: 700px;
+          display: flex;
+          flex-direction: column;
+        }
+
+        .action-button {
+          display: block;
+          background-color: #FF8C3A;
+          color: #fff;
+          text-decoration: none;
+          padding: 20px;
+          border-radius: 4px;
+          margin-bottom: 20px;
+          transition: background-color 0.2s ease, transform 0.1s ease;
+        }
+
+        .action-button:hover {
+          background-color: #FF8C3A;;
+        }
+
+        .action-button h3 {
+          margin: 0 0 6px 0;
+          font-size: 18px;
+        }
+
+        .action-button p {
+          margin: 0;
+          font-size: 14px;
+          opacity: 0.95;
+        }
+
       .text{
         padding:10px;
       }
+
       .create-account-background {
         background: #e47329;
         border-radius: 5px;
         width: 947px;
         height: 170.95px;
-        /* position: absolute; */
-        /* left: 401px;
-        top: 405px; */
       }
       .inspections-by-nea-find-out-upcoming-routine-checks-or-the-results-of-past-ones {
       color: #ffffff;
       text-align: left;
-      /* position: absolute; */
-      /* left: 439px;
-      top: 451px; */
       width: 759px;
       height: 54px;
     }
@@ -44,7 +86,6 @@
       font-family: "Inter-Regular", sans-serif;
       font-size: 24px;
       font-weight: 400;
-
     }
     
 
@@ -64,27 +105,12 @@
           <div class="nav-center">
             <ul class="menu" id="menu">
               <li class="menu-item">
-                <a href="#">Home</a>
-                <ul class="dropdown">
-                  <li><a href="FED_ASG.html">Start Order</a></li>
-                </ul>
-              </li>
-
-              <li class="menu-item">
-                <a href="#">Order History</a>
-                <ul class="dropdown">
-                  <li><a href="OrderHistory.html">Past Orders</a></li>
-                </ul>
-              </li>
 
               <li class="menu-item">
                 <a href="#">Profile</a>
                 <ul class="dropdown">
                   <li><a href="UserProfile.html">Overview</a></li>
                   <li><a href="Analytics.html">Analytics & Reporting</a></li>
-                  <li><a href="#">Customer Feedback</a></li>
-                  <li><a href="#">Favourites</a></li>
-                  <li><a href="#">Rewards</a></li>
                 </ul>
               </li>
 
@@ -95,7 +121,6 @@
           </div>
 
           <div class="nav-right">
-            <button class="reserve-btn">Reserve A Table</button>
             <div class="hamburger" id="hamburger">
               <div></div><div></div><div></div>
             </div>
@@ -111,11 +136,11 @@
           <div class="header-row">
             <div class="title-block">
                <main class="content">
-            <h1>Regulatory and Compliance Information</h1>
+            <h1>Regulatory and Compliance Menu</h1>
         </header>
             <div class="button-list">
               <a href="R&C inspection log all.html" class="action-button">
-                <h3>Recent and Upcoming Inspections by NEA</h3>
+                <h3>Inspection Schedule</h3>
               </a>
 
               <a href="Inspection results history Jan 2026.html" class="action-button">
