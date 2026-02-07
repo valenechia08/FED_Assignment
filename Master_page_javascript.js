@@ -485,20 +485,34 @@ function createStallObject(stall_name, cuisine, rating, image) {
   };
 }
 
-function createMenuItemObject(item_name, price, available = true, image) {
+function createMenuItemObject(item_name, price, available = true, image,description) {
   return {
     [item_name]: {
       price,
       available,
       image,
+      description,
     },
   };
 }
 
 async function uploadStall(stall_name, cuisine, rating, image) {
-  const stallObj = createStallObject(stall_name, cuisine, rating, image);
-  await update(ref(db, "stalls"), stallObj);
+  const stallRef = ref(db, `stalls/${stall_name}`);
+  const snap = await get(stallRef);
+
+  // ✅ if already exists, DO NOT overwrite cuisine/rating/image
+  if (snap.exists()) return;
+
+  await set(stallRef, {
+    cuisine,
+    rating,
+    image,
+    menuItems: {},
+    createdAt: Date.now(),
+  });
 }
+
+
 
 async function addMenuItem(
   stall_name,
@@ -506,8 +520,9 @@ async function addMenuItem(
   price,
   available = true,
   image,
+  description,
 ) {
-  const itemObj = createMenuItemObject(item_name, price, available, image);
+  const itemObj = createMenuItemObject(item_name, price, available, image,description);
   await update(ref(db, `stalls/${stall_name}/menuItems`), itemObj);
 }
 
@@ -519,13 +534,14 @@ async function addMenuItem(
     "Malay",
     4.0,
     "images/Banana Leaf Nasi Lemak Picture.jpg",
-  );
+   );
   await addMenuItem(
     "Banana Leaf Nasi Lemak",
     "5 pcs Spicy Fish Otah",
     7.5,
     true,
     "images/Otah Picture.webp",
+    "Homemade fish otah",
   );
   await addMenuItem(
     "Banana Leaf Nasi Lemak",
@@ -533,6 +549,7 @@ async function addMenuItem(
     1.5,
     true,
     "images/Otah Picture.webp",
+    "Homemade fish otah",
   );
 
   await addMenuItem(
@@ -541,6 +558,7 @@ async function addMenuItem(
     5,
     true,
     "images/Set Meal A Picture.jpg",
+    "Our bestseller featuring a chicken wing, fish fillet, egg, bergedil and more!",
   );
 
   await addMenuItem(
@@ -549,6 +567,7 @@ async function addMenuItem(
     4,
     true,
     "images/Set Meal B Picture.jpg",
+    "One of the top-picks featuring a chicken wing, egg and more! ",
   );
   await addMenuItem(
     "Banana Leaf Nasi Lemak",
@@ -556,6 +575,7 @@ async function addMenuItem(
     4,
     true,
     "images/Set Meal C Picture.png",
+    "Delicious nasi lemak featuring spicy selar fish, egg and more! ",
   );
   await addMenuItem(
     "Banana Leaf Nasi Lemak",
@@ -563,6 +583,7 @@ async function addMenuItem(
     3.5,
     true,
     "images/Set Meal D Picture.jpg",
+    "Delicious nasi lemak featuring fish fillet, egg and more!",
   );
   await uploadStall(
     "Boon Lay Fried Carrot Cake & Kway Teow Mee",
@@ -576,6 +597,7 @@ async function addMenuItem(
     3,
     true,
     "images/Black Carrot Cake Picture.jpg",
+    "",
   );
   await addMenuItem(
     "Boon Lay Fried Carrot Cake & Kway Teow Mee",
@@ -583,6 +605,7 @@ async function addMenuItem(
     4,
     true,
     "images/Black Carrot Cake Picture.jpg",
+    "",
   );
   await addMenuItem(
     "Boon Lay Fried Carrot Cake & Kway Teow Mee",
@@ -590,6 +613,7 @@ async function addMenuItem(
     5,
     true,
     "images/Black Carrot Cake Picture.jpg",
+    "",
   );
   await addMenuItem(
     "Boon Lay Fried Carrot Cake & Kway Teow Mee",
@@ -597,6 +621,7 @@ async function addMenuItem(
     3,
     true,
     "images/White Carrot Cake Picture.jpg",
+    "",
   );
   await addMenuItem(
     "Boon Lay Fried Carrot Cake & Kway Teow Mee",
@@ -604,6 +629,7 @@ async function addMenuItem(
     4,
     true,
     "images/White Carrot Cake Picture.jpg",
+    "",
   );
   await addMenuItem(
     "Boon Lay Fried Carrot Cake & Kway Teow Mee",
@@ -611,6 +637,7 @@ async function addMenuItem(
     5,
     true,
     "images/White Carrot Cake Picture.jpg",
+    "",
   );
   await addMenuItem(
     "Boon Lay Fried Carrot Cake & Kway Teow Mee",
@@ -618,6 +645,7 @@ async function addMenuItem(
     4.5,
     true,
     "images/Char Kway Teow Picture.webp",
+    "",
   );
   await uploadStall(
     "Boon Lay Lu Wei",
@@ -704,6 +732,11 @@ function renderMenu(menuItems, stall_name) {
   const grid = document.createElement("div");
   grid.className = "menu-grid";
   root.appendChild(grid);
+
+  // const desc = document.createElement("div");
+  // desc.className = "menu-desc";
+  // desc.textContent = item.description || ""; // fallback
+  // card.appendChild(desc);
 
   for (const item_name in menuItems) {
     const item = menuItems[item_name];
