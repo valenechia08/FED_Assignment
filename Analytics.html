@@ -221,6 +221,15 @@
 
       /* “Mobile/tablet-ish”: stack charts into one column */
       @media (max-width: 900px) {
+        .dash-wrap select {
+          font-size: 12px;
+          height: 30px;
+        }
+
+        .dash-wrap select option {
+          font-size: 11px;        /* 👈 even smaller on mobile */
+          padding: 5px 8px;
+        }
         .dash-wrap .grid { grid-template-columns: 1fr; }
       }
 
@@ -239,13 +248,14 @@
         }
 
         /* Smaller dropdown text (menu + selected) */
-        .dash-wrap select,
+        /* .dash-wrap select,
         .dash-wrap select option {
           font-size: 12px;
-        }
+        } */
 
         /* Optional: keep filter from being huge */
-        .dash-wrap select { height: 30px; padding: 0 10px; }
+        /* .dash-wrap select { height: 30px; padding: 0 10px; }
+      } */
       }
 
     </style>
@@ -257,7 +267,7 @@
         <div class="top-nav">
           <div class="nav-left">
             <div class="Logo">
-              <img src="/images/ShiokLah(cropped).jpeg" alt="Logo" />
+              <img src="images/ShiokLah(cropped).jpeg" alt="Logo" />
             </div>
           </div>
 
@@ -673,6 +683,7 @@
       // Initial render
       document.getElementById("hygieneFilter").value = defaultYear;
       updateKPIsAndInsights();
+      
     </script>
   </body>
 </html>

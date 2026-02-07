@@ -81,7 +81,6 @@
 
   .hero-title p{
     margin-top: 6px;
-    color: var(--muted);
     font-weight: 700;
     font-size: 14px;
   }
@@ -220,15 +219,18 @@
   }
 
   .tile{
-    border: 1px solid rgba(15,23,42,.08);
-    border-radius: 18px;
-    padding: 18px;
-    background: #fff;
-    transition: transform .15s ease, box-shadow .15s ease;
+    position: relative;
+  border: 1px solid rgba(15,23,42,.08);
+  border-radius: 18px;
+  padding: 18px;
+  background: #fff;
+  transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+  color: #000; /* ✅ make default text black */
   }
   .tile:hover{
     transform: translateY(-2px);
     box-shadow: 0 16px 34px rgba(17,24,39,.10);
+    border-color: rgba(255,140,58,.25);
   }
 
   .tile .t-top{
@@ -241,6 +243,7 @@
   .tile .t-title{
     font-weight: 900;
     font-size: 15px;
+    color:#000;
   }
   .pill{
     font-size: 12px;
@@ -251,11 +254,12 @@
     background: rgba(248,250,252,.85);
     white-space:nowrap;
   }
+  /* description */
   .tile p{
-    color: var(--muted);
     font-weight: 750;
     font-size: 13px;
     line-height: 1.45;
+    color:#000; /* ✅ always black */
   }
 
   .divider{
@@ -263,6 +267,97 @@
     background: rgba(15,23,42,.08);
     margin: 16px 0;
   }
+  /* Make tiles clickable */
+  .tile-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  /* Add colour accents to tiles */
+  .tile {
+    position: relative;
+    border: 1px solid rgba(15,23,42,.08);
+    border-radius: 8px;
+    padding: 18px;
+    background: #fff;
+    transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+  }
+
+  /* subtle coloured top bar */
+  .tile::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 0;
+    width: 100%;
+    height: 6px;
+    border-radius: 18px 18px 0 0;
+    background: rgba(255,140,58,.35); /* default */
+  }
+
+  /* Different colours per tile */
+  .tile.fav::before { background: rgba(255,140,58,.55); }     /* orange */
+  .tile.rewards::before { background: rgba(255,212,0,.70); } /* yellow */
+  .tile.insights::before { background: rgba(59,130,246,.45);}/* blue */
+  .tile.support::before { background: rgba(34,197,94,.35); } /* green */
+
+  .tile:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 34px rgba(17,24,39,.10);
+    border-color: rgba(255,140,58,.25);
+  }
+
+  /* Pills (Locked/New/Available) */
+  .pill {
+    font-size: 12px;
+    font-weight: 900;
+    padding: 7px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(15,23,42,.10);
+    background: rgba(248,250,252,.85);
+    white-space: nowrap;
+  }
+
+  /* Pill variants */
+  .pill.available{
+    background: rgba(34,197,94,.12);
+    border-color: rgba(34,197,94,.22);
+    color: #166534;
+  }
+
+  .pill.new{
+    background: rgba(59,130,246,.12);
+    border-color: rgba(59,130,246,.22);
+    color: #1d4ed8;
+  }
+
+  .pill.locked{
+    background: rgba(239,68,68,.10);
+    border-color: rgba(239,68,68,.18);
+    color: #7f1d1d;
+  }
+
+  /* Disabled tiles (guest locked) */
+  .tile.disabled{
+    pointer-events: none;  /* cannot click */
+    cursor: not-allowed;
+    opacity: 1;            /* ✅ remove grey effect */
+    filter: none;          /* ✅ remove grey effect */
+    background: #f6f7f8;   /* optional: show disabled look */
+    border-color: rgba(15,23,42,.08);
+  }
+  /* stop hover animation when disabled */
+  .tile.disabled:hover{
+    transform: none;
+    box-shadow: none;
+  }
+  /* Quick Access title + subtitle black */
+  .profile-details .details-title h2,
+  .profile-details .details-title .hint {
+    color: #000;
+  }
+
+  
 
   /* Responsive layout */
   @media (max-width: 980px){
@@ -284,6 +379,15 @@
     .btn{ width: 100%; min-width: 0; }
     .actions{ gap: 10px; }
   }
+
+  /* Force Favourites & Rewards title + description to black */
+  .tile.fav .t-title,
+  .tile.rewards .t-title,
+  .tile.fav p,
+  .tile.rewards p {
+    color: #000;
+  }
+
 </style>
 </head>
 
@@ -381,7 +485,9 @@
 
             <div class="actions">
               <button class="btn primary" type="button">Edit Profile</button>
-              <button class="btn" type="button">View Rewards</button>
+              <a href="Customer Vouchers and Rewards.html">
+                <button class="btn" type="button">View Rewards</button>
+              </a>
             </div>
           </div>
 
@@ -408,51 +514,44 @@
         </div>
 
         <div class="tiles">
-          <div class="tile">
+          <a class="tile tile-link fav" id="tileFav" href="Customer_Favourties.html">
             <div class="t-top">
               <div class="t-title">Favourites</div>
               <div class="pill" id="pillFav">—</div>
             </div>
             <p>Save your top dishes and reorder faster.</p>
-          </div>
+          </a>
 
-          <div class="tile">
+          <a class="tile tile-link rewards" id="tileRewards" href="Customer Vouchers and Rewards.html">
             <div class="t-top">
               <div class="t-title">Rewards</div>
               <div class="pill" id="pillRewards">—</div>
             </div>
-            <p>Track points, vouchers, and member perks.</p>
-          </div>
+            <p>Track vouchers.</p>
+          </a>
 
-          <div class="tile">
+          <a class="tile tile-link insights" id="tileInsights" href="Analytics.html">
             <div class="t-top">
               <div class="t-title">Order Insights</div>
-              <div class="pill">New</div>
+              <div class="pill new" id="pillInsights">New</div>
             </div>
-            <p>See your spending & favourite items in analytics.</p>
-          </div>
+            <p>See analytics of the Hawker Centre.</p>
+          </a>
 
-          <div class="tile">
+          <a class="tile tile-link support" id="tileSupport" >
             <div class="t-top">
               <div class="t-title">Support</div>
-              <div class="pill">Help</div>
+              <div class="pill" id="pillSupport">Help</div>
             </div>
             <p>Need assistance? Contact us anytime.</p>
-          </div>
+          </a>
         </div>
 
-        <div class="divider"></div>
-
-        <div class="hint" id="footerHint">
-          Tip: Use the menu to switch between Overview and Analytics.
-        </div>
-      </section>
-    </div>
   </main>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-  import { getDatabase, ref, get, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+  import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyCoYoGP4NYJPHqA-kV_swajQ4LSQYdyWV4",
@@ -468,15 +567,9 @@
   const db = getDatabase(app);
 
   const currentUserId = sessionStorage.getItem("currentUserId") || "guest";
-  //const currentUserId = "user123";
-  // const currentUserId = "guest";
 
-  async function saveUserProfile() {
-    const userRef = ref(db, "members/user123");
-    await set(userRef, { name: "John Doe", email: "johndoe@email.com", userType: "registered" });
-  }
-
-  async function loadUserProfile() {
+  async function loadUserProfilePage() {
+    // --- UI refs (defined ONCE here) ---
     const profileTitle = document.getElementById("profileTitle");
     const profileSubtitle = document.getElementById("profileSubtitle");
     const badge = document.getElementById("profileBadge");
@@ -488,45 +581,84 @@
     const pillFav = document.getElementById("pillFav");
     const pillRewards = document.getElementById("pillRewards");
 
-    const userRef = ref(db, `members/${currentUserId}`);
-    const snapshot = await get(userRef);
+    const tileFav = document.getElementById("tileFav");
+    const tileRewards = document.getElementById("tileRewards");
+    const tileInsights = document.getElementById("tileInsights");
 
-    if (!snapshot.exists()) {
-      profileTitle.textContent = "Guest Profile";
-      profileSubtitle.textContent = "Limited access (guest mode)";
-      badge.textContent = "Guest";
-      badge.classList.remove("registered");
-      badge.classList.add("guest");
-      avatar.textContent = "👤";
+    // helper: lock/unlock tiles
+    function setLocked(isLocked) {
+      if (!pillFav || !pillRewards || !tileFav || !tileRewards) return;
 
-      registeredProfile.style.display = "none";
-      guestProfile.style.display = "block";
+      if (isLocked) {
+        pillFav.textContent = "Locked";
+        pillFav.className = "pill locked";
+        pillRewards.textContent = "Locked";
+        pillRewards.className = "pill locked";
 
-      pillFav.textContent = "Locked";
-      pillRewards.textContent = "Locked";
-      return;
+        tileFav.classList.add("disabled");
+        tileRewards.classList.add("disabled");
+
+        // Insights can stay clickable, or lock it too if you want:
+        // tileInsights?.classList.add("disabled");
+      } else {
+        pillFav.textContent = "Available";
+        pillFav.className = "pill available";
+        pillRewards.textContent = "Available";
+        pillRewards.className = "pill available";
+
+        tileFav.classList.remove("disabled");
+        tileRewards.classList.remove("disabled");
+        // tileInsights?.classList.remove("disabled");
+      }
     }
 
-    const user = snapshot.val();
+    try {
+      const userRef = ref(db, `members/${currentUserId}`);
+      const snapshot = await get(userRef);
 
-    if (user.userType === "registered") {
-      profileTitle.textContent = "User Profile";
-      profileSubtitle.textContent = "Welcome back to ShiokLah!";
-      badge.textContent = "Registered";
-      badge.classList.remove("guest");
-      badge.classList.add("registered");
-      avatar.textContent = "😄";
+      // --- GUEST (no record) ---
+      if (!snapshot.exists()) {
+        profileTitle.textContent = "Guest";
+        profileSubtitle.textContent = "Limited access (guest mode)";
+        badge.textContent = "Guest";
+        badge.classList.remove("registered");
+        badge.classList.add("guest");
+        avatar.textContent = "👤";
 
-      registeredProfile.style.display = "block";
-      guestProfile.style.display = "none";
+        registeredProfile.style.display = "none";
+        guestProfile.style.display = "block";
 
-      document.getElementById("userName").textContent = user.name || "—";
-      document.getElementById("userEmail").textContent = user.email || "—";
+        setLocked(true);
+        return;
+      }
 
-      pillFav.textContent = "Available";
-      pillRewards.textContent = "Available";
-    } else {
-      profileTitle.textContent = "Guest Profile";
+      const user = snapshot.val() || {};
+      const userType = (user.userType || "").toLowerCase();
+
+      // --- REGISTERED ---
+      if (userType === "registered") {
+        const username = user.name || "User";
+        // ✅ show username at the top
+        profileTitle.textContent = username;              // e.g. "John Doe"
+        profileSubtitle.textContent = "Welcome back to ShiokLah!";
+
+        badge.textContent = "Registered";
+        badge.classList.remove("guest");
+        badge.classList.add("registered");
+        avatar.textContent = "😄";
+
+        registeredProfile.style.display = "block";
+        guestProfile.style.display = "none";
+
+        document.getElementById("userName").textContent = username;
+        document.getElementById("userEmail").textContent = user.email || "—";
+
+        setLocked(false);
+        return;
+      }
+
+      // --- NOT registered (treat as guest) ---
+      profileTitle.textContent = "Guest";
       profileSubtitle.textContent = "Limited access (guest mode)";
       badge.textContent = "Guest";
       badge.classList.remove("registered");
@@ -536,50 +668,64 @@
       registeredProfile.style.display = "none";
       guestProfile.style.display = "block";
 
-      pillFav.textContent = "Locked";
-      pillRewards.textContent = "Locked";
+      setLocked(true);
+    } catch (err) {
+      console.error("loadUserProfilePage error:", err);
+      // fallback: show guest UI if anything fails
+      profileTitle.textContent = "Guest";
+      profileSubtitle.textContent = "Limited access (guest mode)";
+      badge.textContent = "Guest";
+      badge.classList.remove("registered");
+      badge.classList.add("guest");
+      avatar.textContent = "👤";
+
+      registeredProfile.style.display = "none";
+      guestProfile.style.display = "block";
     }
   }
 
-  // saveUserProfile(); // run once if you need seed data
-  loadUserProfile();
+  // run after DOM is ready
+  document.addEventListener("DOMContentLoaded", () => {
+    loadUserProfilePage();
 
-  document.querySelectorAll(".menu-item").forEach(item => {
-    const link = item.querySelector("a");
-    const dropdown = item.querySelector(".dropdown");
-    if(!dropdown) return;
+    // NAV dropdowns
+    document.querySelectorAll(".menu-item").forEach((item) => {
+      const link = item.querySelector("a");
+      const dropdown = item.querySelector(".dropdown");
+      if (!dropdown) return;
 
-    link.addEventListener("click", e => {
-      e.preventDefault();
-      e.stopPropagation();
-      document.querySelectorAll(".menu-item").forEach(i => {
-        if (i !== item) i.classList.remove("active");
+      link.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        document.querySelectorAll(".menu-item").forEach((i) => {
+          if (i !== item) i.classList.remove("active");
+        });
+        item.classList.toggle("active");
       });
-      item.classList.toggle("active");
     });
-  });
 
-  document.addEventListener("click", () =>
-    document.querySelectorAll(".menu-item").forEach(i => i.classList.remove("active"))
-  );
+    document.addEventListener("click", () => {
+      document.querySelectorAll(".menu-item").forEach((i) => i.classList.remove("active"));
+    });
 
-  const hamburger = document.getElementById("hamburger");
-  hamburger.addEventListener("click", () =>
-    document.getElementById("menu").classList.toggle("show")
-  );
-
-  hamburger.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      document.getElementById("menu").classList.toggle("show");
+    const hamburger = document.getElementById("hamburger");
+    const menu = document.getElementById("menu");
+    if (hamburger && menu) {
+      hamburger.addEventListener("click", () => menu.classList.toggle("show"));
+      hamburger.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          menu.classList.toggle("show");
+        }
+      });
     }
-  });
 
-  //when user log out, info is cleared
-  document.getElementById("logoutBtn").addEventListener("click", () => {
-    sessionStorage.clear();   // 🔥 THIS is the key line
+    // logout clears session
+    const logoutBtn = document.getElementById("logoutBtn");
+    logoutBtn?.addEventListener("click", () => sessionStorage.clear());
   });
 </script>
+
 
 </body>
 </html>
