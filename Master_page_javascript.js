@@ -520,17 +520,17 @@ async function uploadStall(stall_name, cuisine, rating, image) {
 
 
 
-async function addMenuItem(
-  stall_name,
-  item_name,
-  price,
-  available = true,
-  image,
-  description,
-) {
-  const itemObj = createMenuItemObject(item_name, price, available, image,description);
-  await update(ref(db, `stalls/${stall_name}/menuItems`), itemObj);
-}
+// async function addMenuItem(
+//   stall_name,
+//   item_name,
+//   price,
+//   available = true,
+//   image,
+//   description,
+// ) {
+//   const itemObj = createMenuItemObject(item_name, price, available, image,description);
+//   await update(ref(db, `stalls/${stall_name}/menuItems`), itemObj);
+// }
 //Can remove since data has already been created
 // // createStallObject("Banana Leaf Nasi Lemak", "Malay", 4.0, "images/Banana Leaf Nasi Lemak Picture.jpg");
 
