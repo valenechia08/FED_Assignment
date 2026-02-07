@@ -14,7 +14,161 @@
       href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="Master_page_stylesheet.css" />
+    <link rel="stylesheet" href="Vendor.css" />
+    <style>
+          .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .cuisine-dropdown{
+      display: flex;
+      max-width:auto;
+      height:50px;
+      gap: 10px;
+    }
+    select {
+      padding: 6px 10px;
+    }
+
+     .add-btn {
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    /* TABLE */
+    .table-header {
+      display: grid;
+      padding-left:15px;
+      grid-template-columns: 
+        minmax(80px, 1fr) 
+        2fr 
+        minmax(60px, 1fr) 
+        minmax(100px, 1.5fr);
+      font-weight: 600;
+      margin-top: 20px;
+      padding-bottom: 10px;
+      align-items: center;
+      border-bottom: 2px solid black;
+    }
+
+    .menu-card {
+      display: grid;
+            grid-template-columns: 
+        minmax(80px, 1fr) 
+        2fr 
+        minmax(60px, 1fr) 
+        minmax(100px, 1.5fr);
+        font-weight: 600;
+      align-items: center;
+      padding: 15px;
+      height:120px;
+      border-radius: 10px;
+      font-size: 18px;
+      background: #FFDCC5;
+    }
+
+    .menu-card.light {
+      background: #FFF0E6;
+    }
+
+    .menu-card img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      background-size: contain;
+    }
+    .actions img{
+      width: 35px;
+      height: auto;   /* keeps proportions */
+      object-fit: contain; 
+    }
+    .add-icon{
+      background-color: transparent;
+      width: 50px;
+      height: 50px;
+    }
+    .add-btn button{
+      background-color: transparent;
+      width: 50px;
+      height: 50px;
+    }
+
+   .menu-form {
+   position: absolute;
+   display:none;
+  top: 20px;       /* distance from top */
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  z-index: 1000; 
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+}
+
+.menu-form label {
+  display: block;
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+.menu-form input[type="text"],
+.menu-form input[type="number"],
+.menu-form input[type="file"],
+.menu-form textarea {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+.menu-form textarea {
+  resize: vertical;
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.confirm-btn, .cancel-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.confirm-btn {
+  background-color: #E47329;
+  color: white;
+}
+
+.cancel-btn {
+  background-color: #763322;
+  color: white;
+}
+.add-btn img{
+  width:35px;
+  height:auto;
+}
+    </style>
   </head>
   <body>
     <!-- Vendor Home -->
@@ -96,10 +250,116 @@
     <header class="page-header">
       <div class="header-row">
         <div class="title-block">
-          <h1>Incoming Orders</h1>
+          <h1>Rental Agreement</h1>
           <!-- <div class="divider"></div> -->
         </div>
+      </header>
+      <form class="addMenuForm menu-form">
+      <label for="itemName">Item:</label>
+      <input type="text" class="itemName" name="itemName" placeholder="Enter menu item">
 
+      <label for="price">Price:</label>
+      <input type="number" class="price" name="price" placeholder="Enter price" step="0.01">
+
+      <label for="ewt">EWT:</label>
+      <input type="number" class="ewt" name="ewt" placeholder="Enter estimated waiting time">
+
+      <label for="imageUpload">Upload Image:</label>
+      <input type="file" class="imageUpload" name="imageUpload" accept="image/*">
+
+      <label for="description">Description:</label>
+      <textarea id="description" class="description" rows="3" placeholder="Enter a description of your food"></textarea>
+
+      <div class="form-buttons">
+        <button type="submit" class="confirm-btn">Confirm</button>
+        <button type="button" class="cancel-btn">Cancel</button>
+      </div>
+    </form>
+
+  <!-- TABLE HEADER -->
+  <section class="menu">
+  <div class="table-header">
+    <span>Image</span>
+    <span>Item</span>
+    <span>Price</span>
+    <span>Actions</span>
+  </div>
+
+  <!-- MENU LIST -->
+  <div class="menu-list" id="menuList">
+
+    <div class="menu-card">
+      <img src="images/Set Meal A Picture.jpg" alt="Set Meal A">
+      <span>Set Meal A</span>
+      <span>5.00</span>
+      <div class="actions">
+      <img src="images/edit.png" alt="Edit" class="icon">
+      <img src="images/delete.png" alt="Delete" class="icon delete">
+      <img src="images/view.png" alt="View" class="icon">
+      </div>
+    </div>
+  </div>
+
+    <div class="menu-card light">
+      <img src="images/Set Meal B Picture.jpg" alt="Set Meal B">
+      <span>Set Meal B</span>
+      <span>4.00</span>
+      <div class="actions">
+      <img src="images/edit.png" alt="Edit" class="icon">
+      <img src="images/delete.png" alt="Delete" class="icon delete">
+      <img src="images/view.png" alt="View" class="icon">
+      </div>
+      </div>
+    </div>
+
+    <div class="menu-card">
+      <img src="images/Set Meal C Picture.png" alt="Set Meal C">
+      <span>Set Meal C</span>
+      <span>4.00</span>
+      <div class="actions">
+      <img src="images/edit.png" alt="Edit" class="icon">
+      <img src="images/delete.png" alt="Delete" class="icon delete">
+      <img src="images/view.png" alt="View" class="icon">
+      </div>
+      </div>
+    </div>
+
+    <div class="menu-card light">
+      <img src="images/Set Meal D Picture.jpg" alt="Set Meal D">
+      <span>Set Meal D</span>
+      <span>3.50</span>
+      <div class="actions">
+      <img src="images/edit.png" alt="Edit" class="icon">
+      <img src="images/delete.png" alt="Delete" class="icon delete">
+      <img src="images/view.png" alt="View" class="icon">
+      </div>
+      </div>
+    </div>
+
+    <div class="menu-card">
+      <img src="images/Otah Picture.webp" alt="1 pcs Spicy Fish Otah">
+      <span>1 pcs Spicy Fish Otah</span>
+      <span>1.50</span>
+      <div class="actions">
+      <img src="images/edit.png" alt="Edit" class="icon">
+      <img src="images/delete.png" alt="Delete" class="icon delete">
+      <img src="images/view.png" alt="View" class="icon">
+      </div>
+      </div>
+    </div>
+
+    <div class="menu-card light">
+      <img src="images/Otah Picture.webp" alt="5 pcs Spicy Fish Otah">
+      <span>5 pcs Spicy Fish Otah</span>
+      <span>7.50</span>
+      <div class="actions">
+      <img src="images/edit.png" alt="Edit" class="icon">
+      <img src="images/delete.png" alt="Delete" class="icon delete">
+      <img src="images/view.png" alt="View" class="icon">
+      </div>
+      </div>
+
+    </div>
         
 
     </section>
