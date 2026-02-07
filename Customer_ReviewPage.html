@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Customer Feedback | ShiokLah!</title>
+    <link rel="stylesheet" href="Master_page_stylesheet.css" />
 
     <!-- Fonts (same as your project) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -831,6 +832,11 @@
         popupMsg.textContent =
           "Your feedback has been submitted. Thank you for helping ShiokLah improve!";
         popup.classList.add("show");
+
+        // ✅ ADDED ONLY THIS: auto go back home after submit
+        setTimeout(() => {
+          window.location.href = "FED_ASG.html";
+        }, 1200);
       });
 
       closePopup.addEventListener("click", () =>

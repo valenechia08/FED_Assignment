@@ -15,419 +15,263 @@
     />
     <link rel="icon" type="image/jpeg" href="/images/ShiokLah(cropped).jpeg" />
     <link rel="stylesheet" href="Master_page_stylesheet.css" />
-  <style>
-      /* content */
-      .order-box {
-        max-width: 600px;
-        margin: 40px auto;
-        padding: 80px 60px;
-        background: #fff8f0;
-        border: 2px dashed #ff8c3a;
-        border-radius: 18px;
-        text-align: center;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-        transition: all 0.3s ease;
-      }
-
-      .order-box h2 {
-        font-size: 28px;
-        font-weight: 700;
-        color: #ff7a18;
-        margin-bottom: 12px;
-        font-family: "Montserrat", sans-serif;
-      }
-
-      .order-box p {
-        font-size: 16px;
-        color: #444;
-        margin-bottom: 24px;
-        font-family: "Kodchasan", Arial;
-      }
-
-      .order-box a {
-        text-decoration: none;
-        font-weight: 600;
-        font-size: 15px;
-        color: white;
-      }
-      .order-btn {
-        display: inline-block;
-        margin: 20px auto 0;
-        background: #ff8c3a;
-        color: #fff;
-        text-decoration: none;
-        padding: 12px 40px;
-        font-size: 15px;
-        font-weight: 700;
-        border-radius: 999px;
-        transition:
-          background 0.3s ease,
-          transform 0.2s ease; /* enables animation */
-      }
-
-      .order-btn:hover {
-        background: #e6762f;
-        transform: scale(1.05); /* hover animation */
-      }
-
-      .teaser {
-        margin: 20px 0;
-        text-align: center;
-      }
-
-      .teaser img {
-        width: 120px;
-        border-radius: 12px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s ease;
-      }
-
-      .teaser img:hover {
-        transform: scale(1.05);
-      }
-
-      .teaser p {
-        font-size: 14px;
-        color: #555;
-        margin-top: 8px;
-        font-style: italic;
-      }
-
-      .filter-box {
-        margin: 15px auto;
-        max-width: 400px;
-        text-align: center;
-      }
-
-      .filter-box input {
-        width: 100%;
-        padding: 10px 14px;
-        border: 2px solid #ff8c3a;
-        border-radius: 8px;
-        font-size: 14px;
-        outline: none;
-        transition: border-color 0.3s ease;
-      }
-
-      .filter-box input:focus {
-        border-color: #e6762f;
-      }
-      .order-list {
-        list-style: none;
-        padding: 0;
-        margin: 20px auto;
-        max-width: 500px;
-      }
-
-      .order-list li {
-        margin-bottom: 12px;
-      }
-
-      .order-card {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background: #fff;
-        border: 1px solid #eee;
-        border-radius: 12px;
-        padding: 12px 18px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-        transition:
-          transform 0.2s ease,
-          box-shadow 0.2s ease;
-      }
-
-      .order-card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
-      }
-
-      .order-card .dish {
-        font-weight: 600;
-        font-size: 15px;
-        color: #333;
-      }
-
-      .order-card .date {
-        font-size: 13px;
-        color: #777;
-        font-style: italic;
-      }
-
-      .menu-container {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 20px;
-        justify-content: center;
-      }
-
-      .menu-card {
-        width: 180px; /* fixed width */
-        border: 1px solid #eee;
-        border-radius: 12px;
-        padding: 10px;
-        text-align: center;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        transition: transform 0.2s ease;
-      }
-
-      .menu-card img {
-        width: 100%; /* scales image to card width */
-        height: 120px; /* fixed height */
-        object-fit: cover; /* crop and fill nicely */
-        border-radius: 8px;
-      }
-
-      .menu-card .name {
-        margin-top: 8px;
-        font-weight: 600;
-      }
-
-      .menu-card .price {
-        margin-top: 4px;
-        color: var(--primary-orange);
-        font-weight: 700;
-      }
-
-      /* -------------------- MOBILE RESPONSIVE -------------------- */
-      .hamburger {
-        display: none;
-        flex-direction: column;
-        gap: 4px;
-        cursor: pointer;
-      }
-      .hamburger div {
-        width: 25px;
-        height: 3px;
-        background: #111;
-        border-radius: 2px;
-      }
-
-      /* Extra small devices (phones < 576px) */
-      @media (max-width: 576px) {
+    <style>
+        /* content */
         .order-box {
-          margin: 20px 10px;
-          padding: 25px 15px;
+          max-width: 600px;
+          margin: 40px auto;
+          padding: 80px 60px;
+          background: #fff8f0;
+          border: 2px dashed #ff8c3a;
+          border-radius: 18px;
+          text-align: center;
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+          transition: all 0.3s ease;
         }
+
         .order-box h2 {
-          font-size: 20px;
+          font-size: 28px;
+          font-weight: 700;
+          color: #ff7a18;
+          margin-bottom: 12px;
+          font-family: "Montserrat", sans-serif;
         }
+
         .order-box p {
-          font-size: 13px;
+          font-size: 16px;
+          color: #444;
+          margin-bottom: 24px;
+          font-family: "Kodchasan", Arial;
+        }
+
+        .order-box a {
+          text-decoration: none;
+          font-weight: 600;
+          font-size: 15px;
+          color: white;
         }
         .order-btn {
-          padding: 10px 20px;
-          font-size: 13px;
+          display: inline-block;
+          margin: 20px auto 0;
+          background: #ff8c3a;
+          color: #fff;
+          text-decoration: none;
+          padding: 12px 40px;
+          font-size: 15px;
+          font-weight: 700;
+          border-radius: 999px;
+          transition:
+            background 0.3s ease,
+            transform 0.2s ease; /* enables animation */
         }
+
+        .order-btn:hover {
+          background: #e6762f;
+          transform: scale(1.05); /* hover animation */
+        }
+
+        .teaser {
+          margin: 20px 0;
+          text-align: center;
+        }
+
         .teaser img {
-          width: 80px;
+          width: 120px;
+          border-radius: 12px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+          transition: transform 0.3s ease;
         }
+
+        .teaser img:hover {
+          transform: scale(1.05);
+        }
+
         .teaser p {
-          font-size: 12px;
+          font-size: 14px;
+          color: #555;
+          margin-top: 8px;
+          font-style: italic;
         }
+
+        .filter-box {
+          margin: 15px auto;
+          max-width: 400px;
+          text-align: center;
+        }
+
+        .filter-box input {
+          width: 100%;
+          padding: 10px 14px;
+          border: 2px solid #ff8c3a;
+          border-radius: 8px;
+          font-size: 14px;
+          outline: none;
+          transition: border-color 0.3s ease;
+        }
+
+        .filter-box input:focus {
+          border-color: #e6762f;
+        }
+        .order-list {
+          list-style: none;
+          padding: 0;
+          margin: 20px auto;
+          max-width: 500px;
+        }
+
         .order-list li {
-          font-size: 13px;
-          padding: 8px;
+          margin-bottom: 12px;
         }
-        .hamburger {
+
+        .order-card {
           display: flex;
+          justify-content: space-between;
+          align-items: center;
+          background: #fff;
+          border: 1px solid #eee;
+          border-radius: 12px;
+          padding: 12px 18px;
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+          transition:
+            transform 0.2s ease,
+            box-shadow 0.2s ease;
+        }
+
+        .order-card:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+        }
+
+        .order-card .dish {
+          font-weight: 600;
+          font-size: 15px;
+          color: #333;
+        }
+
+        .order-card .date {
+          font-size: 13px;
+          color: #777;
+          font-style: italic;
+        }
+
+        .menu-container {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 20px;
+          justify-content: center;
+        }
+
+        .menu-card {
+          width: 180px; /* fixed width */
+          border: 1px solid #eee;
+          border-radius: 12px;
+          padding: 10px;
+          text-align: center;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+          transition: transform 0.2s ease;
+        }
+
+        .menu-card img {
+          width: 100%; /* scales image to card width */
+          height: 120px; /* fixed height */
+          object-fit: cover; /* crop and fill nicely */
+          border-radius: 8px;
+        }
+
+        .menu-card .name {
+          margin-top: 8px;
+          font-weight: 600;
+        }
+
+        .menu-card .price {
+          margin-top: 4px;
+          color: var(--primary-orange);
+          font-weight: 700;
+        }
+
+        /* -------------------- MOBILE RESPONSIVE -------------------- */
+        .hamburger {
+          display: none;
+          flex-direction: column;
+          gap: 4px;
+          cursor: pointer;
+        }
+        .hamburger div {
+          width: 25px;
+          height: 3px;
+          background: #111;
+          border-radius: 2px;
+        }
+
+        /* Extra small devices (phones < 576px) */
+        @media (max-width: 576px) {
+          .order-box {
+            margin: 20px 10px;
+            padding: 25px 15px;
+          }
+          .order-box h2 {
+            font-size: 20px;
+          }
+          .order-box p {
+            font-size: 13px;
+          }
+          .order-btn {
+            padding: 10px 20px;
+            font-size: 13px;
+          }
+          .teaser img {
+            width: 80px;
+          }
+          .teaser p {
+            font-size: 12px;
+          }
+          .order-list li {
+            font-size: 13px;
+            padding: 8px;
+          }
+          .hamburger {
+            display: flex;
+          }
+        }
+        /* ===================== MOBILE FIRST IMPROVEMENTS ===================== */
+
+        /* ===================== MOBILE SIZE TUNING ===================== */
+    
+
+      @media (max-width: 576px) {
+        /* Make your “No orders yet” card look nicer on mobile */
+        .order-box {
+          margin: 18px 12px;
+          padding: 24px 16px;
+          border-radius: 20px;
+          box-shadow: 0 10px 26px rgba(0,0,0,0.08);
+        }
+
+        .order-box h2 {
+          font-size: 20px;
+          margin-bottom: 10px;
+          text-align: center;
+        }
+
+        .order-box p {
+          font-size: 13px;
+          margin-bottom: 14px;
+          text-align: center;
+        }
+
+        .teaser img {
+          width: 92px;
+          border-radius: 14px;
+        }
+
+        .order-btn {
+          width: 100%;
+          max-width: 320px;
+          padding: 12px 16px;
+          font-size: 14px;
+          text-align: center;
         }
       }
-      /* ===================== MOBILE FIRST IMPROVEMENTS ===================== */
-
-      /* ===================== MOBILE SIZE TUNING ===================== */
-  
-
-    @media (max-width: 576px) {
-      .navrectangle {
-        position: fixed;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        width: 100%;
-        margin-top: 0;                 /* remove your desktop top spacing */
-        background: rgba(255,255,255,0.96);
-        backdrop-filter: blur(10px);
-        border-top: 1px solid #eee;
-        z-index: 9999;
-      }
-
-      /* Prevent content hiding behind bottom nav */
-      body {
-        padding-bottom: 88px;          /* space for bottom nav */
-      }
-
-      /* Hide reserve button in mobile */
-      .reserve-btn {
-        display: none;
-      }
-
-      /* Logo stays top-left (optional: keep your design) */
-      .nav-left {
-        position: fixed;
-        top: 10px;
-        left: 12px;
-        z-index: 10000;
-        background: white;
-        padding: 6px 8px;
-        border-radius: 12px;
-        box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-      }
-      .Logo img {
-        width: 34px;
-        height: auto;
-        display: block;
-      }
-
-      /* Push main content below the floating logo */
-      .main-content {
-        padding-top: 70px;
-      }
-
-      /* IMPORTANT: SHOW NAV WORDS */
-      .nav-center {
-        display: block;               /* ✅ bring text back */
-        width: 100%;
-      }
-
-      /* Bottom nav layout: menu becomes a row */
-      .top-nav {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 72px;
-        padding: 10px 12px;
-        gap: 0;
-      }
-
-      /* Hide hamburger (since we’re showing the words as bottom nav) */
-      .nav-right {
-        display: none;
-      }
-
-      /* Remove the line under nav */
-      .Nav-line {
-        display: none;
-      }
-
-      /* Turn your UL into a bottom nav bar */
-      #menu.menu {
-        display: flex !important;
-        justify-content: space-around;
-        align-items: center;
-        width: 100%;
-        gap: 6px;
-        margin: 0;
-        padding: 0;
-        list-style: none;
-      }
-
-      /* Each main item becomes a “tab” */
-      #menu .menu-item {
-        position: relative;
-        flex: 1;
-        text-align: center;
-      }
-
-      /* Main link style (the words at the bottom) */
-      #menu .menu-item > a {
-        display: block;
-        padding: 10px 6px;
-        border-radius: 14px;
-        font-family: "Kodchasan", Arial;
-        font-size: 12px;
-        font-weight: 700;
-        color: #222;
-        text-decoration: none;
-        line-height: 1.1;
-        transition: transform 0.15s ease, background 0.2s ease;
-        user-select: none;
-      }
-
-      /* Nice tap feedback */
-      #menu .menu-item > a:active {
-        transform: scale(0.98);
-      }
-
-      /* When submenu open (your JS adds .active on .menu-item) */
-      #menu .menu-item.active > a {
-        background: #fff1e6;
-        color: #ff7a18;
-      }
-
-      /* Dropdown becomes a pop-up ABOVE the bottom nav */
-      #menu .dropdown {
-        display: none;
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        bottom: 58px;                  /* lifts above nav bar */
-        min-width: 190px;
-        background: white;
-        border: 1px solid #eee;
-        border-radius: 14px;
-        padding: 8px;
-        box-shadow: 0 14px 30px rgba(0,0,0,0.12);
-        z-index: 10001;
-      }
-
-      /* Show dropdown when active */
-      #menu .menu-item.active .dropdown {
-        display: block;
-      }
-
-      #menu .dropdown li {
-        list-style: none;
-      }
-
-      #menu .dropdown a {
-        display: block;
-        padding: 10px 10px;
-        border-radius: 10px;
-        font-size: 13px;
-        font-weight: 600;
-        color: #222;
-        text-decoration: none;
-        font-family: "Kodchasan", Arial;
-      }
-
-      #menu .dropdown a:hover {
-        background: #fff6ef;
-      }
-
-      /* Make your “No orders yet” card look nicer on mobile */
-      .order-box {
-        margin: 18px 12px;
-        padding: 24px 16px;
-        border-radius: 20px;
-        box-shadow: 0 10px 26px rgba(0,0,0,0.08);
-      }
-
-      .order-box h2 {
-        font-size: 20px;
-        margin-bottom: 10px;
-        text-align: center;
-      }
-
-      .order-box p {
-        font-size: 13px;
-        margin-bottom: 14px;
-        text-align: center;
-      }
-
-      .teaser img {
-        width: 92px;
-        border-radius: 14px;
-      }
-
-      .order-btn {
-        width: 100%;
-        max-width: 320px;
-        padding: 12px 16px;
-        font-size: 14px;
-        text-align: center;
-      }
-    }
 
 
 
@@ -488,7 +332,11 @@
         </div>
       </div>
     </nav>
+
+
+    <div class="nav-overlay" id="navOverlay"></div>
     <hr class="Nav-line" />
+    <!-- end nav -->
 
     <!-- MAIN -->
     <main class="main-content">
@@ -547,54 +395,7 @@
 
         <!-- Order History List -->
         <ul id="orderList" class="order-list">
-          <!-- <li>
-          <div class="order-card">
-            <span class="dish">🍲 Nasi Lemak</span>
-            <span class="date">Jan 20, 2026</span>
-          </div>
-        </li>
-        <li>
-          <div class="order-card">
-            <span class="dish">🥟 Chicken Satay</span>
-            <span class="date">Jan 25, 2026</span>
-          </div>
-        </li>
-        <li>
-          <div class="order-card">
-            <span class="dish">🍜 Laksa</span>
-            <span class="date">Jan 28, 2026</span>
-          </div>
-        </li>
-        <li>
-          <div class="order-card">
-            <span class="dish">🍛 Beef Rendang</span>
-            <span class="date">Feb 2, 2026</span>
-          </div>
-        </li>
-        <li>
-          <div class="order-card">
-            <span class="dish">🥠 Hainanese Chicken Rice</span>
-            <span class="date">Feb 5, 2026</span>
-          </div>
-        </li>
-        <li>
-          <div class="order-card">
-            <span class="dish">🍤 Char Kway Teow</span>
-            <span class="date">Feb 10, 2026</span>
-          </div>
-        </li>
-        <li>
-          <div class="order-card">
-            <span class="dish">🥬 Vegetarian Mee Goreng</span>
-            <span class="date">Feb 12, 2026</span>
-          </div>
-        </li>
-        <li>
-          <div class="order-card">
-            <span class="dish">🍹 Teh Tarik</span>
-            <span class="date">Feb 15, 2026</span>
-          </div>
-        </li> -->
+
         </ul>
 
         <small class="tagline"
@@ -605,229 +406,136 @@
       </div>
     </main>
 
+    <script type="module" src="Master_page_javascript.js"></script>
     <script type="module">
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-      import {
-        getDatabase,
-        ref,
-        onValue,
-        set,
-        push,
-      } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+      // We assume Master_page_javascript.js already initialized firebase + has db, ref, onValue, get
+      // If not, tell me and I’ll adjust.
 
-      // ================= Firebase config =================
-      const firebaseConfig = {
-        apiKey: "AIzaSyCoYoGP4NYJPHqA-kV_swajQ4LSQYdyWV4",
-        authDomain: "grp3fedapp.firebaseapp.com",
-        databaseURL:
-          "https://grp3fedapp-default-rtdb.asia-southeast1.firebasedatabase.app",
-        projectId: "grp3fedapp",
-        storageBucket: "grp3fedapp.firebasestorage.app",
-        messagingSenderId: "791146838729",
-        appId: "1:791146838729:web:446baee191feeb036e2b18",
-      };
+      document.addEventListener("DOMContentLoaded", async () => {
+        const userId = sessionStorage.getItem("currentUserId"); // registered only, else null
 
-      const app = initializeApp(firebaseConfig);
-      const db = getDatabase(app);
+        const orderList = document.getElementById("orderList");
+        const filterInput = document.getElementById("orderFilter");
 
-      // ✅ Declare DOM + userId BEFORE using them
-      // const userId = "user123"; // replace with auth.currentUser.uid later
-      const userId = sessionStorage.getItem("currentUserId") || "guest";
+        const firstTimeBox = document.querySelector(".order-box.first-time");
+        const guestBox = document.querySelector(".order-box.guest");
+        const registeredBox = document.querySelector(".order-box.registered");
 
-      const orderList = document.getElementById("orderList");
-
-      const firstTimeBox = document.querySelector(".order-box.first-time");
-      const guestBox = document.querySelector(".order-box.guest");
-      const registeredBox = document.querySelector(".order-box.registered");
-
-      function showOnly(box) {
-        [firstTimeBox, guestBox, registeredBox].forEach((b) => {
-          if (b) b.style.display = "none";
-        });
-        if (box) box.style.display = "block";
-      }
-
-      function formatDate(d) {
-        const dt = new Date(d);
-        if (isNaN(dt.getTime())) return "";
-        return dt.toLocaleDateString(undefined, {
-          year: "numeric",
-          month: "short",
-          day: "numeric",
-        });
-      }
-
-      function orderTitle(order) {
-        if (order.dish) return order.dish;
-
-        if (Array.isArray(order.items) && order.items.length > 0) {
-          const firstName = order.items[0]?.name || "Order";
-          const more = order.items.length - 1;
-          return more > 0 ? `${firstName} + ${more} more` : firstName;
+        function showOnly(box) {
+          [firstTimeBox, guestBox, registeredBox].forEach((b) => b && (b.style.display = "none"));
+          if (box) box.style.display = "block";
         }
 
-        return "Order";
-      }
-
-      // ✅ REALTIME LISTENER (read-only)
-      function renderOrdersRealtime(uid) {
-        const ordersRef = ref(db, `orders/${uid}`);
-
-        onValue(
-          ordersRef,
-          (snapshot) => {
-            orderList.innerHTML = "";
-
-            if (!snapshot.exists()) {
-              showOnly(firstTimeBox);
-              return;
-            }
-
-            showOnly(registeredBox);
-
-            const ordersObj = snapshot.val();
-            const ordersArray = Object.entries(ordersObj).map(([id, data]) => ({
-              id,
-              ...data,
-            }));
-
-            ordersArray.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-            ordersArray.forEach((order) => {
-              const li = document.createElement("li");
-              li.innerHTML = `
-                <div class="order-card">
-                  <span class="dish">🍲 ${orderTitle(order)}</span>
-                  <span class="date">${formatDate(order.date)}</span>
-                </div>
-              `;
-              orderList.appendChild(li);
-            });
-          },
-          (error) => {
-            console.error("Realtime order listener error:", error);
-            showOnly(firstTimeBox);
-          }
-        );
-      }
-
-      renderOrdersRealtime(userId);
-
-      // ================= TEST ONLY (writes 1 order) =================
-      // Set this to true ONCE to test, then set back to false.
-      const RUN_SEED_TEST = false;
-
-      async function seedTestOrder() {
-        try {
-          const ordersRef = ref(db, `orders/${userId}`);
-          const testOrderRef = push(ordersRef);
-
-          await set(testOrderRef, {
-            stall: "Banana Leaf Nasi Lemak",
-            items: [
-              { name: "Set Meal A", qty: 1, price: 5 },
-              { name: "1 Pcs Spicy Fish Otah", qty: 2, price: 1.5 },
-            ],
-            total: 8,
-            date: new Date().toISOString(),
-          });
-
-          console.log("✅ Test order written to:", `orders/${userId}`);
-        } catch (e) {
-          console.error("❌ seedTestOrder failed:", e);
-          alert("seedTestOrder failed — check Console for error (likely permissions).");
-        }
-      }
-
-      if (RUN_SEED_TEST) seedTestOrder();
-
-
-      // ================= NAVIGATION DROPDOWN =================
-      document.querySelectorAll(".menu-item").forEach((item) => {
-        const mainLink = item.querySelector("a");
-        const dropdown = item.querySelector(".dropdown");
-        if (!dropdown) return;
-
-        mainLink.addEventListener("click", (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          document.querySelectorAll(".menu-item").forEach((i) => {
-            if (i !== item) i.classList.remove("active");
-          });
-          item.classList.toggle("active");
-        });
-      });
-
-      //closes submenu when user click other main menu option
-      document.addEventListener("click", () => {
-        document
-          .querySelectorAll(".menu-item")
-          .forEach((item) => item.classList.remove("active"));
-      });
-
-      // Hamburger toggle
-      const hamburger = document.getElementById("hamburger");
-      const menu = document.getElementById("menu");
-      hamburger.addEventListener("click", () => menu.classList.toggle("show"));
-
-      document.querySelectorAll(".menu-item > a").forEach((link) => {
-        link.addEventListener("click", (e) => {
-          const dropdown = link.nextElementSibling;
-          if (dropdown && window.innerWidth <= 768) {
-            e.preventDefault();
-            dropdown.classList.toggle("show");
-          }
-        });
-      });
-
-      
-      // ================= FILTER ORDERS =================
-      const filterInput = document.getElementById("orderFilter");
-      const orderLists = document.getElementById("orderList");
-
-      filterInput.addEventListener("keyup", function () {
-        const filterValue = filterInput.value.toLowerCase();
-        Array.from(orderLists.children).forEach((li) => {
-          li.style.display = li.textContent.toLowerCase().includes(filterValue)
+        function formatDate(d) {
+          const dt = new Date(d);
+          return isNaN(dt.getTime())
             ? ""
-            : "none";
+            : dt.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+        }
+
+        function orderTitle(order) {
+          if (order.dish) return order.dish;
+          if (Array.isArray(order.items) && order.items.length > 0) {
+            const firstName = order.items[0]?.name || "Order";
+            const more = order.items.length - 1;
+            return more > 0 ? `${firstName} + ${more} more` : firstName;
+          }
+          return "Order";
+        }
+
+        // =========================
+        // GUEST MODE (session only)
+        // =========================
+        function renderGuestOrders() {
+          showOnly(guestBox);
+
+          // OPTIONAL: if you still want guest to "see" temp orders on this page:
+          // Save guest orders somewhere like sessionStorage "guestOrders"
+          const guestOrders = JSON.parse(sessionStorage.getItem("guestOrders") || "[]");
+
+          // If you don't want to display guest orders at all, remove below.
+          if (guestOrders.length > 0) {
+            showOnly(registeredBox);
+            orderList.innerHTML = "";
+            guestOrders
+              .sort((a, b) => new Date(b.date) - new Date(a.date))
+              .forEach((order) => {
+                const li = document.createElement("li");
+                li.innerHTML = `
+                  <div class="order-card">
+                    <span class="dish">🍲 ${orderTitle(order)}</span>
+                    <span class="date">${formatDate(order.date)}</span>
+                  </div>
+                `;
+                orderList.appendChild(li);
+              });
+          }
+        }
+
+        // =========================
+        // REGISTERED MODE (Firebase realtime)
+        // =========================
+        function renderOrdersRealtime(uid) {
+          const ordersRef = ref(db, `orders/${uid}`);
+
+          onValue(
+            ordersRef,
+            (snapshot) => {
+              orderList.innerHTML = "";
+
+              if (!snapshot.exists()) {
+                showOnly(firstTimeBox); // registered but no orders yet
+                return;
+              }
+
+              showOnly(registeredBox);
+
+              const ordersObj = snapshot.val();
+              const ordersArray = Object.entries(ordersObj).map(([id, data]) => ({ id, ...data }));
+              ordersArray.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+              ordersArray.forEach((order) => {
+                const li = document.createElement("li");
+                li.innerHTML = `
+                  <div class="order-card">
+                    <span class="dish">🍲 ${orderTitle(order)}</span>
+                    <span class="date">${formatDate(order.date)}</span>
+                  </div>
+                `;
+                orderList.appendChild(li);
+              });
+            },
+            (err) => {
+              console.error("Realtime orders error:", err);
+              showOnly(firstTimeBox);
+            }
+          );
+        }
+
+        // =========================
+        // MAIN DECISION
+        // =========================
+        if (!userId) {
+          renderGuestOrders();
+        } else {
+          // optional: confirm user exists in members + is registered
+          const memberSnap = await get(ref(db, `members/${userId}`));
+          if (!memberSnap.exists() || (memberSnap.val().userType || "").toLowerCase() !== "registered") {
+            renderGuestOrders();
+            return;
+          }
+          renderOrdersRealtime(userId);
+        }
+
+        // Filter (works for both)
+        filterInput?.addEventListener("keyup", () => {
+          const v = filterInput.value.toLowerCase();
+          Array.from(orderList.children).forEach((li) => {
+            li.style.display = li.textContent.toLowerCase().includes(v) ? "" : "none";
+          });
         });
       });
-
-      // ================= FIREBASE ORDERS (Realtime DB) =================
-      //const userId = "user123"; // replace with auth.currentUser.uid after login
-
-      async function loadOrders(userId) {
-        try {
-          const ordersRef = ref(db, `orders/${userId}`); // path: /orders/user123
-          const snapshot = await get(ordersRef);
-          orderList.innerHTML = "";
-
-          if (snapshot.exists()) {
-            const orders = snapshot.val(); // orders is an object
-            // Convert object to array sorted by date descending
-            const ordersArray = Object.values(orders).sort(
-              (a, b) => new Date(b.date) - new Date(a.date),
-            );
-
-            ordersArray.forEach((order) => {
-              const li = document.createElement("li");
-              li.innerHTML = `
-              <div class="order-card">
-                <span class="dish">${order.dish}</span>
-                <span class="date">${new Date(order.date).toLocaleDateString()}</span>
-              </div>`;
-              orderList.appendChild(li);
-            });
-          } else {
-            console.log("No orders found for user:", userId);
-          }
-        } catch (error) {
-          console.error("Error loading orders:", error);
-        }
-      }
-
-      loadOrders(userId);
     </script>
+
   </body>
 </html>

@@ -5,13 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ShiokLah! • Order Tracking</title>
 
-    <!-- (Optional) If you already use fonts globally, you can remove these -->
+    <!-- ✅ Fonts (nav uses Kodchasan now) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Kodchasan:wght@400;600;700&family=Montserrat:wght@400;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Kodchasan:wght@200;300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&family=Open+Sans:wght@300..800&family=Roboto:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="Master_page_stylesheet.css" />
 
     <style>
       :root {
@@ -47,120 +53,14 @@
         color: var(--text);
       }
 
-      /* =========================
-         TOP NAV (YOUR NAV STYLE)
-      ========================= */
-      .topNavBar {
-        position: sticky;
-        top: 0;
-        z-index: 2000;
-        background: #fff;
-        border-bottom: 1px solid var(--line);
-      }
-      .topNavBar .container {
-        width: 92%;
-        max-width: 1200px;
-        margin: auto;
-      }
-      .topNavBar .top-nav {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        height: 70px;
-      }
-      .topNavBar .nav-left,
-      .topNavBar .nav-right {
-        flex: 0 0 auto;
-      }
-      .topNavBar .nav-center {
-        flex: 1;
-        display: flex;
-        justify-content: center;
-      }
-      .topNavBar .Logo {
-        height: 60px;
-        display: flex;
-        align-items: center;
-        text-decoration: none;
-      }
-      .topNavBar .Logo img {
-        height: 100%;
-        width: auto;
-        display: block;
-      }
-      .topNavBar .menu {
-        list-style: none;
-        display: flex;
-        align-items: center;
-        gap: 50px;
-      }
-      .topNavBar .menu a {
-        text-decoration: none;
-        font-weight: 800;
-        color: #111;
-        display: block;
-        padding: 8px 0;
-      }
-      .topNavBar .menu a:hover {
-        color: var(--primary-orange);
-      }
-      .topNavBar .menu-item {
-        position: relative;
-      }
-      .topNavBar .dropdown {
-        position: absolute;
-        top: 130%;
-        left: 0;
-        background: var(--primary-yellow);
-        border-radius: 12px;
-        padding: 10px 0;
-        min-width: 220px;
-        display: none;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-      }
-      .topNavBar .dropdown li {
-        list-style: none;
-      }
-      .topNavBar .dropdown a {
-        padding: 10px 18px;
-        color: #111;
-        font-weight: 700;
-      }
-      .topNavBar .dropdown a:hover {
-        background: rgba(0, 0, 0, 0.08);
-      }
-      .topNavBar .menu-item:hover .dropdown {
-        display: block;
-      }
-
-      .nav-btn {
-        background: var(--primary-orange);
-        color: #fff;
-        border: none;
-        border-radius: 999px;
-        padding: 10px 16px;
-        font-weight: 900;
-        cursor: pointer;
-        box-shadow: 0 10px 22px rgba(228, 115, 41, 0.25);
-        transition: 0.15s;
-      }
-      .nav-btn:hover {
-        transform: translateY(-1px);
-        filter: brightness(0.98);
-      }
-      .nav-btn:active {
-        transform: translateY(0);
-      }
-
-      @media (max-width: 900px) {
-        .topNavBar .menu {
-          gap: 28px;
-        }
-      }
-      @media (max-width: 700px) {
-        .topNavBar .nav-center {
-          display: none;
-        }
+      /* ✅ NAV FONT OVERRIDE (so your external nav uses this font too) */
+      .topNavBar,
+      .topNavBar .top-nav,
+      .topNavBar .menu a,
+      .topNavBar .dropdown a,
+      .topNavBar .nav-btn,
+      .topNavBar button {
+        font-family: "Kodchasan", sans-serif !important;
       }
 
       /* =========================
@@ -261,6 +161,27 @@
         padding: 10px 16px;
         border-radius: 999px;
         font-weight: 800;
+      }
+
+      /* Back button (in nav-right) */
+      .nav-btn {
+        background: #e47329;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 8px 14px;
+        font-weight: 800;
+        cursor: pointer;
+        transition: 0.15s;
+      }
+
+      .nav-btn:hover {
+        transform: translateY(-1px);
+        border-color: rgba(228, 115, 41, 0.35);
+        color: var(--primary-orange);
+      }
+
+      .nav-btn:active {
+        transform: translateY(0);
       }
 
       /* =========================
@@ -681,7 +602,7 @@
     <main>
       <div class="page-head">
         <h1>Order Tracking</h1>
-        <p>Track your order + view summary. Play a quick game while waiting.</p>
+        <p>Track your order! Wanna play a quick game while waiting?</p>
       </div>
 
       <div class="layout">
@@ -775,9 +696,7 @@
               <div id="summaryType">Self-Pickup</div>
             </div>
 
-            <div class="items" id="items">
-              <!-- Filled by JS (you can replace with Firebase later) -->
-            </div>
+            <div class="items" id="items"></div>
 
             <div class="items" style="margin-top: 10px">
               <div class="item">
@@ -838,15 +757,11 @@
 
     <script>
       document.addEventListener("DOMContentLoaded", () => {
-        /* =========================
-           DEMO ORDER DATA
-           (Replace with Firebase later)
-        ========================= */
         const order = {
           orderNo: "#SL58231",
-          type: "Self-Pickup", // or "Dine-in"
+          type: "Self-Pickup",
           tableOrQueue: "Table 05",
-          etaMins: 20, // IMPORTANT: game closes when timer hits 0
+          etaMins: 20,
           ahead: 5,
           items: [
             { name: "Set Meal A", price: 5.0 },
@@ -854,13 +769,10 @@
             { name: "Set Meal C", price: 4.0 },
           ],
           fee: 0.9,
-          status: "received", // received | preparing | ready
+          status: "received",
           stamps: { received: null, preparing: null, ready: null },
         };
 
-        /* =========================
-           DOM
-        ========================= */
         const $ = (id) => document.getElementById(id);
 
         const minsText = $("minsText");
@@ -883,9 +795,6 @@
         const feeEl = $("fee");
         const totalEl = $("total");
 
-        /* =========================
-           TIME HELPERS
-        ========================= */
         function pad2(n) {
           return String(n).padStart(2, "0");
         }
@@ -894,9 +803,15 @@
           return `${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
         }
 
-        /* =========================
-           RENDER ORDER SUMMARY
-        ========================= */
+        function escapeHtml(str) {
+          return String(str)
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
+        }
+
         function renderSummary() {
           itemsEl.innerHTML = "";
           order.items.forEach((it) => {
@@ -915,35 +830,24 @@
             (sum, it) => sum + Number(it.price || 0),
             0,
           );
-          const total = itemsTotal + Number(order.fee || 0);
-          totalEl.textContent = `$${total.toFixed(2)}`;
+          totalEl.textContent = `$${(itemsTotal + Number(order.fee || 0)).toFixed(2)}`;
 
           $("summaryTable").textContent = order.tableOrQueue;
           $("summaryType").textContent = order.type;
         }
 
-        function escapeHtml(str) {
-          return String(str)
-            .replaceAll("&", "&amp;")
-            .replaceAll("<", "&lt;")
-            .replaceAll(">", "&gt;")
-            .replaceAll('"', "&quot;")
-            .replaceAll("'", "&#039;");
-        }
-
-        /* =========================
-           STATUS + TIMELINE
-        ========================= */
         const steps = Array.from(document.querySelectorAll(".step"));
+
+        function mark(step, cls) {
+          const el = steps.find((x) => x.dataset.step === step);
+          if (el) el.classList.add(cls);
+        }
 
         function setStatus(newStatus) {
           order.status = newStatus;
-
           steps.forEach((s) => s.classList.remove("done", "active"));
 
-          if (newStatus === "received") {
-            mark("received", "active");
-          }
+          if (newStatus === "received") mark("received", "active");
           if (newStatus === "preparing") {
             mark("received", "done");
             mark("preparing", "active");
@@ -953,11 +857,6 @@
             mark("preparing", "done");
             mark("ready", "active");
           }
-        }
-
-        function mark(step, cls) {
-          const el = steps.find((x) => x.dataset.step === step);
-          if (el) el.classList.add(cls);
         }
 
         function renderHeader() {
@@ -987,9 +886,6 @@
           tReady.textContent = order.stamps.ready || "—";
         }
 
-        /* =========================
-           GAME: MEMORY MATCH (REAL)
-        ========================= */
         const modal = $("gameModal");
         const closeGameBtn = $("closeGameBtn");
         const board = $("board");
@@ -1015,9 +911,7 @@
         }
 
         function openGame() {
-          // If already ready, don’t open
           if (order.status === "ready") return;
-
           modal.classList.add("show");
           modal.setAttribute("aria-hidden", "false");
         }
@@ -1038,7 +932,7 @@
           gameNote.textContent =
             "Tap 2 cards. If they match, they stay open. If not, they flip back.";
 
-          const picks = shuffle([...ICONS]).slice(0, 6); // 6 pairs (12 cards)
+          const picks = shuffle([...ICONS]).slice(0, 6);
           tiles = shuffle([...picks, ...picks]).map((icon, i) => ({
             id: i,
             icon,
@@ -1061,7 +955,6 @@
               <div class="back">🟧</div>
               <div class="front">${t.icon}</div>
             `;
-
             el.addEventListener("click", () => onTileClick(t.id));
             board.appendChild(el);
           });
@@ -1073,7 +966,7 @@
 
         function onTileClick(id) {
           if (lock) return;
-          if (order.status === "ready") return; // stop playing if ready
+          if (order.status === "ready") return;
 
           const t = tiles.find((x) => x.id === id);
           if (!t || t.matched || t.revealed) return;
@@ -1091,7 +984,6 @@
 
           const a = tiles.find((x) => x.id === firstPick);
           const b = tiles.find((x) => x.id === id);
-
           if (!a || !b) return;
 
           if (a.icon === b.icon) {
@@ -1102,9 +994,8 @@
             firstPick = null;
             renderBoard();
 
-            if (matches === 6) {
+            if (matches === 6)
               gameNote.textContent = `You won in ${moves} moves! 🎉`;
-            }
             return;
           }
 
@@ -1144,21 +1035,13 @@
           }, 650);
         }
 
-        /* =========================
-           ORDER TIMER / AUTO READY
-           - If ETA starts at 20 mins,
-             when it hits 0 => ready, close game, show banner.
-           - For demo speed: 1 "min" per 3 seconds
-             Change DEMO_TICK_MS to 60000 for real minutes.
-        ========================= */
-        const DEMO_TICK_MS = 3000; // change to 60000 for real minute countdown
+        const DEMO_TICK_MS = 3000;
 
         function tick() {
           if (order.status === "ready") return;
 
           order.etaMins = Math.max(0, order.etaMins - 1);
 
-          // reduce queue sometimes
           if (order.ahead > 0) {
             order.ahead = Math.max(
               0,
@@ -1166,7 +1049,6 @@
             );
           }
 
-          // move progress based on time
           if (order.etaMins <= 14 && order.status === "received") {
             setStatus("preparing");
             order.stamps.preparing = nowHHMM();
@@ -1180,7 +1062,6 @@
             playBtn.style.opacity = "0.6";
             playBtn.style.cursor = "not-allowed";
 
-            // force close game when ready
             closeGame("Order is ready — game closed automatically ✅");
           }
 
@@ -1188,17 +1069,8 @@
           renderStamps();
         }
 
-        /* =========================
-           EVENTS
-        ========================= */
-        playBtn.addEventListener("click", () => {
-          openGame();
-        });
-
-        closeGameBtn.addEventListener("click", () => {
-          closeGame();
-        });
-
+        playBtn.addEventListener("click", openGame);
+        closeGameBtn.addEventListener("click", () => closeGame());
         modal.addEventListener("click", (e) => {
           if (e.target === modal) closeGame();
         });
@@ -1207,14 +1079,9 @@
         hintBtn.addEventListener("click", hint);
 
         $("nextBtn").addEventListener("click", () => {
-          // you can link to next flow page (e.g. receipt / feedback / home)
-          // location.href = "SomeNextPage.html";
           alert("Next clicked (link this to your next page).");
         });
 
-        /* =========================
-           INIT
-        ========================= */
         order.stamps.received = nowHHMM();
         setStatus(order.status);
         renderHeader();
