@@ -503,17 +503,22 @@
 
         // ✅ logged in user
         const username =
-          sessionStorage.getItem("loggedInUser") ||
-          localStorage.getItem("loggedInUser") ||
-          "";
+        sessionStorage.getItem("loggedInUser") ||
+        localStorage.getItem("loggedInUser") ||
+        "";
 
-        if (!username) {
-          showOnly(guestBox);
-          return;
-        }
+      const ownerKey = username ? username : sessionStorage.getItem("guestId") || "";
+      if (!ownerKey) {
+        showOnly(guestBox);
+        return;
+      }
 
-        // ✅ REAL-TIME query: /orders where username == logged in user
-        const qUserOrders = query(ref(db, "orders"), orderByChild("username"), equalTo(username));
+      const qUserOrders = query(
+        ref(db, "orders"),
+        orderByChild("ownerKey"),
+        equalTo(ownerKey)
+      );
+
 
         onValue(
           qUserOrders,

@@ -420,6 +420,19 @@
           padding: 10px 20px;
         }
       }
+
+      /* =========================
+         ✅ ADDED ONLY: "Go to Rewards" link styling
+         (doesn't remove anything else)
+      ========================= */
+      .voucher-link {
+        color: var(--orange);
+        font-weight: 700;
+        text-decoration: none;
+      }
+      .voucher-link:hover {
+        text-decoration: underline;
+      }
     </style>
   </head>
 
@@ -507,7 +520,17 @@
           <div class="value" id="subtotalVal">$0.00</div>
 
           <div class="label muted">Voucher applied</div>
-          <div class="value muted" id="voucherVal">-$0.00</div>
+
+          <!-- ✅ CHANGED ONLY THIS VALUE TO A LINK -->
+          <div class="value muted">
+            <a
+              href="Customer Vouchers and Rewards.html"
+              id="voucherLink"
+              class="voucher-link"
+              >Go to Rewards</a
+            >
+          </div>
+
           <div class="label muted" id="packagingLabel" style="display: none">
             Packaging fee
           </div>
