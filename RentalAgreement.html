@@ -187,6 +187,45 @@
 .end-date{
   font-weight: 700;
 }
+/* drawer styles */
+  .drawer { position: fixed; inset: 0; display: none; z-index: 2000; }
+  .drawer.show { display: block; }
+  .drawer-overlay { position: absolute; inset: 0; background: rgba(0,0,0,.35); }
+  .drawer-panel {
+    position: absolute; top: 0; right: 0;
+    height: 100%; width: min(420px, 92vw);
+    background: #fff;
+    box-shadow: -20px 0 40px rgba(0,0,0,.18);
+    display: flex; flex-direction: column;
+  }
+  .drawer-head{
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--line);
+    display:flex; align-items:center; justify-content: space-between;
+    background: #ffdfae;
+  }
+  .drawer-title{ font-weight: 900; color:#344054; font-size: 16px; }
+  .drawer-close{
+    width: 34px; height: 34px; border-radius: 10px;
+    border: 1px solid var(--line);
+    background: #fff; cursor: pointer; font-weight: 900;
+  }
+  .drawer-body{ padding: 16px; overflow:auto; display:grid; gap: 10px; }
+  .drow{ display:flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-bottom: 1px dashed var(--line); }
+  .dk{ color: var(--muted); font-weight: 800; font-size: 12.5px; }
+  .dv{ color: var(--text); font-weight: 900; font-size: 13.5px; text-align:right; word-break: break-word; }
+  .dnotes{ margin-top: 8px; border: 1px solid var(--line); border-radius: 12px; padding: 12px; background:#fafbff; }
+  .dnotes-title{ font-weight: 900; color:#344054; margin-bottom: 8px; }
+  .dnotes-body{ color: var(--text); font-weight: 600; white-space: pre-wrap; line-height: 1.4; }
+  .drawer-actions{ margin-top: 6px; display:flex; justify-content:flex-end; }
+  .btn-lite{
+    height: 40px; padding: 0 14px; border-radius: 12px;
+    border: none; background:#ff8c3a; color:#fff; font-weight: 900; cursor:pointer;
+  }
+
+  /* small improvement for row click: only arrow opens drawer */
+  .row { cursor: default; }
+  .arrow-btn { cursor: pointer; }
     </style>
   </head>
   <body>
@@ -265,81 +304,62 @@
       </nav>
 
   <main class="contents">
+  <div class="wrap">
+    <section class="card">
+      <div class="card-header">
+        <div class="card-title">Rental Agreements</div>
 
-    <div class="wrap">
+        <div class="header-actions">
+          <!-- STATUS FILTER -->
+          <select id="statusFilter">
+            <option value="all">All Status</option>
+            <option value="active">Active</option>
+            <option value="expired">Expired</option>
+            <option value="pending">Pending Renewal</option>
+          </select>
 
-  <section class="card">
-    <div class="card-header">
-      <div class="card-title">Rental Agreements</div>
-
-      <div class="header-actions">
-        <!-- STATUS FILTER -->
-        <select>
-          <option value="all">All Status</option>
-          <option value="active">Active</option>
-          <option value="expired">Expired</option>
-          <option value="pending">Pending Renewal</option>
-        </select>
-
-        <!-- ADD BUTTON -->
-        <button class="add-btn" id="addAgreementBtn">+</button>
+          <!-- ADD BUTTON -->
+          <button class="add-btn" id="addAgreementBtn" type="button">+</button>
+        </div>
       </div>
-    </div>
 
-    <div class="list">
-
-      <!-- ROW -->
-      <div class="row">
-        <div class="icon">📄</div>
-
-        <div class="main">
-          <div class="top">
-            <div class="aid">AG002</div>
-            <div class="address">
-              Boon Lay Place Food Village, 221A/B Boon Lay Place
-            </div>
-          </div>
-          <div class="sub">
-            End Date: <span class="end-date">31-Dec-2026</span>
-          </div>
-        </div>
-
-        <div class="right">
-  <span class="badge pending">Pending Renewal</span>
-
-  <!-- VIEW MORE ARROW -->
-  <button class="arrow-btn" title="View details">
-    ›
-  </button>
-</div>
-</div>
-
-      <!-- ROW -->
-      <div class="row">
-        <div class="icon">📄</div>
-
-        <div class="main">
-          <div class="top">
-            <div class="aid">AG001</div>
-            <div class="address">
-              Boon Lay Place Food Village, 221A/B Boon Lay Place
-            </div>
-          </div>
-          <div class="sub">
-            End Date: <span class="end-date">31-Dec-2026</span>
-          </div>
-        </div>
-
-        <div class="right">
-        <span class="badge expired">Expired</span>
-
-        <!-- VIEW MORE ARROW -->
-        <button class="arrow-btn" title="View details">
-          ›
-        </button>
+      <div class="list" id="agreementList"></div>
+        <!-- rows will be rendered here -->
       </div>
     </section>
-  </main>
+  </div>
+   <!-- RIGHT DRAWER (view more) -->
+  <aside class="drawer" id="drawer" aria-hidden="true">
+    <div class="drawer-overlay" id="drawerOverlay"></div>
+    <div class="drawer-panel">
+      <div class="drawer-head">
+        <div class="drawer-title" id="dTitle">Agreement</div>
+        <button class="drawer-close" id="drawerClose" type="button">✕</button>
+      </div>
+
+      <div class="drawer-body">
+        <div class="drow"><div class="dk">Agreement ID</div><div class="dv" id="dAID">—</div></div>
+        <div class="drow"><div class="dk">Centre</div><div class="dv" id="dCentre">—</div></div>
+        <div class="drow"><div class="dk">Store Location</div><div class="dv" id="dLoc">—</div></div>
+        <div class="drow"><div class="dk">Store Address</div><div class="dv" id="dAddr">—</div></div>
+        <div class="drow"><div class="dk">Trade Type</div><div class="dv" id="dTrade">—</div></div>
+        <div class="drow"><div class="dk">Rent</div><div class="dv" id="dRent">—</div></div>
+        <div class="drow"><div class="dk">Start Date</div><div class="dv" id="dStart">—</div></div>
+        <div class="drow"><div class="dk">End Date</div><div class="dv" id="dEnd">—</div></div>
+        <div class="drow"><div class="dk">Status</div><div class="dv" id="dStatus">—</div></div>
+
+        <div class="dnotes">
+          <div class="dnotes-title" id="dNoteTitle">Notes</div>
+          <div class="dnotes-body" id="dNotes">—</div>
+        </div>
+
+        <div class="drawer-actions">
+          <button class="btn-lite" id="editBtn" type="button">Edit</button>
+        </div>
+      </div>
+    </div>
+  </aside>
+</main>
   <script>
       document.getElementById("addAgreementBtn").addEventListener("click", () => {
         // change this to your actual page name
@@ -347,5 +367,181 @@
       });
   </script>
     <script type="module" src="Master_page_javascript.js"></script>
+    <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCoYoGP4NYJPHqA-kV_swajQ4LSQYdyWV4",
+    authDomain: "grp3fedapp.firebaseapp.com",
+    databaseURL: "https://grp3fedapp-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "grp3fedapp",
+    storageBucket: "grp3fedapp.firebasestorage.app",
+    messagingSenderId: "791146838729",
+    appId: "1:791146838729:web:446baee191feeb036e2b18",
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+
+  const $ = (id) => document.getElementById(id);
+
+  // ✅ robust username across tabs
+  function getCurrentUsername() {
+    return (
+      localStorage.getItem("loggedInUser") ||
+      sessionStorage.getItem("loggedInUser") ||
+      ""
+    ).trim();
+  }
+
+  const username = getCurrentUsername();
+  if (!username) {
+    alert("No logged-in user found. Please log in again.");
+    window.location.href = "login.html";
+  }
+
+  const listEl = $("agreementList");
+  const filterEl = $("statusFilter");
+  let allAgreements = []; // store for filtering
+
+  function formatDate(iso) {
+    if (!iso) return "—";
+    // keep simple: ISO yyyy-mm-dd -> dd-MMM-yyyy
+    const d = new Date(iso);
+    if (isNaN(d)) return iso;
+    return d.toLocaleDateString("en-SG", { day: "2-digit", month: "short", year: "numeric" });
+  }
+
+  function normalizeStatus(s) {
+    const v = String(s || "").toLowerCase().trim();
+    if (v === "active" || v === "expired" || v === "pending") return v;
+    // if your create page uses "pending renewal" text, map it:
+    if (v.includes("pending")) return "pending";
+    return "active";
+  }
+
+  function badgeHTML(status) {
+    const st = normalizeStatus(status);
+    if (st === "active") return `<span class="badge active">Active</span>`;
+    if (st === "expired") return `<span class="badge expired">Expired</span>`;
+    return `<span class="badge pending">Pending Renewal</span>`;
+  }
+
+  function render(list) {
+    listEl.innerHTML = "";
+
+    if (!list.length) {
+      listEl.innerHTML = `<div style="padding:18px 22px; color: var(--muted); font-weight:700;">No rental agreements found.</div>`;
+      return;
+    }
+
+    list
+      // newest first
+      .sort((a,b) => (b.createdAt || 0) - (a.createdAt || 0))
+      .forEach((ag) => {
+        const row = document.createElement("div");
+        row.className = "row";
+
+        row.innerHTML = `
+          <div class="icon">📄</div>
+
+          <div class="main">
+            <div class="top">
+              <div class="aid">${ag.AID || "—"}</div>
+              <div class="address">${ag.storeAddress || "—"}</div>
+            </div>
+            <div class="sub">
+              End Date: <span class="end-date">${formatDate(ag.endDate)}</span>
+            </div>
+          </div>
+
+          <div class="right">
+            ${badgeHTML(ag.status)}
+            <button class="arrow-btn" type="button" title="View details">›</button>
+          </div>
+        `;
+
+        // arrow opens drawer
+        row.querySelector(".arrow-btn").addEventListener("click", (e) => {
+          e.stopPropagation();
+          openDrawer(ag);
+        });
+
+        listEl.appendChild(row);
+      });
+  }
+  onValue(ref(db, `members/${username}/rentalAgreements`), (snap) => {
+    const data = snap.val() || {};
+    const agreements = Object.values(data);
+
+    // Optional: sort by endDate / updatedAt
+    agreements.sort((a, b) => (b.updatedAt || b.createdAt || 0) - (a.updatedAt || a.createdAt || 0));
+
+    listEl.innerHTML = agreements.length
+      ? agreements.map(renderRow).join("")
+      : `<div style="padding:16px;color:#667085">No rental agreements yet.</div>`;
+  });
+  function applyFilter() {
+    const v = filterEl.value;
+    if (v === "all") return render(allAgreements);
+
+    const filtered = allAgreements.filter(a => normalizeStatus(a.status) === v);
+    render(filtered);
+  }
+
+  // Drawer logic
+  const drawer = $("drawer");
+  const overlay = $("drawerOverlay");
+  const closeBtn = $("drawerClose");
+
+  function openDrawer(ag) {
+    $("dTitle").textContent = `Agreement ${ag.AID || ""}`;
+    $("dAID").textContent = ag.AID || "—";
+    $("dCentre").textContent = ag.centre || "—";
+    $("dLoc").textContent = ag.storeLocation || "—";
+    $("dAddr").textContent = ag.storeAddress || "—";
+    $("dTrade").textContent = ag.tradeType || "—";
+    $("dRent").textContent = (ag.rent != null && !isNaN(ag.rent)) ? `$${Number(ag.rent).toFixed(2)}` : "—";
+    $("dStart").textContent = formatDate(ag.startDate);
+    $("dEnd").textContent = formatDate(ag.endDate);
+    $("dStatus").textContent = normalizeStatus(ag.status);
+    $("dNoteTitle").textContent = ag.noteTitle?.trim() ? ag.noteTitle.trim() : "Notes";
+    $("dNotes").textContent = ag.notes?.trim() ? ag.notes.trim() : "—";
+
+    // optional: renew button (send AID along)
+    $("editBtn").onclick = () => {
+      window.location.href = `AddRentalAgreement.html?edit=${encodeURIComponent(ag.AID)}`;
+    };
+
+
+    drawer.classList.add("show");
+    drawer.setAttribute("aria-hidden", "false");
+  }
+
+  function closeDrawer() {
+    drawer.classList.remove("show");
+    drawer.setAttribute("aria-hidden", "true");
+  }
+
+  overlay.addEventListener("click", closeDrawer);
+  closeBtn.addEventListener("click", closeDrawer);
+
+  // Button actions
+  $("addAgreementBtn").addEventListener("click", () => {
+    window.location.href = "AddRentalAgreement.html";
+  });
+
+  filterEl.addEventListener("change", applyFilter);
+
+  // ✅ Listen to this user's agreements
+  const agreementsRef = ref(db, `members/${username}/rentalAgreements`);
+  onValue(agreementsRef, (snap) => {
+    const data = snap.val() || {};
+    // convert object map -> array
+    allAgreements = Object.values(data);
+    applyFilter();
+  });
+</script>
   </body>
 </html>
