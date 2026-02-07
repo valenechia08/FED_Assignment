@@ -1,3 +1,6 @@
+/* =========================
+   BASE
+========================= */
 body {
   font-family: "Open Sans", sans-serif;
   background: #fff;
@@ -16,16 +19,23 @@ body {
   --dark-text: #111;
 }
 
+/* =========================
+   NAV (DESKTOP)
+========================= */
 .navrectangle {
   background: white;
   margin-top: 25px;
   position: relative;
   z-index: 1000;
   font-family: "Kodchasan", Arial;
-
 }
 
-/* NAV LAYOUT */
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: auto;
+}
+
 .top-nav {
   display: flex;
   align-items: center;
@@ -33,7 +43,6 @@ body {
   height: 70px;
 }
 
-/* Left / Center / Right locking */
 .nav-left,
 .nav-right {
   flex: 0 0 auto;
@@ -45,20 +54,12 @@ body {
   justify-content: center;
 }
 
-
-.container {
-  width: 90%;
-  max-width: 1200px;
-  margin: auto;
-}
-
 .Logo {
   display: flex;
   align-items: center;
   height: 70px;
   overflow: hidden;
 }
-
 .Logo img {
   height: 100%;
   width: auto;
@@ -73,20 +74,17 @@ body {
   gap: 65px;
   list-style: none;
 }
-
 #menu.menu a {
   text-decoration: none;
   font-weight: 800;
   font-size: 15px;
   color: #111;
 }
-
 #menu.menu a:hover {
   color: var(--primary-orange);
 }
 
-
-
+/* Reserve */
 .reserve-btn {
   background: var(--primary-orange);
   color: white;
@@ -98,7 +96,6 @@ body {
   cursor: pointer;
   transition: all 0.25s ease;
 }
-
 .reserve-btn:hover {
   background: white;
   color: var(--primary-orange);
@@ -112,33 +109,13 @@ body {
   margin-bottom: 18px;
 }
 
-/* end nav */
-
-
-
-
-
-.dropdown li {
-  list-style: none;
-}
-
-.dropdown a {
-  display: block;
-  padding: 10px 18px;
-  font-weight: 700;
-  color: #111;
-}
-
-.dropdown a:hover {
-  background: rgba(0, 0, 0, 0.08);
-} 
-
-/* make parent reference point */
+/* =========================
+   SUBMENU (DESKTOP)
+========================= */
 .menu-item {
   position: relative;
 }
 
-/* hidden by default */
 .menu-item > .dropdown {
   position: absolute;
   top: 100%;
@@ -151,23 +128,19 @@ body {
 
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
 
-  /* animation version of hiding */
   opacity: 0;
   visibility: hidden;
   transform: translateY(8px);
-
   transition: all 0.18s ease;
   z-index: 999;
 }
 
-/* ⭐ KEY — stays open while hovering parent OR dropdown */
-.menu-item:hover>.dropdown {
+.menu-item:hover > .dropdown {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
 }
 
-/* styling */
 .dropdown li {
   list-style: none;
 }
@@ -184,18 +157,9 @@ body {
   background: rgba(0, 0, 0, 0.08);
 }
 
-.menu-item.active .dropdown {
-  display: block;
-}
-
-.Nav-line {
-  border: none;
-  height: 1px;
-  background: #e0e0e0;
-  margin-top: 25px;
-  margin-bottom: 18px;
-}
-
+/* =========================
+   HAMBURGER (BASE)
+========================= */
 .hamburger {
   display: none;
   flex-direction: column;
@@ -203,38 +167,34 @@ body {
   gap: 5px;
   cursor: pointer;
 }
-
 .hamburger div {
   width: 22px;
-  height: 2px;        /* ✅ thinner */
+  height: 2px;
   background: #111;
   border-radius: 1px;
 }
 
-
-/* nav ends here */
-
+/* =========================
+   BANNER + HOME
+========================= */
 .Banner {
   width: 100%;
   height: 70vh;
   overflow: hidden;
-  display: flex;                /* ✅ centers the image element */
+  display: flex;
   justify-content: center;
   align-items: center;
-  background: #fff;             /* optional */
+  background: #fff;
 }
 
 .banner-image {
   width: 100%;
   height: 100%;
-  object-fit: cover;            /* ✅ no stretch */
-  object-position: center;      /* ✅ keeps center */
+  object-fit: cover;
+  object-position: center;
   display: block;
 }
 
-
-
-/* HOME */
 .home {
   display: flex;
   justify-content: space-evenly;
@@ -246,9 +206,7 @@ body {
 .hello-text {
   font-size: 2.5rem;
   font-family: "Kodchasan", Arial;
-  ;
 }
-
 
 .searchBar {
   justify-content: center;
@@ -275,10 +233,9 @@ body {
   cursor: pointer;
 }
 
-/* CUISINES */
-/* =============================
-   CUISINE SECTION
-============================= */
+/* =========================
+   CUISINES (DESKTOP)
+========================= */
 .cuisines {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -286,27 +243,21 @@ body {
   margin-bottom: 24px;
 }
 
-/* Base card */
 .filter-btn.cuisine-card {
   text-align: center;
   cursor: pointer;
   transition: transform 0.25s ease;
 }
 
-/* Image */
 .filter-btn.cuisine-card img {
   width: 85%;
   height: 160px;
   object-fit: cover;
   border-radius: 18px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-  transition: 
-    transform 0.25s ease,
-    box-shadow 0.25s ease,
-    filter 0.25s ease;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
 }
 
-/* Text */
 .filter-btn.cuisine-card p {
   margin-top: 10px;
   font-size: 16px;
@@ -314,28 +265,19 @@ body {
   transition: color 0.25s ease;
 }
 
-/* Hover (preview effect) */
 .filter-btn.cuisine-card:hover img {
   transform: translateY(-4px);
   box-shadow: 0 12px 26px rgba(0, 0, 0, 0.18);
 }
 
-/* =============================
-   ACTIVE / SELECTED STATE
-============================= */
 .filter-btn.cuisine-card.active img {
   transform: translateY(-10px) scale(1.04);
   box-shadow: 0 16px 36px rgba(255, 140, 58, 0.45);
   filter: brightness(1.08) saturate(1.1);
 }
-
 .filter-btn.cuisine-card.active p {
   color: var(--primary-orange);
 }
-
-
-
-/* DIVIDER */
 
 .Content-line {
   border: none;
@@ -345,9 +287,10 @@ body {
   margin-bottom: 30px;
 }
 
-
-
-/* STALL GRID */
+/* =========================
+   STALL GRID (DESKTOP)
+   (keep your specificity so mobile can override it correctly)
+========================= */
 #stall-grid.stall-grid {
   width: 90%;
   max-width: 1200px;
@@ -362,17 +305,12 @@ body {
   background: white;
   border-radius: 18px;
   overflow: hidden;
-
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-
   padding: 14px;
   box-shadow: 0 10px 24px rgba(0,0,0,0.08);
-
-  width: auto;    /* ✅ remove fixed width */
-  height: auto;   /* ✅ remove fixed height */
 }
 
 .stall-card img {
@@ -381,7 +319,6 @@ body {
   object-fit: cover;
   border-radius: 16px;
 }
-
 
 .stall-info {
   padding: 12px;
@@ -400,64 +337,62 @@ body {
   color: #555;
 }
 
-
-
-/* MOBILE */
 /* =========================
-   MOBILE NAV (drawer + accordion)
+   MOBILE
 ========================= */
 @media (max-width: 768px) {
-  .reserve-btn{
-    display: none;
+  .hello-text{
+    margin-top: 8px;
+    margin-left: 13px;
+    text-align: center
   }
-   /* ✅ show hamburger on mobile */
-  .hamburger {
-    display:flex;
+  .home{
+    flex-direction: column;  
+    align-items: center;       
+    justify-content: center;
+    gap: 12px;                
+    margin: 16px 0;
+    padding: 0 14px;
+    text-align: center;
   }
-  .hamburger div {
-    width: 25px;
-    height: 3px;
-    background: #111;
-    border-radius: 1px;
+  .searchBar{
+    width: 100%;
+    max-width: 320px;           /* prevents being too wide */
+    margin: 0 auto;            
+    margin-top:14px;
   }
-  .Logo img {
-    height: 60px;     
+  /* hide reserve */
+  .reserve-btn { display: none; }
+
+  /* show hamburger */
+  .hamburger { display: flex; }
+  .hamburger div { width: 22px; height: 2px; }
+
+  /* smaller logo + banner */
+  .Logo img { 
+    height: 60px; 
+    margin-top:4px;
+  }
+  .Banner { 
+    height: 42vh; 
   }
 
-  .Banner {
-    height: 42vh;     /*shorter banner */
-  }
-    /* ✅ make sure nav-right is visible + aligned */
-  .nav-right {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  .container { 
+    padding-left: 14px; 
+    padding-right: 14px; 
   }
 
-  /* optional: if you want the hamburger more left */
-  .top-nav {
-    justify-content: space-between;
-  }
-
-  
-  .main-content,
-  .container {
-    padding-left: 14px;
-    padding-right: 14px;
-  }
-  
-
-  /* remove big top gap on mobile */
   .navrectangle {
     margin-top: 40px;
     position: sticky;
     top: 0;
     background: #fff;
     z-index: 4000;
+    padding:6px 0;
   }
-  
+
   /* drawer menu */
-  .menu {
+  #menu.menu {
     position: fixed;
     top: 0;
     right: 0;
@@ -479,188 +414,112 @@ body {
     z-index: 3000;
   }
 
-  .menu.show {
-    transform: translateX(0);
-  }
+  #menu.menu.show { transform: translateX(0); }
 
-  /* MAIN MENU (grey but clickable) */
-  .menu > .menu-item > a {
-    color: #9a9a9a;        /* grey hint */
+  /* main items */
+  #menu.menu > .menu-item > a {
+    color: #9a9a9a;
     font-weight: 700;
     font-size: 15px;
 
-    cursor: pointer;       /* clickable */
-    pointer-events: auto;  /* ✅ allow clicking */
-
     width: 100%;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: center;
+    text-align: center;
 
     padding: 12px 14px;
     border-radius: 14px;
   }
 
-  /* Log Out styling (mobile) */
-  .menu > .menu-item:last-child > a {
-    pointer-events: auto;
-    cursor: pointer;
+  /* logout */
+  #menu.menu > .menu-item:last-child > a {
     color: #d93025;
     font-weight: 800;
-
-    width: 100%;
-    display: block;
-    padding: 12px 14px;
-    border-radius: 14px;
   }
 
-  /* Submenu links clickable */
-  .menu .dropdown a {
-    pointer-events: auto;   /* re-enable clicks */
-    cursor: pointer;
-    color: #111;
-    font-weight: 800;
-    font-size: 16.5px;
-    padding: 12px 14px;
-  }
-
-  /* submenu becomes accordion (not floating) */
-  /* submenu always visible on mobile */
-  .dropdown {
+  /* dropdown becomes inline box (content height) */
+  .menu-item > .dropdown {
     position: static;
     min-width: unset;
     width: 100%;
-
     margin: 6px 0 12px;
     padding: 10px;
 
-    /* background: #fff7cf; */
-    background: rgba(214, 112, 39, 0.12); /* soft orange */
-
+    background: rgba(214, 112, 39, 0.12);
     border-radius: 14px;
     box-shadow: none;
 
-    /* cancel desktop hiding animation */
     opacity: 1;
     visibility: visible;
     transform: none;
-
-    display: block;   /* ✅ always show */
-  }
-
-
-  /* open state controlled by JS */
-  .menu-item.open > .dropdown {
-    display: block;
+    height: auto; /* ✅ prevents big empty box */
   }
 
   .dropdown a {
-    font-size: 16.5px;      /* bigger text */
+    font-size: 16px;
     font-weight: 800;
-    padding: 12px 14px;     /* better touch target */
-    line-height: 1.3;
-    color: #111;
+    padding: 12px 14px;
     border-radius: 12px;
+    text-align: center;
   }
-  .dropdown a:not(:last-child) {
-    margin-bottom: 6px;    /* spacing between items */
-  }
-    /* ===== CUISINE FILTERS (2x2 GRID) ===== */
+
+  /* cuisines 2x2 smaller */
   .cuisines {
-    display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
-    padding:10px 15px;                   
+    padding: 10px 14px;
     margin: 10px 0 12px;
-
-  }
-
-  .filter-btn.cuisine-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
   }
 
   .filter-btn.cuisine-card img {
     width: 100%;
     height: 72px;
-    object-fit: cover;
-    border-radius: 16px;
   }
-  .cuisine-card p {
+
+  .filter-btn.cuisine-card p {
     font-size: 13px;
-    font-weight: 600;
     margin-top: 6px;
   }
- 
 
-  .stall-info h4 {
-    font-size: 15px;
-    margin: 0 0 4px;
-  }
 
-  .stall-info p {
-    font-size: 13px;
-    margin: 0;
-  }
-
-  .menu-item.has-dropdown.open > a::after {
-    content:none;
-  }
-
-   /* ---- STALLS: 1 card per row, stretch full width ---- */
-  .stall-grid,
-  #stall-grid{
-    display: flex;       
-    flex-direction: column !important;
-    gap: 14px;
+  #stall-grid.stall-grid {
+    display: flex;
+    flex-direction: column;
     width: 100%;
     padding: 0 14px;
     margin: 0 auto 24px;
+    gap: 14px;
   }
-  .stall-card {
+
+  #stall-grid.stall-grid .stall-card {
     width: 100%;
-    /* max-width: 100%; */
     display: flex;
+    flex-direction: row;
     align-items: center;
     gap: 12px;
     padding: 12px;
     border-radius: 16px;
-    text-align: left;   
+    text-align: left;
   }
 
-
-  .stall-card img {
+  #stall-grid.stall-grid .stall-card img {
     width: 150px;
-    height: 105px;
-    object-fit: cover;
+    height: 110px;
     border-radius: 14px;
     flex-shrink: 0;
   }
 
-
-  .stall-info {
+  #stall-grid.stall-grid .stall-info {
     flex: 1;
     min-width: 0;
   }
 
-  
-  .nav-overlay {
-    position: fixed;
-    inset: 0;
-    /* background: rgba(0,0,0,0.04); */
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.2s ease;
-    z-index: 2500;
+  #stall-grid.stall-grid .stall-info h4 {
+    margin: 0 0 4px;
+    font-size: 15px;
   }
 
-  .nav-overlay.show {
-    opacity: 1;
-    pointer-events: auto;
+  #stall-grid.stall-grid .stall-info p {
+    font-size: 13px;
   }
 }
-
-
-
