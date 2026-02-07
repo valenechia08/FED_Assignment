@@ -35,14 +35,14 @@
       }
       .group {
         position: absolute;
-        top: 40%;
+        top: 30%;
         left: 20%;
         width: 70%;
         height: 100%;
       }
       #username,
       #password {
-        margin-top: 3%;
+        margin-top: 5%;
         width: 80%;
         height: 4.8%;
         padding: 0.8rem;
@@ -96,13 +96,16 @@
       #loginBtn:hover {
         opacity: 0.9;
       }
-      img {
+      h1 {
         display: flex;
+        font-family: "Kodchasan", Arial, sans-serif;
         justify-content: center;
+        font-style: italic;
+        font-weight: 600;
         position: relative;
+        top: 20%;
         margin: 0;
-        left: 20%;
-        width: 75%;
+        font-size: clamp(64px, 6vw, 110px);
       }
       .backBtn {
         border: none;
@@ -123,7 +126,7 @@
         color: grey;
       }
       .message {
-        margin-top: 1%;
+        margin-top: 2%;
         margin-left: 20%;
       }
       .mobileBackBtn {
@@ -139,7 +142,6 @@
           display: flex;
           justify-content: center;
           align-items: center;
-          min-height: 100vh;
         }
 
         .backBtn {
@@ -147,8 +149,7 @@
         }
 
         .card {
-          display: flex;
-          flex: 1;
+          position: static;
           width: 90%;
           max-width: 420px;
           padding: 0;
@@ -157,10 +158,10 @@
           font-size: 1rem;
         }
 
-        img {
-          width: 100%;
-          position: relative;
-          left: 12%;
+        h1 {
+          top: auto;
+          margin-bottom: 40px;
+          margin-top: 10%;
         }
 
         /* remove absolute positioning */
@@ -198,7 +199,7 @@
 
         .guestLogin {
           width: 40%;
-          margin-left: 35%;
+          margin-left: 32%;
           position: relative;
           margin-top: 5%;
           padding-bottom: 10%;
@@ -274,7 +275,7 @@
       <div class="right-pane">
         <button class="backBtn">←</button>
         <div class="card">
-          <img src="images/ShiokLah(cropped).jpeg" alt="ShiokLah Logo" />
+          <h1>ShiokLah!</h1>
           <div class="message" id="message"></div>
           <div class="group">
             <input type="username" id="username" placeholder="Username" />
