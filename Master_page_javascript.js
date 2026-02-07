@@ -570,11 +570,19 @@ async function addMenuItem(
   );
 })();
 
+//Update cart number
+function updateCartUI() {
+  const cart = JSON.parse(sessionStorage.getItem("cart") || "[]");
+  const countEl = document.getElementById("cartCount");
+  if (countEl) {
+    countEl.textContent = cart.length;
+  }
+}
+
 // =========================
 // CART (simple test version)
 // =========================
 function addToCart(stall_name, item_name, price) {
-  // store cart in sessionStorage (so it works across pages)
   const cart = JSON.parse(sessionStorage.getItem("cart") || "[]");
 
   cart.push({
@@ -586,6 +594,9 @@ function addToCart(stall_name, item_name, price) {
   });
 
   sessionStorage.setItem("cart", JSON.stringify(cart));
+
+  updateCartUI(); // ✅ update number immediately
+
   console.log("✅ Added to cart:", stall_name, item_name, price);
 }
 
@@ -854,7 +865,10 @@ exports.placeOrder = functions.https.onRequest(async (req, res) => {
   */
 
 
-
+//Update cart number
+document.addEventListener("DOMContentLoaded", () => {
+  updateCartUI();
+});
 
 // example
 listenToMenu("Banana Leaf Nasi Lemak");
