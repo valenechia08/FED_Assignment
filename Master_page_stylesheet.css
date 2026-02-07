@@ -60,6 +60,7 @@ body {
   height: 70px;
   overflow: hidden;
 }
+
 .Logo img {
   height: 100%;
   width: auto;
@@ -74,12 +75,14 @@ body {
   gap: 65px;
   list-style: none;
 }
+
 #menu.menu a {
   text-decoration: none;
   font-weight: 800;
   font-size: 15px;
   color: #111;
 }
+
 #menu.menu a:hover {
   color: var(--primary-orange);
 }
@@ -96,6 +99,7 @@ body {
   cursor: pointer;
   transition: all 0.25s ease;
 }
+
 .reserve-btn:hover {
   background: white;
   color: var(--primary-orange);
@@ -116,7 +120,7 @@ body {
   position: relative;
 }
 
-.menu-item > .dropdown {
+.menu-item>.dropdown {
   position: absolute;
   top: 100%;
   left: 0;
@@ -135,7 +139,7 @@ body {
   z-index: 999;
 }
 
-.menu-item:hover > .dropdown {
+.menu-item:hover>.dropdown {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
@@ -167,12 +171,21 @@ body {
   gap: 5px;
   cursor: pointer;
 }
+
 .hamburger div {
   width: 22px;
   height: 2px;
   background: #111;
   border-radius: 1px;
 }
+
+/*Menu Item Description Styling*/
+/* .menu-desc{
+  margin-top: 6px;
+  font-size: 14px;
+  line-height: 1.4;
+  opacity: 0.85;
+} */
 
 /* =========================
    BANNER + HOME
@@ -275,6 +288,7 @@ body {
   box-shadow: 0 16px 36px rgba(255, 140, 58, 0.45);
   filter: brightness(1.08) saturate(1.1);
 }
+
 .filter-btn.cuisine-card.active p {
   color: var(--primary-orange);
 }
@@ -310,7 +324,7 @@ body {
   align-items: center;
   text-align: center;
   padding: 14px;
-  box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
 }
 
 .stall-card img {
@@ -340,46 +354,59 @@ body {
 /* =========================
    MOBILE
 ========================= */
-@media (max-width: 768px) {
-  .hello-text{
+@media (max-width: 992px) {
+  .hello-text {
     margin-top: 8px;
     margin-left: 13px;
     text-align: center
   }
-  .home{
-    flex-direction: column;  
-    align-items: center;       
+
+  .home {
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
-    gap: 12px;                
+    gap: 12px;
     margin: 16px 0;
     padding: 0 14px;
     text-align: center;
   }
-  .searchBar{
+
+  .searchBar {
     width: 100%;
-    max-width: 320px;           /* prevents being too wide */
-    margin: 0 auto;            
-    margin-top:14px;
+    max-width: 320px;
+    /* prevents being too wide */
+    margin: 0 auto;
+    margin-top: 14px;
   }
+
   /* hide reserve */
-  .reserve-btn { display: none; }
+  .reserve-btn {
+    display: none;
+  }
 
   /* show hamburger */
-  .hamburger { display: flex; }
-  .hamburger div { width: 22px; height: 2px; }
+  .hamburger {
+    display: flex;
+  }
+
+  .hamburger div {
+    width: 22px;
+    height: 2px;
+  }
 
   /* smaller logo + banner */
-  .Logo img { 
-    height: 60px; 
-    margin-top:4px;
-  }
-  .Banner { 
-    height: 42vh; 
+  .Logo img {
+    height: 60px;
+    margin-top: 4px;
   }
 
-  .container { 
-    padding-left: 14px; 
-    padding-right: 14px; 
+  .Banner {
+    height: 42vh;
+  }
+
+  .container {
+    padding-left: 14px;
+    padding-right: 14px;
   }
 
   .navrectangle {
@@ -388,7 +415,7 @@ body {
     top: 0;
     background: #fff;
     z-index: 4000;
-    padding:6px 0;
+    padding: 6px 0;
   }
 
   /* drawer menu */
@@ -402,7 +429,7 @@ body {
 
     padding: 86px 16px 18px;
     border-left: 1px solid #eee;
-    box-shadow: -18px 0 40px rgba(0,0,0,0.16);
+    box-shadow: -18px 0 40px rgba(0, 0, 0, 0.16);
 
     display: flex;
     flex-direction: column;
@@ -414,10 +441,12 @@ body {
     z-index: 3000;
   }
 
-  #menu.menu.show { transform: translateX(0); }
+  #menu.menu.show {
+    transform: translateX(0);
+  }
 
   /* main items */
-  #menu.menu > .menu-item > a {
+  #menu.menu>.menu-item>a {
     color: #9a9a9a;
     font-weight: 700;
     font-size: 15px;
@@ -432,13 +461,13 @@ body {
   }
 
   /* logout */
-  #menu.menu > .menu-item:last-child > a {
+  #menu.menu>.menu-item:last-child>a {
     color: #d93025;
     font-weight: 800;
   }
 
   /* dropdown becomes inline box (content height) */
-  .menu-item > .dropdown {
+  .menu-item>.dropdown {
     position: static;
     min-width: unset;
     width: 100%;
@@ -452,7 +481,8 @@ body {
     opacity: 1;
     visibility: visible;
     transform: none;
-    height: auto; /* ✅ prevents big empty box */
+    height: auto;
+    /* ✅ prevents big empty box */
   }
 
   .dropdown a {

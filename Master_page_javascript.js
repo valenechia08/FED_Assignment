@@ -123,7 +123,7 @@ async function registerMember() {
   }
 
   if (!rule.test(password)) {
-    showMessage("Must be 9+ chars with letters & numbers only", "red");
+    showMessage("Password must be 9+ chars with letters & numbers only", "red");
     return;
   }
 
@@ -202,7 +202,6 @@ async function loginMember() {
 
     // ✅ update both browser + firebase
     sessionStorage.setItem("currentUserId", username);
-    
 
     await update(ref(db, `members/${username}`), {
       userType: data.userType || "registered",
@@ -221,7 +220,7 @@ async function loginMember() {
       window.location.href = "PerformanceDashboard.html";
     } else {
       //sessionStorage.clear("currentRole");
-      window.location.href = "R&C inspection log all.html";
+      window.location.href = "Regulatory&Complianceinfo.html";
     }
   } catch (err) {
     console.error(err);
@@ -235,6 +234,13 @@ window.getCurrentUsername = function () {
     ""
   ).trim();
 };
+
+document.addEventListener("keydown", function (event) {
+  if (event.key === "Enter") {
+    document.getElementById("loginBtn").click();
+  }
+});
+
 // =========================
 // SHOW USERNAME IN GREETING
 // =========================
@@ -486,159 +492,191 @@ function createStallObject(stall_name, cuisine, rating, image) {
   };
 }
 
-function createMenuItemObject(item_name, price, available = true, image) {
+function createMenuItemObject(
+  item_name,
+  price,
+  available = true,
+  image,
+  description,
+) {
   return {
     [item_name]: {
       price,
       available,
       image,
+      description,
     },
   };
 }
 
 async function uploadStall(stall_name, cuisine, rating, image) {
-  const stallObj = createStallObject(stall_name, cuisine, rating, image);
-  await update(ref(db, "stalls"), stallObj);
+  const stallRef = ref(db, `stalls/${stall_name}`);
+  const snap = await get(stallRef);
+
+  // ✅ if already exists, DO NOT overwrite cuisine/rating/image
+  if (snap.exists()) return;
+
+  await set(stallRef, {
+    cuisine,
+    rating,
+    image,
+    menuItems: {},
+    createdAt: Date.now(),
+  });
 }
 
-async function addMenuItem(
-  stall_name,
-  item_name,
-  price,
-  available = true,
-  image,
-) {
-  const itemObj = createMenuItemObject(item_name, price, available, image);
-  await update(ref(db, `stalls/${stall_name}/menuItems`), itemObj);
-}
+// async function addMenuItem(
+//   stall_name,
+//   item_name,
+//   price,
+//   available = true,
+//   image,
+//   description,
+// ) {
+//   const itemObj = createMenuItemObject(item_name, price, available, image,description);
+//   await update(ref(db, `stalls/${stall_name}/menuItems`), itemObj);
+// }
+//Can remove since data has already been created
+// // createStallObject("Banana Leaf Nasi Lemak", "Malay", 4.0, "images/Banana Leaf Nasi Lemak Picture.jpg");
 
-// createStallObject("Banana Leaf Nasi Lemak", "Malay", 4.0, "images/Banana Leaf Nasi Lemak Picture.jpg");
+// (async () => {
+//   await uploadStall(
+//     "Banana Leaf Nasi Lemak",
+//     "Malay",
+//     4.0,
+//     "images/Banana Leaf Nasi Lemak Picture.jpg",
+//    );
+//   await addMenuItem(
+//     "Banana Leaf Nasi Lemak",
+//     "5 pcs Spicy Fish Otah",
+//     7.5,
+//     true,
+//     "images/Otah Picture.webp",
+//     "Homemade fish otah",
+//   );
+//   await addMenuItem(
+//     "Banana Leaf Nasi Lemak",
+//     "1 Pcs Spicy Fish Otah",
+//     1.5,
+//     true,
+//     "images/Otah Picture.webp",
+//     "Homemade fish otah",
+//   );
 
-(async () => {
-  await uploadStall(
-    "Banana Leaf Nasi Lemak",
-    "Malay",
-    4.0,
-    "images/Banana Leaf Nasi Lemak Picture.jpg",
-  );
-  await addMenuItem(
-    "Banana Leaf Nasi Lemak",
-    "5 pcs Spicy Fish Otah",
-    7.5,
-    true,
-    "images/Otah Picture.webp",
-  );
-  await addMenuItem(
-    "Banana Leaf Nasi Lemak",
-    "1 Pcs Spicy Fish Otah",
-    1.5,
-    true,
-    "images/Otah Picture.webp",
-  );
+//   await addMenuItem(
+//     "Banana Leaf Nasi Lemak",
+//     "Set Meal A",
+//     5,
+//     true,
+//     "images/Set Meal A Picture.jpg",
+//     "Our bestseller featuring a chicken wing, fish fillet, egg, bergedil and more!",
+//   );
 
-  await addMenuItem(
-    "Banana Leaf Nasi Lemak",
-    "Set Meal A",
-    5,
-    true,
-    "images/Set Meal A Picture.jpg",
-  );
-
-  await addMenuItem(
-    "Banana Leaf Nasi Lemak",
-    "Set Meal B",
-    4,
-    true,
-    "images/Set Meal B Picture.jpg",
-  );
-  await addMenuItem(
-    "Banana Leaf Nasi Lemak",
-    "Set Meal C",
-    4,
-    true,
-    "images/Set Meal C Picture.png",
-  );
-  await addMenuItem(
-    "Banana Leaf Nasi Lemak",
-    "Set Meal D",
-    3.5,
-    true,
-    "images/Set Meal D Picture.jpg",
-  );
-  await uploadStall(
-    "Boon Lay Fried Carrot Cake & Kway Teow Mee",
-    "Chinese",
-    4.2,
-    "images/Boon Lay Fried Carrot Cake & Kway Teow Mee Picture.jpg",
-  );
-  await addMenuItem(
-    "Boon Lay Fried Carrot Cake & Kway Teow Mee",
-    "Black Carrot Cake (Small)",
-    3,
-    true,
-    "images/Black Carrot Cake Picture.jpg",
-  );
-  await addMenuItem(
-    "Boon Lay Fried Carrot Cake & Kway Teow Mee",
-    "Black Carrot Cake (Medium)",
-    4,
-    true,
-    "images/Black Carrot Cake Picture.jpg",
-  );
-  await addMenuItem(
-    "Boon Lay Fried Carrot Cake & Kway Teow Mee",
-    "Black Carrot Cake (Large)",
-    5,
-    true,
-    "images/Black Carrot Cake Picture.jpg",
-  );
-  await addMenuItem(
-    "Boon Lay Fried Carrot Cake & Kway Teow Mee",
-    "White Carrot Cake (Small)",
-    3,
-    true,
-    "images/White Carrot Cake Picture.jpg",
-  );
-  await addMenuItem(
-    "Boon Lay Fried Carrot Cake & Kway Teow Mee",
-    "White Carrot Cake (Medium)",
-    4,
-    true,
-    "images/White Carrot Cake Picture.jpg",
-  );
-  await addMenuItem(
-    "Boon Lay Fried Carrot Cake & Kway Teow Mee",
-    "White Carrot Cake (Large)",
-    5,
-    true,
-    "images/White Carrot Cake Picture.jpg",
-  );
-  await addMenuItem(
-    "Boon Lay Fried Carrot Cake & Kway Teow Mee",
-    "Char Kway Teow",
-    4.5,
-    true,
-    "images/Char Kway Teow Picture.webp",
-  );
-  await uploadStall(
-    "Boon Lay Lu Wei",
-    "Chinese",
-    4.2,
-    "images/Boon Lay Lu Wei Picture.jpg",
-  );
-  await uploadStall(
-    "IMohamed Ismail Food Stall",
-    "Indian",
-    4.5,
-    "images/I.Mohamed Ismail Food Stall Picture.jpg",
-  );
-  await uploadStall(
-    "Big Daddy’s Chicken & Noodle Stall",
-    "Others",
-    4.5,
-    "images/Big Daddy's Chicken & Noodle Picture.webp",
-  );
-})();
+//   await addMenuItem(
+//     "Banana Leaf Nasi Lemak",
+//     "Set Meal B",
+//     4,
+//     true,
+//     "images/Set Meal B Picture.jpg",
+//     "One of the top-picks featuring a chicken wing, egg and more! ",
+//   );
+//   await addMenuItem(
+//     "Banana Leaf Nasi Lemak",
+//     "Set Meal C",
+//     4,
+//     true,
+//     "images/Set Meal C Picture.png",
+//     "Delicious nasi lemak featuring spicy selar fish, egg and more! ",
+//   );
+//   await addMenuItem(
+//     "Banana Leaf Nasi Lemak",
+//     "Set Meal D",
+//     3.5,
+//     true,
+//     "images/Set Meal D Picture.jpg",
+//     "Delicious nasi lemak featuring fish fillet, egg and more!",
+//   );
+//   await uploadStall(
+//     "Boon Lay Fried Carrot Cake & Kway Teow Mee",
+//     "Chinese",
+//     4.2,
+//     "images/Boon Lay Fried Carrot Cake & Kway Teow Mee Picture.jpg",
+//   );
+//   await addMenuItem(
+//     "Boon Lay Fried Carrot Cake & Kway Teow Mee",
+//     "Black Carrot Cake (Small)",
+//     3,
+//     true,
+//     "images/Black Carrot Cake Picture.jpg",
+//     "",
+//   );
+//   await addMenuItem(
+//     "Boon Lay Fried Carrot Cake & Kway Teow Mee",
+//     "Black Carrot Cake (Medium)",
+//     4,
+//     true,
+//     "images/Black Carrot Cake Picture.jpg",
+//     "",
+//   );
+//   await addMenuItem(
+//     "Boon Lay Fried Carrot Cake & Kway Teow Mee",
+//     "Black Carrot Cake (Large)",
+//     5,
+//     true,
+//     "images/Black Carrot Cake Picture.jpg",
+//     "",
+//   );
+//   await addMenuItem(
+//     "Boon Lay Fried Carrot Cake & Kway Teow Mee",
+//     "White Carrot Cake (Small)",
+//     3,
+//     true,
+//     "images/White Carrot Cake Picture.jpg",
+//     "",
+//   );
+//   await addMenuItem(
+//     "Boon Lay Fried Carrot Cake & Kway Teow Mee",
+//     "White Carrot Cake (Medium)",
+//     4,
+//     true,
+//     "images/White Carrot Cake Picture.jpg",
+//     "",
+//   );
+//   await addMenuItem(
+//     "Boon Lay Fried Carrot Cake & Kway Teow Mee",
+//     "White Carrot Cake (Large)",
+//     5,
+//     true,
+//     "images/White Carrot Cake Picture.jpg",
+//     "",
+//   );
+//   await addMenuItem(
+//     "Boon Lay Fried Carrot Cake & Kway Teow Mee",
+//     "Char Kway Teow",
+//     4.5,
+//     true,
+//     "images/Char Kway Teow Picture.webp",
+//     "",
+//   );
+//   await uploadStall(
+//     "Boon Lay Lu Wei",
+//     "Chinese",
+//     4.2,
+//     "images/Boon Lay Lu Wei Picture.jpg",
+//   );
+//   await uploadStall(
+//     "IMohamed Ismail Food Stall",
+//     "Indian",
+//     4.5,
+//     "images/I.Mohamed Ismail Food Stall Picture.jpg",
+//   );
+//   await uploadStall(
+//     "Big Daddy’s Chicken & Noodle Stall",
+//     "Others",
+//     4.5,
+//     "images/Big Daddy's Chicken & Noodle Picture.webp",
+//   );
+// })();
 async function loadStallInfo(stallName) {
   const snap = await get(ref(db, `stalls/${stallName}`));
 
@@ -661,33 +699,75 @@ async function loadStallInfo(stallName) {
 }
 
 //Update cart number
+function getCartCount() {
+  return getCart().reduce((sum, x) => sum + (x.qty || 1), 0); // ✅ count items incl qty
+}
+
 function updateCartUI() {
-  const cart = JSON.parse(sessionStorage.getItem("cart") || "[]");
-  const countEl = document.getElementById("cartCount");
-  if (countEl) {
-    countEl.textContent = cart.length;
-  }
+  const el = document.getElementById("cartCount");
+  if (!el) return;
+  el.textContent = String(getCartCount());
 }
 
 // =========================
 // CART (simple test version)
 // =========================
-function addToCart(stall_name, item_name, price) {
+function addToCart(stall_name, item_name, price, image = "") {
   const cart = JSON.parse(sessionStorage.getItem("cart") || "[]");
 
-  cart.push({
-    stall: stall_name,
-    item: item_name,
-    price: Number(price),
-    qty: 1,
-    addedAt: Date.now(),
-  });
+  const existing = cart.find(
+    (x) =>
+      x.stall === stall_name &&
+      x.item === item_name &&
+      Number(x.price) === Number(price),
+  );
+
+  if (existing) {
+    existing.qty = (existing.qty || 0) + 1;
+    if (!existing.image && image) existing.image = image;
+  } else {
+    cart.push({
+      stall: stall_name,
+      item: item_name,
+      price: Number(price),
+      qty: 1,
+      image,
+      addedAt: Date.now(),
+    });
+  }
 
   sessionStorage.setItem("cart", JSON.stringify(cart));
+  updateCartUI();
+}
+function removeFromCart(stall_name, item_name, price) {
+  const cart = JSON.parse(sessionStorage.getItem("cart") || "[]");
 
-  updateCartUI(); // ✅ update number immediately
+  const idx = cart.findIndex(
+    (x) =>
+      x.stall === stall_name &&
+      x.item === item_name &&
+      Number(x.price) === Number(price),
+  );
 
-  console.log("✅ Added to cart:", stall_name, item_name, price);
+  if (idx === -1) return;
+
+  cart[idx].qty = (cart[idx].qty || 0) - 1;
+
+  if (cart[idx].qty <= 0) cart.splice(idx, 1);
+
+  sessionStorage.setItem("cart", JSON.stringify(cart));
+  updateCartUI();
+}
+
+function getItemQty(stall_name, item_name, price) {
+  const cart = JSON.parse(sessionStorage.getItem("cart") || "[]");
+  const row = cart.find(
+    (x) =>
+      x.stall === stall_name &&
+      x.item === item_name &&
+      Number(x.price) === Number(price),
+  );
+  return row ? row.qty || 0 : 0;
 }
 
 /* =========================
@@ -699,22 +779,33 @@ function renderMenu(menuItems, stall_name) {
 
   const heading = document.createElement("h2");
   heading.textContent = "Menu";
-  heading.style.margin = "10px 0 16px";
+  heading.style.margin = "1%";
   root.appendChild(heading);
 
   const grid = document.createElement("div");
   grid.className = "menu-grid";
   root.appendChild(grid);
 
+  // const desc = document.createElement("div");
+  // desc.className = "menu-desc";
+  // desc.textContent = item.description || ""; // fallback
+  // card.appendChild(desc);
+
   for (const item_name in menuItems) {
     const item = menuItems[item_name];
 
     const card = document.createElement("div");
     card.className = "menu-card";
-    const img = document.createElement("img");
-    img.className = "menu-img";
-    img.src = item.image; // fallback if missing
-    img.alt = item_name;
+
+    // (Optional) image if your item has it
+    if (item.image) {
+      const img = document.createElement("img");
+      img.className = "menu-img";
+      img.src = item.image;
+      img.alt = item_name;
+      card.appendChild(img);
+    }
+
     const title = document.createElement("div");
     title.className = "menu-title";
     title.textContent = item_name;
@@ -726,8 +817,40 @@ function renderMenu(menuItems, stall_name) {
     const actions = document.createElement("div");
     actions.className = "menu-actions";
 
+    // ===== HEART BUTTON (NEW) =====
+    const heartBtn = document.createElement("button");
+    heartBtn.className = "heart-btn";
+    heartBtn.type = "button";
+    heartBtn.setAttribute("aria-label", "Add to favourites");
+
+    const heartIcon = document.createElement("span");
+    heartIcon.className = "heart-icon";
+    heartIcon.textContent = "♥"; // icon stays ♥, colour changes by class
+    heartBtn.appendChild(heartIcon);
+
+    // set initial state
+    const favNow = isFavouriteItem(stall_name, item_name);
+    if (favNow) heartBtn.classList.add("active");
+
+    heartBtn.addEventListener("click", () => {
+      const nowFav = toggleFavouriteItem({
+        stallName: stall_name,
+        itemName: item_name,
+        price: item.price,
+        image: item.image || "",
+      });
+
+      heartBtn.classList.toggle("active", nowFav);
+
+      // optional: quick redirect to favourites page items section
+      // comment this out if you don’t want auto-jump
+      // window.location.href = "Favourites.html#items";
+    });
+
+    // ===== PLUS BUTTON (YOUR EXISTING) =====
     const plusBtn = document.createElement("button");
     plusBtn.className = "plus-btn";
+    plusBtn.type = "button";
     plusBtn.textContent = "+";
 
     if (item.available === false) {
@@ -735,18 +858,20 @@ function renderMenu(menuItems, stall_name) {
       plusBtn.textContent = "—";
       card.classList.add("unavailable");
     } else {
-      plusBtn.onclick = () => {
+      plusBtn.addEventListener("click", () => {
         addToCart(stall_name, item_name, item.price);
-      };
+      });
     }
-    card.appendChild(img);
+
+    // Put heart left, plus right
+    actions.appendChild(heartBtn);
     actions.appendChild(plusBtn);
+
     card.appendChild(title);
     card.appendChild(price);
     card.appendChild(actions);
-    grid.appendChild(card);
 
-    console.log("Menu data:", menuItems);
+    grid.appendChild(card);
   }
 }
 
@@ -977,11 +1102,6 @@ exports.placeOrder = functions.https.onRequest(async (req, res) => {
   res.json({ success: true, total });
 });
   */
-
-//Update cart number
-// document.addEventListener("DOMContentLoaded", () => {
-//   updateCartUI();
-// });
 document.addEventListener("DOMContentLoaded", () => {
   updateCartUI();
 
@@ -1000,6 +1120,12 @@ document.addEventListener("DOMContentLoaded", () => {
   // ✅ load stall header info
   loadStallInfo(stallName);
 });
+const cartPill = document.getElementById("cartPill");
+if (cartPill) {
+  cartPill.addEventListener("click", () => {
+    window.location.href = "OrderSummary.html";
+  });
+}
 
 // example
 // listenToMenu("Banana Leaf Nasi Lemak");
@@ -1035,3 +1161,371 @@ hamburger.addEventListener("click", () => {
 });
 
 if (overlay) overlay.addEventListener("click", closeNav);
+
+/* =========================
+   ORDER MODE (pickup/takeaway)
+========================= */
+function getOrderMode() {
+  return sessionStorage.getItem("orderMode") || "pickup"; // default
+}
+function setOrderMode(mode) {
+  sessionStorage.setItem("orderMode", mode);
+}
+
+/* =========================
+   MONEY + CART STORAGE
+========================= */
+function money(n) {
+  return `$${Number(n || 0).toFixed(2)}`;
+}
+
+function getCart() {
+  return JSON.parse(sessionStorage.getItem("cart") || "[]");
+}
+
+function setCart(cart) {
+  sessionStorage.setItem("cart", JSON.stringify(cart));
+}
+
+/* =========================
+   TOTALS (includes packaging)
+   takeaway = $0.30 per item
+========================= */
+function computeTotals(cart) {
+  const subtotal = cart.reduce(
+    (sum, x) => sum + Number(x.price) * (x.qty || 1),
+    0,
+  );
+  const voucher = 0;
+
+  const mode = getOrderMode();
+  const itemsCount = cart.reduce((sum, x) => sum + (x.qty || 1), 0);
+
+  const packaging = mode === "takeaway" ? itemsCount * 0.3 : 0;
+  const total = Math.max(0, subtotal - voucher + packaging);
+
+  return { subtotal, voucher, packaging, total, mode, itemsCount };
+}
+
+/* =========================
+   STALL TITLE
+========================= */
+function updateStallTitle(lines) {
+  const titleEl = document.getElementById("stallTitle");
+  if (!titleEl) return;
+
+  const stalls = Array.from(new Set(lines.map((x) => x.stall).filter(Boolean)));
+  titleEl.textContent = stalls.length === 1 ? stalls[0] : "Order Summary";
+}
+
+/* =========================
+   PAYMENT PICKER
+========================= */
+function setPayment(method) {
+  sessionStorage.setItem("paymentMethod", method);
+
+  document.querySelectorAll(".pay-row").forEach((row) => {
+    const dot = row.querySelector(".dotpick");
+    if (!dot) return;
+    dot.classList.toggle("active", row.dataset.method === method);
+  });
+}
+
+function initPaymentPicker() {
+  const rows = document.querySelectorAll(".pay-row");
+  if (!rows.length) return;
+
+  const saved = sessionStorage.getItem("paymentMethod") || "visa";
+  setPayment(saved);
+
+  rows.forEach((row) => {
+    row.addEventListener("click", () => {
+      const method = row.dataset.method;
+      if (!method) return;
+      setPayment(method);
+    });
+  });
+}
+
+/* =========================
+   ORDER TYPE TOGGLE UI
+   (expects .mode-btn buttons)
+========================= */
+function initOrderModeToggle() {
+  const btns = document.querySelectorAll(".mode-btn");
+  if (!btns.length) return;
+
+  function applyUI(mode) {
+    btns.forEach((b) => b.classList.toggle("active", b.dataset.mode === mode));
+
+    const note = document.getElementById("modeNote"); // optional
+    if (note) note.style.display = mode === "takeaway" ? "block" : "none";
+  }
+
+  const saved = getOrderMode();
+  applyUI(saved);
+
+  btns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const mode = btn.dataset.mode;
+      if (!mode) return;
+      setOrderMode(mode);
+      applyUI(mode);
+      renderCart(); // ✅ recalc totals immediately
+    });
+  });
+}
+
+/* =========================
+   RENDER CART
+========================= */
+function renderCart() {
+  const itemsRoot = document.getElementById("itemsRoot");
+  const emptyState = document.getElementById("emptyState");
+  const placeBtn = document.getElementById("placeOrderBtn");
+
+  if (!itemsRoot || !emptyState) return;
+
+  const lines = getCart();
+  itemsRoot.innerHTML = "";
+
+  if (lines.length === 0) {
+    emptyState.style.display = "block";
+    if (placeBtn) placeBtn.disabled = true;
+
+    const subtotalEl = document.getElementById("subtotalVal");
+    const voucherEl = document.getElementById("voucherVal");
+    const totalBreakdown = document.getElementById("totalValBreakdown");
+    const totalSticky = document.getElementById("totalVal");
+
+    if (subtotalEl) subtotalEl.textContent = money(0);
+    if (voucherEl) voucherEl.textContent = `-${money(0).slice(1)}`;
+    if (totalBreakdown) totalBreakdown.textContent = money(0);
+    if (totalSticky) totalSticky.textContent = money(0);
+
+    const packLabel = document.getElementById("packagingLabel");
+    const packVal = document.getElementById("packagingVal");
+    if (packLabel) packLabel.style.display = "none";
+    if (packVal) packVal.style.display = "none";
+    return;
+  }
+
+  emptyState.style.display = "none";
+  if (placeBtn) placeBtn.disabled = false;
+
+  updateStallTitle(lines);
+
+  // ---- Render each line
+  lines.forEach((row) => {
+    const wrap = document.createElement("div");
+    wrap.className = "item-row";
+
+    const thumb = document.createElement("div");
+    thumb.className = "thumb";
+
+    const img = document.createElement("img");
+    img.alt = row.item;
+    img.src = row.image || "images/placeholder.png";
+    img.onerror = () => (img.src = "images/placeholder.png");
+    thumb.appendChild(img);
+
+    const mid = document.createElement("div");
+    mid.className = "item-mid";
+
+    const name = document.createElement("p");
+    name.className = "item-name";
+    name.textContent = row.item;
+
+    const sub = document.createElement("div");
+    sub.className = "item-sub";
+
+    const qty = document.createElement("div");
+    qty.className = "qty";
+
+    const minus = document.createElement("button");
+    minus.type = "button";
+    minus.textContent = "−";
+
+    const qtyVal = document.createElement("span");
+    qtyVal.textContent = String(row.qty || 1);
+
+    const plus = document.createElement("button");
+    plus.type = "button";
+    plus.textContent = "+";
+
+    qty.appendChild(minus);
+    qty.appendChild(qtyVal);
+    qty.appendChild(plus);
+
+    const perItem = document.createElement("span");
+    perItem.textContent = `${money(row.price)} each`;
+
+    sub.appendChild(qty);
+    sub.appendChild(perItem);
+
+    mid.appendChild(name);
+    mid.appendChild(sub);
+
+    const price = document.createElement("div");
+    price.className = "price";
+    price.textContent = money(Number(row.price) * (row.qty || 1));
+
+    // ✅ minus updates qty + removes when 0
+    minus.addEventListener("click", () => {
+      const cart = getCart();
+      const i = cart.findIndex(
+        (x) =>
+          x.stall === row.stall &&
+          x.item === row.item &&
+          Number(x.price) === Number(row.price),
+      );
+      if (i < 0) return;
+
+      cart[i].qty = (cart[i].qty || 1) - 1;
+      if (cart[i].qty <= 0) cart.splice(i, 1);
+
+      setCart(cart);
+      renderCart();
+    });
+
+    // ✅ plus updates qty (or adds if missing)
+    plus.addEventListener("click", () => {
+      const cart = getCart();
+      const i = cart.findIndex(
+        (x) =>
+          x.stall === row.stall &&
+          x.item === row.item &&
+          Number(x.price) === Number(row.price),
+      );
+
+      if (i >= 0) {
+        cart[i].qty = (cart[i].qty || 1) + 1;
+      } else {
+        cart.push({
+          stall: row.stall,
+          item: row.item,
+          price: Number(row.price),
+          qty: 1,
+          image: row.image,
+          addedAt: Date.now(),
+        });
+      }
+
+      setCart(cart);
+      renderCart();
+    });
+
+    wrap.appendChild(thumb);
+    wrap.appendChild(mid);
+    wrap.appendChild(price);
+    itemsRoot.appendChild(wrap);
+  });
+
+  // ---- Totals
+  const totals = computeTotals(lines);
+
+  const subtotalEl = document.getElementById("subtotalVal");
+  const voucherEl = document.getElementById("voucherVal");
+  const totalBreakdown = document.getElementById("totalValBreakdown"); // main totals line
+  const totalSticky = document.getElementById("totalVal"); // bottom bar total
+
+  if (subtotalEl) subtotalEl.textContent = money(totals.subtotal);
+  if (voucherEl) voucherEl.textContent = `-${money(totals.voucher).slice(1)}`;
+
+  // packaging row (optional elements in HTML)
+  const packLabel = document.getElementById("packagingLabel");
+  const packVal = document.getElementById("packagingVal");
+  if (packLabel && packVal) {
+    const showPack = totals.mode === "takeaway";
+    packLabel.style.display = showPack ? "block" : "none";
+    packVal.style.display = showPack ? "block" : "none";
+    packVal.textContent = money(totals.packaging);
+  }
+
+  if (totalBreakdown) totalBreakdown.textContent = money(totals.total);
+  if (totalSticky) totalSticky.textContent = money(totals.total);
+}
+
+/* =========================
+   INIT
+========================= */
+document.addEventListener("DOMContentLoaded", () => {
+  renderCart();
+  initPaymentPicker();
+  initOrderModeToggle();
+
+  const placeBtn = document.getElementById("placeOrderBtn");
+  if (placeBtn) {
+    placeBtn.addEventListener("click", () => {
+      const cart = getCart();
+      if (!cart.length) return alert("Cart is empty.");
+
+      const payment = sessionStorage.getItem("paymentMethod") || "visa";
+      const mode = getOrderMode();
+
+      // redirect if Add Card selected
+      if (payment === "add-card") {
+        window.location.href = "PaymentFailed.html";
+        return;
+      }
+      window.location.href = "PaymentSuccess.html";
+    });
+  }
+});
+
+// sessionStorage.removeItem("cart");
+// renderCart();
+/***********************
+ * FAVOURITE MENU ITEMS (localStorage)
+ * Unique ID: stallName::itemName
+ ***********************/
+const FAV_ITEM_KEY = "shioklah_fav_items_v1";
+
+function loadFavItemsMap() {
+  try {
+    return JSON.parse(localStorage.getItem(FAV_ITEM_KEY) || "{}");
+  } catch {
+    return {};
+  }
+}
+
+function saveFavItemsMap(map) {
+  localStorage.setItem(FAV_ITEM_KEY, JSON.stringify(map));
+}
+
+function makeFavItemId(stallName, itemName) {
+  return `${stallName}::${itemName}`;
+}
+
+function isFavouriteItem(stallName, itemName) {
+  const id = makeFavItemId(stallName, itemName);
+  const map = loadFavItemsMap();
+  return Boolean(map[id]);
+}
+
+function toggleFavouriteItem(itemData) {
+  // itemData = { stallName, itemName, price, image }
+  const id = makeFavItemId(itemData.stallName, itemData.itemName);
+  const map = loadFavItemsMap();
+
+  if (map[id]) {
+    delete map[id];
+    saveFavItemsMap(map);
+    return false; // now not favourited
+  } else {
+    map[id] = {
+      id,
+      stallName: itemData.stallName,
+      itemName: itemData.itemName,
+      price: Number(itemData.price) || 0,
+      image: itemData.image || "",
+      savedAt: Date.now(),
+    };
+    saveFavItemsMap(map);
+    return true; // now favourited
+  }
+}
+
+// optional: expose for other pages
+window.toggleFavouriteItem = toggleFavouriteItem;
+window.isFavouriteItem = isFavouriteItem;

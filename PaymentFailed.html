@@ -8,14 +8,9 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="Master_page_stylesheet.css" />
-    <title>Payment Successful</title>
-    <style>
-      body {
-        background: #fff;
-        color: #222;
-        flex-direction: column;
-      }
+    <title>Payment Failed</title>
 
+    <style>
       * {
         box-sizing: border-box;
         margin: 0;
@@ -23,11 +18,17 @@
       }
 
       :root {
-        --primary-orange: #ff8c3a;
-        --primary-yellow: #ffd400;
+        --primary-orange: #e47329;
         --dark-text: #111;
       }
-      /* Center only the success section under nav */
+
+      body {
+        background: #fff;
+        color: #222;
+        flex-direction: column;
+      }
+
+      /* Center only the failed section under nav */
       main.card h1,
       main.card .check-wrap,
       main.card .msg {
@@ -36,40 +37,36 @@
       }
 
       main.card h1 {
-        margin-top: 30px;
-        margin-bottom: 30px;
+        margin-top: 110px;
+        margin-bottom: 18px;
         font-size: 2rem;
         font-weight: 800;
-        color: #111;
+        color: var(--dark-text);
       }
 
-      /* green check */
+      /* Red X icon */
       .check-wrap {
         width: 180px;
         height: 180px;
-        margin: 0 auto 28px;
+        margin: 0 auto 26px;
       }
 
-      /* proceed text */
+      /* Screenshot doesn't show a message line under icon */
       .msg {
-        font-size: 1.4rem;
-        font-weight: 800;
-        margin: 0 0 34px;
-        color: #111;
+        display: none;
       }
 
-      /* buttons */
+      /* Single button like screenshot */
       .btns {
         display: flex;
-        flex-direction: column;
-        align-items: center;
         justify-content: center;
-        gap: 22px;
+        margin-top: 10px;
+        padding-bottom: 30px;
       }
 
       .btn {
-        width: 320px;
-        padding: 16px 18px;
+        width: 260px;
+        padding: 14px 18px;
         border: none;
         border-radius: 999px;
         font-weight: 750;
@@ -78,12 +75,7 @@
       }
 
       .btn-primary {
-        background: #e47329;
-        color: #fff;
-      }
-
-      .btn-secondary {
-        background: #7a2d1c;
+        background: var(--primary-orange);
         color: #fff;
       }
 
@@ -92,7 +84,7 @@
         transform: translateY(-1px);
       }
 
-      /* MOBILE */
+      /* MOBILE nav*/
       @media (max-width: 992px) {
         .menu {
           display: none;
@@ -115,8 +107,8 @@
           display: flex;
         }
         main.card h1 {
-          margin-top: 50px;
-          font-size: 1.6rem;
+          margin-top: 160px;
+          font-size: 28px;
         }
 
         .check-wrap {
@@ -124,15 +116,8 @@
           height: 150px;
         }
 
-        .msg {
-          margin: 0 4%;
-          font-size: 1.2rem;
-          margin-bottom: 26px;
-        }
-
         .btn {
           width: min(320px, 90vw);
-          font-size: 0.9rem;
         }
       }
     </style>
@@ -198,26 +183,26 @@
           </div>
         </div>
       </nav>
+
       <hr class="Nav-line" />
-      <h1>Payment Successful</h1>
-      <!-- Green check icon (SVG) -->
+
+      <h1>Payment Failed</h1>
+
+      <!-- Red X icon -->
       <div class="check-wrap" aria-hidden="true">
         <svg viewBox="0 0 120 120" width="100%" height="100%">
-          <defs>
-            <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0" stop-color="#34c77a" />
-              <stop offset="1" stop-color="#11a361" />
-            </linearGradient>
-          </defs>
-
-          <circle cx="60" cy="60" r="52" fill="url(#g)" />
+          <circle cx="60" cy="60" r="52" fill="#E00000" />
           <path
-            d="M38 61.5l12 12L82 42"
-            fill="none"
+            d="M40 40 L80 80"
             stroke="#fff"
             stroke-width="12"
             stroke-linecap="round"
-            stroke-linejoin="round"
+          />
+          <path
+            d="M80 40 L40 80"
+            stroke="#fff"
+            stroke-width="12"
+            stroke-linecap="round"
           />
         </svg>
       </div>
@@ -225,43 +210,22 @@
       <p class="msg" id="orderMsg"></p>
 
       <div class="btns">
-        <button class="btn btn-primary" id="reviewBtn">Review order</button>
-        <button class="btn btn-secondary" id="backBtn">Back to homepage</button>
+        <button class="btn btn-primary" id="tryBtn">
+          Try other payment methods
+        </button>
       </div>
     </main>
 
     <script>
-      sessionStorage.removeItem("cart"); // ✅ wipes all items
-      sessionStorage.removeItem("paymentMethod"); // optional cleanup
+      sessionStorage.removeItem("paymentMethod");
 
-      const cartCount = document.getElementById("cartCount");
-      if (cartCount) cartCount.textContent = "0";
-      document.getElementById("reviewBtn").addEventListener("click", () => {
-        window.location.href = "OrderHistory.html";
+      // Go back to order summary to pick a different method
+      document.getElementById("tryBtn").addEventListener("click", () => {
+        window.location.href = "OrderSummary.html";
       });
-
-      document.getElementById("backBtn").addEventListener("click", () => {
-        window.location.href = "FED_ASG.html";
-      });
-      const mode = sessionStorage.getItem("orderMode") || "pickup";
-      const msgEl = document.getElementById("orderMsg");
-
-      if (mode === "takeaway") {
-        msgEl.textContent = "Your order is ready for collection in ~ 25 mins";
-      } else {
-        msgEl.innerHTML = "Please proceed to: <strong>Table 05</strong>";
-      }
-
-      // =========================
-      // BUTTONS
-      // =========================
-      document.getElementById("reviewBtn").addEventListener("click", () => {
-        window.location.href = "OrderHistory.html";
-      });
-
-      document.getElementById("backBtn").addEventListener("click", () => {
-        window.location.href = "FED_ASG.html";
-      });
+      //   setTimeout(() => {
+      //     window.location.href = "OrderSummary.html";
+      //   }, 3000);
     </script>
   </body>
 </html>

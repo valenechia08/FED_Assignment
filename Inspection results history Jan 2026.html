@@ -140,7 +140,8 @@
 </head>
 
 <body>
-    <nav class="navrectangle">
+   <main class="container">
+      <nav class="navrectangle">
       <div class="container">
         <div class="top-nav">
           <div class="nav-left">
@@ -152,27 +153,12 @@
           <div class="nav-center">
             <ul class="menu" id="menu">
               <li class="menu-item">
-                <a href="#">Home</a>
-                <ul class="dropdown">
-                  <li><a href="FED_ASG.html">Start Order</a></li>
-                </ul>
-              </li>
-
-              <li class="menu-item">
-                <a href="#">Order History</a>
-                <ul class="dropdown">
-                  <li><a href="OrderHistory.html">Past Orders</a></li>
-                </ul>
-              </li>
 
               <li class="menu-item">
                 <a href="#">Profile</a>
                 <ul class="dropdown">
                   <li><a href="UserProfile.html">Overview</a></li>
                   <li><a href="Analytics.html">Analytics & Reporting</a></li>
-                  <li><a href="#">Customer Feedback</a></li>
-                  <li><a href="#">Favourites</a></li>
-                  <li><a href="#">Rewards</a></li>
                 </ul>
               </li>
 
@@ -183,7 +169,6 @@
           </div>
 
           <div class="nav-right">
-            <button class="reserve-btn">Reserve A Table</button>
             <div class="hamburger" id="hamburger">
               <div></div><div></div><div></div>
             </div>
@@ -192,7 +177,7 @@
       </div>
     </nav>
     <hr class="Nav-line" />
-
+    
       <main class="contents">
   <header class="page-header">
     <div class="header-row">
@@ -336,7 +321,6 @@
 
   Object.entries(stalls).forEach(([stallName, stall]) => {
 
-    // Read ratings from TOP LEVEL
     const ratings = {
       cleanliness: stall.cleanliness,
       handling: stall.handling,
@@ -361,7 +345,12 @@
     card.className = "stall-card";
 
     card.innerHTML = `
-      <img src="${stall.image || "images/placeholder.jpg"}" alt="${stallName}">
+      <img 
+        src="${stall.image || "images/placeholder.jpg"}" 
+        alt="${stallName}"
+        style="cursor:pointer"
+        onclick="window.location.href='stallForm.html?stall=${encodeURIComponent(stallName)}'"
+      >
       <div class="stall-name">${stallName}</div>
       <div class="ratings">${ratingLines.join("<br>")}</div>
       <div class="grade ${grade ? getGradeClass(grade) : ""}">

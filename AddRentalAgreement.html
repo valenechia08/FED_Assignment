@@ -415,7 +415,7 @@
     <div class="shell">
       <div class="topbar">
         <div class="title-wrap">
-          <div class="title">Renew Rental Agreement</div>
+          <div class="title" id="pageTitle">Renew Rental Agreement</div>
           <div class="subtitle">Fill in the agreement details.</div>
         </div>
 
@@ -563,182 +563,222 @@
     </section>
   </main>
   <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import {
+    getDatabase,
+    ref,
+    set,
+    get,
+    update,
+  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyCoYoGP4NYJPHqA-kV_swajQ4LSQYdyWV4",
-      authDomain: "grp3fedapp.firebaseapp.com",
-      databaseURL: "https://grp3fedapp-default-rtdb.asia-southeast1.firebasedatabase.app",
-      projectId: "grp3fedapp",
-      storageBucket: "grp3fedapp.firebasestorage.app",
-      messagingSenderId: "791146838729",
-      appId: "1:791146838729:web:446baee191feeb036e2b18",
-    };
+  const firebaseConfig = {
+    apiKey: "AIzaSyCoYoGP4NYJPHqA-kV_swajQ4LSQYdyWV4",
+    authDomain: "grp3fedapp.firebaseapp.com",
+    databaseURL: "https://grp3fedapp-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "grp3fedapp",
+    storageBucket: "grp3fedapp.firebasestorage.app",
+    messagingSenderId: "791146838729",
+    appId: "1:791146838729:web:446baee191feeb036e2b18",
+  };
 
   const app = initializeApp(firebaseConfig);
   const db = getDatabase(app);
 
-    function generateAID() {
-      // unique enough for school projects
-      const rand = Math.floor(1000 + Math.random() * 9000); // 4 digits
-      return `AG-${Date.now()}-${rand}`;
-    }
+  const $ = (id) => document.getElementById(id);
 
-    function getAgreementStatus(endDateStr) {
-      const end = new Date(endDateStr);
-      const now = new Date();
-      return end >= now ? "active" : "expired";
-    }
-
-    const $ = (id) => document.getElementById(id);
-
-    const requiredIds = ["storeLoc","storeAddr","centre","tradeType","rent","startDate","endDate"];
-
-
-
-    function setText(id, value){
-      $(id).textContent = value && value.trim() ? value.trim() : "—";
-    }
-
-    function sanitizeDigits(v){
-      return v.replace(/[^\d]/g, "");
-    }
-
-    function validate(){
-      const missing = requiredIds.some(id => {
-        const el = $(id);
-        return !String(el.value || "").trim();
-      });
-
-      const rentOk = /^\d+$/.test(($("rent").value || "").trim());
-
-      const start = $("startDate").value;
-      const end = $("endDate").value;
-      const dateOk = start && end && new Date(end) > new Date(start);
-
-      const ok = !missing && rentOk && dateOk;
-
-      const pill = $("statusPill");
-      if(ok){
-        pill.textContent = "Ready to create";
-      } else if(start && end && !dateOk){
-        pill.textContent = "End date must be after start date";
-      } else {
-        pill.textContent = "Incomplete";
-      }
-
-      $("btnCreate2").disabled = !ok;
-      $("errBox").classList.toggle("show", !ok && touchedCount > 0);
-
-      return ok;
-    }
-
-    function updatePreview(){
-      setText("pvLoc", $("storeLoc").value);
-      setText("pvAddr", $("storeAddr").value);
-      setText("pvCentre", $("centre").value);
-      setText("pvTrade", $("tradeType").value);
-      setText("pvRent", $("rent").value ? "$" + $("rent").value.trim() : "");
-      setText("pvStartDate", $("startDate").value);
-      setText("pvEndDate", $("endDate").value);
-    }
-
-    // character count for notes
-    function updateCharCount(){
-      const len = ($("notes").value || "").length;
-      $("charCount").textContent = len + " / 1000";
-    }
-
-    // lightweight toolbar behavior (adds simple markers in textarea)
-    function wrapSelection(textarea, before, after){
-      const start = textarea.selectionStart;
-      const end = textarea.selectionEnd;
-      const value = textarea.value;
-
-      const selected = value.slice(start, end);
-      const next = value.slice(0, start) + before + selected + after + value.slice(end);
-
-      textarea.value = next;
-      textarea.focus();
-
-      const cursor = start + before.length + selected.length + after.length;
-      textarea.setSelectionRange(cursor, cursor);
-      updateCharCount();
-    }
-
-    function insertAtLineStart(textarea, prefix){
-      const start = textarea.selectionStart;
-      const value = textarea.value;
-      const lineStart = value.lastIndexOf("\n", start - 1) + 1;
-      textarea.value = value.slice(0, lineStart) + prefix + value.slice(lineStart);
-      textarea.focus();
-      const cursor = start + prefix.length;
-      textarea.setSelectionRange(cursor, cursor);
-      updateCharCount();
-    }
-
-    // ----- wire up -----
-    let touchedCount = 0;
-
-    ["storeLoc","storeAddr","centre","tradeType","rent","startDate","endDate"].forEach(id => {
-      const el = $(id);
-
-      el.addEventListener("input", () => {
-        if(id === "rent"){
-          const cleaned = sanitizeDigits(el.value);
-          if(el.value !== cleaned) el.value = cleaned;
-        }
-        updatePreview();
-        validate();
-      });
-
-      el.addEventListener("blur", () => {
-        touchedCount++;
-        validate();
-      });
-    });
-
-    $("notes").addEventListener("input", updateCharCount);
-
-    document.querySelectorAll(".tool").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const cmd = btn.dataset.cmd;
-        const ta = $("notes");
-
-        if(cmd === "bold") wrapSelection(ta, "**", "**");
-        if(cmd === "italic") wrapSelection(ta, "_", "_");
-        if(cmd === "ul") insertAtLineStart(ta, "• ");
-        if(cmd === "ol") insertAtLineStart(ta, "1. ");
-        if(cmd === "link") wrapSelection(ta, "[", "](https://)");
-      });
-    });
-
-    function resetAll(){
-      ["storeLoc","storeAddr","centre","tradeType","rent","startDate","endDate"].forEach(id => $(id).value = "");
-      touchedCount = 0;
-      updatePreview();
-      updateCharCount();
-      validate();
-      $("errBox").classList.remove("show");
-    }
-
-    $("btnReset").addEventListener("click", resetAll);
-    $("btnCancel").addEventListener("click", () => {
-      window.location.href = "RentalAgreement.html";
-    });
-
-    async function onCreate() {
-  if (!validate()) {
-    $("errBox").classList.add("show");
-    return;
+  // ✅ username that works across tabs (no need Master JS)
+  function getCurrentUsernameLocal() {
+    return (
+      localStorage.getItem("loggedInUser") ||
+      sessionStorage.getItem("loggedInUser") ||
+      ""
+    ).trim();
   }
 
-  // ✅ get logged-in username (your backend uses this)
-    const username = getCurrentUsername();
+  const params = new URLSearchParams(window.location.search);
+  const editAID = params.get("edit");
+  const isEditMode = !!editAID;
 
-    const AID = generateAID();
+  // ---------- your existing functions ----------
+  function generateAID() {
+    const rand = Math.floor(1000 + Math.random() * 9000);
+    return `AG-${Date.now()}-${rand}`;
+  }
+
+  function getAgreementStatus(endDateStr) {
+    const end = new Date(endDateStr);
+    const now = new Date();
+    return end >= now ? "active" : "expired"; // keep consistent with filters
+  }
+
+  const requiredIds = ["storeLoc","storeAddr","centre","tradeType","rent","startDate","endDate"];
+
+  function setText(id, value){
+    $(id).textContent = value && value.trim() ? value.trim() : "—";
+  }
+
+  function sanitizeDigits(v){
+    return v.replace(/[^\d]/g, "");
+  }
+
+  let touchedCount = 0;
+
+  function validate(){
+    const missing = requiredIds.some(id => !String($(id).value || "").trim());
+    const rentOk = /^\d+$/.test(($("rent").value || "").trim());
+
+    const start = $("startDate").value;
+    const end = $("endDate").value;
+    const dateOk = start && end && new Date(end) > new Date(start);
+
+    const ok = !missing && rentOk && dateOk;
+
+    const pill = $("statusPill");
+    if(ok){
+      pill.textContent = isEditMode ? "Ready to save changes" : "Ready to create";
+    } else if(start && end && !dateOk){
+      pill.textContent = "End date must be after start date";
+    } else {
+      pill.textContent = "Incomplete";
+    }
+
+    $("btnCreate2").disabled = !ok;
+    $("errBox").classList.toggle("show", !ok && touchedCount > 0);
+    return ok;
+  }
+
+  function updatePreview(){
+    setText("pvLoc", $("storeLoc").value);
+    setText("pvAddr", $("storeAddr").value);
+    setText("pvCentre", $("centre").value);
+    setText("pvTrade", $("tradeType").value);
+    setText("pvRent", $("rent").value ? "$" + $("rent").value.trim() : "");
+    setText("pvStartDate", $("startDate").value);
+    setText("pvEndDate", $("endDate").value);
+  }
+
+  function updateCharCount(){
+    const len = ($("notes").value || "").length;
+    $("charCount").textContent = len + " / 1000";
+  }
+
+  function wrapSelection(textarea, before, after){
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const value = textarea.value;
+    const selected = value.slice(start, end);
+    textarea.value = value.slice(0, start) + before + selected + after + value.slice(end);
+    textarea.focus();
+    const cursor = start + before.length + selected.length + after.length;
+    textarea.setSelectionRange(cursor, cursor);
+    updateCharCount();
+  }
+
+  function insertAtLineStart(textarea, prefix){
+    const start = textarea.selectionStart;
+    const value = textarea.value;
+    const lineStart = value.lastIndexOf("\n", start - 1) + 1;
+    textarea.value = value.slice(0, lineStart) + prefix + value.slice(lineStart);
+    textarea.focus();
+    const cursor = start + prefix.length;
+    textarea.setSelectionRange(cursor, cursor);
+    updateCharCount();
+  }
+
+  async function loadAgreementForEdit(username, AID) {
+    const snap = await get(ref(db, `members/${username}/rentalAgreements/${AID}`));
+    if (!snap.exists()) {
+      alert("Agreement not found.");
+      window.location.href = "RentalAgreement.html";
+      return null;
+    }
+
+    const ag = snap.val();
+
+    $("storeLoc").value = ag.storeLocation || "";
+    $("storeAddr").value = ag.storeAddress || "";
+    $("centre").value = ag.centre || "";
+    $("tradeType").value = ag.tradeType || "";
+    $("rent").value = (ag.rent ?? "").toString();
+    $("startDate").value = ag.startDate || "";
+    $("endDate").value = ag.endDate || "";
+    $("noteTitle").value = ag.noteTitle || "";
+    $("notes").value = ag.notes || "";
+
+    updatePreview();
+    updateCharCount();
+    validate();
+
+    return ag;
+  }
+
+  // --------- wire up inputs ----------
+  ["storeLoc","storeAddr","centre","tradeType","rent","startDate","endDate"].forEach(id => {
+    const el = $(id);
+    el.addEventListener("input", () => {
+      if(id === "rent"){
+        const cleaned = sanitizeDigits(el.value);
+        if(el.value !== cleaned) el.value = cleaned;
+      }
+      updatePreview();
+      validate();
+    });
+
+    el.addEventListener("blur", () => {
+      touchedCount++;
+      validate();
+    });
+  });
+
+  $("notes").addEventListener("input", updateCharCount);
+
+  document.querySelectorAll(".tool").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const cmd = btn.dataset.cmd;
+      const ta = $("notes");
+      if(cmd === "bold") wrapSelection(ta, "**", "**");
+      if(cmd === "italic") wrapSelection(ta, "_", "_");
+      if(cmd === "ul") insertAtLineStart(ta, "• ");
+      if(cmd === "ol") insertAtLineStart(ta, "1. ");
+      if(cmd === "link") wrapSelection(ta, "[", "](https://)");
+    });
+  });
+
+  function resetAll(){
+    ["storeLoc","storeAddr","centre","tradeType","rent","startDate","endDate","noteTitle","notes"].forEach(id => $(id).value = "");
+    touchedCount = 0;
+    updatePreview();
+    updateCharCount();
+    validate();
+    $("errBox").classList.remove("show");
+  }
+
+  $("btnReset").addEventListener("click", resetAll);
+  $("btnCancel").addEventListener("click", () => window.location.href = "RentalAgreement.html");
+
+  // ✅ set edit UI AFTER $ exists
+  if (isEditMode) {
+    $("pageTitle").textContent = "Edit Rental Agreement";
+    $("btnCreate2").textContent = "Save Changes";
+  }
+
+  // ✅ load on page open (NOT onCreate)
+  const username = getCurrentUsernameLocal();
+  if (!username) {
+    alert("No logged-in user found. Please log in again.");
+    window.location.href = "login.html";
+  } else if (isEditMode) {
+    await loadAgreementForEdit(username, editAID);
+  }
+
+  async function onCreate() {
+    if (!validate()) {
+      $("errBox").classList.add("show");
+      return;
+    }
+
+    const AID = isEditMode ? editAID : generateAID();
     const endDate = $("endDate").value;
 
     const payload = {
@@ -753,24 +793,35 @@
       status: getAgreementStatus(endDate),
       noteTitle: $("noteTitle").value.trim(),
       notes: $("notes").value.trim(),
-      createdAt: Date.now(),
     };
 
-    // ✅ store under members/{username}/rentalAgreements/{AID}
-    await set(ref(db, `members/${username}/rentalAgreements/${AID}`), payload);
+    const targetRef = ref(db, `members/${username}/rentalAgreements/${AID}`);
 
-    alert(`Created! ✅ You'll be directed back to the Rental Agreements.`);
+    if (isEditMode) {
+      await update(targetRef, {
+        ...payload,
+        updatedAt: Date.now(),
+      });
+      alert("Changes saved successfully ✅");
+    } else {
+      await set(targetRef, {
+        ...payload,
+        createdAt: Date.now(),
+      });
+      alert("Created successfully ✅");
+    }
 
     window.location.href = "RentalAgreement.html";
   }
 
-    $("btnCreate2").addEventListener("click", onCreate);
+  $("btnCreate2").addEventListener("click", onCreate);
 
-    // init
-    updatePreview();
-    updateCharCount();
-    validate();
-  </script>
+  // init
+  updatePreview();
+  updateCharCount();
+  validate();
+</script>
+
     <script type="module" src="Master_page_javascript.js"></script>
   </body>
 </html>
