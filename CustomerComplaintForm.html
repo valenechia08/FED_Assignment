@@ -9,13 +9,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Kodchasan:wght@400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Kodchasan:wght@200;300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&family=Open+Sans:wght@300..800&family=Roboto:wght@100..900&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="Master_page_stylesheet.css" />
 
     <style>
       :root {
@@ -60,102 +61,10 @@
         color: var(--text);
       }
 
-      /* TOP NAV */
-      .topNavBar {
-        position: sticky;
-        top: 0;
-        z-index: 2000;
-        background: #fff;
-        border-bottom: 1px solid var(--line);
-      }
-      .topNavBar .container {
-        width: 92%;
-        max-width: 1200px;
-        margin: auto;
-      }
-      .topNavBar .top-nav {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        height: 70px;
-      }
-      .topNavBar .nav-left,
-      .topNavBar .nav-right {
-        flex: 0 0 auto;
-      }
-      .topNavBar .nav-center {
-        flex: 1;
-        display: flex;
-        justify-content: center;
-      }
-      .topNavBar .Logo {
-        height: 60px;
-        display: flex;
-        align-items: center;
-        text-decoration: none;
-      }
-      .topNavBar .Logo img {
-        height: 100%;
-        width: auto;
-        display: block;
-      }
-      .topNavBar .menu {
-        list-style: none;
-        display: flex;
-        align-items: center;
-        gap: 50px;
-      }
-      .topNavBar .menu a {
-        text-decoration: none;
-        font-weight: 800;
-        color: #111;
-        display: block;
-        padding: 8px 0;
-      }
-      .topNavBar .menu a:hover {
-        color: var(--primary-orange);
-      }
-      .topNavBar .menu-item {
-        position: relative;
-      }
-      .topNavBar .dropdown {
-        position: absolute;
-        top: 130%;
-        left: 0;
-        background: var(--primary-yellow);
-        border-radius: 12px;
-        padding: 10px 0;
-        min-width: 220px;
-        display: none;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-      }
-      .topNavBar .dropdown li {
-        list-style: none;
-      }
-      .topNavBar .dropdown a {
-        padding: 10px 18px;
-        color: #111;
-        font-weight: 700;
-      }
-      .topNavBar .dropdown a:hover {
-        background: rgba(0, 0, 0, 0.08);
-      }
-      .topNavBar .menu-item:hover .dropdown {
-        display: block;
-      }
-      .topNavBar .nav-right {
-        width: 60px;
-      }
-
-      @media (max-width: 900px) {
-        .topNavBar .menu {
-          gap: 28px;
-        }
-      }
-      @media (max-width: 700px) {
-        .topNavBar .nav-center {
-          display: none;
-        }
+      /* ✅ ONLY CHANGE: NAV FONT */
+      .topNavBar,
+      .topNavBar * {
+        font-family: "Kodchasan", sans-serif !important;
       }
 
       /* PAGE */
@@ -504,7 +413,7 @@
               </li>
 
               <li class="menu-item">
-                <a href="#">Order History</a>
+                <a href="OrderHistory.html">Order History</a>
                 <ul class="dropdown">
                   <li><a href="OrderHistory.html">Past Orders</a></li>
                 </ul>
@@ -521,7 +430,7 @@
                       >Regulatory & Compliance Info</a
                     >
                   </li>
-                  <li><a href="#">Favourites</a></li>
+                  <li><a href="Customer_Favourties.html">Favourites</a></li>
                   <li>
                     <a href="Customer Vouchers and Rewards.html">Rewards</a>
                   </li>
@@ -907,7 +816,9 @@
         }
 
         // success
-        alert("Complaint submitted successfully 🧡");
+        alert(
+          "Complaint submitted successfully. Thank you for dining with us!🧡",
+        );
       });
     </script>
   </body>
