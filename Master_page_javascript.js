@@ -123,7 +123,7 @@ async function registerMember() {
   }
 
   if (!rule.test(password)) {
-    showMessage("Must be 9+ chars with letters & numbers only", "red");
+    showMessage("Password must be 9+ chars with letters & numbers only", "red");
     return;
   }
 
@@ -235,12 +235,12 @@ window.getCurrentUsername = function () {
   ).trim();
 };
 
-  document.addEventListener("keydown", function (event) {
-    if (event.key === "Enter") {
-      document.getElementById("loginBtn").click();
-    }
-  });
-  
+document.addEventListener("keydown", function (event) {
+  if (event.key === "Enter") {
+    document.getElementById("loginBtn").click();
+  }
+});
+
 // =========================
 // SHOW USERNAME IN GREETING
 // =========================
@@ -491,7 +491,13 @@ function createStallObject(stall_name, cuisine, rating, image) {
   };
 }
 
-function createMenuItemObject(item_name, price, available = true, image,description) {
+function createMenuItemObject(
+  item_name,
+  price,
+  available = true,
+  image,
+  description,
+) {
   return {
     [item_name]: {
       price,
@@ -518,8 +524,6 @@ async function uploadStall(stall_name, cuisine, rating, image) {
   });
 }
 
-
-
 async function addMenuItem(
   stall_name,
   item_name,
@@ -528,7 +532,13 @@ async function addMenuItem(
   image,
   description,
 ) {
-  const itemObj = createMenuItemObject(item_name, price, available, image,description);
+  const itemObj = createMenuItemObject(
+    item_name,
+    price,
+    available,
+    image,
+    description,
+  );
   await update(ref(db, `stalls/${stall_name}/menuItems`), itemObj);
 }
 //Can remove since data has already been created
@@ -774,7 +784,7 @@ function renderMenu(menuItems, stall_name) {
 
   const heading = document.createElement("h2");
   heading.textContent = "Menu";
-  heading.style.margin = "10px 0 16px";
+  heading.style.margin = "1%";
   root.appendChild(heading);
 
   const grid = document.createElement("div");
