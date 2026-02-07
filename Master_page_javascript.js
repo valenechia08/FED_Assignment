@@ -5,7 +5,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebas
 import {
   getDatabase,
   ref,
-  onValue,   
+  onValue,
   push,
   set,
   get,
@@ -151,7 +151,7 @@ async function registerMember() {
       username,
       email,
       passwordHash,
-      userType: "registered",   //  ADD THIS✅  valene add this
+      userType: "registered", //  ADD THIS✅  valene add this
       createdAt: Date.now(),
     });
 
@@ -199,13 +199,13 @@ async function loginMember() {
       showMessage("Incorrect password.", "red");
       return;
     }
-    
+
     // ✅ update both browser + firebase
     sessionStorage.setItem("currentUserId", username);
 
     await update(ref(db, `members/${username}`), {
       userType: data.userType || "registered",
-      lastLoginAt: Date.now()
+      lastLoginAt: Date.now(),
     });
 
     // Save session + redirect
@@ -270,9 +270,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-
-  // Verify OTP
-  document.addEventListener("DOMContentLoaded", () => {
+// Verify OTP
+document.addEventListener("DOMContentLoaded", () => {
   // Only run OTP logic on ConfirmAccount page
   if (!window.location.pathname.endsWith("ConfirmAccount.html")) return;
 
@@ -301,9 +300,7 @@ document.addEventListener("DOMContentLoaded", () => {
       showMessage("Invalid code. Try again.", "red");
     }
   });
-  
 });
-
 
 //Change Password
 async function resetPassword() {
@@ -349,13 +346,22 @@ function goLogin(role) {
    AUTO-BIND EVENTS (based on page)
 ========================= */
 
+// document.addEventListener("DOMContentLoaded", () => {
+//   document.querySelector(".backBtn").addEventListener("click", () => {
+//     window.location.href = "SelectRole.html";
+//   });
+// });
 document.addEventListener("DOMContentLoaded", () => {
-  const backBtn = document.querySelector(".backBtn");
-  bind(".backBtn", "click", () => {
-  window.location.href = "SelectRole.html";
+  document.querySelectorAll(".roleBtn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      goLogin(btn.dataset.role);
+    });
   });
-  
-
+});
+document.addEventListener("DOMContentLoaded", () => {
+  bind(".backBtn", "click", () => {
+    window.location.href = "SelectRole.html";
+  });
 
   bind(".secondBackBtn", "click", () => {
     window.location.href = "FindAccount.html";
@@ -364,19 +370,6 @@ document.addEventListener("DOMContentLoaded", () => {
   bind(".thirdBackBtn", "click", () => {
     window.location.href = "login.html";
   });
-
-
-// document.addEventListener("DOMContentLoaded", () => {
-//   document.querySelector(".backBtn").addEventListener("click", () => {
-//     window.location.href = "SelectRole.html";
-//   });
-// });
-// document.addEventListener("DOMContentLoaded", () => {
-//   document.querySelectorAll(".roleBtn").forEach((btn) => {
-//     btn.addEventListener("click", () => {
-//       goLogin(btn.dataset.role);
-//     });
-//   });
 
   // Register page
   if ($("registerBtn")) {
@@ -397,9 +390,6 @@ document.addEventListener("DOMContentLoaded", () => {
     $("resetPasswordBtn").addEventListener("click", resetPassword);
   }
 
-
-
-
   // Optional: allow Enter key to submit on login page
   if ($("loginBtn") && $("password")) {
     $("password").addEventListener("keydown", (e) => {
@@ -411,13 +401,6 @@ document.addEventListener("DOMContentLoaded", () => {
   if ($("registerBtn")) {
     $("registerBtn").addEventListener("keydown", (e) => {
       if (e.key === "Enter") registerMember();
-    });
-  }
-
-  //
-  if ($("continueBtn")) {
-    $("continueBtn").addEventListener("keydown", (e) => {
-      if (e.key === "Enter") retrieveAccount();
     });
   }
 });
@@ -441,14 +424,12 @@ document.addEventListener("DOMContentLoaded", () => {
 //   });
 // });
 
-
-
 // Top Navigation
 document.addEventListener("click", () => {
-        document
-          .querySelectorAll(".menu-item")
-          .forEach((item) => item.classList.remove("active"));
-      });
+  document
+    .querySelectorAll(".menu-item")
+    .forEach((item) => item.classList.remove("active"));
+});
 
 //loading stalls(bananaleafhtml)
 async function loadStallHeader(stallName) {
@@ -489,7 +470,6 @@ function createMenuItemObject(item_name, price, available = true, image) {
     },
   };
 }
-
 
 async function uploadStall(stall_name, cuisine, rating, image) {
   const stallObj = createStallObject(stall_name, cuisine, rating, image);
@@ -551,7 +531,7 @@ async function addMenuItem(
     "Set Meal C",
     4,
     true,
-    "images/Set Meal C Picture.jpg",
+    "images/Set Meal C Picture.png",
   );
   await addMenuItem(
     "Banana Leaf Nasi Lemak",
@@ -638,7 +618,10 @@ function renderMenu(menuItems, stall_name) {
 
     const card = document.createElement("div");
     card.className = "menu-card";
-
+    const img = document.createElement("img");
+    img.className = "menu-img";
+    img.src = item.image; // fallback if missing
+    img.alt = item_name;
     const title = document.createElement("div");
     title.className = "menu-title";
     title.textContent = item_name;
@@ -663,19 +646,16 @@ function renderMenu(menuItems, stall_name) {
         addToCart(stall_name, item_name, item.price);
       };
     }
-
+    card.appendChild(img);
     actions.appendChild(plusBtn);
     card.appendChild(title);
     card.appendChild(price);
     card.appendChild(actions);
     grid.appendChild(card);
 
- 
-  console.log("Menu data:", menuItems);
-}
-
+    console.log("Menu data:", menuItems);
   }
-
+}
 
 //load menu(one time) or listen menu(realtime) choose one
 
@@ -696,8 +676,6 @@ function renderMenu(menuItems, stall_name) {
 
 // // Load default stall menu
 // loadMenu("Banana Leaf Nasi Lemak");
-
-
 
 //reading
 
@@ -781,7 +759,6 @@ let allStalls = {};
 
 // fetchStalls();
 
-
 /*Mobile Navigation*/
 document.querySelectorAll(".mobile-nav-item").forEach((item) => {
   item.addEventListener("click", () => {
@@ -813,7 +790,6 @@ if (searchInput) {
   });
 }
 let selectedCuisine = null;
-
 
 // Fetch all stalls from Firebase
 async function fetchStalls() {
@@ -880,7 +856,6 @@ exports.placeOrder = functions.https.onRequest(async (req, res) => {
   res.json({ success: true, total });
 });
   */
-
 
 //Update cart number
 document.addEventListener("DOMContentLoaded", () => {
