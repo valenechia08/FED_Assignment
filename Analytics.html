@@ -13,11 +13,9 @@
     <link rel="stylesheet" href="Master_page_stylesheet.css" />
 
     <style>
-      
-
       /* ==========================
-         DASHBOARD (CONTENT ONLY)
-      ========================== */
+   DASHBOARD (CONTENT ONLY)
+========================== */
       :root {
         --bg: #f5f7fb;
         --card: #ffffff;
@@ -28,14 +26,15 @@
         --muted: #64748b;
       }
 
+      /* ✅ More responsive container */
       .dash-wrap {
-        width: 90%;
-        max-width: 1200px;
+        width: min(1200px, calc(100% - 32px)); /* fills small screens nicely */
         margin: 0 auto;
         padding: 22px 0 40px;
-        font-family:"Kodchasan",Arial, Helvetica, sans-serif;
+        font-family: "Kodchasan", Arial, Helvetica, sans-serif;
       }
 
+      /* ✅ KPI grid: desktop 4, then 2, then 1 */
       .dash-wrap .kpi-grid {
         display: grid;
         grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -48,12 +47,12 @@
         border: 1px solid var(--stroke);
         border-radius: 14px;
         box-shadow: var(--shadow);
-        padding: 14px 14px;
+        padding: 14px;
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 12px;
-        min-width: 0;
+        min-width: 0; /* prevents overflow */
       }
 
       .dash-wrap .kpi-left { min-width: 0; }
@@ -106,6 +105,7 @@
         color: #7f1d1d;
       }
 
+      /* ✅ Main grid: desktop 2 columns */
       .dash-wrap .grid {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -124,11 +124,16 @@
         display: flex;
         flex-direction: column;
         gap: 10px;
-        min-height: 0;
+        min-width: 0; /* important for charts */
       }
 
-      .dash-wrap section h2 { margin: 0; font-size: 18px; letter-spacing: -0.2px; }
+      .dash-wrap section h2 {
+        margin: 0;
+        font-size: 18px;
+        letter-spacing: -0.2px;
+      }
 
+      /* ✅ Header + tools */
       .dash-wrap .card-header {
         display: flex;
         align-items: flex-start;
@@ -137,9 +142,18 @@
         flex-wrap: wrap;
       }
 
-      .dash-wrap .card-tools { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+      .dash-wrap .card-tools {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
 
-      .dash-wrap label { font-weight: 700; color: var(--muted); font-size: 13px; }
+      .dash-wrap label {
+        font-weight: 700;
+        color: var(--muted);
+        font-size: 13px;
+      }
 
       .dash-wrap select {
         height: 34px;
@@ -147,10 +161,11 @@
         border-radius: 10px;
         border: 1px solid var(--stroke);
         background: #fff;
-        font-family: "Kodchasan",Arial, Helvetica, sans-serif;
+        font-family: "Kodchasan", Arial, Helvetica, sans-serif;
         font-weight: 600;
         color: var(--text);
         outline: none;
+        max-width: 100%;
       }
 
       .dash-wrap select:focus {
@@ -172,34 +187,67 @@
       }
       .dash-wrap .insight strong { color: var(--text); }
 
+      /* ✅ Make charts responsive without “too tall” on small screens */
       .dash-wrap .chart-box {
         position: relative;
         width: 100%;
-        height: 300px;
+        height: clamp(220px, 35vw, 300px);
         display: flex;
         justify-content: center;
         align-items: center;
       }
 
-      .dash-wrap .chart-box--large { height: 380px; }
+      .dash-wrap .chart-box--large {
+        height: clamp(260px, 45vw, 380px);
+      }
 
-      .dash-wrap .chart-box--donut { display: flex; justify-content: center; align-items: center; }
-      .dash-wrap .donut-wrapper { height: 100%; aspect-ratio: 1 / 1; max-width: 320px; }
+      .dash-wrap .chart-box--donut {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
 
-      .dash-wrap .chart-box--donut canvas { width: 100%; height: 100%; }
+      .dash-wrap .donut-wrapper {
+        height: 100%;
+        aspect-ratio: 1 / 1;
+        max-width: min(320px, 72vw); /* ✅ prevent overflow on phones */
+      }
+
       .dash-wrap .chart-box canvas { width: 100%; height: 100%; }
 
-      @media (max-width: 980px) {
-        .dash-wrap .kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      }
+      /* ==========================
+        BREAKPOINTS (Desktop + Mobile only feel)
+      ========================== */
+
+      /* “Mobile/tablet-ish”: stack charts into one column */
       @media (max-width: 900px) {
         .dash-wrap .grid { grid-template-columns: 1fr; }
-        .dash-wrap .chart-box { height: 260px; }
-        .dash-wrap .chart-box--large { height: 320px; }
       }
-      @media (max-width: 520px) {
+
+      /* Phone */
+      @media (max-width: 600px) {
+        .dash-wrap { width: calc(100% - 20px); } /* tighter margins */
+        .dash-wrap section { padding: 14px; }
+
         .dash-wrap .kpi-grid { grid-template-columns: 1fr; }
+
+        /* Stack title + filter nicely */
+        .dash-wrap .card-header {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 8px;
+        }
+
+        /* Smaller dropdown text (menu + selected) */
+        .dash-wrap select,
+        .dash-wrap select option {
+          font-size: 12px;
+        }
+
+        /* Optional: keep filter from being huge */
+        .dash-wrap select { height: 30px; padding: 0 10px; }
       }
+
     </style>
   </head>
 

@@ -282,21 +282,22 @@ function generateCode() {
   return generatedCode;
 }
 document.addEventListener("DOMContentLoaded", () => {
-  if (
-    window.location.pathname.endsWith("login.html") &&
-    sessionStorage.getItem("currentRole") === "patron"
-  ) {
-    let guestDiv = $("guestLogin");
-    guestDiv.style.display = "block";
-    guestDiv.innerHTML = `<a href="FED_ASG.html">Continue as guest</a>`;
-  } else if (
-    window.location.pathname.endsWith("login.html") &&
-    sessionStorage.getItem("currentRole") === "officer"
-  ) {
-    let register = $("register-account");
-    let links = $("links");
-    register.style.display = "none";
-    links.classList.add("nea-alignment");
+  const path = window.location.pathname.toLowerCase(); // safer
+
+  if (path.endsWith("login.html") && sessionStorage.getItem("currentRole") === "patron") {
+    const guestDiv = document.getElementById("guestLogin"); // use real DOM call
+    if (guestDiv) {
+      guestDiv.style.display = "block";
+      guestDiv.innerHTML = `<a href="FED_ASG.html">Continue as guest</a>`;
+    }
+  }
+
+  if (path.endsWith("login.html") && sessionStorage.getItem("currentRole") === "officer") {
+    const register = document.getElementById("register-account");
+    const links = document.getElementById("links");
+
+    if (register) register.style.display = "none";
+    if (links) links.classList.add("nea-alignment");
   }
 });
 
@@ -876,6 +877,9 @@ function renderMenu(menuItems, stall_name) {
 let stopMenuListener = null;
 
 function listenToMenu(stall_name) {
+  const menuRoot = document.querySelector("#menuRoot");
+  if (!menuRoot) return;
+
   if (stopMenuListener) stopMenuListener(); // stop old listener
 
   const menuRef = ref(db, `stalls/${stall_name}/menuItems`);
@@ -947,10 +951,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const params = new URLSearchParams(window.location.search);
   const stallName = params.get("stall");
 
-  if (!stallName) {
-    document.querySelector("#menuRoot").innerHTML = "<p>No stall selected.</p>";
-    return;
+  const menuRoot = document.querySelector("#menuRoot");
+
+if (!stallName) {
+  if (menuRoot) {
+    menuRoot.innerHTML = "<p>No stall selected.</p>";
   }
+  return;
+}
 
   // Optional: show stall name on the page somewhere
   const titleEl = document.getElementById("stallTitle");
@@ -1081,6 +1089,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const stallName = params.get("stall");
 
   if (!stallName) {
+
     menuRoot.innerHTML = "<p>No stall selected.</p>";
     return;
   }
@@ -1108,20 +1117,19 @@ document.addEventListener("click", (e) => {
     item.classList.remove("active");
   });
 });
-
 const hamburger = document.getElementById("hamburger");
 const menu = document.getElementById("menu");
 const overlay = document.getElementById("navOverlay");
 
 function openNav() {
   menu.classList.add("show");
-  overlay.classList.add("show");
+  if (overlay) overlay.classList.add("show");
   document.body.style.overflow = "hidden";
 }
 
 function closeNav() {
   menu.classList.remove("show");
-  overlay.classList.remove("show");
+  if (overlay) overlay.classList.remove("show");
   document.body.style.overflow = "";
 }
 
@@ -1129,14 +1137,7 @@ hamburger.addEventListener("click", () => {
   menu.classList.contains("show") ? closeNav() : openNav();
 });
 
-overlay.addEventListener("click", closeNav);
-
-/* optional: close menu when clicking any nav link (mobile) */
-menu.querySelectorAll("a").forEach((link) => {
-  link.addEventListener("click", () => {
-    if (window.innerWidth <= 768) closeNav();
-  });
-});
+if (overlay) overlay.addEventListener("click", closeNav);
 
 /* =========================
    ORDER MODE (pickup/takeaway)
