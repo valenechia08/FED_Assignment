@@ -832,6 +832,11 @@
         popupMsg.textContent =
           "Your feedback has been submitted. Thank you for helping ShiokLah improve!";
         popup.classList.add("show");
+
+        // ✅ ADDED ONLY THIS: auto go back home after submit
+        setTimeout(() => {
+          window.location.href = "FED_ASG.html";
+        }, 1200);
       });
 
       closePopup.addEventListener("click", () =>
