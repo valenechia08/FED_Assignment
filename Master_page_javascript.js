@@ -1525,3 +1525,108 @@ function toggleFavouriteItem(itemData) {
 // optional: expose for other pages
 window.toggleFavouriteItem = toggleFavouriteItem;
 window.isFavouriteItem = isFavouriteItem;
+
+
+//VENDOR DESKTOP NAVIGATION
+
+  // // Helper: get icon for a main item (normal or logout)
+  // function getMainIcon(main) {
+  //   return main.querySelector(".title-row img") || main.querySelector(".subpoint img");
+  // }
+
+  // // Reset all active states (except optional keep param)
+  // function resetAllActive(keepMain = null) {
+  //   document.querySelectorAll(".main").forEach(m => {
+  //     if (m !== keepMain) m.classList.remove("active");
+
+  //     const ic = getMainIcon(m);
+  //     if (ic && ic.dataset.default) ic.src = ic.dataset.default;
+
+  //     // close any submenu
+  //     const sm = m.querySelector(".submenu");
+  //     if (sm) sm.style.display = "none";
+  //   });
+  // }
+
+  // // MAIN NAV LOGIC
+  // document.querySelectorAll(".main").forEach(main => {
+  //   const icon = getMainIcon(main);
+
+  //   // Hover icon change (only if not active)
+  //   if (icon && icon.dataset.active) {
+  //     main.addEventListener("mouseenter", () => {
+  //       if (!main.classList.contains("active")) icon.src = icon.dataset.active;
+  //     });
+
+  //     main.addEventListener("mouseleave", () => {
+  //       if (!main.classList.contains("active")) icon.src = icon.dataset.default;
+  //     });
+  //   }
+
+  //   const titleRow = main.querySelector(".title-row");
+  //   const submenu = main.querySelector(".submenu");
+
+  //   // If it has submenu (Profile), clicking title toggles open/close
+  //   if (submenu && titleRow) {
+  //     titleRow.addEventListener("click", (e) => {
+  //       e.preventDefault();
+  //       e.stopPropagation();
+
+  //       const isOpen = main.classList.contains("active");
+
+  //       // close others first
+  //       resetAllActive(main);
+
+  //       // toggle this one
+  //       if (isOpen) {
+  //         main.classList.remove("active");
+  //         submenu.style.display = "none";
+  //         if (icon && icon.dataset.default) icon.src = icon.dataset.default;
+  //       } else {
+  //         main.classList.add("active");
+  //         submenu.style.display = "block";
+  //         if (icon && icon.dataset.active) icon.src = icon.dataset.active;
+  //       }
+  //     });
+
+  //     return; // IMPORTANT: don't attach redirect to Profile main item
+  //   }
+
+  //   // If it's a normal clickable page (Dashboard/Edit Menu)
+  //   const link = main.dataset.link;
+  //   if (link) {
+  //     main.addEventListener("click", () => {
+  //       resetAllActive(main);
+  //       main.classList.add("active");
+  //       if (icon && icon.dataset.active) icon.src = icon.dataset.active;
+  //       window.location.href = link;
+  //     });
+  //   }
+  // });
+
+  // // SUBMENU BUTTON REDIRECTS
+  // document.querySelectorAll(".subpoint[data-link]").forEach(btn => {
+  //   btn.addEventListener("click", (e) => {
+  //     e.preventDefault();
+  //     e.stopPropagation();
+  //     window.location.href = btn.dataset.link;
+  //   });
+  // });
+
+  // // ARROW IMAGE HOVER (only where arrow exists)
+  // document.querySelectorAll(".title-row").forEach(row => {
+  //   const arrowImg = row.querySelector(".arrow img");
+  //   if (!arrowImg) return;
+
+  //   row.addEventListener("mouseenter", () => {
+  //     arrowImg.src = "images/orangedown.png";
+  //   });
+  //   row.addEventListener("mouseleave", () => {
+  //     arrowImg.src = "images/down.png";
+  //   });
+  // });
+
+  // // Optional: click outside to close dropdown
+  // document.addEventListener("click", () => {
+  //   resetAllActive(null);
+  // });
