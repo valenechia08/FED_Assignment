@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ShiokLah! • Order Tracking</title>
 
-    <!-- ✅ Fonts (nav uses Kodchasan now) -->
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -17,6 +17,7 @@
       rel="stylesheet"
     />
 
+    <!-- Styles -->
     <link rel="stylesheet" href="Master_page_stylesheet.css" />
 
     <style>
@@ -30,46 +31,27 @@
         --line: #ececec;
         --shadow: 0 14px 40px rgba(0, 0, 0, 0.08);
         --radius: 20px;
-        --soft: rgba(228, 115, 41, 0.09);
         --green: #22c55e;
         --amber: #f59e0b;
-      }
-
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family:
-          "Montserrat",
-          "Segoe UI",
-          system-ui,
-          -apple-system,
-          Arial,
-          sans-serif;
       }
 
       body {
         background: var(--bg);
         color: var(--text);
+        margin: 0;
+        font-family: "Montserrat", sans-serif;
       }
 
-      /* ✅ NAV FONT OVERRIDE (so your external nav uses this font too) */
-      .topNavBar,
-      .topNavBar .top-nav,
-      .topNavBar .menu a,
-      .topNavBar .dropdown a,
-      .topNavBar .nav-btn,
-      .topNavBar button {
+      /* keep nav font consistent */
+      .navrectangle,
+      .navrectangle * {
         font-family: "Kodchasan", sans-serif !important;
       }
 
-      /* =========================
-         PAGE LAYOUT (MORE SPACE)
-      ========================= */
       main {
         width: 92%;
         max-width: 1120px;
-        margin: 34px auto 90px;
+        margin: 28px auto 90px;
       }
 
       .page-head {
@@ -81,9 +63,10 @@
         font-weight: 900;
         letter-spacing: -0.5px;
         color: var(--primary-orange);
+        margin: 0;
       }
       .page-head p {
-        margin-top: 8px;
+        margin: 8px 0 0;
         color: var(--muted);
         font-weight: 600;
       }
@@ -108,14 +91,11 @@
         overflow: hidden;
       }
 
-      /* =========================
-         STATUS BANNER (LIKE YOUR REF)
-      ========================= */
+      /* Status banner */
       .statusBanner {
         background: var(--primary-orange);
         color: #fff;
         padding: 26px 26px 18px;
-        position: relative;
       }
       .statusTop {
         display: flex;
@@ -163,30 +143,6 @@
         font-weight: 800;
       }
 
-      /* Back button (in nav-right) */
-      .nav-btn {
-        background: #e47329;
-        border: 1px solid var(--line);
-        border-radius: 12px;
-        padding: 8px 14px;
-        font-weight: 800;
-        cursor: pointer;
-        transition: 0.15s;
-      }
-
-      .nav-btn:hover {
-        transform: translateY(-1px);
-        border-color: rgba(228, 115, 41, 0.35);
-        color: var(--primary-orange);
-      }
-
-      .nav-btn:active {
-        transform: translateY(0);
-      }
-
-      /* =========================
-         BODY CONTENT
-      ========================= */
       .pad {
         padding: 22px 24px;
       }
@@ -226,7 +182,7 @@
         margin: 18px 0;
       }
 
-      /* Timeline (Received → Preparing → Ready) */
+      /* Timeline */
       .timeline {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
@@ -265,7 +221,6 @@
         font-weight: 700;
         margin-top: 2px;
       }
-
       .step.done .dot {
         background: var(--green);
       }
@@ -273,13 +228,12 @@
         background: var(--amber);
       }
 
-      /* Play button + ready banner */
+      /* CTA */
       .cta {
         margin-top: 18px;
         display: grid;
         gap: 12px;
       }
-
       .playBtn {
         width: 100%;
         padding: 14px 16px;
@@ -312,9 +266,7 @@
         text-align: center;
       }
 
-      /* =========================
-         ORDER SUMMARY (RIGHT)
-      ========================= */
+      /* Summary */
       .summaryTitle {
         font-weight: 900;
         font-size: 18px;
@@ -368,26 +320,7 @@
         font-size: 18px;
       }
 
-      .nextBtn {
-        margin-top: 18px;
-        width: 100%;
-        border: none;
-        border-radius: 999px;
-        padding: 12px 16px;
-        background: var(--primary-orange);
-        color: #fff;
-        font-weight: 900;
-        cursor: pointer;
-        transition: 0.15s;
-      }
-      .nextBtn:hover {
-        transform: translateY(-1px);
-        filter: brightness(0.98);
-      }
-
-      /* =========================
-         GAME MODAL (OPENS ON BUTTON)
-      ========================= */
+      /* Game modal */
       .modal {
         position: fixed;
         inset: 0;
@@ -420,6 +353,7 @@
       .modalHead h3 {
         font-weight: 900;
         font-size: 16px;
+        margin: 0;
       }
       .modalClose {
         border: 1px solid var(--line);
@@ -540,27 +474,28 @@
   </head>
 
   <body>
-    <!-- NAV (YOUR HTML + Back button) -->
-    <nav class="topNavBar">
+    <!-- ✅ NAV (COPY-PASTED FROM YOUR HOME PAGE NAV) -->
+    <nav class="navrectangle">
       <div class="container">
         <div class="top-nav">
           <div class="nav-left">
-            <a href="FED_ASG.html" class="Logo" aria-label="ShiokLah Home">
-              <img src="images/ShiokLah(cropped).jpeg" alt="ShiokLah Logo" />
-            </a>
+            <div class="Logo">
+              <img src="/images/ShiokLah(cropped).jpeg" alt="Logo" />
+            </div>
           </div>
 
           <div class="nav-center">
             <ul class="menu" id="menu">
               <li class="menu-item">
-                <a href="FED_ASG.html">Home</a>
+                <a href="#">Home</a>
                 <ul class="dropdown">
                   <li><a href="FED_ASG.html">Start Order</a></li>
                 </ul>
               </li>
 
               <li class="menu-item">
-                <a href="#">Order History</a>
+                <!-- ✅ FIXED (was href="ord") -->
+                <a href="OrderHistory.html">Order History</a>
                 <ul class="dropdown">
                   <li><a href="OrderHistory.html">Past Orders</a></li>
                 </ul>
@@ -571,13 +506,10 @@
                 <ul class="dropdown">
                   <li><a href="UserProfile.html">Overview</a></li>
                   <li><a href="Analytics.html">Analytics & Reporting</a></li>
-                  <li><a href="CustomerFeedback.html">Customer Feedback</a></li>
                   <li>
-                    <a href="Regulatory&Complianceinfo.html"
-                      >Regulatory & Compliance Info</a
-                    >
+                    <a href="Customer_ReviewPage.html">Customer Feedback</a>
                   </li>
-                  <li><a href="Favourites.html">Favourites</a></li>
+                  <li><a href="Customer_Favourties.html">Favourites</a></li>
                   <li>
                     <a href="Customer Vouchers and Rewards.html">Rewards</a>
                   </li>
@@ -591,14 +523,26 @@
           </div>
 
           <div class="nav-right">
-            <button class="nav-btn" onclick="location.href = 'FED_ASG.html'">
-              Back
+            <button
+              class="reserve-btn"
+              onclick="location.href = 'Reservation.html'"
+            >
+              Reserve A Table
             </button>
+            <div class="hamburger" id="hamburger">
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
           </div>
         </div>
       </div>
     </nav>
 
+    <div class="nav-overlay" id="navOverlay"></div>
+    <hr class="Nav-line" />
+
+    <!-- ✅ PAGE -->
     <main>
       <div class="page-head">
         <h1>Order Tracking</h1>
@@ -611,18 +555,14 @@
           <div class="statusBanner">
             <div class="statusTop">
               <div class="left">
-                <div class="mins" id="minsText">20 mins</div>
-                <div class="msg" id="statusMsg">
-                  Almost done! Just a little longer :)
-                </div>
+                <div class="mins" id="minsText">-- mins</div>
+                <div class="msg" id="statusMsg">Waiting...</div>
               </div>
               <div class="face" id="face">☺</div>
             </div>
 
             <div class="aheadPillWrap">
-              <div class="aheadPill" id="aheadPill">
-                There are 5 customers ahead of you.
-              </div>
+              <div class="aheadPill" id="aheadPill">There are -- ahead.</div>
             </div>
           </div>
 
@@ -630,15 +570,15 @@
             <div class="splitRow">
               <div class="stat">
                 <div class="k">Order Number</div>
-                <div class="v" id="orderNo">#SL58231</div>
+                <div class="v" id="orderNo">--</div>
               </div>
               <div class="stat">
                 <div class="k">Type</div>
-                <div class="v" id="orderType">Self-Pickup</div>
+                <div class="v" id="orderType">--</div>
               </div>
               <div class="stat">
                 <div class="k">Table / Queue</div>
-                <div class="v" id="tableOrQueue">Table 05</div>
+                <div class="v" id="tableOrQueue">--</div>
               </div>
             </div>
 
@@ -692,8 +632,8 @@
             <div class="summaryTitle">Order summary</div>
 
             <div class="summaryMeta">
-              <div class="big" id="summaryTable">Table 05</div>
-              <div id="summaryType">Self-Pickup</div>
+              <div class="big" id="summaryTable">--</div>
+              <div id="summaryType">--</div>
             </div>
 
             <div class="items" id="items"></div>
@@ -703,20 +643,17 @@
                 <div class="name" style="color: var(--muted); font-weight: 800">
                   Packaging and Utensils Fee
                 </div>
-                <div class="price" id="fee">$0.90</div>
+                <div class="price" id="fee">$0.00</div>
               </div>
             </div>
 
             <div class="totalRow">
               <div>Total</div>
-              <div id="total">$11.30</div>
+              <div id="total">$0.00</div>
             </div>
 
-            <button class="nextBtn" id="nextBtn">Next</button>
-
             <div class="note" style="margin-top: 12px">
-              Tip: Order number is used for collection. Please keep your phone
-              available.
+              Tip: open like <b>OrderTracking.html?orderId=SL58231</b>
             </div>
           </div>
         </aside>
@@ -755,342 +692,351 @@
       </div>
     </div>
 
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const order = {
-          orderNo: "#SL58231",
-          type: "Self-Pickup",
-          tableOrQueue: "Table 05",
-          etaMins: 20,
-          ahead: 5,
-          items: [
-            { name: "Set Meal A", price: 5.0 },
-            { name: "Set Meal B", price: 4.0 },
-            { name: "Set Meal C", price: 4.0 },
-          ],
-          fee: 0.9,
-          status: "received",
-          stamps: { received: null, preparing: null, ready: null },
-        };
+    <!-- ✅ NAV hamburger script (in case your Master_page_javascript controls it) -->
+    <script type="module" src="Master_page_javascript.js"></script>
 
-        const $ = (id) => document.getElementById(id);
+    <!-- ✅ FIREBASE + PAGE LOGIC -->
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+      import {
+        getDatabase,
+        ref,
+        onValue,
+      } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-database.js";
 
-        const minsText = $("minsText");
-        const statusMsg = $("statusMsg");
-        const aheadPill = $("aheadPill");
-        const face = $("face");
+      const firebaseConfig = {
+        apiKey: "AIzaSyCoYoGP4NYJPHqA-kV_swajQ4LSQYdyWV4",
+        authDomain: "grp3fedapp.firebaseapp.com",
+        databaseURL:
+          "https://grp3fedapp-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "grp3fedapp",
+        storageBucket: "grp3fedapp.firebasestorage.app",
+        messagingSenderId: "791146838729",
+        appId: "1:791146838729:web:446baee191feeb036e2b18",
+      };
 
-        const orderNo = $("orderNo");
-        const orderType = $("orderType");
-        const tableOrQueue = $("tableOrQueue");
+      const app = initializeApp(firebaseConfig);
+      const db = getDatabase(app);
 
-        const tReceived = $("tReceived");
-        const tPreparing = $("tPreparing");
-        const tReady = $("tReady");
+      const $ = (id) => document.getElementById(id);
 
-        const readyBanner = $("readyBanner");
-        const playBtn = $("playBtn");
+      const steps = Array.from(document.querySelectorAll(".step"));
 
+      function pad2(n) {
+        return String(n).padStart(2, "0");
+      }
+      function nowHHMM() {
+        const d = new Date();
+        return `${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
+      }
+      function escapeHtml(str) {
+        return String(str)
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#039;");
+      }
+
+      function mark(step, cls) {
+        const el = steps.find((x) => x.dataset.step === step);
+        if (el) el.classList.add(cls);
+      }
+
+      function applyStatus(status) {
+        steps.forEach((s) => s.classList.remove("done", "active"));
+
+        if (status === "received") mark("received", "active");
+        if (status === "preparing") {
+          mark("received", "done");
+          mark("preparing", "active");
+        }
+        if (status === "ready") {
+          mark("received", "done");
+          mark("preparing", "done");
+          mark("ready", "active");
+        }
+      }
+
+      function renderSummary(items, fee) {
         const itemsEl = $("items");
-        const feeEl = $("fee");
-        const totalEl = $("total");
+        itemsEl.innerHTML = "";
 
-        function pad2(n) {
-          return String(n).padStart(2, "0");
-        }
-        function nowHHMM() {
-          const d = new Date();
-          return `${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
-        }
+        let total = 0;
+        (items || []).forEach((it) => {
+          const name = it.name ?? it.itemName ?? "Item";
+          const price = Number(it.price ?? it.itemPrice ?? 0);
 
-        function escapeHtml(str) {
-          return String(str)
-            .replaceAll("&", "&amp;")
-            .replaceAll("<", "&lt;")
-            .replaceAll(">", "&gt;")
-            .replaceAll('"', "&quot;")
-            .replaceAll("'", "&#039;");
-        }
+          total += price;
 
-        function renderSummary() {
-          itemsEl.innerHTML = "";
-          order.items.forEach((it) => {
-            const row = document.createElement("div");
-            row.className = "item";
-            row.innerHTML = `
-              <div class="name">${escapeHtml(it.name)}</div>
-              <div class="price">$${Number(it.price).toFixed(2)}</div>
-            `;
-            itemsEl.appendChild(row);
-          });
+          const row = document.createElement("div");
+          row.className = "item";
+          row.innerHTML = `
+            <div class="name">${escapeHtml(name)}</div>
+            <div class="price">$${price.toFixed(2)}</div>
+          `;
+          itemsEl.appendChild(row);
+        });
 
-          feeEl.textContent = `$${Number(order.fee).toFixed(2)}`;
+        const feeNum = Number(fee ?? 0);
+        $("fee").textContent = `$${feeNum.toFixed(2)}`;
+        $("total").textContent = `$${(total + feeNum).toFixed(2)}`;
+      }
 
-          const itemsTotal = order.items.reduce(
-            (sum, it) => sum + Number(it.price || 0),
-            0,
-          );
-          totalEl.textContent = `$${(itemsTotal + Number(order.fee || 0)).toFixed(2)}`;
+      function applyOrderToUI(order) {
+        const etaMins = Math.max(0, Number(order.etaMins ?? order.eta ?? 0));
+        const ahead = Math.max(0, Number(order.ahead ?? 0));
+        const status = (order.status || "received").toLowerCase();
 
-          $("summaryTable").textContent = order.tableOrQueue;
-          $("summaryType").textContent = order.type;
-        }
+        $("minsText").textContent = `${etaMins} mins`;
+        $("aheadPill").textContent =
+          `There are ${ahead} customers ahead of you.`;
 
-        const steps = Array.from(document.querySelectorAll(".step"));
+        $("orderNo").textContent = order.orderNo || "--";
+        $("orderType").textContent = order.type || "--";
+        $("tableOrQueue").textContent = order.tableOrQueue || "--";
 
-        function mark(step, cls) {
-          const el = steps.find((x) => x.dataset.step === step);
-          if (el) el.classList.add(cls);
-        }
+        $("summaryTable").textContent = order.tableOrQueue || "--";
+        $("summaryType").textContent = order.type || "--";
 
-        function setStatus(newStatus) {
-          order.status = newStatus;
-          steps.forEach((s) => s.classList.remove("done", "active"));
+        const stamps = order.stamps || {};
+        $("tReceived").textContent = stamps.received || order.receivedAt || "—";
+        $("tPreparing").textContent =
+          stamps.preparing || order.preparingAt || "—";
+        $("tReady").textContent = stamps.ready || order.readyAt || "—";
 
-          if (newStatus === "received") mark("received", "active");
-          if (newStatus === "preparing") {
-            mark("received", "done");
-            mark("preparing", "active");
-          }
-          if (newStatus === "ready") {
-            mark("received", "done");
-            mark("preparing", "done");
-            mark("ready", "active");
-          }
-        }
+        applyStatus(status);
 
-        function renderHeader() {
-          minsText.textContent = `${Math.max(0, order.etaMins)} mins`;
-
-          if (order.status === "ready") {
-            statusMsg.textContent = "Your food is ready! Please collect now.";
-            face.textContent = "😄";
-          } else if (order.etaMins <= 5) {
-            statusMsg.textContent = "Almost done! Just a little longer :)";
-            face.textContent = "🙂";
-          } else {
-            statusMsg.textContent = "Hang tight — we’re preparing your order.";
-            face.textContent = "☺";
-          }
-
-          aheadPill.textContent = `There are ${order.ahead} customers ahead of you.`;
-
-          orderNo.textContent = order.orderNo;
-          orderType.textContent = order.type;
-          tableOrQueue.textContent = order.tableOrQueue;
+        if (status === "ready") {
+          $("statusMsg").textContent =
+            "Your food is ready! Please collect now.";
+          $("face").textContent = "😄";
+          $("readyBanner").style.display = "block";
+          $("playBtn").disabled = true;
+          $("playBtn").style.opacity = "0.6";
+          $("playBtn").style.cursor = "not-allowed";
+          closeGame("Order is ready — game closed automatically ✅");
+        } else if (etaMins <= 5) {
+          $("statusMsg").textContent = "Almost done! Just a little longer :)";
+          $("face").textContent = "🙂";
+          $("readyBanner").style.display = "none";
+          $("playBtn").disabled = false;
+          $("playBtn").style.opacity = "1";
+          $("playBtn").style.cursor = "pointer";
+        } else {
+          $("statusMsg").textContent =
+            "Hang tight — we’re preparing your order.";
+          $("face").textContent = "☺";
+          $("readyBanner").style.display = "none";
+          $("playBtn").disabled = false;
+          $("playBtn").style.opacity = "1";
+          $("playBtn").style.cursor = "pointer";
         }
 
-        function renderStamps() {
-          tReceived.textContent = order.stamps.received || "—";
-          tPreparing.textContent = order.stamps.preparing || "—";
-          tReady.textContent = order.stamps.ready || "—";
+        renderSummary(order.items || [], order.fee ?? 0);
+      }
+
+      // ====== Match game ======
+      const modal = $("gameModal");
+      const closeGameBtn = $("closeGameBtn");
+      const board = $("board");
+      const movesEl = $("moves");
+      const matchesEl = $("matches");
+      const newGameBtn = $("newGameBtn");
+      const hintBtn = $("hintBtn");
+      const gameNote = $("gameNote");
+      const playBtn = $("playBtn");
+
+      const ICONS = ["🍜", "🍗", "🍛", "🥤", "🥟", "🍰", "🍢", "🍳"];
+      let tiles = [];
+      let firstPick = null;
+      let lock = false;
+      let moves = 0;
+      let matches = 0;
+      let currentStatus = "received";
+
+      function shuffle(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+      }
+
+      function openGame() {
+        if (currentStatus === "ready") return;
+        modal.classList.add("show");
+        modal.setAttribute("aria-hidden", "false");
+      }
+
+      function closeGame(reason = "") {
+        modal.classList.remove("show");
+        modal.setAttribute("aria-hidden", "true");
+        if (reason) gameNote.textContent = reason;
+      }
+
+      function newGame() {
+        moves = 0;
+        matches = 0;
+        firstPick = null;
+        lock = false;
+        movesEl.textContent = "0";
+        matchesEl.textContent = "0";
+        gameNote.textContent =
+          "Tap 2 cards. If they match, they stay open. If not, they flip back.";
+
+        const picks = shuffle([...ICONS]).slice(0, 6);
+        tiles = shuffle([...picks, ...picks]).map((icon, i) => ({
+          id: i,
+          icon,
+          revealed: false,
+          matched: false,
+        }));
+
+        renderBoard();
+      }
+
+      function renderBoard() {
+        board.innerHTML = "";
+        tiles.forEach((t) => {
+          const el = document.createElement("div");
+          el.className = "tile";
+          if (t.revealed) el.classList.add("revealed");
+          if (t.matched) el.classList.add("matched");
+
+          el.innerHTML = `
+            <div class="back">🟧</div>
+            <div class="front">${t.icon}</div>
+          `;
+          el.addEventListener("click", () => onTileClick(t.id));
+          board.appendChild(el);
+        });
+      }
+
+      function setTile(id, patch) {
+        tiles = tiles.map((t) => (t.id === id ? { ...t, ...patch } : t));
+      }
+
+      function onTileClick(id) {
+        if (lock) return;
+        if (currentStatus === "ready") return;
+
+        const t = tiles.find((x) => x.id === id);
+        if (!t || t.matched || t.revealed) return;
+
+        setTile(id, { revealed: true });
+        renderBoard();
+
+        if (firstPick === null) {
+          firstPick = id;
+          return;
         }
 
-        const modal = $("gameModal");
-        const closeGameBtn = $("closeGameBtn");
-        const board = $("board");
-        const movesEl = $("moves");
-        const matchesEl = $("matches");
-        const newGameBtn = $("newGameBtn");
-        const hintBtn = $("hintBtn");
-        const gameNote = $("gameNote");
+        moves++;
+        movesEl.textContent = String(moves);
 
-        const ICONS = ["🍜", "🍗", "🍛", "🥤", "🥟", "🍰", "🍢", "🍳"];
-        let tiles = [];
-        let firstPick = null;
-        let lock = false;
-        let moves = 0;
-        let matches = 0;
+        const a = tiles.find((x) => x.id === firstPick);
+        const b = tiles.find((x) => x.id === id);
+        if (!a || !b) return;
 
-        function shuffle(arr) {
-          for (let i = arr.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [arr[i], arr[j]] = [arr[j], arr[i]];
-          }
-          return arr;
+        if (a.icon === b.icon) {
+          setTile(a.id, { matched: true });
+          setTile(b.id, { matched: true });
+          matches++;
+          matchesEl.textContent = String(matches);
+          firstPick = null;
+          renderBoard();
+
+          if (matches === 6)
+            gameNote.textContent = `You won in ${moves} moves! 🎉`;
+          return;
         }
 
-        function openGame() {
-          if (order.status === "ready") return;
-          modal.classList.add("show");
-          modal.setAttribute("aria-hidden", "false");
-        }
-
-        function closeGame(reason = "") {
-          modal.classList.remove("show");
-          modal.setAttribute("aria-hidden", "true");
-          if (reason) gameNote.textContent = reason;
-        }
-
-        function newGame() {
-          moves = 0;
-          matches = 0;
+        lock = true;
+        setTimeout(() => {
+          setTile(a.id, { revealed: false });
+          setTile(b.id, { revealed: false });
           firstPick = null;
           lock = false;
-          movesEl.textContent = "0";
-          matchesEl.textContent = "0";
-          gameNote.textContent =
-            "Tap 2 cards. If they match, they stay open. If not, they flip back.";
-
-          const picks = shuffle([...ICONS]).slice(0, 6);
-          tiles = shuffle([...picks, ...picks]).map((icon, i) => ({
-            id: i,
-            icon,
-            revealed: false,
-            matched: false,
-          }));
-
           renderBoard();
-        }
+        }, 650);
+      }
 
-        function renderBoard() {
-          board.innerHTML = "";
-          tiles.forEach((t) => {
-            const el = document.createElement("div");
-            el.className = "tile";
-            if (t.revealed) el.classList.add("revealed");
-            if (t.matched) el.classList.add("matched");
+      function hint() {
+        if (currentStatus === "ready") return;
 
-            el.innerHTML = `
-              <div class="back">🟧</div>
-              <div class="front">${t.icon}</div>
-            `;
-            el.addEventListener("click", () => onTileClick(t.id));
-            board.appendChild(el);
-          });
-        }
+        const hidden = tiles.filter((t) => !t.matched && !t.revealed);
+        if (hidden.length < 2) return;
 
-        function setTile(id, patch) {
-          tiles = tiles.map((t) => (t.id === id ? { ...t, ...patch } : t));
-        }
+        const a = hidden[Math.floor(Math.random() * hidden.length)];
+        let b = hidden[Math.floor(Math.random() * hidden.length)];
+        while (b.id === a.id)
+          b = hidden[Math.floor(Math.random() * hidden.length)];
 
-        function onTileClick(id) {
-          if (lock) return;
-          if (order.status === "ready") return;
+        setTile(a.id, { revealed: true });
+        setTile(b.id, { revealed: true });
+        renderBoard();
 
-          const t = tiles.find((x) => x.id === id);
-          if (!t || t.matched || t.revealed) return;
-
-          setTile(id, { revealed: true });
+        lock = true;
+        setTimeout(() => {
+          const aa = tiles.find((t) => t.id === a.id);
+          const bb = tiles.find((t) => t.id === b.id);
+          if (aa && !aa.matched) setTile(a.id, { revealed: false });
+          if (bb && !bb.matched) setTile(b.id, { revealed: false });
+          lock = false;
           renderBoard();
+        }, 650);
+      }
 
-          if (firstPick === null) {
-            firstPick = id;
-            return;
-          }
-
-          moves++;
-          movesEl.textContent = String(moves);
-
-          const a = tiles.find((x) => x.id === firstPick);
-          const b = tiles.find((x) => x.id === id);
-          if (!a || !b) return;
-
-          if (a.icon === b.icon) {
-            setTile(a.id, { matched: true });
-            setTile(b.id, { matched: true });
-            matches++;
-            matchesEl.textContent = String(matches);
-            firstPick = null;
-            renderBoard();
-
-            if (matches === 6)
-              gameNote.textContent = `You won in ${moves} moves! 🎉`;
-            return;
-          }
-
-          lock = true;
-          setTimeout(() => {
-            setTile(a.id, { revealed: false });
-            setTile(b.id, { revealed: false });
-            firstPick = null;
-            lock = false;
-            renderBoard();
-          }, 650);
-        }
-
-        function hint() {
-          if (order.status === "ready") return;
-
-          const hidden = tiles.filter((t) => !t.matched && !t.revealed);
-          if (hidden.length < 2) return;
-
-          const a = hidden[Math.floor(Math.random() * hidden.length)];
-          let b = hidden[Math.floor(Math.random() * hidden.length)];
-          while (b.id === a.id)
-            b = hidden[Math.floor(Math.random() * hidden.length)];
-
-          setTile(a.id, { revealed: true });
-          setTile(b.id, { revealed: true });
-          renderBoard();
-
-          lock = true;
-          setTimeout(() => {
-            const aa = tiles.find((t) => t.id === a.id);
-            const bb = tiles.find((t) => t.id === b.id);
-            if (aa && !aa.matched) setTile(a.id, { revealed: false });
-            if (bb && !bb.matched) setTile(b.id, { revealed: false });
-            lock = false;
-            renderBoard();
-          }, 650);
-        }
-
-        const DEMO_TICK_MS = 3000;
-
-        function tick() {
-          if (order.status === "ready") return;
-
-          order.etaMins = Math.max(0, order.etaMins - 1);
-
-          if (order.ahead > 0) {
-            order.ahead = Math.max(
-              0,
-              order.ahead - (Math.random() < 0.7 ? 1 : 0),
-            );
-          }
-
-          if (order.etaMins <= 14 && order.status === "received") {
-            setStatus("preparing");
-            order.stamps.preparing = nowHHMM();
-          }
-          if (order.etaMins <= 0) {
-            setStatus("ready");
-            order.stamps.ready = nowHHMM();
-
-            readyBanner.style.display = "block";
-            playBtn.disabled = true;
-            playBtn.style.opacity = "0.6";
-            playBtn.style.cursor = "not-allowed";
-
-            closeGame("Order is ready — game closed automatically ✅");
-          }
-
-          renderHeader();
-          renderStamps();
-        }
-
-        playBtn.addEventListener("click", openGame);
-        closeGameBtn.addEventListener("click", () => closeGame());
-        modal.addEventListener("click", (e) => {
-          if (e.target === modal) closeGame();
-        });
-
-        newGameBtn.addEventListener("click", newGame);
-        hintBtn.addEventListener("click", hint);
-
-        $("nextBtn").addEventListener("click", () => {
-          alert("Next clicked (link this to your next page).");
-        });
-
-        order.stamps.received = nowHHMM();
-        setStatus(order.status);
-        renderHeader();
-        renderStamps();
-        renderSummary();
-        newGame();
-
-        setInterval(tick, DEMO_TICK_MS);
+      playBtn.addEventListener("click", openGame);
+      closeGameBtn.addEventListener("click", () => closeGame());
+      modal.addEventListener("click", (e) => {
+        if (e.target === modal) closeGame();
       });
+      newGameBtn.addEventListener("click", newGame);
+      hintBtn.addEventListener("click", hint);
+
+      newGame();
+
+      // ====== Firebase listener ======
+      // open like: OrderTracking.html?orderId=SL58231
+      const params = new URLSearchParams(location.search);
+      const orderId = params.get("orderId") || "SL58231";
+
+      const orderRef = ref(db, `orders/${orderId}`);
+
+      onValue(orderRef, (snapshot) => {
+        const data = snapshot.val();
+        if (!data) return;
+
+        // store currentStatus for game auto-close
+        currentStatus = (data.status || "received").toLowerCase();
+
+        // If teacher stores items as object in Firebase, convert to array
+        const items = Array.isArray(data.items)
+          ? data.items
+          : data.items
+            ? Object.values(data.items)
+            : [];
+
+        applyOrderToUI({
+          orderNo: data.orderNo || `#${orderId}`,
+          type: data.type || "Self-Pickup",
+          tableOrQueue: data.tableOrQueue || "Table 05",
+          etaMins: Number(data.etaMins ?? data.eta ?? 0),
+          ahead: Number(data.ahead ?? 0),
+          status: data.status || "received",
+          stamps: data.stamps || {},
+          items,
+          fee: Number(data.fee ?? 0.9),
+          receivedAt: data.receivedAt || null,
+          preparingAt: data.preparingAt || null,
+          readyAt: data.readyAt || null,
+        });
+      });
+
+      // Optional: if there's no stamp yet, show received time when page first loads
+      $("tReceived").textContent = nowHHMM();
     </script>
   </body>
 </html>
