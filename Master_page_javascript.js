@@ -425,21 +425,32 @@ document.addEventListener("DOMContentLoaded", () => {
 // });
 
 //loading stalls(bananaleafhtml)
-async function loadStallHeader(stallName) {
-  const snap = await get(ref(db, `stalls/${stallName}`));
-  if (!snap.exists()) return;
+// async function loadStallHeader(stallName) {
+//   const snap = await get(ref(db, `stalls/${stallName}`));
+//   if (!snap.exists()) return;
 
-  const stall = snap.val();
+//   const stall = snap.val();
 
-  document.getElementById("stallName").textContent = stallName;
-  document.getElementById("stallRating").textContent = stall.rating;
-  document.getElementById("stallCuisine").textContent = stall.cuisine;
-  document.getElementById("stallImg").src = stall.image;
-}
+//   document.getElementById("stallName").textContent = stallName;
+//   document.getElementById("stallRating").textContent = stall.rating;
+//   document.getElementById("stallCuisine").textContent = stall.cuisine;
+//   document.getElementById("stallImg").src = stall.image;
+// }
+// document.addEventListener("DOMContentLoaded", () => {
+//   if (document.getElementById("stallImg")) {
+//     loadStallHeader("Banana Leaf Nasi Lemak");
+//   }
+// });
 document.addEventListener("DOMContentLoaded", () => {
-  if (document.getElementById("stallImg")) {
-    loadStallHeader("Banana Leaf Nasi Lemak");
-  }
+  const stallImg = document.getElementById("stallImg");
+  if (!stallImg) return; // not stall page
+
+  const params = new URLSearchParams(window.location.search);
+  const stallName = params.get("stall");
+
+  if (!stallName) return;
+
+  loadStallHeader(stallName); // ✅ dynamic
 });
 
 //Create Stall Object & Menu Item
@@ -533,7 +544,61 @@ async function addMenuItem(
     true,
     "images/Set Meal D Picture.jpg",
   );
-
+  await uploadStall(
+    "Boon Lay Fried Carrot Cake & Kway Teow Mee",
+    "Chinese",
+    4.2,
+    "images/Boon Lay Fried Carrot Cake & Kway Teow Mee Picture.jpg",
+  );
+  await addMenuItem(
+    "Boon Lay Fried Carrot Cake & Kway Teow Mee",
+    "Black Carrot Cake (Small)",
+    3,
+    true,
+    "images/Black Carrot Cake Picture.jpg",
+  );
+  await addMenuItem(
+    "Boon Lay Fried Carrot Cake & Kway Teow Mee",
+    "Black Carrot Cake (Medium)",
+    4,
+    true,
+    "images/Black Carrot Cake Picture.jpg",
+  );
+  await addMenuItem(
+    "Boon Lay Fried Carrot Cake & Kway Teow Mee",
+    "Black Carrot Cake (Large)",
+    5,
+    true,
+    "images/Black Carrot Cake Picture.jpg",
+  );
+  await addMenuItem(
+    "Boon Lay Fried Carrot Cake & Kway Teow Mee",
+    "White Carrot Cake (Small)",
+    3,
+    true,
+    "images/White Carrot Cake Picture.jpg",
+  );
+  await addMenuItem(
+    "Boon Lay Fried Carrot Cake & Kway Teow Mee",
+    "White Carrot Cake (Medium)",
+    4,
+    true,
+    "images/White Carrot Cake Picture.jpg",
+  );
+  await addMenuItem(
+    "Boon Lay Fried Carrot Cake & Kway Teow Mee",
+    "White Carrot Cake (Large)",
+    5,
+    true,
+    "images/White Carrot Cake Picture.jpg",
+  );
+  await addMenuItem(
+    "Boon Lay Fried Carrot Cake & Kway Teow Mee",
+    "Char Kway Teow",
+    4.5,
+    true,
+    "images/Char Kway Teow Picture.webp",
+  );
   await uploadStall(
     "Boon Lay Lu Wei",
     "Chinese",
@@ -547,18 +612,32 @@ async function addMenuItem(
     "images/I.Mohamed Ismail Food Stall Picture.jpg",
   );
   await uploadStall(
-    "Boon Lay Fried Carrot Cake & Kway Teow Mee",
-    "Chinese",
-    4.2,
-    "images/Boon Lay Fried Carrot Cake & Kway Teow Mee Picture.jpg",
-  );
-  await uploadStall(
     "Big Daddy’s Chicken & Noodle Stall",
     "Others",
     4.5,
     "images/Big Daddy's Chicken & Noodle Picture.webp",
   );
 })();
+async function loadStallInfo(stallName) {
+  const snap = await get(ref(db, `stalls/${stallName}`));
+
+  if (!snap.exists()) {
+    console.error("Stall not found:", stallName);
+    return;
+  }
+
+  const stall = snap.val();
+
+  const img = document.getElementById("stallImg");
+  const name = document.getElementById("stallName");
+  const rating = document.getElementById("stallRating");
+  const cuisine = document.getElementById("stallCuisine");
+
+  if (img) img.src = stall.image;
+  if (name) name.textContent = stallName;
+  if (rating) rating.textContent = stall.rating;
+  if (cuisine) cuisine.textContent = stall.cuisine;
+}
 
 //Update cart number
 function updateCartUI() {
@@ -725,17 +804,38 @@ function renderStalls(stalls) {
     card.appendChild(img);
     card.appendChild(info);
 
-    card.onclick = () => {
-      if (stall_name === "Banana Leaf Nasi Lemak") {
-        window.location.href = "BananaLeafNasiLemak.html";
-      } else {
-        listenToMenu(stall_name);
-      }
-    };
+    // card.onclick = () => {
+    //   if (stall_name === "Banana Leaf Nasi Lemak") {
+    //     window.location.href = "BananaLeafNasiLemak.html";
+    //   } else if (stall_name === "Boon Lay Fried Carrot Cake & Kway Teow Mee") {
+    //     window.location.href = "BananaLeafNasiLemak.html";
+    //   } else {
+    //     listenToMenu(stall_name);
+    //   }
+    // };
+    card.addEventListener("click", () => {
+      const url = `FoodStalls.html?stall=${encodeURIComponent(stall_name)}`;
+      window.location.href = url;
+    });
 
     grid.appendChild(card);
   }
 }
+document.addEventListener("DOMContentLoaded", () => {
+  const params = new URLSearchParams(window.location.search);
+  const stallName = params.get("stall");
+
+  if (!stallName) {
+    document.querySelector("#menuRoot").innerHTML = "<p>No stall selected.</p>";
+    return;
+  }
+
+  // Optional: show stall name on the page somewhere
+  const titleEl = document.getElementById("stallTitle");
+  if (titleEl) titleEl.textContent = stallName;
+
+  listenToMenu(stallName);
+});
 
 /* =========================
    FETCH STALLS (ONCE)
@@ -851,12 +951,30 @@ exports.placeOrder = functions.https.onRequest(async (req, res) => {
   */
 
 //Update cart number
+// document.addEventListener("DOMContentLoaded", () => {
+//   updateCartUI();
+// });
 document.addEventListener("DOMContentLoaded", () => {
   updateCartUI();
+
+  const menuRoot = document.querySelector("#menuRoot");
+  if (!menuRoot) return; // not stall page
+
+  const params = new URLSearchParams(window.location.search);
+  const stallName = params.get("stall");
+
+  if (!stallName) {
+    menuRoot.innerHTML = "<p>No stall selected.</p>";
+    return;
+  }
+
+  // ✅ load stall header info
+  loadStallInfo(stallName);
 });
 
 // example
-listenToMenu("Banana Leaf Nasi Lemak");
+// listenToMenu("Banana Leaf Nasi Lemak");
+// listenToMenu("Boon Lay Fried Carrot Cake & Kway Teow Mee");
 
 // Top Navigation - only close dropdowns when clicking OUTSIDE the nav
 document.addEventListener("click", (e) => {
