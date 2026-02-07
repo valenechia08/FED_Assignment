@@ -118,7 +118,86 @@
       .subtitle {
         text-align: center;
         color: #555;
-        margin-bottom: 40px;
+        margin-bottom: 20px;
+      }
+
+      /* =========================================================
+         ADDED: PROMO CODE BOX (styling)
+      ========================================================= */
+      .promo-wrap {
+        max-width: 1100px;
+        margin: 0 auto 28px;
+        background: #fff;
+        border: 1px solid #eee;
+        border-radius: 18px;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+        padding: 18px 18px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+
+      .promo-left {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        min-width: 220px;
+      }
+
+      .promo-title {
+        font-weight: 800;
+        color: #111;
+        font-size: 16px;
+      }
+
+      .promo-sub {
+        color: #555;
+        font-size: 13px;
+      }
+
+      .promo-right {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        flex: 1;
+      }
+
+      .promo-input {
+        height: 42px;
+        padding: 0 12px;
+        border-radius: 999px;
+        border: 1px solid #e5e5e5;
+        outline: none;
+        min-width: 240px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+      }
+
+      .promo-input:focus {
+        border-color: rgba(228, 115, 41, 0.5);
+        box-shadow: 0 0 0 3px rgba(228, 115, 41, 0.12);
+      }
+
+      .promo-msg {
+        width: 100%;
+        font-size: 13px;
+        color: #555;
+        margin-top: 2px;
+      }
+
+      .promo-msg.ok {
+        color: #1f8b2e;
+        font-weight: 700;
+      }
+
+      .promo-msg.bad {
+        color: #c0392b;
+        font-weight: 700;
       }
 
       /* stable layout */
@@ -463,6 +542,31 @@
       <h1>🎁 Rewards</h1>
       <p class="subtitle">Unlock exclusive offers just for you</p>
 
+      <!-- =========================================================
+           ADDED: PROMO CODE INPUT FEATURE (same page)
+      ========================================================= -->
+      <div class="promo-wrap" id="promo-wrap">
+        <div class="promo-left">
+          <div class="promo-title">Have a promo code?</div>
+          <div class="promo-sub">
+            Enter a code to unlock rewards or redeem a voucher.
+          </div>
+        </div>
+
+        <div class="promo-right">
+          <input
+            class="promo-input"
+            id="promo-input"
+            type="text"
+            placeholder="e.g. SAVE15"
+            autocomplete="off"
+            inputmode="latin"
+          />
+          <button class="btn" id="promo-apply">Apply</button>
+          <div class="promo-msg" id="promo-msg"></div>
+        </div>
+      </div>
+
       <div class="rewards-container" id="rewards-grid">
         <!-- Existing rewards -->
         <div class="card" data-reward-id="discount-20">
@@ -793,6 +897,11 @@
         const EARNED_KEY = "shiok_earned_rewards_v1";
         const COOLDOWN_KEY = "shiok_spin_cooldown_v1";
 
+        // =========================================================
+        // ADDED: PROMO CODE STORAGE KEY
+        // =========================================================
+        const PROMO_KEY = "shiok_applied_promos_v1";
+
         const getJSON = (k, fallback) => {
           try {
             const v = localStorage.getItem(k);
@@ -871,6 +980,23 @@
             Notification.requestPermission().then((perm) => {
               if (perm === "granted") new Notification(title, { body });
             });
+          }
+        }
+
+        // =========================================================
+        // ADDED: Make sure notifications get permission via a user action
+        // (called inside click handlers like Spin / Apply)
+        // =========================================================
+        async function ensureNotificationsAllowed() {
+          if (!("Notification" in window)) return false;
+          if (Notification.permission === "granted") return true;
+          if (Notification.permission === "denied") return false;
+
+          try {
+            const perm = await Notification.requestPermission();
+            return perm === "granted";
+          } catch {
+            return false;
           }
         }
 
@@ -1152,7 +1278,13 @@
 
         let spinning = false;
 
-        spinBtn.addEventListener("click", () => {
+        spinBtn.addEventListener("click", async () => {
+          // =========================================================
+          // ADDED: request notification permission on the SAME click
+          // so your "real notification" can show after a win.
+          // =========================================================
+          await ensureNotificationsAllowed();
+
           if (spinning) return;
           if (spinBtn.disabled) return;
 
@@ -1171,7 +1303,7 @@
 
           wheel.addEventListener(
             "transitionend",
-            function handler() {
+            async function handler() {
               wheel.removeEventListener("transitionend", handler);
               wheel.style.transition = "";
 
@@ -1180,10 +1312,16 @@
               // Only show popup AFTER stop
               if (reward.key === "try") {
                 showPopup("You get a second chance to spin!");
-                // no cooldown
+
+                // ADDED: real notification for "Try Again" too
+                notifyNewReward(
+                  "ShiokLah! Lucky Spin 🎡",
+                  "You get a second chance to spin!",
+                );
               } else {
                 const rewardId = `spin-${reward.key}`;
 
+                // Update UI immediately (adds new card before spin card)
                 addEarnedReward({
                   id: rewardId,
                   title: reward.title,
@@ -1193,9 +1331,19 @@
 
                 confettiBurst();
                 showPopup(`You won: ${reward.title}! 🎉`);
+
+                // =========================================================
+                // CHANGED/ADDED: "REAL NOTIFICATION" that rewards updated
+                // (1) prize notification
+                // (2) explicit "Rewards updated" notification
+                // =========================================================
                 notifyNewReward(
                   "ShiokLah! Reward Unlocked 🎁",
                   `You received: ${reward.title}`,
+                );
+                notifyNewReward(
+                  "ShiokLah! Rewards Updated ✅",
+                  "Your Rewards page has been updated.",
                 );
 
                 if (ENABLE_COOLDOWN) {
@@ -1212,6 +1360,173 @@
             { once: true },
           );
         });
+
+        // =========================================================
+        // ADDED: PROMO CODE INPUT FEATURE LOGIC
+        // - Enter code, unlock a locked reward OR add a voucher
+        // - Persists used promo codes
+        // =========================================================
+        const promoInput = document.getElementById("promo-input");
+        const promoApply = document.getElementById("promo-apply");
+        const promoMsg = document.getElementById("promo-msg");
+        const appliedPromos = new Set(getJSON(PROMO_KEY, []));
+
+        function setPromoMessage(text, type) {
+          if (!promoMsg) return;
+          promoMsg.textContent = text || "";
+          promoMsg.classList.remove("ok", "bad");
+          if (type === "ok") promoMsg.classList.add("ok");
+          if (type === "bad") promoMsg.classList.add("bad");
+        }
+
+        function unlockCard(card) {
+          if (!card) return false;
+          if (!card.classList.contains("locked")) return false;
+
+          card.classList.remove("locked");
+
+          // Replace locked button with a normal Use now button (without deleting existing HTML elsewhere)
+          const oldBtn = card.querySelector("button.btn.locked");
+          if (oldBtn) oldBtn.remove();
+
+          const newBtn = document.createElement("button");
+          newBtn.className = "btn use-btn";
+          newBtn.textContent = "Use now";
+          card.appendChild(newBtn);
+
+          newBtn.addEventListener("click", () => {
+            if (card.classList.contains("used")) return;
+            const id = card.getAttribute("data-reward-id");
+            applyUsedState(card, newBtn);
+            if (id) {
+              usedIds.add(id);
+              setJSON(USED_KEY, Array.from(usedIds));
+            }
+          });
+
+          return true;
+        }
+
+        // Map promo codes to actions
+        // - SAVE15 unlocks the existing Save $15 locked card (if still locked)
+        // - FREETAK unlocks Free Takeaway (example code)
+        // - SHIOK5 / SHIOK10 / SHIOK15 add a voucher as an earned reward
+        const PROMO_ACTIONS = {
+          SAVE15: {
+            type: "unlock",
+            rewardId: "save-15",
+            msg: "Unlocked: Save $15!",
+          },
+          FREETAK: {
+            type: "unlock",
+            rewardId: "free-takeaway",
+            msg: "Unlocked: Free Takeaway!",
+          },
+          SHIOK5: {
+            type: "add",
+            reward: {
+              id: "promo-5",
+              title: "$5 Voucher",
+              desc: "Use $5 off your next order",
+              icon: "💵",
+            },
+            msg: "Added: $5 Voucher to your rewards!",
+          },
+          SHIOK10: {
+            type: "add",
+            reward: {
+              id: "promo-10",
+              title: "$10 Voucher",
+              desc: "Use $10 off your next order",
+              icon: "💵",
+            },
+            msg: "Added: $10 Voucher to your rewards!",
+          },
+          SHIOK15: {
+            type: "add",
+            reward: {
+              id: "promo-15",
+              title: "$15 Voucher",
+              desc: "Use $15 off your next order",
+              icon: "💵",
+            },
+            msg: "Added: $15 Voucher to your rewards!",
+          },
+        };
+
+        async function applyPromoCode() {
+          await ensureNotificationsAllowed();
+
+          const raw = promoInput?.value || "";
+          const code = raw.trim().toUpperCase();
+
+          if (!code) {
+            setPromoMessage("Enter a promo code first.", "bad");
+            return;
+          }
+
+          if (appliedPromos.has(code)) {
+            setPromoMessage("This promo code was already used.", "bad");
+            notifyNewReward(
+              "ShiokLah! Promo Code",
+              "This promo code was already used.",
+            );
+            return;
+          }
+
+          const action = PROMO_ACTIONS[code];
+          if (!action) {
+            setPromoMessage("Invalid promo code. Try again.", "bad");
+            notifyNewReward("ShiokLah! Promo Code ❌", "Invalid promo code.");
+            return;
+          }
+
+          let didSomething = false;
+
+          if (action.type === "unlock") {
+            const card = document.querySelector(
+              `.card[data-reward-id="${action.rewardId}"]`,
+            );
+            didSomething = unlockCard(card);
+            if (!didSomething) {
+              // If already unlocked, we still treat the code as "used" to prevent spamming.
+              didSomething = true;
+            }
+          }
+
+          if (action.type === "add") {
+            addEarnedReward(action.reward);
+            didSomething = true;
+          }
+
+          if (didSomething) {
+            appliedPromos.add(code);
+            setJSON(PROMO_KEY, Array.from(appliedPromos));
+
+            setPromoMessage(action.msg, "ok");
+            if (promoInput) promoInput.value = "";
+
+            // REAL notification + explicit rewards-updated notification
+            notifyNewReward("ShiokLah! Promo Applied ✅", action.msg);
+            notifyNewReward(
+              "ShiokLah! Rewards Updated ✅",
+              "Your Rewards page has been updated.",
+            );
+          } else {
+            setPromoMessage("Could not apply promo right now.", "bad");
+            notifyNewReward(
+              "ShiokLah! Promo Code",
+              "Could not apply promo right now.",
+            );
+          }
+        }
+
+        if (promoApply) promoApply.addEventListener("click", applyPromoCode);
+        if (promoInput) {
+          promoInput.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") applyPromoCode();
+          });
+        }
       });
     </script>
   </body>

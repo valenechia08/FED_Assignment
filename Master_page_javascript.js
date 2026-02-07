@@ -123,7 +123,7 @@ async function registerMember() {
   }
 
   if (!rule.test(password)) {
-    showMessage("Must be 9+ chars with letters & numbers only", "red");
+    showMessage("Password must be 9+ chars with letters & numbers only", "red");
     return;
   }
 
@@ -235,12 +235,12 @@ window.getCurrentUsername = function () {
   ).trim();
 };
 
-  document.addEventListener("keydown", function (event) {
-    if (event.key === "Enter") {
-      document.getElementById("loginBtn").click();
-    }
-  });
-  
+document.addEventListener("keydown", function (event) {
+  if (event.key === "Enter") {
+    document.getElementById("loginBtn").click();
+  }
+});
+
 // =========================
 // SHOW USERNAME IN GREETING
 // =========================
@@ -282,21 +282,47 @@ function generateCode() {
   return generatedCode;
 }
 document.addEventListener("DOMContentLoaded", () => {
+  const path = window.location.pathname.toLowerCase(); // safer
+
   if (
-    window.location.pathname.endsWith("login.html") &&
+    path.endsWith("login.html") &&
     sessionStorage.getItem("currentRole") === "patron"
   ) {
-    let guestDiv = $("guestLogin");
-    guestDiv.style.display = "block";
-    guestDiv.innerHTML = `<a href="FED_ASG.html">Continue as guest</a>`;
-  } else if (
-    window.location.pathname.endsWith("login.html") &&
+    const guestDiv = document.getElementById("guestLogin"); // use real DOM call
+    if (guestDiv) {
+      guestDiv.style.display = "block";
+      guestDiv.innerHTML = `<a href="FED_ASG.html">Continue as guest</a>`;
+    }
+  }
+
+  if (
+    path.endsWith("login.html") &&
     sessionStorage.getItem("currentRole") === "officer"
   ) {
-    let register = $("register-account");
-    let links = $("links");
-    register.style.display = "none";
-    links.classList.add("nea-alignment");
+    const register = document.getElementById("register-account");
+    const links = document.getElementById("links");
+
+    if (register) register.style.display = "none";
+    if (links) links.classList.add("nea-alignment");
+  }
+});
+document.addEventListener("DOMContentLoaded", () => {
+  /* =========================
+     LOGOUT → CLEAR SESSION
+  ========================= */
+  const logoutLink = document.querySelector('a[href="SelectRole.html"]');
+
+  if (logoutLink) {
+    logoutLink.addEventListener("click", (e) => {
+      e.preventDefault(); // stop instant redirect
+
+      // 🧹 clear everything for this session
+      sessionStorage.clear();
+
+      // optional cleanup if you used localStorage too
+      localStorage.removeItem("loggedInUser");
+      window.location.href = "SelectRole.html";
+    });
   }
 });
 
@@ -480,45 +506,32 @@ document.addEventListener("DOMContentLoaded", () => {
 //   }
 // });
 //Create Stall Object & Menu Item
-function createStallObject(stall_name, cuisine, rating, image) {
-  return {
-    [stall_name]: {
-      cuisine,
-      rating,
-      image,
-      menuItems: {},
-    },
-  };
-}
+// function createStallObject(stall_name, cuisine, rating, image) {
+//   return {
+//     [stall_name]: {
+//       cuisine,
+//       rating,
+//       image,
+//       menuItems: {},
+//     },
+//   };
+// }
 
-function createMenuItemObject(item_name, price, available = true, image,description) {
-  return {
-    [item_name]: {
-      price,
-      available,
-      image,
-      description,
-    },
-  };
-}
+// async function uploadStall(stall_name, cuisine, rating, image) {
+//   const stallRef = ref(db, `stalls/${stall_name}`);
+//   const snap = await get(stallRef);
 
-async function uploadStall(stall_name, cuisine, rating, image) {
-  const stallRef = ref(db, `stalls/${stall_name}`);
-  const snap = await get(stallRef);
+// ✅ if already exists, DO NOT overwrite cuisine/rating/image
+//   if (snap.exists()) return;
 
-  // ✅ if already exists, DO NOT overwrite cuisine/rating/image
-  if (snap.exists()) return;
-
-  await set(stallRef, {
-    cuisine,
-    rating,
-    image,
-    menuItems: {},
-    createdAt: Date.now(),
-  });
-}
-
-
+//   await set(stallRef, {
+//     cuisine,
+//     rating,
+//     image,
+//     menuItems: {},
+//     createdAt: Date.now(),
+//   });
+// }
 
 // async function addMenuItem(
 //   stall_name,
@@ -528,7 +541,13 @@ async function uploadStall(stall_name, cuisine, rating, image) {
 //   image,
 //   description,
 // ) {
-//   const itemObj = createMenuItemObject(item_name, price, available, image,description);
+//   const itemObj = createMenuItemObject(
+//     item_name,
+//     price,
+//     available,
+//     image,
+//     description,
+//   );
 //   await update(ref(db, `stalls/${stall_name}/menuItems`), itemObj);
 // }
 //Can remove since data has already been created
@@ -774,7 +793,7 @@ function renderMenu(menuItems, stall_name) {
 
   const heading = document.createElement("h2");
   heading.textContent = "Menu";
-  heading.style.margin = "10px 0 16px";
+  heading.style.margin = "1%";
   root.appendChild(heading);
 
   const grid = document.createElement("div");
@@ -791,16 +810,10 @@ function renderMenu(menuItems, stall_name) {
 
     const card = document.createElement("div");
     card.className = "menu-card";
-
-    // (Optional) image if your item has it
-    if (item.image) {
-      const img = document.createElement("img");
-      img.className = "menu-img";
-      img.src = item.image;
-      img.alt = item_name;
-      card.appendChild(img);
-    }
-
+    const img = document.createElement("img");
+    img.className = "menu-img";
+    img.src = item.image; // fallback if missing
+    img.alt = item_name;
     const title = document.createElement("div");
     title.className = "menu-title";
     title.textContent = item_name;
@@ -812,64 +825,57 @@ function renderMenu(menuItems, stall_name) {
     const actions = document.createElement("div");
     actions.className = "menu-actions";
 
-    // ===== HEART BUTTON (NEW) =====
-    const heartBtn = document.createElement("button");
-    heartBtn.className = "heart-btn";
-    heartBtn.type = "button";
-    heartBtn.setAttribute("aria-label", "Add to favourites");
+    // ===== Qty Stepper (− qty +) =====
+    const stepper = document.createElement("div");
+    stepper.className = "qty-stepper";
 
-    const heartIcon = document.createElement("span");
-    heartIcon.className = "heart-icon";
-    heartIcon.textContent = "♥"; // icon stays ♥, colour changes by class
-    heartBtn.appendChild(heartIcon);
+    const minusBtn = document.createElement("button");
+    minusBtn.type = "button";
+    minusBtn.className = "qty-btn";
+    minusBtn.textContent = "−";
 
-    // set initial state
-    const favNow = isFavouriteItem(stall_name, item_name);
-    if (favNow) heartBtn.classList.add("active");
+    const qtyVal = document.createElement("span");
+    qtyVal.className = "qty-val";
+    qtyVal.textContent = String(getItemQty(stall_name, item_name, item.price));
 
-    heartBtn.addEventListener("click", () => {
-      const nowFav = toggleFavouriteItem({
-        stallName: stall_name,
-        itemName: item_name,
-        price: item.price,
-        image: item.image || "",
-      });
-
-      heartBtn.classList.toggle("active", nowFav);
-
-      // optional: quick redirect to favourites page items section
-      // comment this out if you don’t want auto-jump
-      // window.location.href = "Favourites.html#items";
-    });
-
-    // ===== PLUS BUTTON (YOUR EXISTING) =====
     const plusBtn = document.createElement("button");
-    plusBtn.className = "plus-btn";
     plusBtn.type = "button";
+    plusBtn.className = "qty-btn qty-plus";
     plusBtn.textContent = "+";
 
     if (item.available === false) {
+      minusBtn.disabled = true;
       plusBtn.disabled = true;
-      plusBtn.textContent = "—";
       card.classList.add("unavailable");
     } else {
+      minusBtn.addEventListener("click", () => {
+        removeFromCart(stall_name, item_name, item.price);
+        qtyVal.textContent = String(
+          getItemQty(stall_name, item_name, item.price),
+        );
+      });
+
       plusBtn.addEventListener("click", () => {
-        addToCart(stall_name, item_name, item.price);
+        addToCart(stall_name, item_name, item.price, item.image);
+        qtyVal.textContent = String(
+          getItemQty(stall_name, item_name, item.price),
+        );
       });
     }
 
-    // Put heart left, plus right
-    actions.appendChild(heartBtn);
-    actions.appendChild(plusBtn);
-
+    stepper.appendChild(minusBtn);
+    stepper.appendChild(qtyVal);
+    stepper.appendChild(plusBtn);
+    actions.appendChild(stepper);
+    card.appendChild(img);
     card.appendChild(title);
     card.appendChild(price);
     card.appendChild(actions);
-
     grid.appendChild(card);
+
+    console.log("Menu data:", menuItems);
   }
 }
-
 
 //load menu(one time) or listen menu(realtime) choose one
 
@@ -896,6 +902,9 @@ function renderMenu(menuItems, stall_name) {
 let stopMenuListener = null;
 
 function listenToMenu(stall_name) {
+  const menuRoot = document.querySelector("#menuRoot");
+  if (!menuRoot) return;
+
   if (stopMenuListener) stopMenuListener(); // stop old listener
 
   const menuRef = ref(db, `stalls/${stall_name}/menuItems`);
@@ -967,8 +976,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const params = new URLSearchParams(window.location.search);
   const stallName = params.get("stall");
 
+  const menuRoot = document.querySelector("#menuRoot");
+
   if (!stallName) {
-    document.querySelector("#menuRoot").innerHTML = "<p>No stall selected.</p>";
+    if (menuRoot) {
+      menuRoot.innerHTML = "<p>No stall selected.</p>";
+    }
     return;
   }
 
@@ -1128,20 +1141,19 @@ document.addEventListener("click", (e) => {
     item.classList.remove("active");
   });
 });
-
 const hamburger = document.getElementById("hamburger");
 const menu = document.getElementById("menu");
 const overlay = document.getElementById("navOverlay");
 
 function openNav() {
   menu.classList.add("show");
-  overlay.classList.add("show");
+  if (overlay) overlay.classList.add("show");
   document.body.style.overflow = "hidden";
 }
 
 function closeNav() {
   menu.classList.remove("show");
-  overlay.classList.remove("show");
+  if (overlay) overlay.classList.remove("show");
   document.body.style.overflow = "";
 }
 
@@ -1149,14 +1161,7 @@ hamburger.addEventListener("click", () => {
   menu.classList.contains("show") ? closeNav() : openNav();
 });
 
-overlay.addEventListener("click", closeNav);
-
-/* optional: close menu when clicking any nav link (mobile) */
-menu.querySelectorAll("a").forEach((link) => {
-  link.addEventListener("click", () => {
-    if (window.innerWidth <= 768) closeNav();
-  });
-});
+if (overlay) overlay.addEventListener("click", closeNav);
 
 /* =========================
    ORDER MODE (pickup/takeaway)
@@ -1321,7 +1326,7 @@ function renderCart() {
 
     const img = document.createElement("img");
     img.alt = row.item;
-    img.src = row.image || "images/placeholder.png";
+    img.src = row.image;
     img.onerror = () => (img.src = "images/placeholder.png");
     thumb.appendChild(img);
 
@@ -1445,188 +1450,101 @@ function renderCart() {
 /* =========================
    INIT
 ========================= */
+// document.addEventListener("DOMContentLoaded", () => {
+//   renderCart();
+//   initPaymentPicker();
+//   initOrderModeToggle();
+
+//   const placeBtn = document.getElementById("placeOrderBtn");
+//   if (placeBtn) {
+//     placeBtn.addEventListener("click", () => {
+//       const cart = getCart();
+//       if (!cart.length) return alert("Cart is empty.");
+
+//       const payment = sessionStorage.getItem("paymentMethod") || "visa";
+//       const mode = getOrderMode();
+
+//       // redirect if Add Card selected
+//       if (payment === "add-card") {
+//         window.location.href = "PaymentFailed.html";
+//         return;
+//       }
+//       window.location.href = "PaymentSuccess.html";
+//     });
+//   }
+// });
+
+//For OrderSummary.html
+function generateOrderId() {
+  const rand = Math.floor(1000 + Math.random() * 9000); // 1000–9999
+  return `ORD-${rand}`;
+}
+
+async function placeOrderAndSave() {
+  const cart = getCart();
+  if (!cart.length) return null;
+
+  const orderNo = generateOrderId();
+  const username = sessionStorage.getItem("loggedInUser");
+
+  const order = {
+    orderNo: orderNo,
+    username: username,
+    createdAt: Date.now(),
+    items: cart,
+    orderMode: sessionStorage.getItem("orderMode") || "pickup",
+    paymentMethod: sessionStorage.getItem("paymentMethod") || "visa",
+    status: "Pending",
+  };
+
+  // ✅ safest: push under /orders
+  const newRef = push(ref(db, "orders"));
+  await set(newRef, order);
+
+  sessionStorage.setItem("lastOrderNo", orderNo);
+  return orderNo;
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   renderCart();
   initPaymentPicker();
   initOrderModeToggle();
 
   const placeBtn = document.getElementById("placeOrderBtn");
-  if (placeBtn) {
-    placeBtn.addEventListener("click", () => {
-      const cart = getCart();
-      if (!cart.length) return alert("Cart is empty.");
+  if (!placeBtn) return;
 
-      const payment = sessionStorage.getItem("paymentMethod") || "visa";
-      const mode = getOrderMode();
+  placeBtn.addEventListener("click", async () => {
+    const cart = getCart();
+    if (!cart.length) return alert("Cart is empty.");
 
-      // redirect if Add Card selected
-      if (payment === "add-card") {
-        window.location.href = "PaymentFailed.html";
-        return;
-      }
+    const payment = sessionStorage.getItem("paymentMethod") || "visa";
+    const mode = getOrderMode();
+
+    // ❌ Payment failed path (do NOT store)
+    if (payment === "add-card") {
+      window.location.href = "PaymentFailed.html";
+      return;
+    }
+
+    // ✅ Payment successful path (store THEN redirect)
+    try {
+      const orderNo = await placeOrderAndSave(); // <-- this writes to Firebase
+      if (!orderNo) return;
+
+      // optional: clear cart only AFTER storing successfully
+      sessionStorage.removeItem("cart");
+
+      // optional: keep last order info for success page
+      sessionStorage.setItem("lastOrderNo", orderNo);
+      sessionStorage.setItem("lastOrderMode", mode);
+
       window.location.href = "PaymentSuccess.html";
-    });
-  }
+    } catch (err) {
+      console.error("❌ Failed to save order:", err);
+      alert("Order could not be saved. Please try again.");
+    }
+  });
 });
 
 // sessionStorage.removeItem("cart");
 // renderCart();
-/***********************
- * FAVOURITE MENU ITEMS (localStorage)
- * Unique ID: stallName::itemName
- ***********************/
-const FAV_ITEM_KEY = "shioklah_fav_items_v1";
-
-function loadFavItemsMap() {
-  try {
-    return JSON.parse(localStorage.getItem(FAV_ITEM_KEY) || "{}");
-  } catch {
-    return {};
-  }
-}
-
-function saveFavItemsMap(map) {
-  localStorage.setItem(FAV_ITEM_KEY, JSON.stringify(map));
-}
-
-function makeFavItemId(stallName, itemName) {
-  return `${stallName}::${itemName}`;
-}
-
-function isFavouriteItem(stallName, itemName) {
-  const id = makeFavItemId(stallName, itemName);
-  const map = loadFavItemsMap();
-  return Boolean(map[id]);
-}
-
-function toggleFavouriteItem(itemData) {
-  // itemData = { stallName, itemName, price, image }
-  const id = makeFavItemId(itemData.stallName, itemData.itemName);
-  const map = loadFavItemsMap();
-
-  if (map[id]) {
-    delete map[id];
-    saveFavItemsMap(map);
-    return false; // now not favourited
-  } else {
-    map[id] = {
-      id,
-      stallName: itemData.stallName,
-      itemName: itemData.itemName,
-      price: Number(itemData.price) || 0,
-      image: itemData.image || "",
-      savedAt: Date.now(),
-    };
-    saveFavItemsMap(map);
-    return true; // now favourited
-  }
-}
-
-// optional: expose for other pages
-window.toggleFavouriteItem = toggleFavouriteItem;
-window.isFavouriteItem = isFavouriteItem;
-
-
-//VENDOR DESKTOP NAVIGATION
-
-  // // Helper: get icon for a main item (normal or logout)
-  // function getMainIcon(main) {
-  //   return main.querySelector(".title-row img") || main.querySelector(".subpoint img");
-  // }
-
-  // // Reset all active states (except optional keep param)
-  // function resetAllActive(keepMain = null) {
-  //   document.querySelectorAll(".main").forEach(m => {
-  //     if (m !== keepMain) m.classList.remove("active");
-
-  //     const ic = getMainIcon(m);
-  //     if (ic && ic.dataset.default) ic.src = ic.dataset.default;
-
-  //     // close any submenu
-  //     const sm = m.querySelector(".submenu");
-  //     if (sm) sm.style.display = "none";
-  //   });
-  // }
-
-  // // MAIN NAV LOGIC
-  // document.querySelectorAll(".main").forEach(main => {
-  //   const icon = getMainIcon(main);
-
-  //   // Hover icon change (only if not active)
-  //   if (icon && icon.dataset.active) {
-  //     main.addEventListener("mouseenter", () => {
-  //       if (!main.classList.contains("active")) icon.src = icon.dataset.active;
-  //     });
-
-  //     main.addEventListener("mouseleave", () => {
-  //       if (!main.classList.contains("active")) icon.src = icon.dataset.default;
-  //     });
-  //   }
-
-  //   const titleRow = main.querySelector(".title-row");
-  //   const submenu = main.querySelector(".submenu");
-
-  //   // If it has submenu (Profile), clicking title toggles open/close
-  //   if (submenu && titleRow) {
-  //     titleRow.addEventListener("click", (e) => {
-  //       e.preventDefault();
-  //       e.stopPropagation();
-
-  //       const isOpen = main.classList.contains("active");
-
-  //       // close others first
-  //       resetAllActive(main);
-
-  //       // toggle this one
-  //       if (isOpen) {
-  //         main.classList.remove("active");
-  //         submenu.style.display = "none";
-  //         if (icon && icon.dataset.default) icon.src = icon.dataset.default;
-  //       } else {
-  //         main.classList.add("active");
-  //         submenu.style.display = "block";
-  //         if (icon && icon.dataset.active) icon.src = icon.dataset.active;
-  //       }
-  //     });
-
-  //     return; // IMPORTANT: don't attach redirect to Profile main item
-  //   }
-
-  //   // If it's a normal clickable page (Dashboard/Edit Menu)
-  //   const link = main.dataset.link;
-  //   if (link) {
-  //     main.addEventListener("click", () => {
-  //       resetAllActive(main);
-  //       main.classList.add("active");
-  //       if (icon && icon.dataset.active) icon.src = icon.dataset.active;
-  //       window.location.href = link;
-  //     });
-  //   }
-  // });
-
-  // // SUBMENU BUTTON REDIRECTS
-  // document.querySelectorAll(".subpoint[data-link]").forEach(btn => {
-  //   btn.addEventListener("click", (e) => {
-  //     e.preventDefault();
-  //     e.stopPropagation();
-  //     window.location.href = btn.dataset.link;
-  //   });
-  // });
-
-  // // ARROW IMAGE HOVER (only where arrow exists)
-  // document.querySelectorAll(".title-row").forEach(row => {
-  //   const arrowImg = row.querySelector(".arrow img");
-  //   if (!arrowImg) return;
-
-  //   row.addEventListener("mouseenter", () => {
-  //     arrowImg.src = "images/orangedown.png";
-  //   });
-  //   row.addEventListener("mouseleave", () => {
-  //     arrowImg.src = "images/down.png";
-  //   });
-  // });
-
-  // // Optional: click outside to close dropdown
-  // document.addEventListener("click", () => {
-  //   resetAllActive(null);
-  // });
