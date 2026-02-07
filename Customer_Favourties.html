@@ -1,0 +1,1012 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ShiokLah! • Favourites</title>
+
+    <style>
+      :root {
+        --primary-orange: #e47329;
+        --primary-yellow: #ffd400;
+        --muted: #6b7280;
+        --line: #eeeeee;
+        --card: #ffffff;
+        --radius: 18px;
+        --shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family:
+          "Segoe UI",
+          system-ui,
+          -apple-system,
+          Arial,
+          sans-serif;
+      }
+
+      body {
+        background: #fff;
+        color: #222;
+      }
+
+      /* =========================
+         TOP NAV (YOUR NAV)
+      ========================= */
+      .topNavBar {
+        position: sticky;
+        top: 0;
+        z-index: 2000;
+        background: #fff;
+        border-bottom: 1px solid var(--line);
+      }
+      .topNavBar .container {
+        width: 92%;
+        max-width: 1200px;
+        margin: auto;
+      }
+      .topNavBar .top-nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 70px;
+      }
+      .topNavBar .nav-left,
+      .topNavBar .nav-right {
+        flex: 0 0 auto;
+      }
+      .topNavBar .nav-center {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+      }
+      .topNavBar .Logo {
+        height: 60px;
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+      }
+      .topNavBar .Logo img {
+        height: 100%;
+        width: auto;
+        display: block;
+      }
+      .topNavBar .menu {
+        list-style: none;
+        display: flex;
+        align-items: center;
+        gap: 50px;
+      }
+      .topNavBar .menu a {
+        text-decoration: none;
+        font-weight: 800;
+        color: #111;
+        display: block;
+        padding: 8px 0;
+      }
+      .topNavBar .menu a:hover {
+        color: var(--primary-orange);
+      }
+      .topNavBar .menu-item {
+        position: relative;
+      }
+      .topNavBar .dropdown {
+        position: absolute;
+        top: 130%;
+        left: 0;
+        background: var(--primary-yellow);
+        border-radius: 12px;
+        padding: 10px 0;
+        min-width: 220px;
+        display: none;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      }
+      .topNavBar .dropdown li {
+        list-style: none;
+      }
+      .topNavBar .dropdown a {
+        padding: 10px 18px;
+        color: #111;
+        font-weight: 700;
+      }
+      .topNavBar .dropdown a:hover {
+        background: rgba(0, 0, 0, 0.08);
+      }
+      .topNavBar .menu-item:hover .dropdown {
+        display: block;
+      }
+      .topNavBar .nav-right {
+        width: 60px;
+      }
+
+      @media (max-width: 900px) {
+        .topNavBar .menu {
+          gap: 28px;
+        }
+      }
+      @media (max-width: 700px) {
+        .topNavBar .nav-center {
+          display: none;
+        }
+      }
+
+      /* =========================
+         PAGE
+      ========================= */
+      main {
+        width: 92%;
+        max-width: 1100px;
+        margin: 28px auto 80px;
+      }
+
+      .page-title {
+        text-align: center;
+        margin-top: 10px;
+        margin-bottom: 12px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: 700;
+        font-size: 44px;
+        color: var(--primary-orange);
+      }
+
+      .page-subtitle {
+        text-align: center;
+        color: var(--muted);
+        margin-bottom: 26px;
+      }
+
+      .card {
+        background: var(--card);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        overflow: hidden;
+        border: 1px solid rgba(0, 0, 0, 0.04);
+      }
+
+      .card-inner {
+        padding: 22px;
+      }
+
+      .section {
+        padding: 18px 0;
+        border-top: 1px solid var(--line);
+      }
+      .section:first-child {
+        border-top: 0;
+        padding-top: 6px;
+      }
+
+      .section h3 {
+        font-size: 16px;
+        margin-bottom: 12px;
+        color: #222;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .hint {
+        color: var(--muted);
+        font-weight: 700;
+        font-size: 13px;
+      }
+
+      /* Controls */
+      .controls {
+        display: grid;
+        grid-template-columns: 1fr 220px 220px 210px 150px;
+        gap: 12px;
+      }
+      .field {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        border: 1px solid var(--line);
+        padding: 10px 12px;
+        border-radius: 14px;
+        background: #fff;
+      }
+      .field input,
+      .field select {
+        border: none;
+        outline: none;
+        width: 100%;
+        font-size: 14px;
+        background: transparent;
+      }
+
+      .btn {
+        border: none;
+        outline: none;
+        cursor: pointer;
+        border-radius: 14px;
+        font-weight: 800;
+        padding: 10px 12px;
+        transition: 0.15s;
+      }
+      .btn:hover {
+        transform: translateY(-1px);
+      }
+      .btn:active {
+        transform: translateY(0);
+      }
+
+      .btn-primary {
+        background: var(--primary-orange);
+        color: #fff;
+      }
+      .btn-primary:hover {
+        filter: brightness(0.95);
+      }
+
+      .btn-ghost {
+        background: #fff;
+        border: 1px solid var(--line);
+        color: #111;
+      }
+
+      .btn-danger {
+        background: rgba(220, 38, 38, 0.09);
+        border: 1px solid rgba(220, 38, 38, 0.25);
+        color: #b91c1c;
+      }
+
+      @media (max-width: 980px) {
+        .controls {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+
+      /* Grid */
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+      }
+      @media (max-width: 980px) {
+        .grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      @media (max-width: 640px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .stall-card {
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        overflow: hidden;
+        background: #fff;
+        display: flex;
+        flex-direction: column;
+        min-height: 320px;
+      }
+
+      .thumb {
+        height: 140px;
+        background: linear-gradient(
+          135deg,
+          rgba(228, 115, 41, 0.18),
+          rgba(228, 115, 41, 0.05)
+        );
+        position: relative;
+      }
+      .thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .pill {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        background: #fff;
+        border: 1px solid rgba(228, 115, 41, 0.25);
+        border-radius: 999px;
+        padding: 8px 10px;
+        font-weight: 900;
+        color: var(--primary-orange);
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        user-select: none;
+      }
+      .pill button {
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        font-weight: 900;
+        color: var(--primary-orange);
+      }
+
+      .stall-body {
+        padding: 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        flex: 1;
+      }
+
+      .row {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: flex-start;
+      }
+      .title {
+        font-weight: 900;
+        font-size: 16px;
+      }
+      .sub {
+        color: var(--muted);
+        font-size: 13px;
+        margin-top: 4px;
+      }
+
+      .meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .tag {
+        font-size: 12px;
+        font-weight: 800;
+        padding: 6px 8px;
+        border-radius: 999px;
+        border: 1px solid #e5e7eb;
+        background: #f3f4f6;
+      }
+
+      .rating {
+        font-weight: 900;
+        font-size: 13px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .rating .star {
+        color: #f59e0b;
+      }
+
+      .stall-actions {
+        border-top: 1px solid var(--line);
+        padding: 12px 14px;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 10px;
+        background: #fff;
+      }
+
+      .empty {
+        border: 1px dashed rgba(228, 115, 41, 0.35);
+        background: rgba(228, 115, 41, 0.06);
+        border-radius: var(--radius);
+        padding: 18px;
+        color: #7c2d12;
+        text-align: center;
+      }
+
+      .toast {
+        position: fixed;
+        bottom: 18px;
+        right: 18px;
+        background: #fff;
+        border: 1px solid var(--line);
+        border-left: 6px solid var(--primary-orange);
+        border-radius: 16px;
+        box-shadow: var(--shadow);
+        padding: 12px 14px;
+        max-width: 360px;
+        display: none;
+        z-index: 9999;
+      }
+      .toast strong {
+        display: block;
+        margin-bottom: 2px;
+      }
+      .toast p {
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      select {
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+      }
+
+      /* Browse-all toggle */
+      .toggle-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 8px;
+      }
+      .toggle-wrap label {
+        font-weight: 800;
+        font-size: 13px;
+        color: #111;
+      }
+      .toggle {
+        width: 48px;
+        height: 28px;
+        border-radius: 999px;
+        background: #e5e7eb;
+        border: 1px solid #d1d5db;
+        position: relative;
+        cursor: pointer;
+        transition: 0.2s;
+        flex: 0 0 auto;
+      }
+      .toggle::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 3px;
+        transform: translateY(-50%);
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: #fff;
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+        transition: 0.2s;
+      }
+      .toggle.on {
+        background: rgba(228, 115, 41, 0.18);
+        border-color: rgba(228, 115, 41, 0.35);
+      }
+      .toggle.on::after {
+        left: 23px;
+        background: var(--primary-orange);
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- NAV (YOUR HTML) -->
+    <nav class="topNavBar">
+      <div class="container">
+        <div class="top-nav">
+          <div class="nav-left">
+            <a href="FED_ASG.html" class="Logo" aria-label="ShiokLah Home">
+              <img src="images/ShiokLah(cropped).jpeg" alt="ShiokLah Logo" />
+            </a>
+          </div>
+
+          <div class="nav-center">
+            <ul class="menu" id="menu">
+              <li class="menu-item">
+                <a href="FED_ASG.html">Home</a>
+                <ul class="dropdown">
+                  <li><a href="FED_ASG.html">Start Order</a></li>
+                </ul>
+              </li>
+
+              <li class="menu-item">
+                <a href="#">Order History</a>
+                <ul class="dropdown">
+                  <li><a href="OrderHistory.html">Past Orders</a></li>
+                </ul>
+              </li>
+
+              <li class="menu-item">
+                <a href="UserProfile.html">Profile</a>
+                <ul class="dropdown">
+                  <li><a href="UserProfile.html">Overview</a></li>
+                  <li><a href="Analytics.html">Analytics & Reporting</a></li>
+                  <li><a href="CustomerFeedback.html">Customer Feedback</a></li>
+                  <li>
+                    <a href="Regulatory&Complianceinfo.html"
+                      >Regulatory & Compliance Info</a
+                    >
+                  </li>
+                  <li><a href="Favourites.html">Favourites</a></li>
+                  <li>
+                    <a href="Customer Vouchers and Rewards.html">Rewards</a>
+                  </li>
+                </ul>
+              </li>
+
+              <li class="menu-item">
+                <a href="SelectRole.html">Log Out</a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="nav-right"></div>
+        </div>
+      </div>
+    </nav>
+
+    <main>
+      <h1 class="page-title">Favourites</h1>
+      <p class="page-subtitle">
+        Saving <b>favourite stalls</b> first. Favourite menu items will come
+        later once Firebase data is back.
+      </p>
+
+      <div class="card">
+        <div class="card-inner">
+          <!-- Controls -->
+          <div class="section">
+            <h3>
+              Find your favourites
+              <span class="hint" id="countText">(0 stalls)</span>
+            </h3>
+
+            <div class="controls">
+              <div class="field">
+                <span>🔎</span>
+                <input
+                  id="searchInput"
+                  type="text"
+                  placeholder="Search stall name..."
+                />
+              </div>
+
+              <div class="field">
+                <span>🍽️</span>
+                <select id="cuisineFilter">
+                  <option value="all">All cuisines</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <span>↕️</span>
+                <select id="sortSelect">
+                  <option value="recent">Recently added</option>
+                  <option value="ratingHigh">Rating (high → low)</option>
+                  <option value="nameAZ">Name (A → Z)</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <span>🏪</span>
+                <select id="stallFilter">
+                  <option value="all">All stalls</option>
+                </select>
+              </div>
+
+              <button class="btn btn-danger" id="clearAllBtn">Clear all</button>
+            </div>
+
+            <div class="toggle-wrap">
+              <label for="browseToggle">Browse all stalls</label>
+              <div
+                class="toggle"
+                id="browseToggle"
+                role="switch"
+                aria-checked="false"
+                tabindex="0"
+              ></div>
+            </div>
+          </div>
+
+          <!-- Grid -->
+          <div class="section">
+            <h3 id="gridTitle">Your favourite stalls</h3>
+
+            <div id="grid" class="grid"></div>
+
+            <div
+              id="emptyState"
+              class="empty"
+              style="display: none; margin-top: 12px"
+            >
+              <strong>No favourite stalls yet.</strong>
+              <div style="margin-top: 6px">
+                Turn on <b>“Browse all stalls”</b> above to add favourites here,
+                or go to Home → Start Order and tap ❤️ on a stall.
+              </div>
+              <div style="margin-top: 14px">
+                <button
+                  class="btn btn-primary"
+                  onclick="location.href = 'FED_ASG.html'"
+                >
+                  Start Order
+                </button>
+              </div>
+            </div>
+
+            <!-- ✅ Removed confusing buttons: Seed + Export -->
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <div class="toast" id="toast">
+      <strong id="toastTitle">Updated</strong>
+      <p id="toastMsg">Done.</p>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        /************************************************************
+         * STALL DATA
+         * ✅ REAL IMAGE PATHS from your Master_page_javascript.js
+         ************************************************************/
+        const STALLS = [
+          {
+            id: "ST01",
+            name: "Banana Leaf Nasi Lemak",
+            cuisine: "Malay",
+            rating: 4.0,
+            img: "images/Banana Leaf Nasi Lemak Picture.jpg",
+          },
+          {
+            id: "ST02",
+            name: "Boon Lay Lu Wei",
+            cuisine: "Chinese",
+            rating: 4.2,
+            img: "images/Boon Lay Lu Wei Picture.jpg",
+          },
+          {
+            id: "ST03",
+            name: "IMohamed Ismail Food Stall",
+            cuisine: "Indian",
+            rating: 4.5,
+            img: "images/I.Mohamed Ismail Food Stall Picture.jpg",
+          },
+          {
+            id: "ST04",
+            name: "Boon Lay Fried Carrot Cake & Kway Teow Mee",
+            cuisine: "Chinese",
+            rating: 4.2,
+            img: "images/Boon Lay Fried Carrot Cake & Kway Teow Mee Picture.jpg",
+          },
+          {
+            id: "ST05",
+            name: "Big Daddy’s Chicken & Noodle Stall",
+            cuisine: "Others",
+            rating: 4.5,
+            img: "images/Big Daddy's Chicken & Noodle Picture.webp",
+          },
+        ];
+
+        /************************************************************
+         * STORAGE
+         ************************************************************/
+        const FAV_KEY = "shioklah_fav_stalls_v1";
+        function loadFavSet() {
+          try {
+            return new Set(JSON.parse(localStorage.getItem(FAV_KEY) || "[]"));
+          } catch {
+            return new Set();
+          }
+        }
+        function saveFavSet(set) {
+          localStorage.setItem(FAV_KEY, JSON.stringify([...set]));
+        }
+
+        /************************************************************
+         * DOM
+         ************************************************************/
+        const gridEl = document.getElementById("grid");
+        const emptyEl = document.getElementById("emptyState");
+        const countText = document.getElementById("countText");
+        const gridTitle = document.getElementById("gridTitle");
+
+        const searchInput = document.getElementById("searchInput");
+        const cuisineFilter = document.getElementById("cuisineFilter");
+        const sortSelect = document.getElementById("sortSelect");
+        const stallFilter = document.getElementById("stallFilter");
+
+        const clearAllBtn = document.getElementById("clearAllBtn");
+
+        const browseToggle = document.getElementById("browseToggle");
+        let browseAll = false;
+
+        const toast = document.getElementById("toast");
+        const toastTitle = document.getElementById("toastTitle");
+        const toastMsg = document.getElementById("toastMsg");
+        let toastTimer = null;
+
+        function showToast(title, msg) {
+          if (!toast || !toastTitle || !toastMsg) return;
+          toastTitle.textContent = title;
+          toastMsg.textContent = msg;
+          toast.style.display = "block";
+          clearTimeout(toastTimer);
+          toastTimer = setTimeout(() => (toast.style.display = "none"), 2200);
+        }
+
+        function escapeHtml(str) {
+          return String(str)
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
+        }
+
+        function safeNumber(n, fallback = 0) {
+          const x = Number(n);
+          return Number.isFinite(x) ? x : fallback;
+        }
+
+        /************************************************************
+         * DROPDOWNS
+         ************************************************************/
+        function refreshCuisineOptions() {
+          const current = cuisineFilter.value || "all";
+          const cuisines = Array.from(
+            new Set(STALLS.map((s) => s.cuisine).filter(Boolean)),
+          ).sort();
+
+          cuisineFilter.innerHTML = `<option value="all">All cuisines</option>`;
+          cuisines.forEach((c) => {
+            const opt = document.createElement("option");
+            opt.value = c;
+            opt.textContent = c;
+            cuisineFilter.appendChild(opt);
+          });
+
+          cuisineFilter.value = cuisines.includes(current) ? current : "all";
+        }
+
+        // ✅ Always list ALL stalls so dropdown works even if no favourites
+        function refreshStallOptions() {
+          const current = stallFilter.value || "all";
+          const names = Array.from(new Set(STALLS.map((s) => s.name))).sort();
+
+          stallFilter.innerHTML = `<option value="all">All stalls</option>`;
+          names.forEach((name) => {
+            const opt = document.createElement("option");
+            opt.value = name;
+            opt.textContent = name;
+            stallFilter.appendChild(opt);
+          });
+
+          stallFilter.value = names.includes(current) ? current : "all";
+        }
+
+        /************************************************************
+         * FILTER + SORT
+         ************************************************************/
+        function applySearchFilterSort(stalls) {
+          const q = (searchInput.value || "").trim().toLowerCase();
+          const cuisine = cuisineFilter.value || "all";
+          const stallName = stallFilter.value || "all";
+          const sortBy = sortSelect.value || "recent";
+
+          let out = stalls.filter((s) => {
+            const matchQ =
+              !q ||
+              (s.name || "").toLowerCase().includes(q) ||
+              (s.cuisine || "").toLowerCase().includes(q);
+
+            const matchCuisine = cuisine === "all" || s.cuisine === cuisine;
+            const matchStall = stallName === "all" || s.name === stallName;
+
+            return matchQ && matchCuisine && matchStall;
+          });
+
+          out.sort((a, b) => {
+            if (sortBy === "ratingHigh")
+              return safeNumber(b.rating) - safeNumber(a.rating);
+            if (sortBy === "nameAZ")
+              return (a.name || "").localeCompare(b.name || "");
+            return (a.name || "").localeCompare(b.name || "");
+          });
+
+          return out;
+        }
+
+        /************************************************************
+         * RENDER
+         ************************************************************/
+        function render() {
+          const favs = loadFavSet();
+          const favStalls = STALLS.filter((s) => favs.has(s.id));
+
+          refreshCuisineOptions();
+          refreshStallOptions();
+
+          const baseList = browseAll ? STALLS : favStalls;
+          const shown = applySearchFilterSort(baseList);
+
+          gridTitle.textContent = browseAll
+            ? "Browse stalls"
+            : "Your favourite stalls";
+
+          countText.textContent = browseAll
+            ? `(Showing ${shown.length} stall${shown.length === 1 ? "" : "s"})`
+            : `(${favStalls.length} favourite stall${favStalls.length === 1 ? "" : "s"})`;
+
+          gridEl.innerHTML = "";
+
+          emptyEl.style.display =
+            !browseAll && favStalls.length === 0 ? "block" : "none";
+          if (!browseAll && favStalls.length === 0) return;
+
+          if (!shown.length) {
+            gridEl.innerHTML = `
+              <div class="empty" style="grid-column:1/-1;">
+                <strong>No results found.</strong>
+                <div style="margin-top:6px;">Try clearing your search or changing the dropdowns.</div>
+              </div>
+            `;
+            return;
+          }
+
+          shown.forEach((s) => {
+            const isFav = favs.has(s.id);
+            const rating = safeNumber(s.rating).toFixed(1);
+
+            const card = document.createElement("article");
+            card.className = "stall-card";
+
+            const imgHtml = s.img
+              ? `<img src="${escapeHtml(s.img)}" alt="${escapeHtml(s.name)}" />`
+              : "";
+
+            // browseAll mode: show Add/Remove
+            const pillAction = browseAll
+              ? isFav
+                ? "remove"
+                : "add"
+              : "remove";
+            const pillLabel = browseAll
+              ? isFav
+                ? "❤️ Remove"
+                : "🤍 Add"
+              : "❤️ Remove";
+
+            card.innerHTML = `
+              <div class="thumb">
+                ${imgHtml}
+                <div class="pill">
+                  <button data-action="${pillAction}" data-id="${escapeHtml(s.id)}">${pillLabel}</button>
+                </div>
+              </div>
+
+              <div class="stall-body">
+                <div class="row">
+                  <div>
+                    <div class="title">${escapeHtml(s.name)}</div>
+                    <div class="sub">${escapeHtml(s.cuisine)} • <span class="rating"><span class="star">★</span>${rating}</span></div>
+                  </div>
+                </div>
+
+                <div class="meta">
+                  <span class="tag">${escapeHtml(s.cuisine)}</span>
+                  <span class="tag">Rating ${rating}</span>
+                </div>
+              </div>
+
+              <div class="stall-actions">
+                <button class="btn btn-primary" data-action="start" data-id="${escapeHtml(s.id)}">
+                  Start order
+                </button>
+                <button class="btn btn-ghost" data-action="view" data-id="${escapeHtml(s.id)}">
+                  View
+                </button>
+              </div>
+            `;
+
+            gridEl.appendChild(card);
+          });
+        }
+
+        /************************************************************
+         * ACTIONS
+         ************************************************************/
+        function addFavourite(stallId) {
+          const favs = loadFavSet();
+          favs.add(stallId);
+          saveFavSet(favs);
+          showToast("Saved", "Added to favourites.");
+          render();
+        }
+
+        function removeFavourite(stallId) {
+          const favs = loadFavSet();
+          favs.delete(stallId);
+          saveFavSet(favs);
+          showToast("Removed", "Removed from favourites.");
+          render();
+        }
+
+        function clearAll() {
+          saveFavSet(new Set());
+          showToast("Cleared", "All favourite stalls removed.");
+          render();
+        }
+
+        /************************************************************
+         * EVENTS
+         ************************************************************/
+        document.addEventListener("click", (e) => {
+          const btn = e.target.closest("[data-action]");
+          if (!btn) return;
+
+          const action = btn.dataset.action;
+          const id = btn.dataset.id;
+          if (!action || !id) return;
+
+          if (action === "remove") removeFavourite(id);
+          if (action === "add") addFavourite(id);
+
+          if (action === "start") {
+            showToast(
+              "Start order",
+              "Link this button to your stall menu page later.",
+            );
+          }
+
+          if (action === "view") {
+            showToast(
+              "View stall",
+              "Link this button to your stall details page later.",
+            );
+          }
+        });
+
+        function setToggleUI() {
+          if (!browseToggle) return;
+          browseToggle.classList.toggle("on", browseAll);
+          browseToggle.setAttribute(
+            "aria-checked",
+            browseAll ? "true" : "false",
+          );
+        }
+
+        function toggleBrowseAll() {
+          browseAll = !browseAll;
+          setToggleUI();
+          render();
+        }
+
+        if (browseToggle) {
+          browseToggle.addEventListener("click", toggleBrowseAll);
+          browseToggle.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              toggleBrowseAll();
+            }
+          });
+        }
+
+        searchInput.addEventListener("input", render);
+        cuisineFilter.addEventListener("change", render);
+        stallFilter.addEventListener("change", render);
+        sortSelect.addEventListener("change", render);
+
+        clearAllBtn.addEventListener("click", () => {
+          if (!loadFavSet().size) return;
+          clearAll();
+        });
+
+        /************************************************************
+         * HELPERS FOR OTHER PAGES
+         ************************************************************/
+        window.toggleFavouriteStall = function (stallId) {
+          const favs = loadFavSet();
+          if (favs.has(stallId)) favs.delete(stallId);
+          else favs.add(stallId);
+          saveFavSet(favs);
+          return favs.has(stallId);
+        };
+
+        window.isFavouriteStall = function (stallId) {
+          return loadFavSet().has(stallId);
+        };
+
+        /************************************************************
+         * INIT
+         ************************************************************/
+        setToggleUI();
+        render();
+      });
+    </script>
+  </body>
+</html>
