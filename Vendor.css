@@ -13,16 +13,20 @@
   box-sizing: border-box;
 }
 .main img{
-  width:50px;
-  height:auto;
-  padding-right:0;
+  width: 45px;          /* was 50px → 5px smaller */
+  height: auto;
+  margin-right: 5px;    /* EXACT 5px gap between icon & text */
+  padding-right: 0;
+  flex-shrink: 0;
 }
 
+
 .brand img{
-  padding:0;
-  width:auto;
-  height:145px;
+  height: 140px;   /* was 145px → 5px smaller */
+  width: auto;
+  padding: 0;
 }
+
 body {
   margin: 0;
   font-family: system-ui, Arial, sans-serif;
@@ -35,7 +39,6 @@ body {
   min-height: 100vh;
 }
 
-
 .chosen {
   background-color: white;
   color: #FF7A18;
@@ -46,116 +49,130 @@ body {
 }
 
 /* SIDEBAR */
-    .navrectangle {
-      background-color: #f5f6fa;
-      width: 220px;
-      min-height: 100vh;
-      flex-shrink: 0;
-      border-right:1px solid rgb(218, 218, 218);
-    }
+/* ========== SIDEBAR NAV ========== */
+.navrectangle {
+  background-color: #f5f6fa; /* REQUIRED colour */
+  width: 240px;
+  min-height: 100vh;
+  border-right: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+}
 
-    /* Brand */
-    .navrectangle header {
-      font-size: 32px;
-      color: #FF7A18;
-      font-style: italic;
-      font-family: 'Kodchasan', Arial, sans-serif;
-      padding: 50px 20px 0 0;
-    }
+/* ===== BRAND ===== */
+.navrectangle .brand {
+  padding: 18px 10px 10px;
+  display: flex;
+  justify-content: center;
+}
 
-    /* NAV TEXT */
-    .navBar {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      font-family: system-ui, Arial, sans-serif;
-    }
+.navrectangle .brand img {
+  height: 135px; /* slightly smaller */
+  width: auto;
+}
 
-    .title-row span,.subpoint span{
-      display:flex;
-      justify-content:flex-start;
-    }
+/* ===== NAV LIST ===== */
+.navBar {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
 
-    /* MAIN MENU ITEM */
-    .title-row,
-    .profile-title,
-    .logout button {
-      color: #333;
-      padding: 25px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-weight: 600;
-      cursor: pointer;
-      transition: color 0.2s ease, background 0.2s ease;
-    }
+/* ===== MAIN NAV ITEM ===== */
+.main {
+  margin: 4px 0;
+}
 
-    /* HOVER */
-    .title-row:hover,
-    .profile-title:hover,
-    .logout button:hover {
-      color: #FF7A18;
-      background: rgba(255, 122, 24, 0.08);
-      border-radius: 8px;
-    }
+.title-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;                     /* EXACT 5px between icon & text */
+  padding: 18px 16px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  cursor: pointer;
+}
 
-    /* ACTIVE / OPEN STATE */
-    .main.active > .title-row,
-    .main.active > .profile-title {
-      color: #FF7A18;
-    }
-    /* .main.active > .submenu {
+/* ICON SIZE */
+.title-row img {
+  width: 45px;                  /* 5px smaller */
+  height: auto;
+}
+
+/* Arrow stays right */
+.arrow {
+  margin-left: auto;
+  margin-right:8px;
+}
+
+.arrow img {
+  width: 20px;
+}
+
+/* Hover */
+.title-row:hover {
+  background: rgba(255, 122, 24, 0.1);
+  border-radius: 8px;
+  color: #FF7A18;
+}
+
+/* ===== SUBMENU ===== */
+.submenu {
+  display: none;
+  list-style: none;
+  padding: 4px 0 8px;
+}
+
+/* Show submenu when active */
+.main.active .submenu {
   display: block;
-} */
-    /* .main.active .submenu{
-      display:block;
-    } */
-    /* ARROW */
-    .arrow {
-      transition: transform 0.25s ease;
-      font-size: 14px;
-    }
-    .arrow img{
-      margin-top:10px;
-      width:30px;
-      height:auto;
-      background-size: contain;
-    }
+}
 
-    /* Rotate arrow when open */
-    .main.active .arrow {
-      transform: rotate(180deg);
-      margin-top:0;
-      margin-bottom:10px;
-    }
+/* Submenu buttons */
+.subpoint {
+  padding-left:5px;
+  width: 100%;
+  margin-left:20px;
+  font-weight:600px;
+  text-align: left;
+  background: none;
+  border: none;
+  color: #555;
+  gap: 8px;                 /* clean spacing */
+  padding: 16px 18px;       /* reset crazy submenu padding */
+  font-size: 16px;
+  cursor: pointer;
+}
 
-    /* SUBMENU */
-    .submenu {
-      display: none;
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
+/* Submenu hover */
+.subpoint:hover {
+  background: rgba(255, 122, 24, 0.08);
+  color: #FF7A18;
+}
 
-    /* SUBMENU ITEMS */
-    .subpoint {
-      width: 100%;
-      padding: 12px 45px;
-      background: none;
-      border: none;
-      text-align: left;
-      font-size: 15px;
-      cursor: pointer;
-      color: #555;
-      transition: color 0.2s ease, background 0.2s ease;
-    }
+/* Arrow rotation */
+.main.active .arrow {
+  transform: rotate(180deg);
+}
 
-    /* SUBMENU HOVER */
-    .subpoint:hover {
-      color: #FF7A18;
-      background: rgba(255, 122, 24, 0.08);
-      
-    }
+.logout .subpoint {
+  display: flex;
+  align-items: center;
+  gap: 8px;                 /* clean spacing */
+  /*top right bottom left*/
+  padding: 14px 16px 14px 0;       /* reset crazy submenu padding */
+  font-size: 16px;
+  font-weight: 550;
+}
+/* Fix logout icon size & alignment */
+.logout .subpoint img {
+  width: 45px;
+  height: 45px;
+  vertical-align: middle;
+}
+
+
 
 /*Contents*/
 .contents {
@@ -183,23 +200,7 @@ body {
   /* flex-wrap: nowrap; */
 }
 
-.title-block {
-  /* display: flex;
-  flex-direction: column;
-  width: fit-content; */
-  position: relative;
-  display: inline-block;
-}
 
-.title-block h1 {
-  text-decoration-thickness: 2px;
-  /* makes it thicker */
-}
-
-.title-block .divider {
-  position: absolute;
-  padding: 0;
-}
 
 .order.limit {
   margin-left: 350px;
@@ -271,7 +272,6 @@ body {
 .timer {
   font-size: 20px;
 }
-
 
 
 /* ORDER CARD */
