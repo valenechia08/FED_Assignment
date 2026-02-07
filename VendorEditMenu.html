@@ -387,6 +387,11 @@
 .remove-image-btn:hover{
   background: #f7f8fb;
 }
+.menu-card.is-hidden {
+  opacity: 0.55;
+  filter: grayscale(0.2);
+}
+
 
     </style>
   </head>
@@ -496,7 +501,7 @@
 
   <div id="imagePicker" class="image-picker" role="button" tabindex="0">
     <img id="imagePreview" class="image-preview" alt="Image preview" />
-    <div id="imageHint" class="image-hint">Click to upload image</div>
+    <div id="imageHint" class="image-hint">Image Preview</div>
   </div>
   
   <label style="margin-top:12px;">Image filename (saved in images/menu/)</label>
@@ -521,7 +526,7 @@
   </select>
 
   <div class="image-meta">
-    Images are loaded from <b>/images/</b>
+    <b>Select</b> an image to upload
   </div>
 
   <button type="button" id="removeImageBtn" class="remove-image-btn" style="display:none;">
@@ -678,7 +683,7 @@
   });
   </script>
 <script type="module">
-  import { getDatabase, ref, get, update, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+  import { getDatabase, ref, get, update, onValue,remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 const firebaseConfig = {
     apiKey: "AIzaSyCoYoGP4NYJPHqA-kV_swajQ4LSQYdyWV4",
@@ -692,6 +697,9 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
+let editMode = false;
+let editingItemKey = null; // firebase key of the item we're editing
+
 function renderVendorMenu(menuItems) {
   const list = document.getElementById("menuList");
   if (!list) return;
@@ -703,27 +711,83 @@ function renderVendorMenu(menuItems) {
     return;
   }
 
-  Object.entries(menuItems).forEach(([itemName, item]) => {
+  Object.entries(menuItems)
+  .sort(([, a], [, b]) => {
+    // visible items first, hidden items last
+    return (a.available === false) - (b.available === false);
+  })
+  .forEach(([itemKey, item]) => {
+
+    // itemKey is the Firebase key (safeKey already)
+    const displayName = item.displayName || itemKey;
+
     const card = document.createElement("div");
     card.className = "menu-card";
 
     card.innerHTML = `
-      <img src="${item.image || ""}" alt="${itemName}">
+      <img src="${item.image || "images/placeholder.jpg"}" alt="${displayName}">
       <div class="name-wrap">
-        <div class="item-name">${itemName}</div>
+        <div class="item-name">${displayName}</div>
         <div class="item-desc">${item.description || ""}</div>
       </div>
       <div class="price">$${Number(item.price || 0).toFixed(2)}</div>
+
       <div class="actions">
-        <button class="icon-btn" type="button" title="Edit"><img src="images/edit.png" alt="Edit"></button>
-        <button class="icon-btn" type="button" title="Delete"><img src="images/delete.png" alt="Delete"></button>
-        <button class="icon-btn" type="button" title="View"><img src="images/view.png" alt="View"></button>
+        <button class="icon-btn edit-btn" type="button" title="Edit">
+          <img src="images/edit.png" alt="Edit">
+        </button>
+
+        <button class="icon-btn vis-btn" type="button"
+          title="${item.available === false ? "Show" : "Hide"}">
+          <img
+            src="images/${item.available === false ? "view.png" : "visible.png"}"
+            alt="Visibility">
+        </button>
+
+
+        <button class="icon-btn delete-btn" type="button" title="Delete">
+          <img src="images/delete.png" alt="Delete">
+        </button>
       </div>
     `;
+
+    // Grey out hidden items
+    if (item.available === false) card.classList.add("is-hidden");
+
+    // Delete
+    card.querySelector(".delete-btn").addEventListener("click", () => {
+      deleteMenuItem(stallName, itemKey); // use the key, not the display name
+    });
+
+    // Toggle visibility (soft delete)
+    const visBtn = card.querySelector(".vis-btn");
+    const visImg = visBtn.querySelector("img");
+
+    visBtn.addEventListener("click", async () => {
+      const isCurrentlyAvailable = item.available !== false;
+
+      await toggleMenuItemAvailability(stallName, itemKey, isCurrentlyAvailable);
+
+      // Optimistic UI update (instant feedback)
+      item.available = !isCurrentlyAvailable;
+
+      visImg.src = `images/${item.available ? "view.png" : "visible.png"}`;
+      visBtn.title = item.available ? "Hide" : "Show";
+
+      card.classList.toggle("is-hidden", !item.available);
+    });
+
+
+      // Edit
+      card.querySelector(".edit-btn").addEventListener("click", () => {
+        setFormModeEdit(itemKey, item);
+        openModal();
+      });
 
     list.appendChild(card);
   });
 }
+
 
 // Banana Leaf Nasi Lemak Menu
 const stallName = "Banana Leaf Nasi Lemak";
@@ -794,76 +858,174 @@ menuForm.addEventListener("submit", async (e) => {
   const imgSelect = document.getElementById("imageSelect");
   const imgName = imgSelect ? imgSelect.value : "";
 
-
   if (!itemName || !Number.isFinite(price)) {
     alert("Please fill in item name and valid price.");
     return;
   }
 
-  // If no image provided, use a placeholder
-  const imageUrl = imgName
-  ? `images/${imgName}`     // ✅ correct path
-  : "images/placeholder.jpg";
-
-
-  const itemKey = safeKey(itemName);
+  const imageUrl = imgName ? `images/${imgName}` : "images/placeholder.jpg";
+  const newKey = safeKey(itemName);
 
   try {
-    await update(ref(db, `stalls/${stallName}/menuItems/${itemKey}`), {
-      displayName: itemName,
-      price,
-      ewt,
-      description,
-      available: true,
-      image: imageUrl,
-      updatedAt: Date.now(),
-    });
+    if (!editMode) {
+      // ===== ADD MODE =====
+      await update(ref(db, `stalls/${stallName}/menuItems/${newKey}`), {
+        displayName: itemName,
+        price,
+        ewt,
+        description,
+        available: true,
+        image: imageUrl,
+        updatedAt: Date.now(),
+      });
 
-    alert("✅ Menu item saved!");
-  console.log("Writing to:", `stalls/${stallName}/menuItems/${itemKey}`);
-  console.log("Data:", { itemName, price, ewt, description, imageUrl });
+      alert("✅ Menu item added!");
+    } else {
+      // ===== EDIT MODE =====
+      const oldKey = editingItemKey;
 
+      if (!oldKey) {
+        alert("❌ No item selected to edit.");
+        return;
+      }
+
+      if (newKey !== oldKey) {
+        // Rename key: create new node then delete old node
+        await update(ref(db, `stalls/${stallName}/menuItems/${newKey}`), {
+          ...(await (async () => {
+            // keep available flag if it exists
+            const snap = await get(ref(db, `stalls/${stallName}/menuItems/${oldKey}`));
+            const oldItem = snap.exists() ? snap.val() : {};
+            return { available: oldItem.available !== false };
+          })()),
+          displayName: itemName,
+          price,
+          ewt,
+          description,
+          image: imageUrl,
+          updatedAt: Date.now(),
+        });
+
+        await remove(ref(db, `stalls/${stallName}/menuItems/${oldKey}`));
+      } else {
+        // Same key, just update fields
+        await update(ref(db, `stalls/${stallName}/menuItems/${oldKey}`), {
+          displayName: itemName,
+          price,
+          ewt,
+          description,
+          image: imageUrl,
+          updatedAt: Date.now(),
+        });
+      }
+
+      alert("✅ Menu item updated!");
+    }
+
+    // reset + close
     menuForm.reset();
-
-    // reset preview UI
-    clearImage();
-    const imgField = document.getElementById("imageFileName");
-    if (imgField) imgField.value = "";
-
+    if (typeof clearImage === "function") clearImage();
+    setFormModeAdd();
+    closeModal();
   } catch (err) {
     console.error(err);
-    alert("❌ Failed to save menu item.");
+    alert("❌ Failed to save changes.");
   }
 });
 }
 
-  // ===== MODAL =====
-  const addBtn = document.getElementById("addBtn");
-  const modal = document.getElementById("menuModal");
-  const overlay = document.getElementById("menuOverlay");
-  const cancel = document.getElementById("cancelModal");
+ // ===== MODAL =====
+const addBtn = document.getElementById("addBtn");
+const modal = document.getElementById("menuModal");
+const overlay = document.getElementById("menuOverlay");
+const cancelBtn = document.getElementById("cancelModal");
 
-  function openModal() {
-    modal.classList.add("show");
-    document.body.style.overflow = "hidden";
+function openModal() {
+  if (!modal) return;
+  modal.classList.add("show");
+  document.body.style.overflow = "hidden";
+}
+
+function closeModal() {
+  if (!modal) return;
+  modal.classList.remove("show");
+  document.body.style.overflow = "";
+}
+
+// open ADD mode
+if (addBtn) {
+  addBtn.addEventListener("click", () => {
+    setFormModeAdd();
+    openModal();
+  });
+}
+
+// close
+if (overlay) overlay.addEventListener("click", () => {
+  setFormModeAdd();
+  closeModal();
+});
+if (cancelBtn) cancelBtn.addEventListener("click", () => {
+  setFormModeAdd();
+  closeModal();
+});
+
+
+function setFormModeAdd() {
+  editMode = false;
+  editingItemKey = null;
+  const title = document.getElementById("formTitle");
+  if (title) title.textContent = "Add Menu Item";
+}
+
+function setFormModeEdit(itemKey, item) {
+  editMode = true;
+  editingItemKey = itemKey;
+
+  const title = document.getElementById("formTitle");
+  if (title) title.textContent = "Edit Menu Item";
+
+  // Prefill fields
+  document.getElementById("itemName").value = item.displayName || itemKey;
+  document.getElementById("itemPrice").value = item.price ?? "";
+  document.getElementById("itemEWT").value = item.ewt ?? "";
+  document.getElementById("itemDesc").value = item.description || "";
+
+  // Prefill image dropdown
+  const img = item.image || "";
+  const fileOnly = img.startsWith("images/") ? img.replace("images/", "") : "";
+  if (imageSelect) imageSelect.value = fileOnly || "";
+
+  // Preview
+  if (item.image) {
+    previewImg.src = item.image;
+    previewImg.style.display = "block";
+    if (hint) hint.style.display = "none";
+    showRemoveBtn(true);
+  } else {
+    clearImage();
   }
+}
 
-  function closeModal() {
-    modal.classList.remove("show");
-    document.body.style.overflow = "";
-  }
-
-  if (addBtn) addBtn.addEventListener("click", openModal);
-  if (overlay) overlay.addEventListener("click", closeModal);
-  if (cancel) cancel.addEventListener("click", closeModal);
-
-  // ===== IMAGE PICKER + PREVIEW (NO CROP) =====
-const imagePicker = document.getElementById("imagePicker");
+// ===== IMAGE SELECT -> PREVIEW =====
 const previewImg = document.getElementById("imagePreview");
 const hint = document.getElementById("imageHint");
 const removeImageBtn = document.getElementById("removeImageBtn");
-const removeBtn = document.getElementById("removeImageBtn");
-const imageSelect = document.getElementById("imageSelect");
+
+function showRemoveBtn(show) {
+  if (!removeImageBtn) return;
+  removeImageBtn.style.display = show ? "block" : "none";
+}
+
+function clearImage() {
+  if (previewImg) {
+    previewImg.src = "";
+    previewImg.style.display = "none";
+  }
+  if (hint) hint.style.display = "block";
+  showRemoveBtn(false);
+  if (imageSelect) imageSelect.value = "";
+}
 
 if (imageSelect) {
   imageSelect.addEventListener("change", () => {
@@ -874,41 +1036,45 @@ if (imageSelect) {
       return;
     }
 
-    previewImg.src = `images/${file}`;   // ✅ new path
-    previewImg.style.display = "block";
+    if (previewImg) {
+      previewImg.src = `images/${file}`;
+      previewImg.style.display = "block";
+    }
     if (hint) hint.style.display = "none";
     showRemoveBtn(true);
   });
 }
-
-
-function showRemoveBtn(show){
-  if (!removeImageBtn) return;
-  removeImageBtn.style.display = show ? "block" : "none";
-}
-
-function clearImage(){
-  if (previewImg) { previewImg.src = ""; previewImg.style.display = "none"; }
-  if (hint) hint.style.display = "block";
-  showRemoveBtn(false);
-  if (imageSelect) imageSelect.value = "";
-}
-
-if (imagePicker && imageSelect) {
-  imagePicker.addEventListener("click", () => imageSelect.focus());
-  imagePicker.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" || e.key === " ") imageSelect.focus();
-  });
-}
-
-
-//Remove button only appears when image has been loaded
 
 // remove image button
 if (removeImageBtn) {
   removeImageBtn.addEventListener("click", clearImage);
 }
 
+//Delete menu item
+async function deleteMenuItem(stallName, itemKey) {
+  const confirmed = confirm(`Delete "${itemKey}"?\nThis cannot be undone.`);
+  if (!confirmed) return;
+
+  try {
+    await remove(ref(db, `stalls/${stallName}/menuItems/${itemKey}`));
+    alert(`🗑️ "${itemKey}" deleted`);
+  } catch (err) {
+    console.error(err);
+    alert("❌ Failed to delete menu item");
+  }
+}
+
+async function toggleMenuItemAvailability(stallName, itemKey, currentAvailable) {
+  try {
+    await update(ref(db, `stalls/${stallName}/menuItems/${itemKey}`), {
+      available: !currentAvailable,
+      updatedAt: Date.now(),
+    });
+  } catch (err) {
+    console.error(err);
+    alert("❌ Failed to update visibility.");
+  }
+}
 </script>
   </body>
 </html>
