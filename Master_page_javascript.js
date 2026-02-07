@@ -220,7 +220,7 @@ async function loginMember() {
       window.location.href = "PerformanceDashboard.html";
     } else {
       //sessionStorage.clear("currentRole");
-      window.location.href = "R&C inspection log all.html";
+      window.location.href = "Regulatory&Complianceinfo.html";
     }
   } catch (err) {
     console.error(err);

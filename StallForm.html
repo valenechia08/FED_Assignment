@@ -60,30 +60,101 @@
     font-size: 1.4rem;
     font-weight: bold;
   }
+
+  .inspection-layout {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 1.2rem;
+  align-items: start;
+}
+
+.stall-image img {
+  width: 140px;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.grade-display {
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 12px;
+  font-size: 1.6rem;
+  font-weight: 700;
+  text-align: center;
+  color: white;
+}
+
+.stall-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stall-title {
+  margin: 0 0 0.5rem 0;
+  text-align: center;
+}
+
+/* Desktop layout stays side-by-side */
+.inspection-layout {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 1.2rem;
+  align-items: start;
+}
+
+/* 📱 Mobile layout */
+@media (max-width: 600px) {
+  .inspection-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .stall-left {
+    order: 1;
+  }
+
+  .inspection-content {
+    order: 2;
+  }
+}
+
+/* Grade colors */
+.grade-a { background: #d9534f; }
+.grade-b { background: #5cb85c; }
+.grade-c { background: #f0ad4e; }
+.grade-d { background: #777; }
 </style>
 </head>
 
 <body>
 
-<div class="card">
-  <h2>Edit ratings</h2>
-  <h2 id="stallTitle">Stall</h2>
-  
+<div class="card inspection-layout">
+  <!-- LEFT: stall title + image -->
+  <div class="stall-left">
+    <h2 id="stallTitle" class="stall-title">Stall</h2>
+    <div class="stall-image">
+      <img id="stallImage" src="images/placeholder.jpg" alt="Stall image">
+    </div>
+  </div>
 
-  <label>Cleanliness (%)</label>
-  <input type="number" id="cleanliness" min="0" max="100">
+  <!-- RIGHT: form + grade -->
+  <div class="inspection-content">
+    <h2>Edit results</h2>
 
-  <label>Handling (%)</label>
-  <input type="number" id="handling" min="0" max="100">
+    <label>Cleanliness (%)</label>
+    <input type="number" id="cleanliness" min="0" max="100">
 
-  <label>Efficiency (%)</label>
-  <input type="number" id="efficiency" min="0" max="100">
+    <label>Handling (%)</label>
+    <input type="number" id="handling" min="0" max="100">
 
-  <button class="calc-btn" onclick="calculateGrade()">Calculate Hygiene Grade</button>
+    <label>Efficiency (%)</label>
+    <input type="number" id="efficiency" min="0" max="100">
 
-  <div id="gradeResult" class="grade-display"></div>
+    <div id="gradeResult" class="grade-display"></div>
 
-  <button class="submit-btn" onclick="submitData()">Confirm</button>
+    <button class="submit-btn" onclick="submitData()">Done</button>
+  </div>
 </div>
 
 <script type="module">
@@ -129,6 +200,17 @@
 
   document.getElementById("stallTitle").textContent = stallName;
 
+  const stallRef = ref(db, `stalls/${stallName}`);
+get(stallRef).then(snapshot => {
+  if (snapshot.exists()) {
+    const stall = snapshot.val();
+    if (stall.image) {
+      document.getElementById("stallImage").src = stall.image;
+    }
+  }
+});
+
+
   function getGrade(avg) {
     if (avg >= 85) return "A";
     if (avg >= 75) return "B";
@@ -136,17 +218,27 @@
     return "D";
   }
 
-  window.calculateGrade = () => {
-    const c = Number(cleanliness.value);
-    const h = Number(handling.value);
-    const e = Number(efficiency.value);
+  function updateGrade() {
+  const c = Number(cleanliness.value);
+  const h = Number(handling.value);
+  const e = Number(efficiency.value);
 
-    const avg = (c + h + e) / 3;
-    const grade = getGrade(avg);
+  if ([c, h, e].some(v => isNaN(v))) {
+    gradeResult.textContent = "";
+    gradeResult.className = "grade-display";
+    return;
+  }
 
-    document.getElementById("gradeResult").textContent =
-      `Hygiene Grade: ${grade}`;
-  };
+  const avg = (c + h + e) / 3;
+  const grade = getGrade(avg);
+
+  gradeResult.textContent = `${grade}`;
+  gradeResult.className = `grade-display grade-${grade.toLowerCase()}`;
+}
+
+["cleanliness", "handling", "efficiency"].forEach(id => {
+  document.getElementById(id).addEventListener("input", updateGrade);
+});
 
   window.submitData = async () => {
     const c = Number(cleanliness.value) / 100;
