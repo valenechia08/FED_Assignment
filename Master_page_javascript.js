@@ -467,11 +467,6 @@ document.addEventListener("DOMContentLoaded", () => {
     loadStallHeader("Banana Leaf Nasi Lemak");
   }
 });
-document.addEventListener("DOMContentLoaded", () => {
-  if (document.getElementById("stallImg")) {
-    loadStallHeader("Banana Leaf Nasi Lemak");
-  }
-});
 
 //Create Stall Object & Menu Item
 function createStallObject(stall_name, cuisine, rating, image) {

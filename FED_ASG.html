@@ -79,55 +79,58 @@
         </div>
       </div>
     </nav>
+    <div class="nav-overlay" id="navOverlay"></div>
     <hr class="Nav-line" />
 
-    <!-- Banner -->
-    <div class="Banner">
-      <img class="banner-image" src="images/Welcome.jpg" alt="Banner Image" />
+    <div class="page-content">
+      <!-- Banner -->
+      <div class="Banner">
+        <img class="banner-image" src="images/Welcome.jpg" alt="Banner Image" />
+      </div>
+
+      <!-- Welcome Section -->
+      <section class="home">
+        <div>
+          <h2 class="hello-text">Hello</h2>
+        </div>
+        <div class="searchBar">
+          <input
+            type="text"
+            placeholder="What would you like to eat?"
+            class="search-input"
+          />
+          <button class="search-btn">⌕</button>
+        </div>
+      </section>
+
+      <!-- Cuisines -->
+      <section class="cuisines">
+        <div class="filter-btn cuisine-card" data-cuisine="Malay">
+          <img src="images/Malay Cuisine Picture.jpg" alt="Malay Cuisine" />
+          <p>Malay</p>
+        </div>
+
+        <div class="filter-btn cuisine-card" data-cuisine="Chinese">
+          <img src="images/Chinese Cuisine Picture.jpg" alt="Chinese Cuisine" />
+          <p>Chinese</p>
+        </div>
+
+        <div class="filter-btn cuisine-card" data-cuisine="Indian">
+          <img src="images/Indian Cuisine Picture.webp" alt="Indian Cuisine" />
+          <p>Indian</p>
+        </div>
+
+        <div class="filter-btn cuisine-card" data-cuisine="Others">
+          <img src="images/Other Cuisines Picture.webp" alt="Other Cuisine" />
+          <p>Others</p>
+        </div>
+      </section>
+
+      <hr class="Content-line" />
+
+      <!-- Stall Grid -->
+      <section class="stall-grid" id="stall-grid"></section>
     </div>
-
-    <!-- Welcome Section -->
-    <section class="home">
-      <div>
-        <h2 class="hello-text">Hello</h2>
-      </div>
-      <div class="searchBar">
-        <input
-          type="text"
-          placeholder="What would you like to eat?"
-          class="search-input"
-        />
-        <button class="search-btn">⌕</button>
-      </div>
-    </section>
-
-    <!-- Cuisines -->
-    <section class="cuisines">
-      <div class="filter-btn cuisine-card" data-cuisine="Malay">
-        <img src="images/Malay Cuisine Picture.jpg" alt="Malay Cuisine" />
-        <p>Malay</p>
-      </div>
-
-      <div class="filter-btn cuisine-card" data-cuisine="Chinese">
-        <img src="images/Chinese Cuisine Picture.jpg" alt="Chinese Cuisine" />
-        <p>Chinese</p>
-      </div>
-
-      <div class="filter-btn cuisine-card" data-cuisine="Indian">
-        <img src="images/Indian Cuisine Picture.webp" alt="Indian Cuisine" />
-        <p>Indian</p>
-      </div>
-
-      <div class="filter-btn cuisine-card" data-cuisine="Others">
-        <img src="images/Other Cuisines Picture.webp" alt="Other Cuisine" />
-        <p>Others</p>
-      </div>
-    </section>
-
-    <hr class="Content-line" />
-
-    <!-- Stall Grid -->
-    <section class="stall-grid" id="stall-grid"></section>
 
     <!-- Scripts -->
     <script type="module" src="Master_page_javascript.js"></script>
