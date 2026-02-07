@@ -193,12 +193,38 @@
         .dash-wrap .kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       }
       @media (max-width: 900px) {
+        .dash-wrap select {
+          font-size: 12px;
+          height: 30px;
+        }
+
+        .dash-wrap select option {
+          font-size: 11px;        /* 👈 even smaller on mobile */
+          padding: 5px 8px;
+        }
         .dash-wrap .grid { grid-template-columns: 1fr; }
         .dash-wrap .chart-box { height: 260px; }
         .dash-wrap .chart-box--large { height: 320px; }
       }
       @media (max-width: 520px) {
         .dash-wrap .kpi-grid { grid-template-columns: 1fr; }
+
+        /* Stack title + filter nicely */
+        .dash-wrap .card-header {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 8px;
+        }
+
+        /* Smaller dropdown text (menu + selected) */
+        /* .dash-wrap select,
+        .dash-wrap select option {
+          font-size: 12px;
+        } */
+
+        /* Optional: keep filter from being huge */
+        /* .dash-wrap select { height: 30px; padding: 0 10px; }
+      } */
       }
     </style>
   </head>
@@ -209,7 +235,7 @@
         <div class="top-nav">
           <div class="nav-left">
             <div class="Logo">
-              <img src="/images/ShiokLah(cropped).jpeg" alt="Logo" />
+              <img src="images/ShiokLah(cropped).jpeg" alt="Logo" />
             </div>
           </div>
 
@@ -625,6 +651,7 @@
       // Initial render
       document.getElementById("hygieneFilter").value = defaultYear;
       updateKPIsAndInsights();
+      
     </script>
   </body>
 </html>
