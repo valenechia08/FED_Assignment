@@ -9,13 +9,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Kodchasan:wght@400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Kodchasan:wght@200;300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&family=Open+Sans:wght@300..800&family=Roboto:wght@100..900&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="Master_page_stylesheet.css" />
 
     <style>
       :root {
@@ -60,102 +61,10 @@
         color: var(--text);
       }
 
-      /* TOP NAV */
-      .topNavBar {
-        position: sticky;
-        top: 0;
-        z-index: 2000;
-        background: #fff;
-        border-bottom: 1px solid var(--line);
-      }
-      .topNavBar .container {
-        width: 92%;
-        max-width: 1200px;
-        margin: auto;
-      }
-      .topNavBar .top-nav {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        height: 70px;
-      }
-      .topNavBar .nav-left,
-      .topNavBar .nav-right {
-        flex: 0 0 auto;
-      }
-      .topNavBar .nav-center {
-        flex: 1;
-        display: flex;
-        justify-content: center;
-      }
-      .topNavBar .Logo {
-        height: 60px;
-        display: flex;
-        align-items: center;
-        text-decoration: none;
-      }
-      .topNavBar .Logo img {
-        height: 100%;
-        width: auto;
-        display: block;
-      }
-      .topNavBar .menu {
-        list-style: none;
-        display: flex;
-        align-items: center;
-        gap: 50px;
-      }
-      .topNavBar .menu a {
-        text-decoration: none;
-        font-weight: 800;
-        color: #111;
-        display: block;
-        padding: 8px 0;
-      }
-      .topNavBar .menu a:hover {
-        color: var(--primary-orange);
-      }
-      .topNavBar .menu-item {
-        position: relative;
-      }
-      .topNavBar .dropdown {
-        position: absolute;
-        top: 130%;
-        left: 0;
-        background: var(--primary-yellow);
-        border-radius: 12px;
-        padding: 10px 0;
-        min-width: 220px;
-        display: none;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-      }
-      .topNavBar .dropdown li {
-        list-style: none;
-      }
-      .topNavBar .dropdown a {
-        padding: 10px 18px;
-        color: #111;
-        font-weight: 700;
-      }
-      .topNavBar .dropdown a:hover {
-        background: rgba(0, 0, 0, 0.08);
-      }
-      .topNavBar .menu-item:hover .dropdown {
-        display: block;
-      }
-      .topNavBar .nav-right {
-        width: 60px;
-      }
-
-      @media (max-width: 900px) {
-        .topNavBar .menu {
-          gap: 28px;
-        }
-      }
-      @media (max-width: 700px) {
-        .topNavBar .nav-center {
-          display: none;
-        }
+      /* ✅ ONLY CHANGE: NAV FONT */
+      .topNavBar,
+      .topNavBar * {
+        font-family: "Kodchasan", sans-serif !important;
       }
 
       /* PAGE */
@@ -265,7 +174,7 @@
         margin-top: -4px;
       }
 
-      /* STALL MULTI SELECT (same style as feedback) */
+      /* STALL MULTI SELECT */
       .stall-grid {
         display: grid;
         grid-template-columns: repeat(2, minmax(260px, 1fr));
@@ -403,6 +312,41 @@
         padding: 10px;
       }
 
+      /* ✅ Added: small preview box (still optional) */
+      .evidence-preview {
+        margin-top: 10px;
+        display: none;
+        gap: 10px;
+        align-items: flex-start;
+      }
+      .evidence-preview.show {
+        display: flex;
+      }
+      .evidence-preview img {
+        width: 120px;
+        height: 90px;
+        object-fit: cover;
+        border-radius: 12px;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        background: #f2f2f2;
+      }
+      .evidence-preview .meta {
+        color: #555;
+        font-size: 13px;
+        line-height: 1.4;
+      }
+      .evidence-preview .remove {
+        margin-top: 8px;
+        display: inline-block;
+        background: rgba(228, 115, 41, 0.1);
+        border: 1px solid rgba(228, 115, 41, 0.3);
+        color: #a74410;
+        padding: 8px 10px;
+        border-radius: 999px;
+        font-weight: 800;
+        cursor: pointer;
+      }
+
       /* CONSENT */
       .consent {
         display: flex;
@@ -480,6 +424,24 @@
         cursor: pointer;
         font-weight: 800;
       }
+
+      /* ✅ Added: error styling (so markError works nicely) */
+      .error-field input,
+      .error-field select,
+      .error-field textarea {
+        border-color: rgba(220, 38, 38, 0.6) !important;
+        box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.12) !important;
+      }
+      .error-msg {
+        display: none;
+        margin-top: 6px;
+        font-size: 12px;
+        font-weight: 700;
+        color: rgba(220, 38, 38, 0.9);
+      }
+      .error-msg.show {
+        display: block;
+      }
     </style>
   </head>
 
@@ -504,7 +466,7 @@
               </li>
 
               <li class="menu-item">
-                <a href="#">Order History</a>
+                <a href="OrderHistory.html">Order History</a>
                 <ul class="dropdown">
                   <li><a href="OrderHistory.html">Past Orders</a></li>
                 </ul>
@@ -521,7 +483,7 @@
                       >Regulatory & Compliance Info</a
                     >
                   </li>
-                  <li><a href="#">Favourites</a></li>
+                  <li><a href="Customer_Favourties.html">Favourites</a></li>
                   <li>
                     <a href="Customer Vouchers and Rewards.html">Rewards</a>
                   </li>
@@ -761,8 +723,17 @@
             <div class="field">
               <label for="evidence">Upload photo (receipt / food / etc.)</label>
               <input id="evidence" type="file" accept="image/*" />
-              <div class="help">
-                Front-end only for now (no real upload yet).
+              <div class="help">✅ Optional</div>
+
+              <!-- ✅ Added preview (optional) -->
+              <div class="evidence-preview" id="evidencePreview">
+                <img id="evidenceImg" alt="Evidence preview" />
+                <div class="meta">
+                  <div id="evidenceMeta"></div>
+                  <button class="remove" id="removeEvidence" type="button">
+                    Remove photo
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -815,12 +786,24 @@
       <div class="popup-card">
         <h4>Submitted 🧡</h4>
         <p id="popupMsg">Your complaint has been recorded.</p>
-        <button id="closePopup">Ok</button>
+        <button id="closePopup" type="button">Ok</button>
       </div>
     </div>
 
     <script>
       const submitBtn = document.getElementById("submitBtn");
+      const popup = document.getElementById("popup");
+      const popupMsg = document.getElementById("popupMsg");
+      const closePopup = document.getElementById("closePopup");
+
+      // ✅ Evidence (optional) preview + local save
+      const evidenceInput = document.getElementById("evidence");
+      const evidencePreview = document.getElementById("evidencePreview");
+      const evidenceImg = document.getElementById("evidenceImg");
+      const evidenceMeta = document.getElementById("evidenceMeta");
+      const removeEvidence = document.getElementById("removeEvidence");
+
+      let evidenceDataUrl = null; // base64 (front-end only)
 
       function getCheckedValues(selector) {
         return Array.from(document.querySelectorAll(selector))
@@ -852,6 +835,61 @@
         msg.classList.add("show");
 
         return field;
+      }
+
+      function showPopup(message) {
+        popupMsg.textContent = message;
+        popup.classList.add("show");
+      }
+
+      function fileSizeLabel(bytes) {
+        if (!bytes && bytes !== 0) return "";
+        const kb = bytes / 1024;
+        if (kb < 1024) return `${kb.toFixed(1)} KB`;
+        const mb = kb / 1024;
+        return `${mb.toFixed(2)} MB`;
+      }
+
+      evidenceInput.addEventListener("change", () => {
+        const file = evidenceInput.files && evidenceInput.files[0];
+        evidenceDataUrl = null;
+
+        if (!file) {
+          evidencePreview.classList.remove("show");
+          return;
+        }
+
+        if (!file.type.startsWith("image/")) {
+          showPopup("Please upload an image file (JPG/PNG/etc.).");
+          evidenceInput.value = "";
+          evidencePreview.classList.remove("show");
+          return;
+        }
+
+        // ✅ Front-end-only "upload": convert to base64 (localStorage later)
+        const reader = new FileReader();
+        reader.onload = () => {
+          evidenceDataUrl = reader.result;
+          evidenceImg.src = evidenceDataUrl;
+          evidenceMeta.textContent = `${file.name} • ${fileSizeLabel(file.size)}`;
+          evidencePreview.classList.add("show");
+        };
+        reader.readAsDataURL(file);
+      });
+
+      removeEvidence.addEventListener("click", () => {
+        evidenceInput.value = "";
+        evidenceDataUrl = null;
+        evidencePreview.classList.remove("show");
+      });
+
+      function saveComplaintToLocalStorage(record) {
+        // ✅ Front-end only: store in localStorage (not a real backend)
+        // Note: localStorage is limited in size; keep images small.
+        const key = "shioklah_complaints";
+        const existing = JSON.parse(localStorage.getItem(key) || "[]");
+        existing.unshift(record);
+        localStorage.setItem(key, JSON.stringify(existing));
       }
 
       submitBtn.addEventListener("click", () => {
@@ -886,7 +924,7 @@
             markError(category, "Please choose a complaint category");
         }
 
-        if (!details.value.trim() || details.value.length < 10) {
+        if (!details.value.trim() || details.value.trim().length < 10) {
           firstError =
             firstError ||
             markError(details, "Please describe the issue (min 10 characters)");
@@ -900,14 +938,58 @@
 
         if (firstError) {
           firstError.scrollIntoView({ behavior: "smooth", block: "center" });
-          alert(
-            "Please fill in the required fields before submitting your complaint.",
-          );
+          // ✅ Message now DOES NOT imply photos are required
+          showPopup("Please fill in the required fields (photo is optional).");
           return;
         }
 
-        // success
-        alert("Complaint submitted successfully 🧡");
+        // ✅ Build record (photo optional)
+        const record = {
+          id: "CMP-" + Date.now(),
+          createdAt: new Date().toISOString(),
+          name: name.value.trim(),
+          email: email.value.trim(),
+          phone: document.getElementById("phone").value.trim(),
+          contactPref: document.getElementById("contactPref").value,
+          stalls: getCheckedValues('input[name="stalls"]'),
+          category: category.value,
+          orderId: document.getElementById("orderId").value.trim(),
+          date: document.getElementById("date").value,
+          time: document.getElementById("time").value,
+          details: details.value.trim(),
+          outcome: getCheckedValues('input[name="outcome"]'),
+          evidenceDataUrl: evidenceDataUrl, // null if no image ✅
+        };
+
+        // ✅ Save locally (front-end only)
+        try {
+          saveComplaintToLocalStorage(record);
+        } catch (e) {
+          // if localStorage full (usually because big images), still allow submit
+          console.warn("Local save failed:", e);
+        }
+
+        showPopup(
+          "Complaint submitted successfully. Thank you for dining with us! 🧡",
+        );
+      });
+
+      closePopup.addEventListener("click", () => {
+        popup.classList.remove("show");
+        // ✅ After successful submit, go home immediately
+        // If the popup is showing due to validation error, user stays on page.
+        // We can detect success by checking message text:
+        if (
+          popupMsg.textContent.toLowerCase().includes("complaint submitted")
+        ) {
+          window.location.href = "FED_ASG.html";
+        }
+      });
+
+      popup.addEventListener("click", (e) => {
+        if (e.target === popup) {
+          popup.classList.remove("show");
+        }
       });
     </script>
   </body>
