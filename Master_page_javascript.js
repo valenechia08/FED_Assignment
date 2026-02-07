@@ -424,13 +424,6 @@ document.addEventListener("DOMContentLoaded", () => {
 //   });
 // });
 
-// Top Navigation
-document.addEventListener("click", () => {
-  document
-    .querySelectorAll(".menu-item")
-    .forEach((item) => item.classList.remove("active"));
-});
-
 //loading stalls(bananaleafhtml)
 async function loadStallHeader(stallName) {
   const snap = await get(ref(db, `stalls/${stallName}`));
@@ -864,3 +857,42 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // example
 listenToMenu("Banana Leaf Nasi Lemak");
+
+// Top Navigation - only close dropdowns when clicking OUTSIDE the nav
+document.addEventListener("click", (e) => {
+  const clickedInsideNav = e.target.closest(".navrectangle");
+  if (clickedInsideNav) return; // don't close when clicking inside nav
+
+  document.querySelectorAll(".menu-item").forEach((item) => {
+    item.classList.remove("active");
+  });
+});
+
+const hamburger = document.getElementById("hamburger");
+const menu = document.getElementById("menu");
+const overlay = document.getElementById("navOverlay");
+
+function openNav() {
+  menu.classList.add("show");
+  overlay.classList.add("show");
+  document.body.style.overflow = "hidden";
+}
+
+function closeNav() {
+  menu.classList.remove("show");
+  overlay.classList.remove("show");
+  document.body.style.overflow = "";
+}
+
+hamburger.addEventListener("click", () => {
+  menu.classList.contains("show") ? closeNav() : openNav();
+});
+
+overlay.addEventListener("click", closeNav);
+
+/* optional: close menu when clicking any nav link (mobile) */
+menu.querySelectorAll("a").forEach((link) => {
+  link.addEventListener("click", () => {
+    if (window.innerWidth <= 768) closeNav();
+  });
+});
