@@ -234,6 +234,13 @@ window.getCurrentUsername = function () {
     ""
   ).trim();
 };
+
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+      document.getElementById("loginBtn").click();
+    }
+  });
+  
 // =========================
 // SHOW USERNAME IN GREETING
 // =========================
