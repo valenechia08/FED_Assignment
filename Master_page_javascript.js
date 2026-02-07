@@ -450,6 +450,28 @@ document.addEventListener("click", () => {
           .forEach((item) => item.classList.remove("active"));
       });
 
+//loading stalls(bananaleafhtml)
+async function loadStallHeader(stallName) {
+  const snap = await get(ref(db, `stalls/${stallName}`));
+  if (!snap.exists()) return;
+
+  const stall = snap.val();
+
+  document.getElementById("stallName").textContent = stallName;
+  document.getElementById("stallRating").textContent = stall.rating;
+  document.getElementById("stallCuisine").textContent = stall.cuisine;
+  document.getElementById("stallImg").src = stall.image;
+}
+document.addEventListener("DOMContentLoaded", () => {
+  if (document.getElementById("stallImg")) {
+    loadStallHeader("Banana Leaf Nasi Lemak");
+  }
+});
+document.addEventListener("DOMContentLoaded", () => {
+  if (document.getElementById("stallImg")) {
+    loadStallHeader("Banana Leaf Nasi Lemak");
+  }
+});
 
 //Create Stall Object & Menu Item
 function createStallObject(stall_name, cuisine, rating, image) {
