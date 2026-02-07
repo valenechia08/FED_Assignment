@@ -14,7 +14,180 @@
       href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="Master_page_stylesheet.css" />
+    <link rel="stylesheet" href="Vendor.css" />
+    <style>
+      :root{
+      --bg:#f6f7fb;
+      --card:#ffffff;
+      --text:#1f2937;
+      --muted:#6b7280;
+      --line:#eceff5;
+      --shadow:0 10px 28px rgba(16,24,40,.10);
+      --green:#039855;
+      --green-bg:#e8f8ef;
+      --red:#d92d20;
+      --red-bg:#ffe7ea;
+      --radius:14px;
+    }
+    .wrap{
+      max-width: 1100px;
+      margin: auto;
+      margin-top:15px;
+    }
+
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+
+    .card-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:14px 16px;
+      border-bottom:1px solid var(--line);
+      background-color: #ffdfae;
+    }
+
+    .card-title{
+      font-size:20px;
+      margin-left:10px;
+      margin-top:10px;
+      margin-bottom:10px;
+      font-weight:700;
+      color:#344054;
+    }
+
+    .header-actions{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    /* FILTER DROPDOWN */
+    select{
+      padding:8px 12px;
+      border-radius:10px;
+      border:1px solid var(--line);
+      font-size:13px;
+      font-weight:600;
+      cursor:pointer;
+      background:#fff;
+    }
+
+    /* ADD BUTTON */
+    .add-btn{
+      width:36px;
+      height:36px;
+      border-radius:10px;
+      border:none;
+      background:#ff8c3a;
+      color:white;
+      font-size:20px;
+      font-weight:700;
+      cursor:pointer;
+    }
+
+    .list{display:flex;flex-direction:column;}
+
+    .row{
+      display:flex;
+      align-items:center;
+      gap:18px;
+      padding:22px 26px;
+      border-bottom:1px solid var(--line);
+      cursor:pointer;
+    }
+    .row:last-child{border-bottom:none;}
+    .row:hover{background:#fafbff;}
+
+    .icon{
+      width:38px;
+      height:38px;
+      border-radius:12px;
+      background:#f1f3f9;
+      display:grid;
+      place-items:center;
+    }
+
+    .main{
+      flex:1;
+      min-width:0;
+    }
+
+    .top{
+      display:flex;
+      gap:10px;
+      align-items:baseline;
+    }
+
+    .aid{
+  font-size: 15px;
+  font-weight: 700;
+}
+
+    .address{
+      font-size:15px;
+      font-weight:700;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .sub{
+      margin-top:8px;
+      font-size:14px;
+      color:var(--text);
+    }
+
+    .right{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+
+    .badge{
+      font-size:13px;
+      padding: 7px 14px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:700;
+    }
+
+    .active{background:var(--green-bg);color:var(--green);border:2px solid var(--green)}
+    .expired{background:var(--red-bg);color:var(--red);border:1.5px solid var(--red)}
+    .badge.pending{
+  background: #fffab1;
+  color: #d79e00;
+  border: 1.5px solid rgba(181,71,8,.25);
+}
+
+
+    .arrow-btn{
+    background: none;
+    border: none;
+    font-size: 20px;
+    font-weight: 700;
+    color: #98a2b3;
+    cursor: pointer;
+    padding: 4px 6px;
+    line-height: 1;
+    transition: transform .15s ease, color .15s ease;
+  }
+
+  .arrow-btn:hover{
+    font-size: 22px;
+    color: #475467;
+    transform: translateX(3px);
+}
+
+.end-date{
+  font-weight: 700;
+}
+    </style>
   </head>
   <body>
     <!-- Vendor Home -->
@@ -25,7 +198,7 @@
         <ul class="navBar">
           <li>
             <a href="PerformanceDashboard.html" class="main toggle">
-              🏠 Dashboard
+              📊 Dashboard
             </a>
           </li>
 
@@ -51,7 +224,7 @@
               </button>
             </li>
             <li>
-             <button onclick="window.location.href='FED_ASG.html';" class="subpoint">
+             <button onclick="window.location.href='PerformanceDashboard.html';" class="subpoint">
                • Performance Dashboard
               </button>
             </li>
@@ -75,7 +248,7 @@
       </nav>
 
       <nav class="mobile-nav vendornav">
-        <div class="mobile-nav-item active" data-link="PerformanceDashboard.html">
+        <div class="mobile-nav-item active" data-link="FED_ASG.html">
           <span>🏠</span>
           <small>Home</small>
         </div>
@@ -93,17 +266,86 @@
 
   <main class="contents">
 
-    <header class="page-header">
-      <div class="header-row">
-        <div class="title-block">
-          <h1>Incoming Orders</h1>
-          <!-- <div class="divider"></div> -->
+    <div class="wrap">
+
+  <section class="card">
+    <div class="card-header">
+      <div class="card-title">Rental Agreements</div>
+
+      <div class="header-actions">
+        <!-- STATUS FILTER -->
+        <select>
+          <option value="all">All Status</option>
+          <option value="active">Active</option>
+          <option value="expired">Expired</option>
+          <option value="pending">Pending Renewal</option>
+        </select>
+
+        <!-- ADD BUTTON -->
+        <button class="add-btn" id="addAgreementBtn">+</button>
+      </div>
+    </div>
+
+    <div class="list">
+
+      <!-- ROW -->
+      <div class="row">
+        <div class="icon">📄</div>
+
+        <div class="main">
+          <div class="top">
+            <div class="aid">AG002</div>
+            <div class="address">
+              Boon Lay Place Food Village, 221A/B Boon Lay Place
+            </div>
+          </div>
+          <div class="sub">
+            End Date: <span class="end-date">31-Dec-2026</span>
+          </div>
         </div>
 
-        
+        <div class="right">
+  <span class="badge pending">Pending Renewal</span>
 
+  <!-- VIEW MORE ARROW -->
+  <button class="arrow-btn" title="View details">
+    ›
+  </button>
+</div>
+</div>
+
+      <!-- ROW -->
+      <div class="row">
+        <div class="icon">📄</div>
+
+        <div class="main">
+          <div class="top">
+            <div class="aid">AG001</div>
+            <div class="address">
+              Boon Lay Place Food Village, 221A/B Boon Lay Place
+            </div>
+          </div>
+          <div class="sub">
+            End Date: <span class="end-date">31-Dec-2026</span>
+          </div>
+        </div>
+
+        <div class="right">
+        <span class="badge expired">Expired</span>
+
+        <!-- VIEW MORE ARROW -->
+        <button class="arrow-btn" title="View details">
+          ›
+        </button>
+      </div>
     </section>
   </main>
+  <script>
+      document.getElementById("addAgreementBtn").addEventListener("click", () => {
+        // change this to your actual page name
+        window.location.href = "AddRentalAgreement.html";
+      });
+  </script>
     <script type="module" src="Master_page_javascript.js"></script>
   </body>
 </html>

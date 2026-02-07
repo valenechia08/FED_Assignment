@@ -5,7 +5,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebas
 import {
   getDatabase,
   ref,
-  onValue,   
+  onValue,
   push,
   set,
   get,
@@ -36,6 +36,12 @@ const firebaseConfig = {
   messagingSenderId: "791146838729",
   appId: "1:791146838729:web:446baee191feeb036e2b18",
 };
+
+//null check
+function bind(selector, event, handler) {
+  const el = document.querySelector(selector);
+  if (el) el.addEventListener(event, handler);
+}
 
 /* ================================
    Initialize Firebase
@@ -145,7 +151,7 @@ async function registerMember() {
       username,
       email,
       passwordHash,
-      userType: "registered",   //  ADD THIS✅  valene add this
+      userType: "registered", //  ADD THIS✅  valene add this
       createdAt: Date.now(),
     });
 
@@ -193,13 +199,13 @@ async function loginMember() {
       showMessage("Incorrect password.", "red");
       return;
     }
-    
+
     // ✅ update both browser + firebase
     sessionStorage.setItem("currentUserId", username);
 
     await update(ref(db, `members/${username}`), {
       userType: data.userType || "registered",
-      lastLoginAt: Date.now()
+      lastLoginAt: Date.now(),
     });
 
     // Save session + redirect
@@ -220,6 +226,21 @@ async function loginMember() {
     showMessage(`Login failed: ${err?.message ?? "Unknown error"}`, "red");
   }
 }
+// =========================
+// SHOW USERNAME IN GREETING
+// =========================
+document.addEventListener("DOMContentLoaded", () => {
+  const usernameEl = document.getElementById("usernameDisplay");
+  if (!usernameEl) return; // not on this page
+
+  const username = sessionStorage.getItem("loggedInUser");
+
+  if (username) {
+    usernameEl.textContent = username;
+  } else {
+    usernameEl.textContent = "Guest";
+  }
+});
 
 async function retrieveAccount() {
   const username = normalizeUsername($("username")?.value ?? "");
@@ -263,24 +284,24 @@ document.addEventListener("DOMContentLoaded", () => {
     links.classList.add("nea-alignment");
   }
 });
+
+// Verify OTP
 document.addEventListener("DOMContentLoaded", () => {
-  let finalCode = null;
-  if (window.location.pathname.endsWith("ConfirmAccount.html")) {
-    // Generate code on page load
-    finalCode = generateCode();
-  }
-  document.querySelector(".secondBackBtn").addEventListener("click", () => {
+  // Only run OTP logic on ConfirmAccount page
+  if (!window.location.pathname.endsWith("ConfirmAccount.html")) return;
+
+  let finalCode = generateCode(); // generate on load
+
+  bind(".secondBackBtn", "click", () => {
     window.location.href = "FindAccount.html";
   });
 
-  // Resend button
-  document.getElementById("resendBtn").addEventListener("click", () => {
+  bind("#resendBtn", "click", () => {
     finalCode = generateCode();
   });
 
-  // Verify OTP
-  document.getElementById("primaryBtn").addEventListener("click", () => {
-    const userCode = document.getElementById("code").value.trim();
+  bind("#primaryBtn", "click", () => {
+    const userCode = document.getElementById("code")?.value.trim();
 
     if (!userCode) {
       showMessage("Please enter the code.", "red");
@@ -339,16 +360,30 @@ function goLogin(role) {
 /* =========================
    AUTO-BIND EVENTS (based on page)
 ========================= */
-document.addEventListener("DOMContentLoaded", () => {
-  document.querySelector(".backBtn").addEventListener("click", () => {
-    window.location.href = "SelectRole.html";
-  });
-});
+
+// document.addEventListener("DOMContentLoaded", () => {
+//   document.querySelector(".backBtn").addEventListener("click", () => {
+//     window.location.href = "SelectRole.html";
+//   });
+// });
 document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(".roleBtn").forEach((btn) => {
     btn.addEventListener("click", () => {
       goLogin(btn.dataset.role);
     });
+  });
+});
+document.addEventListener("DOMContentLoaded", () => {
+  bind(".backBtn", "click", () => {
+    window.location.href = "SelectRole.html";
+  });
+
+  bind(".secondBackBtn", "click", () => {
+    window.location.href = "FindAccount.html";
+  });
+
+  bind(".thirdBackBtn", "click", () => {
+    window.location.href = "login.html";
   });
 
   // Register page
@@ -370,10 +405,6 @@ document.addEventListener("DOMContentLoaded", () => {
     $("resetPasswordBtn").addEventListener("click", resetPassword);
   }
 
-  document.querySelector(".thirdBackBtn").addEventListener("click", () => {
-    window.location.href = "login.html";
-  });
-
   // Optional: allow Enter key to submit on login page
   if ($("loginBtn") && $("password")) {
     $("password").addEventListener("keydown", (e) => {
@@ -385,13 +416,6 @@ document.addEventListener("DOMContentLoaded", () => {
   if ($("registerBtn")) {
     $("registerBtn").addEventListener("keydown", (e) => {
       if (e.key === "Enter") registerMember();
-    });
-  }
-
-  //
-  if ($("continueBtn")) {
-    $("continueBtn").addEventListener("keydown", (e) => {
-      if (e.key === "Enter") retrieveAccount();
     });
   }
 });
@@ -415,16 +439,23 @@ document.addEventListener("DOMContentLoaded", () => {
 //   });
 // });
 
+//loading stalls(bananaleafhtml)
+// async function loadStallHeader(stallName) {
+//   const snap = await get(ref(db, `stalls/${stallName}`));
+//   if (!snap.exists()) return;
 
+//   const stall = snap.val();
 
-// Top Navigation
-document.addEventListener("click", () => {
-        document
-          .querySelectorAll(".menu-item")
-          .forEach((item) => item.classList.remove("active"));
-      });
-
-
+//   document.getElementById("stallName").textContent = stallName;
+//   document.getElementById("stallRating").textContent = stall.rating;
+//   document.getElementById("stallCuisine").textContent = stall.cuisine;
+//   document.getElementById("stallImg").src = stall.image;
+// }
+// document.addEventListener("DOMContentLoaded", () => {
+//   if (document.getElementById("stallImg")) {
+//     loadStallHeader("Banana Leaf Nasi Lemak");
+//   }
+// });
 //Create Stall Object & Menu Item
 function createStallObject(stall_name, cuisine, rating, image) {
   return {
@@ -437,7 +468,7 @@ function createStallObject(stall_name, cuisine, rating, image) {
   };
 }
 
-function createMenuItemObject(item_name, price, available = true,image) {
+function createMenuItemObject(item_name, price, available = true, image) {
   return {
     [item_name]: {
       price,
@@ -447,14 +478,19 @@ function createMenuItemObject(item_name, price, available = true,image) {
   };
 }
 
-
 async function uploadStall(stall_name, cuisine, rating, image) {
   const stallObj = createStallObject(stall_name, cuisine, rating, image);
   await update(ref(db, "stalls"), stallObj);
 }
 
-async function addMenuItem(stall_name, item_name, price, available = true,image) {
-  const itemObj = createMenuItemObject(item_name, price, available,image);
+async function addMenuItem(
+  stall_name,
+  item_name,
+  price,
+  available = true,
+  image,
+) {
+  const itemObj = createMenuItemObject(item_name, price, available, image);
   await update(ref(db, `stalls/${stall_name}/menuItems`), itemObj);
 }
 
@@ -502,7 +538,7 @@ async function addMenuItem(stall_name, item_name, price, available = true,image)
     "Set Meal C",
     4,
     true,
-    "images/Set Meal C Picture.jpg",
+    "images/Set Meal C Picture.png",
   );
   await addMenuItem(
     "Banana Leaf Nasi Lemak",
@@ -511,8 +547,61 @@ async function addMenuItem(stall_name, item_name, price, available = true,image)
     true,
     "images/Set Meal D Picture.jpg",
   );
-
-
+  await uploadStall(
+    "Boon Lay Fried Carrot Cake & Kway Teow Mee",
+    "Chinese",
+    4.2,
+    "images/Boon Lay Fried Carrot Cake & Kway Teow Mee Picture.jpg",
+  );
+  await addMenuItem(
+    "Boon Lay Fried Carrot Cake & Kway Teow Mee",
+    "Black Carrot Cake (Small)",
+    3,
+    true,
+    "images/Black Carrot Cake Picture.jpg",
+  );
+  await addMenuItem(
+    "Boon Lay Fried Carrot Cake & Kway Teow Mee",
+    "Black Carrot Cake (Medium)",
+    4,
+    true,
+    "images/Black Carrot Cake Picture.jpg",
+  );
+  await addMenuItem(
+    "Boon Lay Fried Carrot Cake & Kway Teow Mee",
+    "Black Carrot Cake (Large)",
+    5,
+    true,
+    "images/Black Carrot Cake Picture.jpg",
+  );
+  await addMenuItem(
+    "Boon Lay Fried Carrot Cake & Kway Teow Mee",
+    "White Carrot Cake (Small)",
+    3,
+    true,
+    "images/White Carrot Cake Picture.jpg",
+  );
+  await addMenuItem(
+    "Boon Lay Fried Carrot Cake & Kway Teow Mee",
+    "White Carrot Cake (Medium)",
+    4,
+    true,
+    "images/White Carrot Cake Picture.jpg",
+  );
+  await addMenuItem(
+    "Boon Lay Fried Carrot Cake & Kway Teow Mee",
+    "White Carrot Cake (Large)",
+    5,
+    true,
+    "images/White Carrot Cake Picture.jpg",
+  );
+  await addMenuItem(
+    "Boon Lay Fried Carrot Cake & Kway Teow Mee",
+    "Char Kway Teow",
+    4.5,
+    true,
+    "images/Char Kway Teow Picture.webp",
+  );
   await uploadStall(
     "Boon Lay Lu Wei",
     "Chinese",
@@ -526,45 +615,77 @@ async function addMenuItem(stall_name, item_name, price, available = true,image)
     "images/I.Mohamed Ismail Food Stall Picture.jpg",
   );
   await uploadStall(
-    "Boon Lay Fried Carrot Cake & Kway Teow Mee",
-    "Chinese",
-    4.2,
-    "images/Boon Lay Fried Carrot Cake & Kway Teow Mee Picture.jpg",
-  );
-  await uploadStall(
     "Big Daddy’s Chicken & Noodle Stall",
     "Others",
     4.5,
     "images/Big Daddy's Chicken & Noodle Picture.webp",
   );
 })();
-
-async function loadMenu(stall_name) {
-  const snap = await get(ref(db, `stalls/${stall_name}/menuItems`));
+async function loadStallInfo(stallName) {
+  const snap = await get(ref(db, `stalls/${stallName}`));
 
   if (!snap.exists()) {
-    console.log("No menu items");
-    document.querySelector("#menuRoot").innerHTML = "<p>No menu items.</p>";
+    console.error("Stall not found:", stallName);
     return;
   }
 
-  const menuItems = snap.val();
-  renderMenu(menuItems, stall_name);
+  const stall = snap.val();
+
+  const img = document.getElementById("stallImg");
+  const name = document.getElementById("stallName");
+  const rating = document.getElementById("stallRating");
+  const cuisine = document.getElementById("stallCuisine");
+
+  if (img) img.src = stall.image;
+  if (name) name.textContent = stallName;
+  if (rating) rating.textContent = stall.rating;
+  if (cuisine) cuisine.textContent = stall.cuisine;
 }
 
+//Update cart number
+function updateCartUI() {
+  const cart = JSON.parse(sessionStorage.getItem("cart") || "[]");
+  const countEl = document.getElementById("cartCount");
+  if (countEl) {
+    countEl.textContent = cart.length;
+  }
+}
+
+// =========================
+// CART (simple test version)
+// =========================
+function addToCart(stall_name, item_name, price) {
+  const cart = JSON.parse(sessionStorage.getItem("cart") || "[]");
+
+  cart.push({
+    stall: stall_name,
+    item: item_name,
+    price: Number(price),
+    qty: 1,
+    addedAt: Date.now(),
+  });
+
+  sessionStorage.setItem("cart", JSON.stringify(cart));
+
+  updateCartUI(); // ✅ update number immediately
+
+  console.log("✅ Added to cart:", stall_name, item_name, price);
+}
+
+/* =========================
+   RENDER MENU
+========================= */
 function renderMenu(menuItems, stall_name) {
   const root = document.querySelector("#menuRoot");
-  root.innerHTML = ""; // clear old
+  root.innerHTML = "";
 
-  // Optional heading
   const heading = document.createElement("h2");
   heading.textContent = "Menu";
   heading.style.margin = "10px 0 16px";
   root.appendChild(heading);
 
-  // grid container
   const grid = document.createElement("div");
-  grid.className = "menu-grid"; // style in CSS if you want
+  grid.className = "menu-grid";
   root.appendChild(grid);
 
   for (const item_name in menuItems) {
@@ -572,7 +693,10 @@ function renderMenu(menuItems, stall_name) {
 
     const card = document.createElement("div");
     card.className = "menu-card";
-
+    const img = document.createElement("img");
+    img.className = "menu-img";
+    img.src = item.image; // fallback if missing
+    img.alt = item_name;
     const title = document.createElement("div");
     title.className = "menu-title";
     title.textContent = item_name;
@@ -586,43 +710,78 @@ function renderMenu(menuItems, stall_name) {
 
     const plusBtn = document.createElement("button");
     plusBtn.className = "plus-btn";
-    plusBtn.type = "button";
     plusBtn.textContent = "+";
 
-    // disable if unavailable
     if (item.available === false) {
       plusBtn.disabled = true;
       plusBtn.textContent = "—";
       card.classList.add("unavailable");
     } else {
-      plusBtn.addEventListener("click", () => {
+      plusBtn.onclick = () => {
         addToCart(stall_name, item_name, item.price);
-      });
+      };
     }
-
+    card.appendChild(img);
     actions.appendChild(plusBtn);
-
     card.appendChild(title);
     card.appendChild(price);
     card.appendChild(actions);
-
     grid.appendChild(card);
+
+    console.log("Menu data:", menuItems);
   }
 }
-loadMenu("Banana Leaf Nasi Lemak");
 
-async function renderStalls() {
+//load menu(one time) or listen menu(realtime) choose one
+
+// /* =========================
+//    LOAD MENU FROM FIREBASE
+// ========================= */
+// async function loadMenu(stall_name) {
+//   const snap = await get(ref(db, `stalls/${stall_name}/menuItems`));
+
+//   if (!snap.exists()) {
+//     document.querySelector("#menuRoot").innerHTML =
+//       "<p>No menu items.</p>";
+//     return;
+//   }
+
+//   renderMenu(snap.val(), stall_name);
+// }
+
+// // Load default stall menu
+// loadMenu("Banana Leaf Nasi Lemak");
+
+//reading
+
+let stopMenuListener = null;
+
+function listenToMenu(stall_name) {
+  if (stopMenuListener) stopMenuListener(); // stop old listener
+
+  const menuRef = ref(db, `stalls/${stall_name}/menuItems`);
+  stopMenuListener = onValue(menuRef, (snap) => {
+    if (!snap.exists()) {
+      document.querySelector("#menuRoot").innerHTML = "<p>No menu items.</p>";
+      return;
+    }
+    renderMenu(snap.val(), stall_name);
+  });
+}
+
+/* =========================
+   RENDER STALLS
+========================= */
+function renderStalls(stalls) {
   const grid = document.querySelector("#stall-grid");
+  if (!grid) return; // ✅ page doesn't have stall grid
+
   grid.innerHTML = "";
 
-  const snap = await get(ref(db, "stalls"));
-
-  if (!snap.exists()) {
+  if (!stalls) {
     grid.textContent = "No stalls found.";
     return;
   }
-
-  const stalls = snap.val();
 
   for (const stall_name in stalls) {
     const stall = stalls[stall_name];
@@ -637,7 +796,8 @@ async function renderStalls() {
     info.className = "stall-info";
 
     const title = document.createElement("h4");
-    title.textContent = `${stall_name}`;
+    title.textContent = stall_name;
+
     const meta = document.createElement("p");
     meta.textContent = `⭐ ${stall.rating} · ${stall.cuisine}`;
 
@@ -647,17 +807,53 @@ async function renderStalls() {
     card.appendChild(img);
     card.appendChild(info);
 
-    // click handler (optional)
-    card.onclick = () => {
-      console.log("Selected stall:", stall_name);
-      // loadMenu(stall_name);
-    };
+    // card.onclick = () => {
+    //   if (stall_name === "Banana Leaf Nasi Lemak") {
+    //     window.location.href = "BananaLeafNasiLemak.html";
+    //   } else if (stall_name === "Boon Lay Fried Carrot Cake & Kway Teow Mee") {
+    //     window.location.href = "BananaLeafNasiLemak.html";
+    //   } else {
+    //     listenToMenu(stall_name);
+    //   }
+    // };
+    card.addEventListener("click", () => {
+      const url = `FoodStalls.html?stall=${encodeURIComponent(stall_name)}`;
+      window.location.href = url;
+    });
 
     grid.appendChild(card);
   }
 }
+document.addEventListener("DOMContentLoaded", () => {
+  const params = new URLSearchParams(window.location.search);
+  const stallName = params.get("stall");
 
-renderStalls();
+  if (!stallName) {
+    document.querySelector("#menuRoot").innerHTML = "<p>No stall selected.</p>";
+    return;
+  }
+
+  // Optional: show stall name on the page somewhere
+  const titleEl = document.getElementById("stallTitle");
+  if (titleEl) titleEl.textContent = stallName;
+
+  listenToMenu(stallName);
+});
+
+/* =========================
+   FETCH STALLS (ONCE)
+========================= */
+let allStalls = {};
+
+// async function fetchStalls() {
+//   const snap = await get(ref(db, "stalls"));
+//   if (!snap.exists()) return;
+
+//   allStalls = snap.val();
+//   renderStalls(allStalls);
+// }
+
+// fetchStalls();
 
 /*Mobile Navigation*/
 document.querySelectorAll(".mobile-nav-item").forEach((item) => {
@@ -674,6 +870,7 @@ const stallCards = document.querySelectorAll(".stall-card");
 if (searchInput) {
   // Listen for typing
   searchInput.addEventListener("keyup", function () {
+    const stallCards = document.querySelectorAll(".stall-card");
     const query = this.value.toLowerCase();
     stallCards.forEach((card) => {
       const name = card.querySelector("h4").textContent.toLowerCase();
@@ -688,6 +885,7 @@ if (searchInput) {
     });
   });
 }
+let selectedCuisine = null;
 
 // Fetch all stalls from Firebase
 async function fetchStalls() {
@@ -728,11 +926,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   });
 });
-
+/*
 exports.placeOrder = functions.https.onRequest(async (req, res) => {
   const { username, stall, items } = req.body;
 
-  // Validate
+  Validate
   if (!username || !stall || !items) {
     return res.status(400).json({ error: "Invalid data" });
   }
@@ -752,4 +950,70 @@ exports.placeOrder = functions.https.onRequest(async (req, res) => {
   });
 
   res.json({ success: true, total });
+});
+  */
+
+//Update cart number
+// document.addEventListener("DOMContentLoaded", () => {
+//   updateCartUI();
+// });
+document.addEventListener("DOMContentLoaded", () => {
+  updateCartUI();
+
+  const menuRoot = document.querySelector("#menuRoot");
+  if (!menuRoot) return; // not stall page
+
+  const params = new URLSearchParams(window.location.search);
+  const stallName = params.get("stall");
+
+  if (!stallName) {
+    menuRoot.innerHTML = "<p>No stall selected.</p>";
+    return;
+  }
+
+  // ✅ load stall header info
+  loadStallInfo(stallName);
+});
+
+// example
+// listenToMenu("Banana Leaf Nasi Lemak");
+// listenToMenu("Boon Lay Fried Carrot Cake & Kway Teow Mee");
+
+// Top Navigation - only close dropdowns when clicking OUTSIDE the nav
+document.addEventListener("click", (e) => {
+  const clickedInsideNav = e.target.closest(".navrectangle");
+  if (clickedInsideNav) return; // don't close when clicking inside nav
+
+  document.querySelectorAll(".menu-item").forEach((item) => {
+    item.classList.remove("active");
+  });
+});
+
+const hamburger = document.getElementById("hamburger");
+const menu = document.getElementById("menu");
+const overlay = document.getElementById("navOverlay");
+
+function openNav() {
+  menu.classList.add("show");
+  overlay.classList.add("show");
+  document.body.style.overflow = "hidden";
+}
+
+function closeNav() {
+  menu.classList.remove("show");
+  overlay.classList.remove("show");
+  document.body.style.overflow = "";
+}
+
+hamburger.addEventListener("click", () => {
+  menu.classList.contains("show") ? closeNav() : openNav();
+});
+
+overlay.addEventListener("click", closeNav);
+
+/* optional: close menu when clicking any nav link (mobile) */
+menu.querySelectorAll("a").forEach((link) => {
+  link.addEventListener("click", () => {
+    if (window.innerWidth <= 768) closeNav();
+  });
 });

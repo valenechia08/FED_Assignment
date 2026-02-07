@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Customer Feedback | ShiokLah!</title>
+    <link rel="stylesheet" href="Master_page_stylesheet.css" />
 
     <!-- Fonts (same as your project) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -484,6 +485,23 @@
         cursor: pointer;
         font-weight: 800;
       }
+      .complaint-link {
+        text-align: center;
+        margin-bottom: 18px;
+      }
+
+      .complaint-link a {
+        color: var(--primary-orange);
+        font-weight: 800;
+        text-decoration: none;
+        border-bottom: 2px dashed var(--primary-orange);
+        padding-bottom: 2px;
+        transition: 0.2s;
+      }
+
+      .complaint-link a:hover {
+        opacity: 0.7;
+      }
     </style>
   </head>
 
@@ -554,6 +572,15 @@
       <p class="page-subtitle">
         Rate your experience and share your thoughts!✨
       </p>
+      <!-- =========================
+           ✅ ADDED ONLY THIS LINK
+           ========================= -->
+      <div class="complaint-link">
+        <a href="CustomerComplaintForm.html">
+          Not satisfied? Write a complaint instead →
+        </a>
+      </div>
+      <!-- ========================= -->
 
       <section class="card">
         <div class="card-inner">
@@ -805,6 +832,11 @@
         popupMsg.textContent =
           "Your feedback has been submitted. Thank you for helping ShiokLah improve!";
         popup.classList.add("show");
+
+        // ✅ ADDED ONLY THIS: auto go back home after submit
+        setTimeout(() => {
+          window.location.href = "FED_ASG.html";
+        }, 1200);
       });
 
       closePopup.addEventListener("click", () =>
