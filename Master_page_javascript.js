@@ -1474,36 +1474,112 @@ function renderCart() {
 //   }
 // });
 
-//For OrderSummary.html
-function generateOrderId() {
-  const rand = Math.floor(1000 + Math.random() * 9000); // 1000–9999
-  return `ORD-${rand}`;
+//making guestId
+function getOrCreateGuestId() {
+  let id = localStorage.getItem("guestId");   // ✅ use localStorage
+  if (!id) {
+    id = "guest_" + Math.random().toString(36).slice(2, 10);
+    localStorage.setItem("guestId", id);
+  }
+  return id;
 }
 
-async function placeOrderAndSave() {
-  const cart = getCart();
-  if (!cart.length) return null;
+//Valene's code: still editing
 
-  const orderNo = generateOrderId();
-  const username = sessionStorage.getItem("loggedInUser");
+//For OrderSummary.html
+// function generateOrderId() {
+//   const rand = Math.floor(1000 + Math.random() * 9000); // 1000–9999
+//   return `ORD-${rand}`;
+// }
 
-  const order = {
-    orderNo: orderNo,
-    username: username,
-    createdAt: Date.now(),
-    items: cart,
-    orderMode: sessionStorage.getItem("orderMode") || "pickup",
-    paymentMethod: sessionStorage.getItem("paymentMethod") || "visa",
-    status: "Pending",
-  };
+// async function placeOrderAndSave() {
+//   const cart = getCart();
+//   if (!cart.length) return null;
+  
+//   const orderNo = generateOrderId();
+//   // const username = sessionStorage.getItem("loggedInUser");
+//   const username =
+//     sessionStorage.getItem("loggedInUser") ||
+//     localStorage.getItem("loggedInUser") ||
+//     "";
+//   const isGuest = !username;
+  
+//   const ownerKey = isGuest ? getOrCreateGuestId() : username;
+
+//   const order = {
+//     orderNo,
+//     ownerKey,
+//     userType: isGuest ? "guest" : "registered",
+//     username: isGuest ? "" : username,
+//     createdAt: Date.now(),
+//     items: cart,
+//     orderMode: sessionStorage.getItem("orderMode") || "pickup",
+//     paymentMethod: sessionStorage.getItem("paymentMethod") || "visa",
+//     status: "Pending",
+//   };
+
+//   sessionStorage.removeItem("guestId"); // ✅ clears guest order identity
+//   sessionStorage.removeItem("cart");
+//   localStorage.removeItem("loggedInUser");
+//   sessionStorage.removeItem("loggedInUser");
+//   // only clear guestId if they are guest
+//   if (isGuest) {
+//     sessionStorage.removeItem("guestId");
+//   }
+
+
+  // const order = {
+  //   orderNo,
+  //   ownerKey,
+  //   userType: isGuest ? "guest" : "registered",
+  //   username: isGuest ? "" : username,
+  //   createdAt: Date.now(),
+  //   items: cart,
+  //   orderMode: sessionStorage.getItem("orderMode") || "pickup",
+  //   paymentMethod: sessionStorage.getItem("paymentMethod") || "visa",
+  //   status: "Pending",
+  // };
+
+  // const newRef = push(ref(db, "orders"));
+  // await set(newRef, order);
+
+  // sessionStorage.setItem("lastOrderNo", orderNo);
+  // return orderNo;
+
+
+  // const ownerKey = isGuest ? getOrCreateGuestId() : username;
+  // const userType = isGuest ? "guest" : "registered";    //check user is guest or registered
+  // const order = {
+  //   orderNo,
+  //   ownerKey,          // ✅ used for lookup
+  //   userType,          // guest / registered
+  //   username: isGuest ? "" : username, 
+  //   createdAt: Date.now(),
+  //   items: cart,
+  //   orderMode: sessionStorage.getItem("orderMode") || "pickup",
+  //   paymentMethod: sessionStorage.getItem("paymentMethod") || "visa",
+  //   status: "Pending",
+  // };
+
+
+
+  // const order = {
+  //   orderNo: orderNo,
+  //   username: username,
+  //   createdAt: Date.now(),
+  //   items: cart,
+  //   orderMode: sessionStorage.getItem("orderMode") || "pickup",
+  //   paymentMethod: sessionStorage.getItem("paymentMethod") || "visa",
+  //   status: "Pending",
+  // };
 
   // ✅ safest: push under /orders
-  const newRef = push(ref(db, "orders"));
-  await set(newRef, order);
+  // const newRef = push(ref(db, "orders"));
+  // await set(newRef, order);
 
-  sessionStorage.setItem("lastOrderNo", orderNo);
-  return orderNo;
-}
+  // sessionStorage.setItem("lastOrderNo", orderNo);
+  // return orderNo;
+
 
 document.addEventListener("DOMContentLoaded", () => {
   renderCart();
@@ -1548,3 +1624,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // sessionStorage.removeItem("cart");
 // renderCart();
+
+
