@@ -155,6 +155,11 @@ async function registerMember() {
       createdAt: Date.now(),
     });
 
+  //   if (role === "vendor") {
+  //   memberData.stallName = "Banana Leaf Nasi Lemak"; 
+  // }
+
+
     showMessage("Registration successful! ✅", "green");
     clearIfExists(["name", "username", "email", "password", "confirmPassword"]);
   } catch (err) {
