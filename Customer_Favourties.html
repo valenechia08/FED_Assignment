@@ -526,6 +526,24 @@
               <button class="btn btn-danger" id="clearAllBtn">Clear all</button>
             </div>
           </div>
+          <!-- =========================
+     Favourite Items Section
+========================= -->
+          <section style="margin-top: 28px">
+            <div style="display: flex; align-items: baseline; gap: 10px">
+              <h2 style="margin: 0">Favourite Items</h2>
+              <div id="itemsCountText" style="color: #666">(0 items)</div>
+            </div>
+
+            <div
+              id="itemsEmpty"
+              style="display: none; margin-top: 12px; color: #666"
+            >
+              No liked items yet.
+            </div>
+
+            <div id="itemsGrid" class="grid" style="margin-top: 14px"></div>
+          </section>
 
           <!-- Grid -->
           <div class="section">
@@ -874,5 +892,6 @@
         render();
       });
     </script>
+    <script src="Favourites.js"></script>
   </body>
 </html>

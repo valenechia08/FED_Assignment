@@ -13,18 +13,9 @@ import {
   remove,
   child,
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
-// import { onValue } from "firebase-database";
-
-// import {
-//   getDatabase,
-//   ref,
-//   onValue,
-// } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
-// import { Chart } from "https://cdn.jsdelivr.net/npm/chart.js"; valene original code
 
 /* ================================
    Firebase configuration
-   (REPLACE with your own config) DONE
 ================================ */
 const firebaseConfig = {
   apiKey: "AIzaSyCoYoGP4NYJPHqA-kV_swajQ4LSQYdyWV4",
@@ -48,7 +39,6 @@ function bind(selector, event, handler) {
 ================================ */
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
-// const db = getFire(app); valene original code
 
 const rootRef = ref(db, "/");
 
@@ -76,7 +66,6 @@ function normalizeUsername(u) {
 }
 
 function isValidUsername(u) {
-  // Avoid characters that can cause key issues. Keep it simple.
   // Allowed: letters, numbers, dot, underscore
   return /^[a-z0-9._]+$/.test(u);
 }
@@ -108,7 +97,6 @@ async function registerMember() {
   const role = sessionStorage.getItem("currentRole");
   const rule = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{9,}$/;
 
-  // Basic checks
   if (!name || !username || !email || !password || !confirmPassword) {
     showMessage("Please fill in all fields.", "red");
     return;
@@ -135,14 +123,12 @@ async function registerMember() {
   try {
     const memberRef = ref(db, `members/${username}`);
 
-    // Ensure username is unique
     const snap = await get(memberRef);
     if (snap.exists()) {
       showMessage("Username already taken. Please choose another.", "red");
       return;
     }
 
-    // Store password hash (not plaintext)
     const passwordHash = await sha256(password);
 
     await set(memberRef, {
@@ -151,7 +137,7 @@ async function registerMember() {
       username,
       email,
       passwordHash,
-      userType: "registered", //  ADD THIS✅  valene add this
+      userType: "registered",
       createdAt: Date.now(),
     });
 
@@ -200,7 +186,6 @@ async function loginMember() {
       return;
     }
 
-    // ✅ update both browser + firebase
     sessionStorage.setItem("currentUserId", username);
 
     await update(ref(db, `members/${username}`), {
@@ -208,18 +193,14 @@ async function loginMember() {
       lastLoginAt: Date.now(),
     });
 
-    // Save session + redirect
     localStorage.setItem("loggedInUser", username);
     sessionStorage.setItem("loggedInUser", username);
     showMessage("Login successful! 🎉", "green");
     if (role === "patron") {
-      //sessionStorage.clear("currentRole");
       window.location.href = "FED_ASG.html";
     } else if (role === "vendor") {
-      //sessionStorage.clear("currentRole");
       window.location.href = "PerformanceDashboard.html";
     } else {
-      //sessionStorage.clear("currentRole");
       window.location.href = "Regulatory&Complianceinfo.html";
     }
   } catch (err) {
@@ -246,15 +227,12 @@ document.addEventListener("keydown", function (event) {
 // =========================
 document.addEventListener("DOMContentLoaded", () => {
   const usernameEl = document.getElementById("usernameDisplay");
-  if (!usernameEl) return; // not on this page
+  if (!usernameEl) return;
 
   const username = sessionStorage.getItem("loggedInUser");
 
-  if (username) {
-    usernameEl.textContent = username;
-  } else {
-    usernameEl.textContent = "Guest";
-  }
+  if (username) usernameEl.textContent = username;
+  else usernameEl.textContent = "Guest";
 });
 
 async function retrieveAccount() {
@@ -274,39 +252,65 @@ async function retrieveAccount() {
   sessionStorage.setItem("currentUser", username);
   window.location.href = "ConfirmAccount.html";
 }
+
 function generateCode() {
   let generatedCode = Math.floor(100000 + Math.random() * 900000).toString();
-
-  // Fake alert (what you asked for)
   alert(`Your verification code is: ${generatedCode}`);
   return generatedCode;
 }
+
 document.addEventListener("DOMContentLoaded", () => {
   const path = window.location.pathname.toLowerCase(); // safer
 
-  if (path.endsWith("login.html") && sessionStorage.getItem("currentRole") === "patron") {
+  if (
+    path.endsWith("login.html") &&
+    sessionStorage.getItem("currentRole") === "patron"
+  ) {
     const guestDiv = document.getElementById("guestLogin"); // use real DOM call
     if (guestDiv) {
+      if (guestDiv) {
       guestDiv.style.display = "block";
-      guestDiv.innerHTML = `<a href="FED_ASG.html">Continue as guest</a>`;
+        guestDiv.innerHTML = `<a href="FED_ASG.html">Continue as guest</a>`;
+    }
     }
   }
 
-  if (path.endsWith("login.html") && sessionStorage.getItem("currentRole") === "officer") {
+  if (
+    path.endsWith("login.html") &&
+    sessionStorage.getItem("currentRole") === "officer"
+  ) {
     const register = document.getElementById("register-account");
     const links = document.getElementById("links");
 
-    if (register) register.style.display = "none";
-    if (links) links.classList.add("nea-alignment");
+    if (register) if (register) register.style.display = "none";
+    if (links) if (links) links.classList.add("nea-alignment");
+  }
+});
+document.addEventListener("DOMContentLoaded", () => {
+  /* =========================
+     LOGOUT → CLEAR SESSION
+  ========================= */
+  const logoutLink = document.querySelector('a[href="SelectRole.html"]');
+
+  if (logoutLink) {
+    logoutLink.addEventListener("click", (e) => {
+      e.preventDefault(); // stop instant redirect
+
+      // 🧹 clear everything for this session
+      sessionStorage.clear();
+
+      // optional cleanup if you used localStorage too
+      localStorage.removeItem("loggedInUser");
+      window.location.href = "SelectRole.html";
+    });
   }
 });
 
 // Verify OTP
 document.addEventListener("DOMContentLoaded", () => {
-  // Only run OTP logic on ConfirmAccount page
   if (!window.location.pathname.endsWith("ConfirmAccount.html")) return;
 
-  let finalCode = generateCode(); // generate on load
+  let finalCode = generateCode();
 
   bind(".secondBackBtn", "click", () => {
     window.location.href = "FindAccount.html";
@@ -373,15 +377,7 @@ function goLogin(role) {
   sessionStorage.setItem("currentRole", role);
   window.location.href = "login.html";
 }
-/* =========================
-   AUTO-BIND EVENTS (based on page)
-========================= */
 
-// document.addEventListener("DOMContentLoaded", () => {
-//   document.querySelector(".backBtn").addEventListener("click", () => {
-//     window.location.href = "SelectRole.html";
-//   });
-// });
 document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(".roleBtn").forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -389,6 +385,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+
 document.addEventListener("DOMContentLoaded", () => {
   bind(".backBtn", "click", () => {
     window.location.href = "SelectRole.html";
@@ -402,84 +399,24 @@ document.addEventListener("DOMContentLoaded", () => {
     window.location.href = "login.html";
   });
 
-  // Register page
-  if ($("registerBtn")) {
-    $("registerBtn").addEventListener("click", registerMember);
-  }
+  if ($("registerBtn")) $("registerBtn").addEventListener("click", registerMember);
+  if ($("loginBtn")) $("loginBtn").addEventListener("click", loginMember);
+  if ($("continueBtn")) $("continueBtn").addEventListener("click", retrieveAccount);
+  if ($("resetPasswordBtn")) $("resetPasswordBtn").addEventListener("click", resetPassword);
 
-  // Login page
-  if ($("loginBtn")) {
-    $("loginBtn").addEventListener("click", loginMember);
-  }
-
-  // Find account page
-  if ($("continueBtn")) {
-    $("continueBtn").addEventListener("click", retrieveAccount);
-  }
-  //Reset password page
-  if ($("resetPasswordBtn")) {
-    $("resetPasswordBtn").addEventListener("click", resetPassword);
-  }
-
-  // Optional: allow Enter key to submit on login page
   if ($("loginBtn") && $("password")) {
     $("password").addEventListener("keydown", (e) => {
       if (e.key === "Enter") loginMember();
     });
   }
 
-  // Optional: allow Enter key to submit on register page
   if ($("registerBtn")) {
     $("registerBtn").addEventListener("keydown", (e) => {
       if (e.key === "Enter") registerMember();
     });
   }
 });
-//LOGOUT & Login
-// Check login
-// document.addEventListener("DOMContentLoaded", () => {
-//   const username = sessionStorage.getItem("loggedInUser");
 
-// if (!username || !password) {
-//   document.querySelector(".message").textContent="Please enter both username and password.";
-// } else {
-//   if (username) {
-//     document.querySelector(".usernameDisplay").textContent = `${username}`; //Displays username under profile
-//   }
-//   // }
-
-//   // Logout
-//   document.querySelector(".logout").addEventListener("click", () => {
-//   localStorage.removeItem("loggedInUser");
-//     sessionStorage.removeItem("loggedInUser");
-//     window.location.href = "login.html";
-//   });
-// });
-//Makes sure all tabs where user is logged in, gets logout!
-//window.addEventListener("storage", (e) => {
-//   if (e.key === "loggedInUser" && !e.newValue) {
-//     // logged out in another tab
-//     window.location.href = "login.html";
-//   }
-// });
-
-//loading stalls(bananaleafhtml)
-// async function loadStallHeader(stallName) {
-//   const snap = await get(ref(db, `stalls/${stallName}`));
-//   if (!snap.exists()) return;
-
-//   const stall = snap.val();
-
-//   document.getElementById("stallName").textContent = stallName;
-//   document.getElementById("stallRating").textContent = stall.rating;
-//   document.getElementById("stallCuisine").textContent = stall.cuisine;
-//   document.getElementById("stallImg").src = stall.image;
-// }
-// document.addEventListener("DOMContentLoaded", () => {
-//   if (document.getElementById("stallImg")) {
-//     loadStallHeader("Banana Leaf Nasi Lemak");
-//   }
-// });
 //Create Stall Object & Menu Item
 function createStallObject(stall_name, cuisine, rating, image) {
   return {
@@ -492,13 +429,7 @@ function createStallObject(stall_name, cuisine, rating, image) {
   };
 }
 
-function createMenuItemObject(
-  item_name,
-  price,
-  available = true,
-  image,
-  description,
-) {
+function createMenuItemObject(item_name, price, available = true, image, description) {
   return {
     [item_name]: {
       price,
@@ -513,8 +444,8 @@ async function uploadStall(stall_name, cuisine, rating, image) {
   const stallRef = ref(db, `stalls/${stall_name}`);
   const snap = await get(stallRef);
 
-  // ✅ if already exists, DO NOT overwrite cuisine/rating/image
-  if (snap.exists()) return;
+// ✅ if already exists, DO NOT overwrite cuisine/rating/image
+//   if (snap.exists()) return;
 
   await set(stallRef, {
     cuisine,
@@ -525,6 +456,27 @@ async function uploadStall(stall_name, cuisine, rating, image) {
   });
 }
 
+async function addMenuItem(
+  stall_name,
+  item_name,
+  price,
+  available = true,
+  image,
+  description,
+) {
+  const itemObj = createMenuItemObject(item_name, price, available, image, description);
+  await update(ref(db, `stalls/${stall_name}/menuItems`), itemObj);
+}
+
+//   await set(stallRef, {
+//     cuisine,
+//     rating,
+//     image,
+//     menuItems: {},
+//     createdAt: Date.now(),
+//   });
+// }
+
 // async function addMenuItem(
 //   stall_name,
 //   item_name,
@@ -533,7 +485,13 @@ async function uploadStall(stall_name, cuisine, rating, image) {
 //   image,
 //   description,
 // ) {
-//   const itemObj = createMenuItemObject(item_name, price, available, image,description);
+//   const itemObj = createMenuItemObject(
+//     item_name,
+//     price,
+//     available,
+//     image,
+//     description,
+//   );
 //   await update(ref(db, `stalls/${stall_name}/menuItems`), itemObj);
 // }
 //Can remove since data has already been created
@@ -700,7 +658,7 @@ async function loadStallInfo(stallName) {
 
 //Update cart number
 function getCartCount() {
-  return getCart().reduce((sum, x) => sum + (x.qty || 1), 0); // ✅ count items incl qty
+  return getCart().reduce((sum, x) => sum + (x.qty || 1), 0);
 }
 
 function updateCartUI() {
@@ -739,6 +697,7 @@ function addToCart(stall_name, item_name, price, image = "") {
   sessionStorage.setItem("cart", JSON.stringify(cart));
   updateCartUI();
 }
+
 function removeFromCart(stall_name, item_name, price) {
   const cart = JSON.parse(sessionStorage.getItem("cart") || "[]");
 
@@ -786,18 +745,12 @@ function renderMenu(menuItems, stall_name) {
   grid.className = "menu-grid";
   root.appendChild(grid);
 
-  // const desc = document.createElement("div");
-  // desc.className = "menu-desc";
-  // desc.textContent = item.description || ""; // fallback
-  // card.appendChild(desc);
-
   for (const item_name in menuItems) {
     const item = menuItems[item_name];
 
     const card = document.createElement("div");
     card.className = "menu-card";
 
-    // (Optional) image if your item has it
     if (item.image) {
       const img = document.createElement("img");
       img.className = "menu-img";
@@ -817,61 +770,77 @@ function renderMenu(menuItems, stall_name) {
     const actions = document.createElement("div");
     actions.className = "menu-actions";
 
-    // ===== HEART BUTTON (NEW) =====
+    // ==========================
+    // ❤️ HEART BUTTON (FIXED)
+    // ==========================
     const heartBtn = document.createElement("button");
     heartBtn.className = "heart-btn";
     heartBtn.type = "button";
     heartBtn.setAttribute("aria-label", "Add to favourites");
+    heartBtn.innerHTML = `<span class="heart-icon">♥</span>`;
 
-    const heartIcon = document.createElement("span");
-    heartIcon.className = "heart-icon";
-    heartIcon.textContent = "♥"; // icon stays ♥, colour changes by class
-    heartBtn.appendChild(heartIcon);
+    // disable if unavailable (optional)
+    if (item.available === false) {
+      heartBtn.disabled = true;
+    }
 
     // set initial state
-    const favNow = isFavouriteItem(stall_name, item_name);
-    if (favNow) heartBtn.classList.add("active");
+    if (isFavouriteItem(stall_name, item_name)) {
+      heartBtn.classList.add("active");
+    }
 
-    heartBtn.addEventListener("click", () => {
-      const nowFav = toggleFavouriteItem({
+    heartBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const liked = toggleFavouriteItem({
         stallName: stall_name,
         itemName: item_name,
         price: item.price,
         image: item.image || "",
       });
 
-      heartBtn.classList.toggle("active", nowFav);
-
-      // optional: quick redirect to favourites page items section
-      // comment this out if you don’t want auto-jump
-      // window.location.href = "Favourites.html#items";
+      if (liked) heartBtn.classList.add("active");
+      else heartBtn.classList.remove("active");
     });
 
     // ===== PLUS BUTTON (YOUR EXISTING) =====
     const plusBtn = document.createElement("button");
-    plusBtn.className = "plus-btn";
     plusBtn.type = "button";
+    plusBtn.className = "qty-btn qty-plus";
     plusBtn.textContent = "+";
 
     if (item.available === false) {
+      minusBtn.disabled = true;
       plusBtn.disabled = true;
-      plusBtn.textContent = "—";
       card.classList.add("unavailable");
     } else {
+      minusBtn.addEventListener("click", () => {
+        removeFromCart(stall_name, item_name, item.price);
+        qtyVal.textContent = String(
+          getItemQty(stall_name, item_name, item.price),
+        );
+      });
+
       plusBtn.addEventListener("click", () => {
-        addToCart(stall_name, item_name, item.price);
+        addToCart(stall_name, item_name, item.price, item.image);
+        qtyVal.textContent = String(
+          getItemQty(stall_name, item_name, item.price),
+        );
       });
     }
 
-    // Put heart left, plus right
-    actions.appendChild(heartBtn);
-    actions.appendChild(plusBtn);
-
+    stepper.appendChild(minusBtn);
+    stepper.appendChild(qtyVal);
+    stepper.appendChild(plusBtn);
+    actions.appendChild(stepper);
+    card.appendChild(img);
     card.appendChild(title);
     card.appendChild(price);
     card.appendChild(actions);
-
     grid.appendChild(card);
+
+    console.log("Menu data:", menuItems);
   }
 }
 
@@ -903,7 +872,7 @@ function listenToMenu(stall_name) {
   const menuRoot = document.querySelector("#menuRoot");
   if (!menuRoot) return;
 
-  if (stopMenuListener) stopMenuListener(); // stop old listener
+  if (stopMenuListener) stopMenuListener();
 
   const menuRef = ref(db, `stalls/${stall_name}/menuItems`);
   stopMenuListener = onValue(menuRef, (snap) => {
@@ -920,7 +889,7 @@ function listenToMenu(stall_name) {
 ========================= */
 function renderStalls(stalls) {
   const grid = document.querySelector("#stall-grid");
-  if (!grid) return; // ✅ page doesn't have stall grid
+  if (!grid) return;
 
   grid.innerHTML = "";
 
@@ -953,15 +922,6 @@ function renderStalls(stalls) {
     card.appendChild(img);
     card.appendChild(info);
 
-    // card.onclick = () => {
-    //   if (stall_name === "Banana Leaf Nasi Lemak") {
-    //     window.location.href = "BananaLeafNasiLemak.html";
-    //   } else if (stall_name === "Boon Lay Fried Carrot Cake & Kway Teow Mee") {
-    //     window.location.href = "BananaLeafNasiLemak.html";
-    //   } else {
-    //     listenToMenu(stall_name);
-    //   }
-    // };
     card.addEventListener("click", () => {
       const url = `FoodStalls.html?stall=${encodeURIComponent(stall_name)}`;
       window.location.href = url;
@@ -970,55 +930,37 @@ function renderStalls(stalls) {
     grid.appendChild(card);
   }
 }
+
 document.addEventListener("DOMContentLoaded", () => {
   const params = new URLSearchParams(window.location.search);
   const stallName = params.get("stall");
 
   const menuRoot = document.querySelector("#menuRoot");
 
-if (!stallName) {
-  if (menuRoot) {
-    menuRoot.innerHTML = "<p>No stall selected.</p>";
+  if (!stallName) {
+    if (menuRoot) {
+      menuRoot.innerHTML = "<p>No stall selected.</p>";
+    }
+    return;
   }
-  return;
-}
 
-  // Optional: show stall name on the page somewhere
   const titleEl = document.getElementById("stallTitle");
   if (titleEl) titleEl.textContent = stallName;
 
   listenToMenu(stallName);
 });
 
-/* =========================
-   FETCH STALLS (ONCE)
-========================= */
 let allStalls = {};
 
-// async function fetchStalls() {
-//   const snap = await get(ref(db, "stalls"));
-//   if (!snap.exists()) return;
-
-//   allStalls = snap.val();
-//   renderStalls(allStalls);
-// }
-
-// fetchStalls();
-
-/*Mobile Navigation*/
 document.querySelectorAll(".mobile-nav-item").forEach((item) => {
   item.addEventListener("click", () => {
     const target = item.getAttribute("data-link");
-    if (target) {
-      window.location.href = target;
-    }
+    if (target) window.location.href = target;
   });
 });
-/*Search Bar to search up stalls*/
+
 const searchInput = document.querySelector(".search-input");
-const stallCards = document.querySelectorAll(".stall-card");
 if (searchInput) {
-  // Listen for typing
   searchInput.addEventListener("keyup", function () {
     const stallCards = document.querySelectorAll(".stall-card");
     const query = this.value.toLowerCase();
@@ -1026,36 +968,31 @@ if (searchInput) {
       const name = card.querySelector("h4").textContent.toLowerCase();
       const info = card.querySelector("p").textContent.toLowerCase();
 
-      // Show if query matches name or info
-      if (name.includes(query) || info.includes(query)) {
-        card.style.display = "";
-      } else {
-        card.style.display = "none";
-      }
+      if (name.includes(query) || info.includes(query)) card.style.display = "";
+      else card.style.display = "none";
     });
   });
 }
+
 let selectedCuisine = null;
 
-// Fetch all stalls from Firebase
 async function fetchStalls() {
   const snap = await get(ref(db, "stalls"));
   if (!snap.exists()) return;
 
-  allStalls = snap.val(); // save globally
-  renderStalls(allStalls); // initial render
+  allStalls = snap.val();
+  renderStalls(allStalls);
 }
+
 document.addEventListener("DOMContentLoaded", async () => {
-  await fetchStalls(); // fetch and render stalls first
+  await fetchStalls();
 
   const filterDivs = document.querySelectorAll(".filter-btn");
 
   filterDivs.forEach((div) => {
     div.addEventListener("click", () => {
-      console.log("hi");
       const cuisine = div.getAttribute("data-cuisine").trim().toLowerCase();
 
-      // Toggle behavior
       if (selectedCuisine === cuisine) {
         selectedCuisine = null;
         renderStalls(allStalls);
@@ -1076,50 +1013,24 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   });
 });
-/*
-exports.placeOrder = functions.https.onRequest(async (req, res) => {
-  const { username, stall, items } = req.body;
 
-  Validate
-  if (!username || !stall || !items) {
-    return res.status(400).json({ error: "Invalid data" });
-  }
-
-  // Calculate total on SERVER
-  let total = 0;
-  for (const item of items) {
-    total += item.price * item.qty;
-  }
-
-  await admin.database().ref("orders").push({
-    username,
-    stall,
-    items,
-    total,
-    createdAt: Date.now()
-  });
-
-  res.json({ success: true, total });
-});
-  */
 document.addEventListener("DOMContentLoaded", () => {
   updateCartUI();
 
   const menuRoot = document.querySelector("#menuRoot");
-  if (!menuRoot) return; // not stall page
+  if (!menuRoot) return;
 
   const params = new URLSearchParams(window.location.search);
   const stallName = params.get("stall");
 
   if (!stallName) {
-
     menuRoot.innerHTML = "<p>No stall selected.</p>";
     return;
   }
 
-  // ✅ load stall header info
   loadStallInfo(stallName);
 });
+
 const cartPill = document.getElementById("cartPill");
 if (cartPill) {
   cartPill.addEventListener("click", () => {
@@ -1127,14 +1038,10 @@ if (cartPill) {
   });
 }
 
-// example
-// listenToMenu("Banana Leaf Nasi Lemak");
-// listenToMenu("Boon Lay Fried Carrot Cake & Kway Teow Mee");
-
-// Top Navigation - only close dropdowns when clicking OUTSIDE the nav
+// Top Navigation
 document.addEventListener("click", (e) => {
   const clickedInsideNav = e.target.closest(".navrectangle");
-  if (clickedInsideNav) return; // don't close when clicking inside nav
+  if (clickedInsideNav) return;
 
   document.querySelectorAll(".menu-item").forEach((item) => {
     item.classList.remove("active");
@@ -1145,28 +1052,39 @@ const menu = document.getElementById("menu");
 const overlay = document.getElementById("navOverlay");
 
 function openNav() {
+  if (!menu || !overlay) return;
   menu.classList.add("show");
   if (overlay) overlay.classList.add("show");
   document.body.style.overflow = "hidden";
 }
 
 function closeNav() {
+  if (!menu || !overlay) return;
   menu.classList.remove("show");
   if (overlay) overlay.classList.remove("show");
   document.body.style.overflow = "";
 }
 
-hamburger.addEventListener("click", () => {
-  menu.classList.contains("show") ? closeNav() : openNav();
-});
-
+if (hamburger) {
+  hamburger.addEventListener("click", () => {
+    menu.classList.contains("show") ? closeNav() : openNav();
+  });
+}
 if (overlay) overlay.addEventListener("click", closeNav);
+
+if (menu) {
+  menu.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => {
+      if (window.innerWidth <= 768) closeNav();
+    });
+  });
+}
 
 /* =========================
    ORDER MODE (pickup/takeaway)
 ========================= */
 function getOrderMode() {
-  return sessionStorage.getItem("orderMode") || "pickup"; // default
+  return sessionStorage.getItem("orderMode") || "pickup";
 }
 function setOrderMode(mode) {
   sessionStorage.setItem("orderMode", mode);
@@ -1189,7 +1107,6 @@ function setCart(cart) {
 
 /* =========================
    TOTALS (includes packaging)
-   takeaway = $0.30 per item
 ========================= */
 function computeTotals(cart) {
   const subtotal = cart.reduce(
@@ -1207,9 +1124,6 @@ function computeTotals(cart) {
   return { subtotal, voucher, packaging, total, mode, itemsCount };
 }
 
-/* =========================
-   STALL TITLE
-========================= */
 function updateStallTitle(lines) {
   const titleEl = document.getElementById("stallTitle");
   if (!titleEl) return;
@@ -1218,9 +1132,6 @@ function updateStallTitle(lines) {
   titleEl.textContent = stalls.length === 1 ? stalls[0] : "Order Summary";
 }
 
-/* =========================
-   PAYMENT PICKER
-========================= */
 function setPayment(method) {
   sessionStorage.setItem("paymentMethod", method);
 
@@ -1247,10 +1158,6 @@ function initPaymentPicker() {
   });
 }
 
-/* =========================
-   ORDER TYPE TOGGLE UI
-   (expects .mode-btn buttons)
-========================= */
 function initOrderModeToggle() {
   const btns = document.querySelectorAll(".mode-btn");
   if (!btns.length) return;
@@ -1258,7 +1165,7 @@ function initOrderModeToggle() {
   function applyUI(mode) {
     btns.forEach((b) => b.classList.toggle("active", b.dataset.mode === mode));
 
-    const note = document.getElementById("modeNote"); // optional
+    const note = document.getElementById("modeNote");
     if (note) note.style.display = mode === "takeaway" ? "block" : "none";
   }
 
@@ -1271,14 +1178,11 @@ function initOrderModeToggle() {
       if (!mode) return;
       setOrderMode(mode);
       applyUI(mode);
-      renderCart(); // ✅ recalc totals immediately
+      renderCart();
     });
   });
 }
 
-/* =========================
-   RENDER CART
-========================= */
 function renderCart() {
   const itemsRoot = document.getElementById("itemsRoot");
   const emptyState = document.getElementById("emptyState");
@@ -1315,7 +1219,6 @@ function renderCart() {
 
   updateStallTitle(lines);
 
-  // ---- Render each line
   lines.forEach((row) => {
     const wrap = document.createElement("div");
     wrap.className = "item-row";
@@ -1325,7 +1228,7 @@ function renderCart() {
 
     const img = document.createElement("img");
     img.alt = row.item;
-    img.src = row.image || "images/placeholder.png";
+    img.src = row.image;
     img.onerror = () => (img.src = "images/placeholder.png");
     thumb.appendChild(img);
 
@@ -1370,7 +1273,6 @@ function renderCart() {
     price.className = "price";
     price.textContent = money(Number(row.price) * (row.qty || 1));
 
-    // ✅ minus updates qty + removes when 0
     minus.addEventListener("click", () => {
       const cart = getCart();
       const i = cart.findIndex(
@@ -1388,7 +1290,6 @@ function renderCart() {
       renderCart();
     });
 
-    // ✅ plus updates qty (or adds if missing)
     plus.addEventListener("click", () => {
       const cart = getCart();
       const i = cart.findIndex(
@@ -1421,18 +1322,16 @@ function renderCart() {
     itemsRoot.appendChild(wrap);
   });
 
-  // ---- Totals
   const totals = computeTotals(lines);
 
   const subtotalEl = document.getElementById("subtotalVal");
   const voucherEl = document.getElementById("voucherVal");
-  const totalBreakdown = document.getElementById("totalValBreakdown"); // main totals line
-  const totalSticky = document.getElementById("totalVal"); // bottom bar total
+  const totalBreakdown = document.getElementById("totalValBreakdown");
+  const totalSticky = document.getElementById("totalVal");
 
   if (subtotalEl) subtotalEl.textContent = money(totals.subtotal);
   if (voucherEl) voucherEl.textContent = `-${money(totals.voucher).slice(1)}`;
 
-  // packaging row (optional elements in HTML)
   const packLabel = document.getElementById("packagingLabel");
   const packVal = document.getElementById("packagingVal");
   if (packLabel && packVal) {
@@ -1449,32 +1348,102 @@ function renderCart() {
 /* =========================
    INIT
 ========================= */
+// document.addEventListener("DOMContentLoaded", () => {
+//   renderCart();
+//   initPaymentPicker();
+//   initOrderModeToggle();
+
+//   const placeBtn = document.getElementById("placeOrderBtn");
+//   if (placeBtn) {
+//     placeBtn.addEventListener("click", () => {
+//       const cart = getCart();
+//       if (!cart.length) return alert("Cart is empty.");
+
+//       const payment = sessionStorage.getItem("paymentMethod") || "visa";
+//       const mode = getOrderMode();
+
+//       // redirect if Add Card selected
+//       if (payment === "add-card") {
+//         window.location.href = "PaymentFailed.html";
+//         return;
+//       }
+//       window.location.href = "PaymentSuccess.html";
+//     });
+//   }
+// });
+
+//For OrderSummary.html
+function generateOrderId() {
+  const rand = Math.floor(1000 + Math.random() * 9000); // 1000–9999
+  return `ORD-${rand}`;
+}
+
+async function placeOrderAndSave() {
+  const cart = getCart();
+  if (!cart.length) return null;
+
+  const orderNo = generateOrderId();
+  const username = sessionStorage.getItem("loggedInUser");
+
+  const order = {
+    orderNo: orderNo,
+    username: username,
+    createdAt: Date.now(),
+    items: cart,
+    orderMode: sessionStorage.getItem("orderMode") || "pickup",
+    paymentMethod: sessionStorage.getItem("paymentMethod") || "visa",
+    status: "Pending",
+  };
+
+  // ✅ safest: push under /orders
+  const newRef = push(ref(db, "orders"));
+  await set(newRef, order);
+
+  sessionStorage.setItem("lastOrderNo", orderNo);
+  return orderNo;
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   renderCart();
   initPaymentPicker();
   initOrderModeToggle();
 
   const placeBtn = document.getElementById("placeOrderBtn");
-  if (placeBtn) {
-    placeBtn.addEventListener("click", () => {
-      const cart = getCart();
-      if (!cart.length) return alert("Cart is empty.");
+  if (!placeBtn) return;
 
-      const payment = sessionStorage.getItem("paymentMethod") || "visa";
-      const mode = getOrderMode();
+  placeBtn.addEventListener("click", async () => {
+    const cart = getCart();
+    if (!cart.length) return alert("Cart is empty.");
 
-      // redirect if Add Card selected
-      if (payment === "add-card") {
-        window.location.href = "PaymentFailed.html";
-        return;
-      }
+    const payment = sessionStorage.getItem("paymentMethod") || "visa";
+    const mode = getOrderMode();
+
+    // ❌ Payment failed path (do NOT store)
+    if (payment === "add-card") {
+      window.location.href = "PaymentFailed.html";
+      return;
+    }
+
+    // ✅ Payment successful path (store THEN redirect)
+    try {
+      const orderNo = await placeOrderAndSave(); // <-- this writes to Firebase
+      if (!orderNo) return;
+
+      // optional: clear cart only AFTER storing successfully
+      sessionStorage.removeItem("cart");
+
+      // optional: keep last order info for success page
+      sessionStorage.setItem("lastOrderNo", orderNo);
+      sessionStorage.setItem("lastOrderMode", mode);
+
       window.location.href = "PaymentSuccess.html";
-    });
-  }
+    } catch (err) {
+      console.error("❌ Failed to save order:", err);
+      alert("Order could not be saved. Please try again.");
+    }
+  });
 });
 
-// sessionStorage.removeItem("cart");
-// renderCart();
 /***********************
  * FAVOURITE MENU ITEMS (localStorage)
  * Unique ID: stallName::itemName
@@ -1504,14 +1473,13 @@ function isFavouriteItem(stallName, itemName) {
 }
 
 function toggleFavouriteItem(itemData) {
-  // itemData = { stallName, itemName, price, image }
   const id = makeFavItemId(itemData.stallName, itemData.itemName);
   const map = loadFavItemsMap();
 
   if (map[id]) {
     delete map[id];
     saveFavItemsMap(map);
-    return false; // now not favourited
+    return false;
   } else {
     map[id] = {
       id,
@@ -1522,10 +1490,11 @@ function toggleFavouriteItem(itemData) {
       savedAt: Date.now(),
     };
     saveFavItemsMap(map);
-    return true; // now favourited
+    return true;
   }
 }
 
-// optional: expose for other pages
 window.toggleFavouriteItem = toggleFavouriteItem;
 window.isFavouriteItem = isFavouriteItem;
+
+

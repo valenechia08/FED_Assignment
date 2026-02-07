@@ -37,7 +37,7 @@
       }
 
       main.card h1 {
-        margin-top: 110px;
+        margin-top: 8%;
         margin-bottom: 18px;
         font-size: 2rem;
         font-weight: 800;
@@ -84,8 +84,27 @@
         transform: translateY(-1px);
       }
 
-      /* MOBILE nav*/
-      @media (max-width: 992px) {
+      /* =========================
+         RESPONSIVE
+      ========================= */
+      @media (max-width: 768px) {
+        main.card h1 {
+          margin-top: 40px;
+          font-size: 28px;
+        }
+
+        .check-wrap {
+          width: 150px;
+          height: 150px;
+        }
+
+        .btn {
+          width: min(320px, 90vw);
+        }
+      }
+
+      /* MOBILE nav (same as your original) */
+      @media (max-width: 768px) {
         .menu {
           display: none;
           position: absolute;
@@ -105,19 +124,6 @@
 
         .hamburger {
           display: flex;
-        }
-        main.card h1 {
-          margin-top: 160px;
-          font-size: 28px;
-        }
-
-        .check-wrap {
-          width: 150px;
-          height: 150px;
-        }
-
-        .btn {
-          width: min(320px, 90vw);
         }
       }
     </style>
@@ -223,9 +229,9 @@
       document.getElementById("tryBtn").addEventListener("click", () => {
         window.location.href = "OrderSummary.html";
       });
-      //   setTimeout(() => {
-      //     window.location.href = "OrderSummary.html";
-      //   }, 3000);
+      setTimeout(() => {
+        window.location.href = "OrderSummary.html";
+      }, 3000);
     </script>
   </body>
 </html>
