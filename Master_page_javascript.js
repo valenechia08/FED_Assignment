@@ -480,49 +480,32 @@ document.addEventListener("DOMContentLoaded", () => {
 //   }
 // });
 //Create Stall Object & Menu Item
-function createStallObject(stall_name, cuisine, rating, image) {
-  return {
-    [stall_name]: {
-      cuisine,
-      rating,
-      image,
-      menuItems: {},
-    },
-  };
-}
+// function createStallObject(stall_name, cuisine, rating, image) {
+//   return {
+//     [stall_name]: {
+//       cuisine,
+//       rating,
+//       image,
+//       menuItems: {},
+//     },
+//   };
+// }
 
-function createMenuItemObject(
-  item_name,
-  price,
-  available = true,
-  image,
-  description,
-) {
-  return {
-    [item_name]: {
-      price,
-      available,
-      image,
-      description,
-    },
-  };
-}
+// async function uploadStall(stall_name, cuisine, rating, image) {
+//   const stallRef = ref(db, `stalls/${stall_name}`);
+//   const snap = await get(stallRef);
 
-async function uploadStall(stall_name, cuisine, rating, image) {
-  const stallRef = ref(db, `stalls/${stall_name}`);
-  const snap = await get(stallRef);
+// ✅ if already exists, DO NOT overwrite cuisine/rating/image
+//   if (snap.exists()) return;
 
-  // ✅ if already exists, DO NOT overwrite cuisine/rating/image
-  if (snap.exists()) return;
-
-  await set(stallRef, {
-    cuisine,
-    rating,
-    image,
-    menuItems: {},
-    createdAt: Date.now(),
-  });
-}
+//   await set(stallRef, {
+//     cuisine,
+//     rating,
+//     image,
+//     menuItems: {},
+//     createdAt: Date.now(),
+//   });
+// }
 
 // async function addMenuItem(
 //   stall_name,
@@ -532,7 +515,13 @@ async function uploadStall(stall_name, cuisine, rating, image) {
 //   image,
 //   description,
 // ) {
-//   const itemObj = createMenuItemObject(item_name, price, available, image,description);
+//   const itemObj = createMenuItemObject(
+//     item_name,
+//     price,
+//     available,
+//     image,
+//     description,
+//   );
 //   await update(ref(db, `stalls/${stall_name}/menuItems`), itemObj);
 // }
 //Can remove since data has already been created
@@ -795,16 +784,10 @@ function renderMenu(menuItems, stall_name) {
 
     const card = document.createElement("div");
     card.className = "menu-card";
-
-    // (Optional) image if your item has it
-    if (item.image) {
-      const img = document.createElement("img");
-      img.className = "menu-img";
-      img.src = item.image;
-      img.alt = item_name;
-      card.appendChild(img);
-    }
-
+    const img = document.createElement("img");
+    img.className = "menu-img";
+    img.src = item.image; // fallback if missing
+    img.alt = item_name;
     const title = document.createElement("div");
     title.className = "menu-title";
     title.textContent = item_name;
@@ -816,61 +799,55 @@ function renderMenu(menuItems, stall_name) {
     const actions = document.createElement("div");
     actions.className = "menu-actions";
 
-    // ===== HEART BUTTON (NEW) =====
-    const heartBtn = document.createElement("button");
-    heartBtn.className = "heart-btn";
-    heartBtn.type = "button";
-    heartBtn.setAttribute("aria-label", "Add to favourites");
+    // ===== Qty Stepper (− qty +) =====
+    const stepper = document.createElement("div");
+    stepper.className = "qty-stepper";
 
-    const heartIcon = document.createElement("span");
-    heartIcon.className = "heart-icon";
-    heartIcon.textContent = "♥"; // icon stays ♥, colour changes by class
-    heartBtn.appendChild(heartIcon);
+    const minusBtn = document.createElement("button");
+    minusBtn.type = "button";
+    minusBtn.className = "qty-btn";
+    minusBtn.textContent = "−";
 
-    // set initial state
-    const favNow = isFavouriteItem(stall_name, item_name);
-    if (favNow) heartBtn.classList.add("active");
+    const qtyVal = document.createElement("span");
+    qtyVal.className = "qty-val";
+    qtyVal.textContent = String(getItemQty(stall_name, item_name, item.price));
 
-    heartBtn.addEventListener("click", () => {
-      const nowFav = toggleFavouriteItem({
-        stallName: stall_name,
-        itemName: item_name,
-        price: item.price,
-        image: item.image || "",
-      });
-
-      heartBtn.classList.toggle("active", nowFav);
-
-      // optional: quick redirect to favourites page items section
-      // comment this out if you don’t want auto-jump
-      // window.location.href = "Favourites.html#items";
-    });
-
-    // ===== PLUS BUTTON (YOUR EXISTING) =====
     const plusBtn = document.createElement("button");
-    plusBtn.className = "plus-btn";
     plusBtn.type = "button";
+    plusBtn.className = "qty-btn qty-plus";
     plusBtn.textContent = "+";
 
     if (item.available === false) {
+      minusBtn.disabled = true;
       plusBtn.disabled = true;
-      plusBtn.textContent = "—";
       card.classList.add("unavailable");
     } else {
+      minusBtn.addEventListener("click", () => {
+        removeFromCart(stall_name, item_name, item.price);
+        qtyVal.textContent = String(
+          getItemQty(stall_name, item_name, item.price),
+        );
+      });
+
       plusBtn.addEventListener("click", () => {
-        addToCart(stall_name, item_name, item.price);
+        addToCart(stall_name, item_name, item.price, item.image);
+        qtyVal.textContent = String(
+          getItemQty(stall_name, item_name, item.price),
+        );
       });
     }
 
-    // Put heart left, plus right
-    actions.appendChild(heartBtn);
-    actions.appendChild(plusBtn);
-
+    stepper.appendChild(minusBtn);
+    stepper.appendChild(qtyVal);
+    stepper.appendChild(plusBtn);
+    actions.appendChild(stepper);
+    card.appendChild(img);
     card.appendChild(title);
     card.appendChild(price);
     card.appendChild(actions);
-
     grid.appendChild(card);
+
+    console.log("Menu data:", menuItems);
   }
 }
 
@@ -1474,57 +1451,3 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // sessionStorage.removeItem("cart");
 // renderCart();
-/***********************
- * FAVOURITE MENU ITEMS (localStorage)
- * Unique ID: stallName::itemName
- ***********************/
-const FAV_ITEM_KEY = "shioklah_fav_items_v1";
-
-function loadFavItemsMap() {
-  try {
-    return JSON.parse(localStorage.getItem(FAV_ITEM_KEY) || "{}");
-  } catch {
-    return {};
-  }
-}
-
-function saveFavItemsMap(map) {
-  localStorage.setItem(FAV_ITEM_KEY, JSON.stringify(map));
-}
-
-function makeFavItemId(stallName, itemName) {
-  return `${stallName}::${itemName}`;
-}
-
-function isFavouriteItem(stallName, itemName) {
-  const id = makeFavItemId(stallName, itemName);
-  const map = loadFavItemsMap();
-  return Boolean(map[id]);
-}
-
-function toggleFavouriteItem(itemData) {
-  // itemData = { stallName, itemName, price, image }
-  const id = makeFavItemId(itemData.stallName, itemData.itemName);
-  const map = loadFavItemsMap();
-
-  if (map[id]) {
-    delete map[id];
-    saveFavItemsMap(map);
-    return false; // now not favourited
-  } else {
-    map[id] = {
-      id,
-      stallName: itemData.stallName,
-      itemName: itemData.itemName,
-      price: Number(itemData.price) || 0,
-      image: itemData.image || "",
-      savedAt: Date.now(),
-    };
-    saveFavItemsMap(map);
-    return true; // now favourited
-  }
-}
-
-// optional: expose for other pages
-window.toggleFavouriteItem = toggleFavouriteItem;
-window.isFavouriteItem = isFavouriteItem;
