@@ -111,7 +111,7 @@ async function registerMember() {
   }
 
   if (!rule.test(password)) {
-    showMessage("Must be 9+ chars with letters & numbers only", "red");
+    showMessage("Password must be 9+ chars with letters & numbers only", "red");
     return;
   }
 
@@ -218,7 +218,7 @@ window.getCurrentUsername = function () {
 
 document.addEventListener("keydown", function (event) {
   if (event.key === "Enter") {
-    document.getElementById("loginBtn")?.click();
+    document.getElementById("loginBtn").click();
   }
 });
 
@@ -260,23 +260,24 @@ function generateCode() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  if (
-    window.location.pathname.endsWith("login.html") &&
-    sessionStorage.getItem("currentRole") === "patron"
-  ) {
-    let guestDiv = $("guestLogin");
+  const path = window.location.pathname.toLowerCase(); // safer
+
+  if (path.endsWith("login.html") && sessionStorage.getItem("currentRole") === "patron") {
+    const guestDiv = document.getElementById("guestLogin"); // use real DOM call
     if (guestDiv) {
+      if (guestDiv) {
       guestDiv.style.display = "block";
-      guestDiv.innerHTML = `<a href="FED_ASG.html">Continue as guest</a>`;
+        guestDiv.innerHTML = `<a href="FED_ASG.html">Continue as guest</a>`;
     }
-  } else if (
-    window.location.pathname.endsWith("login.html") &&
-    sessionStorage.getItem("currentRole") === "officer"
-  ) {
-    let register = $("register-account");
-    let links = $("links");
-    if (register) register.style.display = "none";
-    if (links) links.classList.add("nea-alignment");
+    }
+  }
+
+  if (path.endsWith("login.html") && sessionStorage.getItem("currentRole") === "officer") {
+    const register = document.getElementById("register-account");
+    const links = document.getElementById("links");
+
+    if (register) if (register) register.style.display = "none";
+    if (links) if (links) links.classList.add("nea-alignment");
   }
 });
 
@@ -418,7 +419,8 @@ async function uploadStall(stall_name, cuisine, rating, image) {
   const stallRef = ref(db, `stalls/${stall_name}`);
   const snap = await get(stallRef);
 
-  if (snap.exists()) return;
+// ✅ if already exists, DO NOT overwrite cuisine/rating/image
+//   if (snap.exists()) return;
 
   await set(stallRef, {
     cuisine,
@@ -441,6 +443,173 @@ async function addMenuItem(
   await update(ref(db, `stalls/${stall_name}/menuItems`), itemObj);
 }
 
+//   await set(stallRef, {
+//     cuisine,
+//     rating,
+//     image,
+//     menuItems: {},
+//     createdAt: Date.now(),
+//   });
+// }
+
+// async function addMenuItem(
+//   stall_name,
+//   item_name,
+//   price,
+//   available = true,
+//   image,
+//   description,
+// ) {
+//   const itemObj = createMenuItemObject(
+//     item_name,
+//     price,
+//     available,
+//     image,
+//     description,
+//   );
+//   await update(ref(db, `stalls/${stall_name}/menuItems`), itemObj);
+// }
+//Can remove since data has already been created
+// // createStallObject("Banana Leaf Nasi Lemak", "Malay", 4.0, "images/Banana Leaf Nasi Lemak Picture.jpg");
+
+// (async () => {
+//   await uploadStall(
+//     "Banana Leaf Nasi Lemak",
+//     "Malay",
+//     4.0,
+//     "images/Banana Leaf Nasi Lemak Picture.jpg",
+//    );
+//   await addMenuItem(
+//     "Banana Leaf Nasi Lemak",
+//     "5 pcs Spicy Fish Otah",
+//     7.5,
+//     true,
+//     "images/Otah Picture.webp",
+//     "Homemade fish otah",
+//   );
+//   await addMenuItem(
+//     "Banana Leaf Nasi Lemak",
+//     "1 Pcs Spicy Fish Otah",
+//     1.5,
+//     true,
+//     "images/Otah Picture.webp",
+//     "Homemade fish otah",
+//   );
+
+//   await addMenuItem(
+//     "Banana Leaf Nasi Lemak",
+//     "Set Meal A",
+//     5,
+//     true,
+//     "images/Set Meal A Picture.jpg",
+//     "Our bestseller featuring a chicken wing, fish fillet, egg, bergedil and more!",
+//   );
+
+//   await addMenuItem(
+//     "Banana Leaf Nasi Lemak",
+//     "Set Meal B",
+//     4,
+//     true,
+//     "images/Set Meal B Picture.jpg",
+//     "One of the top-picks featuring a chicken wing, egg and more! ",
+//   );
+//   await addMenuItem(
+//     "Banana Leaf Nasi Lemak",
+//     "Set Meal C",
+//     4,
+//     true,
+//     "images/Set Meal C Picture.png",
+//     "Delicious nasi lemak featuring spicy selar fish, egg and more! ",
+//   );
+//   await addMenuItem(
+//     "Banana Leaf Nasi Lemak",
+//     "Set Meal D",
+//     3.5,
+//     true,
+//     "images/Set Meal D Picture.jpg",
+//     "Delicious nasi lemak featuring fish fillet, egg and more!",
+//   );
+//   await uploadStall(
+//     "Boon Lay Fried Carrot Cake & Kway Teow Mee",
+//     "Chinese",
+//     4.2,
+//     "images/Boon Lay Fried Carrot Cake & Kway Teow Mee Picture.jpg",
+//   );
+//   await addMenuItem(
+//     "Boon Lay Fried Carrot Cake & Kway Teow Mee",
+//     "Black Carrot Cake (Small)",
+//     3,
+//     true,
+//     "images/Black Carrot Cake Picture.jpg",
+//     "",
+//   );
+//   await addMenuItem(
+//     "Boon Lay Fried Carrot Cake & Kway Teow Mee",
+//     "Black Carrot Cake (Medium)",
+//     4,
+//     true,
+//     "images/Black Carrot Cake Picture.jpg",
+//     "",
+//   );
+//   await addMenuItem(
+//     "Boon Lay Fried Carrot Cake & Kway Teow Mee",
+//     "Black Carrot Cake (Large)",
+//     5,
+//     true,
+//     "images/Black Carrot Cake Picture.jpg",
+//     "",
+//   );
+//   await addMenuItem(
+//     "Boon Lay Fried Carrot Cake & Kway Teow Mee",
+//     "White Carrot Cake (Small)",
+//     3,
+//     true,
+//     "images/White Carrot Cake Picture.jpg",
+//     "",
+//   );
+//   await addMenuItem(
+//     "Boon Lay Fried Carrot Cake & Kway Teow Mee",
+//     "White Carrot Cake (Medium)",
+//     4,
+//     true,
+//     "images/White Carrot Cake Picture.jpg",
+//     "",
+//   );
+//   await addMenuItem(
+//     "Boon Lay Fried Carrot Cake & Kway Teow Mee",
+//     "White Carrot Cake (Large)",
+//     5,
+//     true,
+//     "images/White Carrot Cake Picture.jpg",
+//     "",
+//   );
+//   await addMenuItem(
+//     "Boon Lay Fried Carrot Cake & Kway Teow Mee",
+//     "Char Kway Teow",
+//     4.5,
+//     true,
+//     "images/Char Kway Teow Picture.webp",
+//     "",
+//   );
+//   await uploadStall(
+//     "Boon Lay Lu Wei",
+//     "Chinese",
+//     4.2,
+//     "images/Boon Lay Lu Wei Picture.jpg",
+//   );
+//   await uploadStall(
+//     "IMohamed Ismail Food Stall",
+//     "Indian",
+//     4.5,
+//     "images/I.Mohamed Ismail Food Stall Picture.jpg",
+//   );
+//   await uploadStall(
+//     "Big Daddy’s Chicken & Noodle Stall",
+//     "Others",
+//     4.5,
+//     "images/Big Daddy's Chicken & Noodle Picture.webp",
+//   );
+// })();
 async function loadStallInfo(stallName) {
   const snap = await get(ref(db, `stalls/${stallName}`));
 
@@ -544,7 +713,7 @@ function renderMenu(menuItems, stall_name) {
 
   const heading = document.createElement("h2");
   heading.textContent = "Menu";
-  heading.style.margin = "10px 0 16px";
+  heading.style.margin = "1%";
   root.appendChild(heading);
 
   const grid = document.createElement("div");
@@ -612,36 +781,72 @@ function renderMenu(menuItems, stall_name) {
 
     // ===== PLUS BUTTON (YOUR EXISTING) =====
     const plusBtn = document.createElement("button");
-    plusBtn.className = "plus-btn";
     plusBtn.type = "button";
+    plusBtn.className = "qty-btn qty-plus";
     plusBtn.textContent = "+";
 
     if (item.available === false) {
+      minusBtn.disabled = true;
       plusBtn.disabled = true;
-      plusBtn.textContent = "—";
       card.classList.add("unavailable");
     } else {
-      plusBtn.addEventListener("click", (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        addToCart(stall_name, item_name, item.price, item.image || "");
+      minusBtn.addEventListener("click", () => {
+        removeFromCart(stall_name, item_name, item.price);
+        qtyVal.textContent = String(
+          getItemQty(stall_name, item_name, item.price),
+        );
+      });
+
+      plusBtn.addEventListener("click", () => {
+        addToCart(stall_name, item_name, item.price, item.image);
+        qtyVal.textContent = String(
+          getItemQty(stall_name, item_name, item.price),
+        );
       });
     }
 
-    actions.appendChild(heartBtn);
-    actions.appendChild(plusBtn);
-
+    stepper.appendChild(minusBtn);
+    stepper.appendChild(qtyVal);
+    stepper.appendChild(plusBtn);
+    actions.appendChild(stepper);
+    card.appendChild(img);
     card.appendChild(title);
     card.appendChild(price);
     card.appendChild(actions);
-
     grid.appendChild(card);
+
+    console.log("Menu data:", menuItems);
   }
 }
+
+//load menu(one time) or listen menu(realtime) choose one
+
+// /* =========================
+//    LOAD MENU FROM FIREBASE
+// ========================= */
+// async function loadMenu(stall_name) {
+//   const snap = await get(ref(db, `stalls/${stall_name}/menuItems`));
+
+//   if (!snap.exists()) {
+//     document.querySelector("#menuRoot").innerHTML =
+//       "<p>No menu items.</p>";
+//     return;
+//   }
+
+//   renderMenu(snap.val(), stall_name);
+// }
+
+// // Load default stall menu
+// loadMenu("Banana Leaf Nasi Lemak");
+
+//reading
 
 let stopMenuListener = null;
 
 function listenToMenu(stall_name) {
+  const menuRoot = document.querySelector("#menuRoot");
+  if (!menuRoot) return;
+
   if (stopMenuListener) stopMenuListener();
 
   const menuRef = ref(db, `stalls/${stall_name}/menuItems`);
@@ -705,10 +910,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const params = new URLSearchParams(window.location.search);
   const stallName = params.get("stall");
 
-  if (!stallName) {
-    document.querySelector("#menuRoot").innerHTML = "<p>No stall selected.</p>";
-    return;
+  const menuRoot = document.querySelector("#menuRoot");
+
+if (!stallName) {
+  if (menuRoot) {
+    menuRoot.innerHTML = "<p>No stall selected.</p>";
   }
+  return;
+}
 
   const titleEl = document.getElementById("stallTitle");
   if (titleEl) titleEl.textContent = stallName;
@@ -790,6 +999,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const stallName = params.get("stall");
 
   if (!stallName) {
+
     menuRoot.innerHTML = "<p>No stall selected.</p>";
     return;
   }
@@ -813,7 +1023,6 @@ document.addEventListener("click", (e) => {
     item.classList.remove("active");
   });
 });
-
 const hamburger = document.getElementById("hamburger");
 const menu = document.getElementById("menu");
 const overlay = document.getElementById("navOverlay");
@@ -821,14 +1030,14 @@ const overlay = document.getElementById("navOverlay");
 function openNav() {
   if (!menu || !overlay) return;
   menu.classList.add("show");
-  overlay.classList.add("show");
+  if (overlay) overlay.classList.add("show");
   document.body.style.overflow = "hidden";
 }
 
 function closeNav() {
   if (!menu || !overlay) return;
   menu.classList.remove("show");
-  overlay.classList.remove("show");
+  if (overlay) overlay.classList.remove("show");
   document.body.style.overflow = "";
 }
 
@@ -1189,3 +1398,5 @@ function toggleFavouriteItem(itemData) {
 
 window.toggleFavouriteItem = toggleFavouriteItem;
 window.isFavouriteItem = isFavouriteItem;
+
+
