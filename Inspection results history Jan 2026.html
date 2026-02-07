@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inspection results history - January 2026</title>
+    <title>Regulatory&Complianceinfo</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Kodchasan:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
         rel="stylesheet"
@@ -17,6 +17,15 @@
         font-family: system-ui, -apple-system, sans-serif;
       }
 
+      :root {
+        --table-columns: 90px 1.2fr 1.4fr 100px;
+      }
+
+      @media (max-width: 700px) {
+        :root {
+          --table-columns: 70px 1fr 1fr 70px;
+        }
+      }
       body {
         margin: 0;
         background: #fff;
@@ -62,6 +71,7 @@
         grid-template-columns: 90px 1.2fr 1.4fr 100px;
         align-items: center;
         gap: 1rem;
+        width: 100%;
       }
 
       /* Image */
@@ -103,38 +113,48 @@
         background: #5cb85c;
       }
 
+      .grade-c {
+        background: #f0ad4e;
+      }
       /* Responsive */
       @media (max-width: 700px) {
         .table-header,
         .stall-card {
-          grid-template-columns: 70px 1fr 1fr 70px;
+          display: grid;
+          grid-template-columns: var(--table-columns);
+          gap: 1rem;
         }
 
-        .stall-card img {
-          width: 70px;
-          height: 70px;
+        .table-header {
+          font-weight: 600;
+          padding: 0.5rem 0;
         }
-      }
+
+        .stall-card {
+          align-items: center;
+        }
+      }   
+
 
     </style> 
 </head>
 
 <body>
-    <main class="container">
-      <nav class="navrectangle">
-        <header class="top-nav">
-          <!-- Logo -->
-          <div class="Logo">
-            <img src="/images/ShiokLah(cropped).jpeg" alt="Logo" />
+    <nav class="navrectangle">
+      <div class="container">
+        <div class="top-nav">
+          <div class="nav-left">
+            <div class="Logo">
+              <img src="/images/ShiokLah(cropped).jpeg" alt="Logo" />
+            </div>
           </div>
 
-          <!-- Main Menu -->
-          <nav>
-            <ul class="menu">
+          <div class="nav-center">
+            <ul class="menu" id="menu">
               <li class="menu-item">
                 <a href="#">Home</a>
                 <ul class="dropdown">
-                  <li><a href="#">Start Order</a></li>
+                  <li><a href="FED_ASG.html">Start Order</a></li>
                 </ul>
               </li>
 
@@ -151,11 +171,6 @@
                   <li><a href="UserProfile.html">Overview</a></li>
                   <li><a href="Analytics.html">Analytics & Reporting</a></li>
                   <li><a href="#">Customer Feedback</a></li>
-                  <li>
-                    <a href="R&C inspection log all.html"
-                      >Regulatory & Compliance</a
-                    >
-                  </li>
                   <li><a href="#">Favourites</a></li>
                   <li><a href="#">Rewards</a></li>
                 </ul>
@@ -165,16 +180,18 @@
                 <a href="SelectRole.html">Log Out</a>
               </li>
             </ul>
-          </nav>
-
-          <!-- Right Action -->
-          <div class="nav-action">
-            <button class="reserve-btn">Reserve A Table</button>
           </div>
-        </header>
-      </nav>
 
-      <hr class="Nav-line" />
+          <div class="nav-right">
+            <button class="reserve-btn">Reserve A Table</button>
+            <div class="hamburger" id="hamburger">
+              <div></div><div></div><div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <hr class="Nav-line" />
 
       <main class="contents">
   <header class="page-header">
@@ -194,167 +211,175 @@
     </div>
 
     <section class="stall-list">
-      <!-- Stall item
-      <article class="stall-card">
+      <!-- Stall item -->
+      <!-- <article class="stall-card">
         <img src="images/Banana Leaf Nasi Lemak Picture.jpg" alt="Banana Leaf Nasi Lemak">
         <div class="stall-name">Banana Leaf<br>Nasi Lemak</div>
         <div class="ratings">
-          Cleanliness - 87%<br>
-          Handling - 82%<br>
-          Efficiency - 84%<br>
-          <strong>Total - 84.3%</strong>
+          Cleanliness - 80%<br>
+          Handling - 85%<br>
+          Efficiency - 82%<br>
+          <strong>Total - 82.3%</strong>
         </div>
-        <div class="grade grade-a">A</div>
+        <div class="grade grade-b">B</div>
       </article>
 
       <article class="stall-card">
         <img src="images/Boon Lay Fried Carrot Cake & Kway Teow Mee Picture.jpg" alt="Boon Lay Fried Carrot Cake">
         <div class="stall-name">Boon Lay Fried<br>Carrot Cake &amp;<br>Kway Teow Mee</div>
         <div class="ratings">
-          Cleanliness - 79%<br>
-          Handling - 76%<br>
-          Efficiency - 82%<br>
-          <strong>Total - 79%</strong>
+          Cleanliness - 86%<br>
+          Handling - 83%<br>
+          Efficiency - 90%<br>
+          <strong>Total - 86.3%</strong>
         </div>
-        <div class="grade grade-b">B</div>
+        <div class="grade grade-a">A</div>
       </article>
 
       <article class="stall-card">
         <img src="images/Boon Lay Lu Wei Picture.jpg" alt="Boon Lay Lu Wei">
         <div class="stall-name">Boon Lay Lu Wei</div>
         <div class="ratings">
-          Cleanliness - 80%<br>
-          Handling - 90%<br>
-          Efficiency - 87%<br>
-          <strong>Total - 85.7%</strong>
+          Cleanliness - 81%<br>
+          Handling - 84%<br>
+          Efficiency - 84%<br>
+          <strong>Total - 83%</strong>
         </div>
-        <div class="grade grade-a">A</div>
+        <div class="grade grade-b">B</div>
       </article>
 
       <article class="stall-card">
         <img src="images/I.Mohamed Ismail Food Stall Picture.jpg" alt="I. Mohamed Ismail Food Stall">
         <div class="stall-name">I. Mohamed Ismail<br>Food Stall</div>
         <div class="ratings">
-          Cleanliness - 80%<br>
-          Handling - 90%<br>
-          Efficiency - 87%<br>
-          <strong>Total - 85.7%</strong>
+          Cleanliness - 82%<br>
+          Handling - 78%<br>
+          Efficiency - 74%<br>
+          <strong>Total - 78%</strong>
         </div>
-        <div class="grade grade-a">A</div>
+        <div class="grade grade-b">B</div>
       </article>
 
       <article class="stall-card">
         <img src="images/Big Daddy's Chicken & Noodle Picture.webp" alt="Big Daddy's Chicken & Noodle Stall">
         <div class="stall-name">Big Daddy's<br>Chicken &amp;<br>Noodle Stall</div>
         <div class="ratings">
-          Cleanliness - 86%<br>
-          Handling - 90%<br>
-          Efficiency - 75%<br>
-          <strong>Total - 83.6%</strong>
+          Cleanliness - 89%<br>
+          Handling - 84%<br>
+          Efficiency - 77%<br>
+          <strong>Total - 83.3%</strong>
         </div>
         <div class="grade grade-b">B</div>
       </article> -->
+
     </section>
-    <script>
-    const stallsData = [
-      {
-        name: "Banana Leaf Nasi Lemak",
-        image: "images/Banana Leaf Nasi Lemak Picture.jpg",
-        ratings: {
-          cleanliness,
-          handling,
-          efficiency,
-        },
-      },
-      {
-        name: "Boon Lay Fried Carrot Cake & Kway Teow Mee",
-        image: "images/Boon Lay Fried Carrot Cake & Kway Teow Mee Picture.jpg",
-        ratings: {
-          cleanliness,
-          handling,
-          efficiency,
-        },
-      },
-      {
-        name: "Boon Lay Lu Wei",
-        image: "images/Boon Lay Lu Wei Picture.jpg",
-        ratings: {
-          cleanliness,
-          handling,
-          efficiency,
-        },
-      },
-      {
-        name: "I. Mohamed Ismail Food Stall",
-        image: "images/I.Mohamed Ismail Food Stall Picture.jpg",
-        ratings: {
-          cleanliness,
-          handling,
-          efficiency,
-        },
-      },
-      {
-        name: "Big Daddy's Chicken & Noodle Stall",
-        image: "images/Big Daddy's Chicken & Noodle Picture.webp",
-        ratings: {
-          cleanliness,
-          handling,
-          efficiency,
-        },
-      },
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+      import {
+        getDatabase,
+        ref,
+        onValue,   
+        push,
+        set,
+        get,
+        update,
+        remove,
+        child,
+      } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyCoYoGP4NYJPHqA-kV_swajQ4LSQYdyWV4",
+        authDomain: "grp3fedapp.firebaseapp.com",
+        databaseURL:
+          "https://grp3fedapp-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "grp3fedapp",
+        storageBucket: "grp3fedapp.firebasestorage.app",
+        messagingSenderId: "791146838729",
+        appId: "1:791146838729:web:446baee191feeb036e2b18",
+      };
+
+      /* ================================
+        Initialize Firebase
+      ================================ */
+      const app = initializeApp(firebaseConfig);
+      const db = getDatabase(app);
+
+      const rootRef = ref(db, "/");
+
+      // ✅ Real-time listen to ALL data
+      onValue(ref(db, "/"), (snapshot) => {
+        console.log("REAL-TIME DATA:", snapshot.val());
+      });
+
+
+      function calculateAverage(values) {
+        const nums = Object.values(values).filter(v => typeof v === "number");
+        if (!nums.length) return null;
+        return (nums.reduce((a, b) => a + b, 0) / nums.length);
+      }
+
+      function getHygieneGrade(avg) {
+        if (avg >= 85) return "A";
+        if (avg >= 75) return "B";
+        if (avg >= 65) return "C";
+        return "D";
+      }
+
+      function getGradeClass(grade) {
+        return `grade-${grade.toLowerCase()}`;
+      }
+
+      function renderStalls(stalls) {
+  const list = document.querySelector(".stall-list");
+  list.innerHTML = "";
+
+  Object.entries(stalls).forEach(([stallName, stall]) => {
+
+    // Read ratings from TOP LEVEL
+    const ratings = {
+      cleanliness: stall.cleanliness,
+      handling: stall.handling,
+      efficiency: stall.efficiency
+    };
+
+    const avg = calculateAverage(ratings);
+    const avgPercent = avg !== null ? Math.round(avg * 100) : null;
+    const grade = avgPercent !== null ? getHygieneGrade(avgPercent) : "";
+
+    const ratingLines = [
+      `Cleanliness - ${typeof ratings.cleanliness === "number" ? Math.round(ratings.cleanliness * 100) + "%" : "N/A"}`,
+      `Handling - ${typeof ratings.handling === "number" ? Math.round(ratings.handling * 100) + "%" : "N/A"}`,
+      `Efficiency - ${typeof ratings.efficiency === "number" ? Math.round(ratings.efficiency * 100) + "%" : "N/A"}`
     ];
 
-    function calculateAverage({ cleanliness, handling, efficiency }) {
-      return ((cleanliness + handling + efficiency) / 3).toFixed(1);
+    if (avgPercent !== null) {
+      ratingLines.push(`<strong>Total - ${avgPercent}%</strong>`);
     }
 
-        function getHygieneGrade(avg) {
-      if (avg >= 85) return "A";
-      if (avg >= 75) return "B";
-      if (avg >= 65) return "C";
-      return "D";
-    }
+    const card = document.createElement("article");
+    card.className = "stall-card";
 
-        function getGradeClass(grade) {
-      return `grade-${grade.toLowerCase()}`;
-    }
+    card.innerHTML = `
+      <img src="${stall.image || "images/placeholder.jpg"}" alt="${stallName}">
+      <div class="stall-name">${stallName}</div>
+      <div class="ratings">${ratingLines.join("<br>")}</div>
+      <div class="grade ${grade ? getGradeClass(grade) : ""}">
+        ${grade || ""}
+      </div>
+    `;
 
-    function renderInspectionList(stalls) {
-      const list = document.querySelector(".stall-list");
-      list.innerHTML = "";
+    list.appendChild(card);
+  });
+}
 
-      stalls.forEach((stall) => {
-        const avg = calculateAverage(stall.ratings);
-        const grade = getHygieneGrade(avg);
-
-        const card = document.createElement("article");
-        card.className = "stall-card";
-
-        card.innerHTML = `
-          <img src="${stall.image}" alt="${stall.name}">
-          
-          <div class="stall-name">
-            ${stall.name}
-          </div>
-
-          <div class="ratings">
-            Cleanliness - ${stall.ratings.cleanliness}%<br>
-            Handling - ${stall.ratings.handling}%<br>
-            Efficiency - ${stall.ratings.efficiency}%<br>
-            <strong>Total - ${avg}%</strong>
-          </div>
-
-          <div class="grade ${getGradeClass(grade)}">
-            ${grade}
-          </div>
-        `;
-
-        list.appendChild(card);
+      const stallsRef = ref(db, "stalls");
+      onValue(stallsRef, snapshot => {
+        if (snapshot.exists()) {
+          renderStalls(snapshot.val());
+        }
       });
-    }
+</script>
 
-    renderInspectionList(stallsData);
-    
-    </script>
   </main>
 </main>
