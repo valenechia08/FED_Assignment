@@ -235,6 +235,21 @@ window.getCurrentUsername = function () {
     ""
   ).trim();
 };
+// =========================
+// SHOW USERNAME IN GREETING
+// =========================
+document.addEventListener("DOMContentLoaded", () => {
+  const usernameEl = document.getElementById("usernameDisplay");
+  if (!usernameEl) return; // not on this page
+
+  const username = sessionStorage.getItem("loggedInUser");
+
+  if (username) {
+    usernameEl.textContent = username;
+  } else {
+    usernameEl.textContent = "Guest";
+  }
+});
 
 async function retrieveAccount() {
   const username = normalizeUsername($("username")?.value ?? "");
@@ -458,18 +473,6 @@ document.addEventListener("DOMContentLoaded", () => {
 //     loadStallHeader("Banana Leaf Nasi Lemak");
 //   }
 // });
-document.addEventListener("DOMContentLoaded", () => {
-  const stallImg = document.getElementById("stallImg");
-  if (!stallImg) return; // not stall page
-
-  const params = new URLSearchParams(window.location.search);
-  const stallName = params.get("stall");
-
-  if (!stallName) return;
-
-  loadStallHeader(stallName); // ✅ dynamic
-});
-
 //Create Stall Object & Menu Item
 function createStallObject(stall_name, cuisine, rating, image) {
   return {
