@@ -242,6 +242,21 @@
     });
     window.location.href = "Inspection results history Jan 2026.html";
   };
+
+  // Pre-fill form if data exists
+  get(ref(db, `stalls/${stallName}`)).then(snapshot => {
+    if (snapshot.exists()) {
+      const data = snapshot.val();
+      if (data.cleanliness !== undefined)
+        cleanliness.value = (data.cleanliness * 100).toFixed(0);
+      if (data.handling !== undefined)
+        handling.value = (data.handling * 100).toFixed(0);
+      if (data.efficiency !== undefined)
+        efficiency.value = (data.efficiency * 100).toFixed(0);
+      updateGrade();
+    }
+  });
+
 </script>
 
 </body>
