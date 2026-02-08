@@ -310,7 +310,7 @@
 
       function calcFee(mode, items) {
         // takeaway packaging fee: $0.30 per item (qty)
-        if (mode === "takeaway") {
+        if (mode === "selfPickup") {
           const qtyTotal = items.reduce(
             (s, it) => s + (Number(it.qty) || 1),
             0,
@@ -334,16 +334,16 @@
         const items = normalizeItems(cartRaw);
 
         const mode = (
-          sessionStorage.getItem("orderMode") || "pickup"
+          sessionStorage.getItem("orderMode") || "selfPickup"
         ).toLowerCase();
-        const typeLabel = mode === "takeaway" ? "Takeaway" : "Self-Pickup";
+        const typeLabel = mode === "dineIn" ? "DineIn" : "Dine-In";
 
         // if you store table in sessionStorage, use it; else default
         const tableOrQueue =
           sessionStorage.getItem("tableOrQueue") || "Table 05";
 
         // realistic values
-        const etaMins = mode === "takeaway" ? 25 : 12;
+        const etaMins = mode === "dineIn" ? 25 : 12;
         const ahead = Math.floor(Math.random() * 6) + 2; // 2-7
 
         const subtotal = calcSubtotal(items);
@@ -379,7 +379,7 @@
         sessionStorage.setItem("lastOrderId", orderId);
 
         // update message
-        if (mode === "takeaway") {
+        if (mode === "selfPickup") {
           msgEl.textContent = "Your order is ready for collection in ~ 25 mins";
         } else {
           msgEl.innerHTML = `Please proceed to: <strong>${tableOrQueue}</strong>`;
