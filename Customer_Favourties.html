@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ShiokLah! • Favourites</title>
 
+    <!-- ✅ Kodchasan ONLY for NAV -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kodchasan:wght@200;300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
     <style>
       :root {
         --primary-orange: #e47329;
@@ -16,16 +24,12 @@
         --shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
       }
 
+      /* ✅ DEFAULT = ARIAL EVERYWHERE */
       * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        font-family:
-          "Segoe UI",
-          system-ui,
-          -apple-system,
-          Arial,
-          sans-serif;
+        font-family: Arial, Helvetica, sans-serif;
       }
 
       body {
@@ -34,102 +38,251 @@
       }
 
       /* =========================
-         TOP NAV (YOUR NAV)
+         ✅ NAVIGATION (SAME AS FRIEND)
       ========================= */
-      .topNavBar {
+      .navrectangle {
+        background: white;
         position: sticky;
         top: 0;
         z-index: 2000;
-        background: #fff;
-        border-bottom: 1px solid var(--line);
+        padding: 10px 40px;
+        border-bottom: 1px solid #eee;
+
+        font-family: "Kodchasan", Arial, sans-serif;
       }
-      .topNavBar .container {
-        width: 92%;
-        max-width: 1200px;
-        margin: auto;
-      }
-      .topNavBar .top-nav {
-        display: flex;
+
+      .top-nav {
+        display: grid;
+        grid-template-columns: auto 1fr auto auto; /* logo | menu | reserve | hamburger */
         align-items: center;
-        justify-content: space-between;
-        height: 70px;
+        gap: 14px;
       }
-      .topNavBar .nav-left,
-      .topNavBar .nav-right {
-        flex: 0 0 auto;
-      }
-      .topNavBar .nav-center {
-        flex: 1;
-        display: flex;
-        justify-content: center;
-      }
-      .topNavBar .Logo {
+
+      .Logo {
         height: 60px;
         display: flex;
         align-items: center;
         text-decoration: none;
       }
-      .topNavBar .Logo img {
+
+      .Logo img {
         height: 100%;
         width: auto;
         display: block;
       }
-      .topNavBar .menu {
-        list-style: none;
+
+      .menu {
         display: flex;
-        align-items: center;
+        justify-content: center;
+        list-style: none;
         gap: 50px;
       }
-      .topNavBar .menu a {
+
+      .menu a {
         text-decoration: none;
         font-weight: 800;
+        font-size: 15px;
         color: #111;
+        font-family: "Kodchasan", Arial, sans-serif;
         display: block;
         padding: 8px 0;
       }
-      .topNavBar .menu a:hover {
+
+      .menu a:hover {
         color: var(--primary-orange);
       }
-      .topNavBar .menu-item {
+
+      .menu-item {
         position: relative;
       }
-      .topNavBar .dropdown {
+
+      /* ✅ FIX: make dropdown easier to hover into (bigger hover area + no "gap") */
+      .dropdown {
         position: absolute;
-        top: 130%;
+        top: 100%; /* was 130% (creates a gap that kills hover) */
         left: 0;
+        margin-top: 10px; /* visual spacing without breaking hover */
         background: var(--primary-yellow);
         border-radius: 12px;
         padding: 10px 0;
         min-width: 220px;
         display: none;
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-      }
-      .topNavBar .dropdown li {
-        list-style: none;
-      }
-      .topNavBar .dropdown a {
-        padding: 10px 18px;
-        color: #111;
-        font-weight: 700;
-      }
-      .topNavBar .dropdown a:hover {
-        background: rgba(0, 0, 0, 0.08);
-      }
-      .topNavBar .menu-item:hover .dropdown {
-        display: block;
-      }
-      .topNavBar .nav-right {
-        width: 60px;
+        z-index: 2100;
       }
 
-      @media (max-width: 900px) {
-        .topNavBar .menu {
-          gap: 28px;
-        }
+      /* ✅ FIX: invisible "hover bridge" so dropdown stays open while moving mouse down */
+      .menu-item::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 100%;
+        width: 100%;
+        height: 14px; /* bridge height */
       }
-      @media (max-width: 700px) {
-        .topNavBar .nav-center {
+
+      .dropdown li {
+        list-style: none;
+      }
+
+      .dropdown a {
+        display: block;
+        padding: 10px 18px;
+        color: #111;
+        font-size: 15px;
+        font-weight: 800;
+        font-family: "Kodchasan", Arial, sans-serif;
+        white-space: nowrap;
+      }
+
+      .dropdown a:hover {
+        background: rgba(0, 0, 0, 0.08);
+      }
+
+      /* ✅ FIX: keep dropdown open when hovering menu item OR dropdown itself */
+      .menu-item:hover .dropdown,
+      .menu-item:focus-within .dropdown {
+        display: block;
+      }
+
+      /* Reserve a Table button */
+      .reserve-btn {
+        background: #ff8f3a;
+        color: white;
+        border: 3px solid #ff8f3a;
+        padding: 14px 30px;
+        border-radius: 22px;
+        font-weight: 900;
+        font-size: 15px;
+        cursor: pointer;
+        transition: all 0.25s ease;
+        font-family: Arial, Helvetica, sans-serif;
+        white-space: nowrap;
+      }
+
+      .reserve-btn:hover {
+        background: white;
+        color: #ff8f3a;
+      }
+
+      /* MOBILE DRAWER NAV (same pattern) */
+      .hamburger {
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        gap: 5px;
+        cursor: pointer;
+        user-select: none;
+      }
+
+      .hamburger div {
+        width: 22px;
+        height: 2px;
+        background: #111;
+        border-radius: 1px;
+      }
+
+      .nav-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.3);
+        display: none;
+        z-index: 1500;
+      }
+      .nav-overlay.show {
+        display: block;
+      }
+
+      /* ✅ drawer breakpoint at 992px */
+      @media (max-width: 992px) {
+        .navrectangle {
+          padding: 10px 18px;
+        }
+
+        .top-nav {
+          grid-template-columns: auto 1fr auto; /* logo | spacer | hamburger */
+        }
+
+        /* hide reserve on mobile */
+        .reserve-btn {
           display: none;
+        }
+
+        .hamburger {
+          display: flex;
+          justify-self: end;
+        }
+
+        .menu {
+          position: fixed;
+          top: 0;
+          right: 0;
+          height: 100vh;
+          width: min(86vw, 360px);
+          background: #fff;
+
+          padding: 90px 16px 18px;
+          border-left: 1px solid #eee;
+          box-shadow: -18px 0 40px rgba(0, 0, 0, 0.16);
+
+          display: flex;
+          flex-direction: column;
+          align-items: stretch;
+          justify-content: flex-start;
+          gap: 10px;
+
+          transform: translateX(110%);
+          transition: transform 0.25s ease;
+          z-index: 1600;
+        }
+
+        .menu.show {
+          transform: translateX(0);
+        }
+
+        .menu > .menu-item > a {
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          text-align: center;
+
+          padding: 12px 14px;
+          border-radius: 14px;
+
+          color: #9a9a9a;
+          font-weight: 800;
+          font-size: 15px;
+          font-family: "Kodchasan", Arial, sans-serif;
+        }
+
+        .dropdown {
+          position: static;
+          min-width: unset;
+          width: 100%;
+          margin: 6px 0 12px;
+          padding: 10px;
+
+          background: rgba(214, 112, 39, 0.12);
+          border-radius: 14px;
+          box-shadow: none;
+
+          display: block;
+        }
+
+        /* bridge not needed on mobile drawer */
+        .menu-item::after {
+          display: none;
+        }
+
+        .dropdown a {
+          border-radius: 12px;
+          text-align: center;
+          padding: 12px 14px;
+        }
+
+        .menu-item:hover .dropdown,
+        .menu-item:focus-within .dropdown {
+          display: block;
         }
       }
 
@@ -189,6 +342,7 @@
         gap: 12px;
         flex-wrap: wrap;
       }
+
       .hint {
         color: var(--muted);
         font-weight: 800;
@@ -201,6 +355,7 @@
         grid-template-columns: 1fr 220px 220px 220px 150px;
         gap: 12px;
       }
+
       .field {
         display: flex;
         align-items: center;
@@ -210,6 +365,7 @@
         border-radius: 14px;
         background: #fff;
       }
+
       .field input,
       .field select {
         border: none;
@@ -228,9 +384,11 @@
         padding: 10px 12px;
         transition: 0.15s;
       }
+
       .btn:hover {
         transform: translateY(-1px);
       }
+
       .btn:active {
         transform: translateY(0);
       }
@@ -239,6 +397,7 @@
         background: var(--primary-orange);
         color: #fff;
       }
+
       .btn-primary:hover {
         filter: brightness(0.95);
       }
@@ -255,27 +414,11 @@
         color: #b91c1c;
       }
 
-      @media (max-width: 980px) {
-        .controls {
-          grid-template-columns: 1fr 1fr;
-        }
-      }
-
       /* Grid */
       .grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 14px;
-      }
-      @media (max-width: 980px) {
-        .grid {
-          grid-template-columns: repeat(2, 1fr);
-        }
-      }
-      @media (max-width: 640px) {
-        .grid {
-          grid-template-columns: 1fr;
-        }
       }
 
       .stall-card {
@@ -297,6 +440,7 @@
         );
         position: relative;
       }
+
       .thumb img {
         width: 100%;
         height: 100%;
@@ -319,6 +463,7 @@
         align-items: center;
         user-select: none;
       }
+
       .pill button {
         background: transparent;
         border: none;
@@ -339,6 +484,7 @@
         font-weight: 900;
         font-size: 16px;
       }
+
       .sub {
         color: var(--muted);
         font-size: 13px;
@@ -350,6 +496,7 @@
         flex-wrap: wrap;
         gap: 8px;
       }
+
       .tag {
         font-size: 12px;
         font-weight: 900;
@@ -366,6 +513,7 @@
         align-items: center;
         gap: 6px;
       }
+
       .rating .star {
         color: #f59e0b;
       }
@@ -402,10 +550,12 @@
         display: none;
         z-index: 9999;
       }
+
       .toast strong {
         display: block;
         margin-bottom: 2px;
       }
+
       .toast p {
         color: var(--muted);
         font-size: 13px;
@@ -416,63 +566,90 @@
         -webkit-appearance: none;
         -moz-appearance: none;
       }
+
+      /* Optional: make controls stack nicer on smaller screens (doesn't affect nav) */
+      @media (max-width: 1100px) {
+        .controls {
+          grid-template-columns: 1fr 1fr;
+        }
+        .controls .btn-danger {
+          grid-column: 1 / -1;
+        }
+      }
+      @media (max-width: 560px) {
+        .controls {
+          grid-template-columns: 1fr;
+        }
+      }
     </style>
   </head>
 
   <body>
-    <!-- NAV -->
-    <nav class="topNavBar">
-      <div class="container">
-        <div class="top-nav">
-          <div class="nav-left">
-            <a href="FED_ASG.html" class="Logo" aria-label="ShiokLah Home">
-              <img src="images/ShiokLah(cropped).jpeg" alt="ShiokLah Logo" />
-            </a>
-          </div>
+    <!-- ✅ overlay for mobile drawer -->
+    <div class="nav-overlay" id="navOverlay"></div>
 
-          <div class="nav-center">
-            <ul class="menu" id="menu">
-              <li class="menu-item">
-                <a href="FED_ASG.html">Home</a>
-                <ul class="dropdown">
-                  <li><a href="FED_ASG.html">Start Order</a></li>
-                </ul>
-              </li>
+    <!-- ✅ NAV (same as friend) -->
+    <nav class="navrectangle">
+      <header class="top-nav">
+        <a href="FED_ASG.html" class="Logo" aria-label="ShiokLah Home">
+          <img src="images/ShiokLah(cropped).jpeg" alt="ShiokLah Logo" />
+        </a>
 
-              <li class="menu-item">
-                <a href="#">Order History</a>
-                <ul class="dropdown">
-                  <li><a href="OrderHistory.html">Past Orders</a></li>
-                </ul>
-              </li>
+        <nav>
+          <ul class="menu" id="menu">
+            <li class="menu-item">
+              <a href="FED_ASG.html">Home</a>
+              <ul class="dropdown">
+                <li><a href="FED_ASG.html">Start Order</a></li>
+              </ul>
+            </li>
 
-              <li class="menu-item">
-                <a href="UserProfile.html">Profile</a>
-                <ul class="dropdown">
-                  <li><a href="UserProfile.html">Overview</a></li>
-                  <li><a href="Analytics.html">Analytics & Reporting</a></li>
-                  <li><a href="CustomerFeedback.html">Customer Feedback</a></li>
-                  <li>
-                    <a href="Regulatory&Complianceinfo.html"
-                      >Regulatory & Compliance Info</a
-                    >
-                  </li>
-                  <li><a href="Favourites.html">Favourites</a></li>
-                  <li>
-                    <a href="Customer Vouchers and Rewards.html">Rewards</a>
-                  </li>
-                </ul>
-              </li>
+            <li class="menu-item">
+              <a href="#">Order History</a>
+              <ul class="dropdown">
+                <li><a href="OrderHistory.html">Past Orders</a></li>
+              </ul>
+            </li>
 
-              <li class="menu-item">
-                <a href="SelectRole.html">Log Out</a>
-              </li>
-            </ul>
-          </div>
+            <li class="menu-item">
+              <a href="UserProfile.html">Profile</a>
+              <ul class="dropdown">
+                <li><a href="UserProfile.html">Overview</a></li>
+                <li><a href="Analytics.html">Analytics & Reporting</a></li>
+                <li><a href="CustomerFeedback.html">Customer Feedback</a></li>
+                <li><a href="Favourites.html">Favourites</a></li>
+                <li>
+                  <a href="Customer Vouchers and Rewards.html">Rewards</a>
+                </li>
+              </ul>
+            </li>
 
-          <div class="nav-right"></div>
+            <li class="menu-item">
+              <a href="SelectRole.html">Log Out</a>
+            </li>
+          </ul>
+        </nav>
+
+        <button
+          class="reserve-btn"
+          type="button"
+          onclick="window.location.href = 'Reservation.html'"
+        >
+          Reserve A Table
+        </button>
+
+        <div
+          class="hamburger"
+          id="hamburger"
+          aria-label="Open menu"
+          role="button"
+          tabindex="0"
+        >
+          <div></div>
+          <div></div>
+          <div></div>
         </div>
-      </div>
+      </header>
     </nav>
 
     <main>
@@ -483,7 +660,7 @@
 
       <div class="card">
         <div class="card-inner">
-          <!-- Controls (simple, no seed/export) -->
+          <!-- Controls -->
           <div class="section">
             <h3>
               Find your favourites
@@ -526,9 +703,8 @@
               <button class="btn btn-danger" id="clearAllBtn">Clear all</button>
             </div>
           </div>
-          <!-- =========================
-     Favourite Items Section
-========================= -->
+
+          <!-- Favourite Items Section -->
           <section style="margin-top: 28px">
             <div style="display: flex; align-items: baseline; gap: 10px">
               <h2 style="margin: 0">Favourite Items</h2>
@@ -580,10 +756,41 @@
     </div>
 
     <script>
+      /* ✅ MOBILE NAV open/close (same as friend) */
+      const hamburger = document.getElementById("hamburger");
+      const menu = document.getElementById("menu");
+      const overlay = document.getElementById("navOverlay");
+
+      if (hamburger && menu && overlay) {
+        const closeMenu = () => {
+          menu.classList.remove("show");
+          overlay.classList.remove("show");
+          document.body.style.overflow = "";
+        };
+
+        hamburger.addEventListener("click", () => {
+          menu.classList.toggle("show");
+          overlay.classList.toggle("show");
+          document.body.style.overflow = menu.classList.contains("show")
+            ? "hidden"
+            : "";
+        });
+
+        overlay.addEventListener("click", closeMenu);
+
+        hamburger.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") hamburger.click();
+        });
+
+        menu.querySelectorAll("a").forEach((a) => {
+          a.addEventListener("click", closeMenu);
+        });
+      }
+
+      /* =========================
+         YOUR ORIGINAL PAGE LOGIC
+      ========================== */
       document.addEventListener("DOMContentLoaded", () => {
-        /************************************************************
-         * STALLS (USING YOUR IMAGE FILENAMES)
-         ************************************************************/
         const STALLS = [
           {
             id: "ST01",
@@ -622,9 +829,6 @@
           },
         ];
 
-        /************************************************************
-         * STORAGE
-         ************************************************************/
         const FAV_KEY = "shioklah_fav_stalls_v1";
 
         function loadFavSet() {
@@ -638,9 +842,6 @@
           localStorage.setItem(FAV_KEY, JSON.stringify([...set]));
         }
 
-        /************************************************************
-         * DOM
-         ************************************************************/
         const gridEl = document.getElementById("grid");
         const emptyEl = document.getElementById("emptyState");
         const countText = document.getElementById("countText");
@@ -649,7 +850,6 @@
         const cuisineFilter = document.getElementById("cuisineFilter");
         const sortSelect = document.getElementById("sortSelect");
         const stallFilter = document.getElementById("stallFilter");
-
         const clearAllBtn = document.getElementById("clearAllBtn");
 
         const toast = document.getElementById("toast");
@@ -680,9 +880,6 @@
           return Number.isFinite(x) ? x : fallback;
         }
 
-        /************************************************************
-         * DROPDOWNS
-         ************************************************************/
         function refreshCuisineOptions() {
           const current = cuisineFilter.value || "all";
           const cuisines = Array.from(
@@ -717,9 +914,6 @@
           stallFilter.value = names.includes(current) ? current : "all";
         }
 
-        /************************************************************
-         * FILTER + SORT
-         ************************************************************/
         function applySearchFilterSort(stalls) {
           const q = (searchInput.value || "").trim().toLowerCase();
           const cuisine = cuisineFilter.value || "all";
@@ -749,9 +943,6 @@
           return out;
         }
 
-        /************************************************************
-         * RENDER
-         ************************************************************/
         function render() {
           const favs = loadFavSet();
           const favStalls = STALLS.filter((s) => favs.has(s.id));
@@ -821,26 +1012,20 @@
           });
         }
 
-        /************************************************************
-         * ACTIONS
-         ************************************************************/
         function removeFavourite(stallId) {
           const favs = loadFavSet();
           favs.delete(stallId);
-          saveFavSet(favs);
+          localStorage.setItem(FAV_KEY, JSON.stringify([...favs]));
           showToast("Removed", "Stall removed from favourites.");
           render();
         }
 
         function clearAll() {
-          saveFavSet(new Set());
+          localStorage.setItem(FAV_KEY, JSON.stringify([]));
           showToast("Cleared", "All favourite stalls removed.");
           render();
         }
 
-        /************************************************************
-         * EVENTS
-         ************************************************************/
         document.addEventListener("click", (e) => {
           const btn = e.target.closest("[data-action]");
           if (!btn) return;
@@ -850,15 +1035,9 @@
           if (!action || !id) return;
 
           if (action === "remove") removeFavourite(id);
-          if (action === "start") {
-            // go back to home (start order page)
-            window.location.href = "FED_ASG.html";
-          }
-
-          if (action === "view") {
-            // TODO: link later
+          if (action === "start") window.location.href = "FED_ASG.html";
+          if (action === "view")
             showToast("View", "Link this to your stall details later.");
-          }
         });
 
         searchInput.addEventListener("input", render);
@@ -867,31 +1046,33 @@
         sortSelect.addEventListener("change", render);
 
         clearAllBtn.addEventListener("click", () => {
-          if (!loadFavSet().size) return;
+          const current = JSON.parse(localStorage.getItem(FAV_KEY) || "[]");
+          if (!current.length) return;
           clearAll();
         });
 
-        /************************************************************
-         * HELPERS (for other pages)
-         ************************************************************/
         window.toggleFavouriteStall = function (stallId) {
-          const favs = loadFavSet();
+          const favs = new Set(
+            JSON.parse(localStorage.getItem(FAV_KEY) || "[]"),
+          );
           if (favs.has(stallId)) favs.delete(stallId);
           else favs.add(stallId);
-          saveFavSet(favs);
+          localStorage.setItem(FAV_KEY, JSON.stringify([...favs]));
           return favs.has(stallId);
         };
 
         window.isFavouriteStall = function (stallId) {
-          return loadFavSet().has(stallId);
+          const favs = new Set(
+            JSON.parse(localStorage.getItem(FAV_KEY) || "[]"),
+          );
+          return favs.has(stallId);
         };
 
-        /************************************************************
-         * INIT
-         ************************************************************/
         render();
       });
     </script>
+
+    <!-- keeping your script include -->
     <script src="Favourites.js"></script>
   </body>
 </html>
