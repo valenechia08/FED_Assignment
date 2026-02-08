@@ -161,6 +161,13 @@
     text-decoration:none;
     display:inline-flex;
   }
+  .actions a.btn {
+    display: inline-flex;
+    align-items: center;      /* vertical center */
+    justify-content: center;  /* horizontal center */
+    text-align: center;
+  }
+
   
   .btn{
     appearance:none;
@@ -296,11 +303,6 @@
     background: rgba(255,140,58,.35); /* default */
   }
 
-  /* Different colours per tile */
-  .tile.fav::before { background: rgba(255,140,58,.55); }     /* orange */
-  .tile.rewards::before { background: rgba(255,212,0,.70); } /* yellow */
-  .tile.insights::before { background: rgba(59,130,246,.45);}/* blue */
-  .tile.support::before { background: rgba(34,197,94,.35); } /* green */
 
   .tile:hover {
     transform: translateY(-2px);
@@ -454,7 +456,7 @@
     <div class="nav-overlay" id="navOverlay"></div>
     <hr class="Nav-line" />
 
-  <main>
+    <main>
     <div class="profile-shell">
       <!-- LEFT: Profile Card -->
       <section class="card profile-hero" aria-label="Profile card">
@@ -491,9 +493,7 @@
 
             <div class="actions">
               <button class="btn primary" type="button">Edit Profile</button>
-              <a href="Customer Vouchers and Rewards.html">
-                <button class="btn" type="button">View Rewards</button>
-              </a>
+              <a class="btn" href="Customer Vouchers and Rewards.html">View Rewards</a>
             </div>
           </div>
 
@@ -505,8 +505,8 @@
             </div>
 
             <div class="actions">
-              <a href="SelectRole.html"><button class="btn primary" type="button">Log In</button></a>
-              <a href="Register.html"><button class="btn" type="button">Register</button></a>
+              <a class="btn primary" href="SelectRole.html">Log In</a>
+              <a class="btn" href="Register.html">Register</a>
             </div>
           </div>
         </div>
@@ -544,7 +544,7 @@
             <p>See analytics of the Hawker Centre.</p>
           </a>
 
-          <a class="tile tile-link support" id="tileSupport" >
+          <a class="tile tile-link support" id="tileSupport">
             <div class="t-top">
               <div class="t-title">Support</div>
               <div class="pill" id="pillSupport">Help</div>
@@ -552,8 +552,10 @@
             <p>Need assistance? Contact us anytime.</p>
           </a>
         </div>
-
+      </section>
+    </div> 
   </main>
+
 
 <script type="module" src="Master_page_javascript.js"></script>
 <script type="module">

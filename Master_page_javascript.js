@@ -1024,20 +1024,11 @@ document.addEventListener("DOMContentLoaded", () => {
   listenToMenu(stallName);
 });
 
-/* =========================
-   FETCH STALLS (ONCE)
-========================= */
+
+
+
 let allStalls = {};
 
-// async function fetchStalls() {
-//   const snap = await get(ref(db, "stalls"));
-//   if (!snap.exists()) return;
-
-//   allStalls = snap.val();
-//   renderStalls(allStalls);
-// }
-
-// fetchStalls();
 
 /*Mobile Navigation*/
 document.querySelectorAll(".mobile-nav-item").forEach((item) => {
