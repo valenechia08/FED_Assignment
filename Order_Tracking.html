@@ -757,6 +757,84 @@
     <!-- ✅ NAV hamburger script -->
     <script type="module" src="Master_page_javascript.js"></script>
 
+    <!-- ✅ REALISTIC FAKE VALUES (visual demo data only) -->
+    <script>
+      // ---------- helper: format time like 11:06 PM ----------
+      function fmtTime(d) {
+        let h = d.getHours();
+        const m = String(d.getMinutes()).padStart(2, "0");
+        const ampm = h >= 12 ? "PM" : "AM";
+        h = h % 12;
+        if (h === 0) h = 12;
+        return `${h}:${m} ${ampm}`;
+      }
+
+      // ---------- demo "realistic" order snapshot ----------
+      const now = new Date();
+
+      // Pretend order was placed 12 minutes ago, started prep 6 minutes ago, ready in ~9 minutes
+      const receivedAt = new Date(now.getTime() - 12 * 60 * 1000);
+      const preparingAt = new Date(now.getTime() - 6 * 60 * 1000);
+      const etaMins = 9; // realistic remaining ETA
+      const readyEtaTime = new Date(now.getTime() + etaMins * 60 * 1000);
+
+      const demo = {
+        trackingId: "SLH-8F3K2A",
+        orderNo: "20483",
+        type: "Dine-in",
+        tableOrQueue: "Table 12",
+        customersAhead: 3,
+        etaMins: etaMins,
+        statusMsg: "Preparing your food...",
+        statusText: "Order being prepared",
+        face: "☺",
+        progressPct: 55, // midway
+        times: {
+          received: fmtTime(receivedAt),
+          preparing: fmtTime(preparingAt),
+          ready: `Est. ${fmtTime(readyEtaTime)}`,
+        },
+        steps: {
+          received: "done",
+          preparing: "active",
+          ready: "",
+        },
+      };
+
+      // ---------- apply values to the UI ----------
+      const warnBox = document.getElementById("warnBox");
+      const warnB = warnBox ? warnBox.querySelector("b") : null;
+      if (warnB) warnB.textContent = demo.trackingId;
+
+      document.getElementById("orderNo").textContent = demo.orderNo;
+      document.getElementById("orderType").textContent = demo.type;
+      document.getElementById("tableOrQueue").textContent = demo.tableOrQueue;
+
+      document.getElementById("minsText").textContent = `${demo.etaMins} mins`;
+      document.getElementById("statusMsg").textContent = demo.statusMsg;
+      document.getElementById("face").textContent = demo.face;
+
+      document.getElementById("aheadPill").textContent =
+        `There are ${demo.customersAhead} customers ahead of you.`;
+
+      document.getElementById("statusText").textContent = demo.statusText;
+
+      const progressBar = document.getElementById("progressBar");
+      if (progressBar) progressBar.style.width = `${demo.progressPct}%`;
+
+      document.getElementById("tReceived").textContent = demo.times.received;
+      document.getElementById("tPreparing").textContent = demo.times.preparing;
+      document.getElementById("tReady").textContent = demo.times.ready;
+
+      // Update step visuals
+      document.querySelectorAll(".step").forEach((stepEl) => {
+        stepEl.classList.remove("done", "active");
+        const key = stepEl.getAttribute("data-step");
+        const state = demo.steps[key] || "";
+        if (state) stepEl.classList.add(state);
+      });
+    </script>
+
     <!-- (rest of your scripts unchanged) -->
     <!-- ... keep everything after this EXACTLY the same as what you already have ... -->
   </body>

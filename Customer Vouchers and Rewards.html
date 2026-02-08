@@ -754,10 +754,77 @@
         color: #666;
         margin-top: 8px;
       }
+
+      /* =========================================================
+         ✅ ADDED: IN-PAGE TOAST (shows even if user blocks desktop notifs)
+         ========================================================= */
+      .toast-wrap {
+        position: fixed;
+        right: 16px;
+        top: 90px;
+        z-index: 99999;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        pointer-events: none;
+      }
+      .toast {
+        width: min(360px, calc(100vw - 32px));
+        background: #111;
+        color: #fff;
+        border-radius: 14px;
+        box-shadow: 0 18px 46px rgba(0, 0, 0, 0.25);
+        padding: 12px 14px;
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+        opacity: 0;
+        transform: translateY(-6px);
+        transition:
+          opacity 0.18s ease,
+          transform 0.18s ease;
+        pointer-events: auto;
+      }
+      .toast.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .toast .t-icon {
+        font-size: 22px;
+        line-height: 1;
+        margin-top: 2px;
+      }
+      .toast .t-title {
+        font-weight: 900;
+        font-size: 13px;
+        margin-bottom: 2px;
+      }
+      .toast .t-body {
+        font-size: 12.5px;
+        opacity: 0.9;
+        line-height: 1.35;
+      }
+      .toast .t-close {
+        margin-left: auto;
+        background: transparent;
+        border: none;
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 18px;
+        cursor: pointer;
+        padding: 2px 6px;
+      }
     </style>
   </head>
 
   <body>
+    <!-- ✅ ADDED: toast container -->
+    <div
+      class="toast-wrap"
+      id="toastWrap"
+      aria-live="polite"
+      aria-atomic="true"
+    ></div>
+
     <!-- overlay for mobile drawer -->
     <div class="nav-overlay" id="navOverlay"></div>
 
@@ -785,15 +852,12 @@
             </li>
 
             <li class="menu-item">
-              <a href="#">Profile</a>
+              <a href="UserProfile.html">Profile</a>
               <ul class="dropdown">
                 <li><a href="UserProfile.html">Overview</a></li>
                 <li><a href="Analytics.html">Analytics & Reporting</a></li>
-                <li><a href="CustomerFeedback.html">Customer Feedback</a></li>
                 <li>
-                  <a href="Regulatory&Complianceinfo.html"
-                    >Regulatory & Compliance</a
-                  >
+                  <a href="Customer_ReviewPage.html">Customer Feedback</a>
                 </li>
                 <li><a href="Customer_Favourties.html">Favourites</a></li>
                 <li>
@@ -982,7 +1046,7 @@
       <div class="popup-card">
         <h3 id="popup-title">You won!</h3>
         <p id="popup-text"></p>
-        <button class="popup-close" id="popup-close">Nice!</button>
+        <button class="popup-close" id="popup-close">Ok!</button>
       </div>
     </div>
 
@@ -1121,6 +1185,69 @@
         }
 
         /***********************
+         * ✅ IN-PAGE TOAST (always visible)
+         ***********************/
+        const toastWrap = document.getElementById("toastWrap");
+
+        function showToast(title, body, icon = "🎁") {
+          if (!toastWrap) return;
+
+          const el = document.createElement("div");
+          el.className = "toast";
+          el.innerHTML = `
+            <div class="t-icon">${icon}</div>
+            <div class="t-text">
+              <div class="t-title">${title}</div>
+              <div class="t-body">${body}</div>
+            </div>
+            <button class="t-close" aria-label="Close">×</button>
+          `;
+
+          const closeBtn = el.querySelector(".t-close");
+          const remove = () => {
+            el.classList.remove("show");
+            setTimeout(() => el.remove(), 180);
+          };
+
+          closeBtn.addEventListener("click", remove);
+
+          toastWrap.appendChild(el);
+          requestAnimationFrame(() => el.classList.add("show"));
+          setTimeout(remove, 4500);
+        }
+
+        /***********************
+         * DESKTOP NOTIFICATION (real OS notif if allowed)
+         ***********************/
+        function notifyNewReward(title, body) {
+          // Always show toast as fallback (even if user blocks)
+          showToast(title, body, "🔔");
+
+          if (!("Notification" in window)) return;
+
+          if (Notification.permission === "granted") {
+            new Notification(title, { body });
+            return;
+          }
+
+          // IMPORTANT: browsers only show permission prompts on user gesture.
+          // So we DO NOT spam requestPermission() on load.
+        }
+
+        async function ensureNotificationsAllowed() {
+          if (!("Notification" in window)) return false;
+          if (Notification.permission === "granted") return true;
+          if (Notification.permission === "denied") return false;
+
+          try {
+            const perm = await Notification.requestPermission();
+            return perm === "granted";
+          } catch {
+            return false;
+          }
+        }
+
+        /***********************
          * POPUP (existing)
          ***********************/
         const popup = document.getElementById("reward-popup");
@@ -1172,37 +1299,6 @@
         }
 
         /***********************
-         * DESKTOP NOTIFICATION
-         ***********************/
-        function notifyNewReward(title, body) {
-          if (!("Notification" in window)) return;
-
-          if (Notification.permission === "granted") {
-            new Notification(title, { body });
-            return;
-          }
-
-          if (Notification.permission !== "denied") {
-            Notification.requestPermission().then((perm) => {
-              if (perm === "granted") new Notification(title, { body });
-            });
-          }
-        }
-
-        async function ensureNotificationsAllowed() {
-          if (!("Notification" in window)) return false;
-          if (Notification.permission === "granted") return true;
-          if (Notification.permission === "denied") return false;
-
-          try {
-            const perm = await Notification.requestPermission();
-            return perm === "granted";
-          } catch {
-            return false;
-          }
-        }
-
-        /***********************
          * USED (persist) for non-voucher "Use now"
          ***********************/
         const usedIds = new Set(getJSON(USED_KEY, []));
@@ -1222,7 +1318,9 @@
         });
 
         document.querySelectorAll(".use-btn").forEach((btn) => {
-          btn.addEventListener("click", () => {
+          btn.addEventListener("click", async () => {
+            await ensureNotificationsAllowed(); // user gesture => can ask permission here
+
             const card = btn.closest(".card");
             const id = card?.getAttribute("data-reward-id");
             if (!card || !id) return;
@@ -1296,7 +1394,9 @@
           `;
 
           const btn = card.querySelector(".use-btn");
-          btn.addEventListener("click", () => {
+          btn.addEventListener("click", async () => {
+            await ensureNotificationsAllowed(); // user gesture
+
             if (card.classList.contains("used")) return;
             applyUsedState(card, btn);
             usedIds.add(reward.id);
@@ -1520,7 +1620,9 @@
         let spinning = false;
 
         spinBtn.addEventListener("click", async () => {
+          // user gesture -> can request permission here
           await ensureNotificationsAllowed();
+
           if (spinning) return;
           if (spinBtn.disabled) return;
 
@@ -1542,6 +1644,15 @@
               wheel.style.transition = "";
 
               const reward = prizes[selectedIndex];
+
+              // ✅ ALWAYS apply cooldown (even Try Again) so timer always shows
+              if (ENABLE_COOLDOWN) {
+                const end = new Date(
+                  Date.now() + COOLDOWN_HOURS * 60 * 60 * 1000,
+                );
+                setCooldownEnd(end);
+                updateCooldownUI();
+              }
 
               if (reward.key === "try") {
                 showPopup("You get a second chance to spin!");
@@ -1570,14 +1681,6 @@
                   "ShiokLah! Rewards Updated ✅",
                   "Your Rewards page has been updated.",
                 );
-
-                if (ENABLE_COOLDOWN) {
-                  const end = new Date(
-                    Date.now() + COOLDOWN_HOURS * 60 * 60 * 1000,
-                  );
-                  setCooldownEnd(end);
-                  updateCooldownUI();
-                }
               }
 
               spinning = false;
@@ -1633,7 +1736,7 @@
         };
 
         async function applyPromoCode() {
-          await ensureNotificationsAllowed();
+          await ensureNotificationsAllowed(); // user gesture
 
           const raw = promoInput?.value || "";
           const code = raw.trim().toUpperCase();
@@ -1743,7 +1846,9 @@
 
         btnNo.addEventListener("click", closeConfirm);
 
-        btnYes.addEventListener("click", () => {
+        btnYes.addEventListener("click", async () => {
+          await ensureNotificationsAllowed(); // user gesture
+
           if (!pendingVoucher) return;
 
           const minSpend = Number(pendingVoucher.minSpend || 0);
@@ -1779,7 +1884,6 @@
             "ShiokLah! Voucher Selected ✅",
             `${pendingVoucher.label} will be applied at checkout.`,
           );
-
           window.location.href = CHECKOUT_PAGE;
         });
 
@@ -1789,7 +1893,7 @@
             btn.dataset.bound = "1";
 
             btn.addEventListener("click", async () => {
-              await ensureNotificationsAllowed();
+              await ensureNotificationsAllowed(); // user gesture
 
               const card = btn.closest(".card");
               if (!card) return;
@@ -1852,6 +1956,117 @@
             a.addEventListener("click", closeMenu);
           });
         }
+
+        /*********************************************************
+         * ✅ DEMO MODE: 3 notifications, every 7 seconds
+         * - Adds voucher card into list (before Lucky Spin)
+         * - Shows toast ALWAYS
+         * - Shows desktop notification ONLY if user allowed
+         **********************************************************/
+        const DEMO_INTERVAL_MS = 7000; // ✅ 7 seconds
+        const DEMO_MAX = 3;
+
+        const demoVouchers = [
+          { kind: "percent", value: 10, min: 0, icon: "🏷️", name: "10% OFF" },
+          { kind: "fixed", value: 8, min: 15, icon: "🎁", name: "$8 Voucher" },
+          {
+            kind: "fixed",
+            value: 12,
+            min: 25,
+            icon: "💵",
+            name: "$12 Voucher",
+          },
+        ];
+
+        function randomCode(len = 6) {
+          const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+          let out = "";
+          for (let i = 0; i < len; i++)
+            out += chars[Math.floor(Math.random() * chars.length)];
+          return out;
+        }
+
+        function createDemoVoucherCard(v) {
+          const id = `demo-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
+          const code = randomCode(6);
+
+          const card = document.createElement("div");
+          card.className = "card";
+          card.setAttribute("data-reward-id", id);
+          card.setAttribute("data-voucher", "true");
+          card.setAttribute("data-voucher-name", v.name);
+
+          if (v.kind === "percent") {
+            card.setAttribute("data-voucher-type", "percent");
+            card.setAttribute("data-voucher-value", String(v.value));
+          } else {
+            card.setAttribute("data-voucher-type", "fixed");
+            card.setAttribute("data-voucher-value", String(v.value));
+          }
+
+          card.setAttribute("data-voucher-code", code);
+          card.setAttribute("data-voucher-min", String(v.min || 0));
+
+          const desc =
+            v.kind === "percent"
+              ? `Get ${v.value}% off your next order`
+              : v.min > 0
+                ? `$${v.value} off (min spend $${v.min})`
+                : `$${v.value} off your next order`;
+
+          card.innerHTML = `
+            <div class="icon">${v.icon}</div>
+            <h2>${v.name}</h2>
+            <p>${desc}</p>
+            <div class="code-box">${code}</div>
+            <button class="btn use-voucher-btn">Use voucher</button>
+          `;
+
+          return card;
+        }
+
+        function desktopNotifyIfAllowed(title, body) {
+          // always toast:
+          showToast(title, body, "🎁");
+
+          // only OS notif if granted:
+          if (
+            "Notification" in window &&
+            Notification.permission === "granted"
+          ) {
+            new Notification(title, { body });
+          }
+        }
+
+        function startDemo3Notifications() {
+          if (!grid || !spinCard) return;
+
+          let i = 0;
+
+          const timer = setInterval(() => {
+            if (i >= DEMO_MAX) {
+              clearInterval(timer);
+              return;
+            }
+
+            const v = demoVouchers[i];
+            const newCard = createDemoVoucherCard(v);
+
+            grid.insertBefore(newCard, spinCard);
+            bindVoucherButtons();
+
+            const niceBody =
+              v.kind === "percent"
+                ? `New voucher added: ${v.value}% OFF (check Rewards for code)`
+                : `New voucher added: $${v.value} OFF (check Rewards for code)`;
+
+            desktopNotifyIfAllowed("ShiokLah! Reward Unlocked 🎁", niceBody);
+
+            i++;
+          }, DEMO_INTERVAL_MS);
+        }
+
+        startDemo3Notifications();
       });
     </script>
   </body>

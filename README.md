@@ -68,6 +68,70 @@ Feature 1 : Add in a description for menu items
 Feature 2 : Create more menus for the other food stalls
 Feature 3 : Add in more food stalls
 
+Aadya:
+Feature 1 : Add a "Go to Favourites" button in my cmenu page so when users like a menu item, they would be able to just directly go to the favourites page without exiting the menu page
+Feature 2 : In each of the menu items in the favourites page, add a "+" and "-" which is linked to cart so if they do want to add their liked item to cart they won't have to go back to the menu to add it. 
+
+
+<!-- Aadya: 
+Feature 1:	Loyalty programs or discounts  
+1) When Checking out,(OrderSummary.html-> NOT my HTML but I have one part in the order summary page that links to my feature) users are able to see a "Go to Rewards" link under the Subtotal. Once they click that, it would lead them to their Vouchers and Rewards page(Customers Vouchers and Rewards.html)
+2) Users are able to put it valid promo codes. Invalid promo codes would leave an error message(-- Type SAVE45 to see error message). Valid promo codes would immediately lead the user to the check-out page with the some amount deducted according to the promo code(-- Type HELLO123 to see). Once a promo code has been used, users are unable to use it again.
+3) Available vouchers are displayed below the promo code section. Users can use the voucher anytime while they are checking out. If they are able to use the voucher, it would directly lead them to the order summary page again(OrderSummary.html-> NOT my HTML but my fetaure is linked to this HTML), and deduct the total amount according to the voucher. If voucher has a minimum spending criteria and the user does not meet the criteria, an error message will be shown and user won't be able to use the voucher.
+4) Spin the wheel feature. Mainly for users entertainment. Users are only allowed to spin the wheel every 48 hours. When they land on a voucher it would be automatically added in the list of vouchers.
+
+Feature 2: Real-time order tracking
+1) When users have paid for their order, they would be able to see 2 options.(Review Order and Back to Homepage). When users click the Review Order option, they would be directed to their status of order summary(Order_Tracking.html)(the ETA of their food). 
+2) There is also a match the cards game they can play at the bottom while waiting for thier food for their own entertainment 
+
+Feature 3: Feedback submission (ratings + comments) 
+Once users are done with their meals, they are able to give a feedback to the stalls(Customer_ReviewPage.html) and enter their feedback then just submit it. Once they are doen submitting, they would be redirected to the homepage(FED.HTML) again.
+
+
+Feature 4: Likes for individual menu items
+1) When users are in the midst of deciding what they want to order and are indecisive about it, they can easily like the menu items by clicking on the red heart at the bottom of each item. 
+2) The liked items would then be added into the favourites page under Profile in the navigation bar (Customer_Favourties.html)
+
+Feature 5: Notification for promotions
+When customers get new vouchers, they will get a notification pop up at the top of their screen, and the voucher would be added into the list of their vouchers
+
+Feature 6: Complaint submission linked to stalls.
+If users are very dissatisfied with their meals or the environment and service, they can put in a complaint by going into the (Feedback page), there is a link to a complaint form. When users click on the link they would be directed to the complaint form(CustomerComplaintForm.html) where they can put in their details and their complaint. When they submit, they would be directed to the homepage again.
+ 
+-->
+
+Aadya:
+Feature 1 : Add a "Go to Favourites" button in my cmenu page so when users like a menu item, they would be able to just directly go to the favourites page without exiting the menu page
+Feature 2 : In each of the menu items in the favourites page, add a "+" and "-" which is linked to cart so if they do want to add their liked item to cart they won't have to go back to the menu to add it. 
+
+
+<!-- Aadya: 
+Feature 1:	Loyalty programs or discounts  
+1) When Checking out,(OrderSummary.html-> NOT my HTML but I have one part in the order summary page that links to my feature) users are able to see a "Go to Rewards" link under the Subtotal. Once they click that, it would lead them to their Vouchers and Rewards page(Customers Vouchers and Rewards.html)
+2) Users are able to put it valid promo codes. Invalid promo codes would leave an error message(-- Type SAVE45 to see error message). Valid promo codes would immediately lead the user to the check-out page with the some amount deducted according to the promo code(-- Type HELLO123 to see). Once a promo code has been used, users are unable to use it again.
+3) Available vouchers are displayed below the promo code section. Users can use the voucher anytime while they are checking out. If they are able to use the voucher, it would directly lead them to the order summary page again(OrderSummary.html-> NOT my HTML but my fetaure is linked to this HTML), and deduct the total amount according to the voucher. If voucher has a minimum spending criteria and the user does not meet the criteria, an error message will be shown and user won't be able to use the voucher.
+4) Spin the wheel feature. Mainly for users entertainment. Users are only allowed to spin the wheel every 48 hours. When they land on a voucher it would be automatically added in the list of vouchers.
+
+Feature 2: Real-time order tracking
+1) When users have paid for their order, they would be able to see 2 options.(Review Order and Back to Homepage). When users click the Review Order option, they would be directed to their status of order summary(Order_Tracking.html)(the ETA of their food). 
+2) There is also a match the cards game they can play at the bottom while waiting for thier food for their own entertainment 
+
+Feature 3: Feedback submission (ratings + comments) 
+Once users are done with their meals, they are able to give a feedback to the stalls(Customer_ReviewPage.html) and enter their feedback then just submit it. Once they are doen submitting, they would be redirected to the homepage(FED.HTML) again.
+
+
+Feature 4: Likes for individual menu items
+1) When users are in the midst of deciding what they want to order and are indecisive about it, they can easily like the menu items by clicking on the red heart at the bottom of each item. 
+2) The liked items would then be added into the favourites page under Profile in the navigation bar (Customer_Favourties.html)
+
+Feature 5: Notification for promotions
+When customers get new vouchers, they will get a notification pop up at the top of their screen, and the voucher would be added into the list of their vouchers
+
+Feature 6: Complaint submission linked to stalls.
+If users are very dissatisfied with their meals or the environment and service, they can put in a complaint by going into the (Feedback page), there is a link to a complaint form. When users click on the link they would be directed to the complaint form(CustomerComplaintForm.html) where they can put in their details and their complaint. When they submit, they would be directed to the homepage again.
+ 
+-->
+
 Valene:
 1.Adding orderID and quantities of food item to Order History 
 2.Making my code more efficient so that the website can run faster
