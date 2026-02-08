@@ -50,6 +50,7 @@ function getOrderStall(order) {
     ""
   );
 }
+
 function getItemStall(it) {
   return (
     it?.stallName ||
@@ -59,6 +60,7 @@ function getItemStall(it) {
     ""
   );
 }
+
 function matchesStall(order, it) {
   const s1 = String(getOrderStall(order) || "").trim();
   const s2 = String(getItemStall(it) || "").trim();
@@ -72,11 +74,9 @@ function matchesStall(order, it) {
 }
 
 function getCreatedAtMs(order) {
-  // your sample uses createdAt as a number
   const n = Number(order?.createdAt);
   if (Number.isFinite(n) && n > 0) return n;
 
-  // fallbacks
   const n2 = Number(order?.createdAtMs);
   if (Number.isFinite(n2) && n2 > 0) return n2;
 
@@ -90,6 +90,7 @@ function getCreatedAtMs(order) {
 function getItemName(it) {
   return String(it?.item || it?.name || "").trim();
 }
+
 function getQty(it) {
   const q = Number(it?.qty ?? it?.quantity ?? 1);
   return Number.isFinite(q) && q > 0 ? q : 1;
@@ -111,7 +112,6 @@ function computeTopItemsFromOrders(ordersObj, windowMs, topN = 3) {
     if (!Array.isArray(items)) return;
 
     items.forEach((it) => {
-      // only include this stall
       if (!matchesStall(order, it)) return;
 
       const name = getItemName(it);
@@ -136,10 +136,10 @@ function computeTopItemsFromOrders(ordersObj, windowMs, topN = 3) {
 const salesChart = new Chart(el.salesCanvas, {
   type: "bar",
   data: {
-    labels: [],
+    labels: [], // Labels will be dynamically updated
     datasets: [{
       label: "Orders",
-      data: [],
+      data: [], // Data will be dynamically updated
       backgroundColor: ["#FF8C3A", "#FFD400", "#66B2FF"],
     }]
   },
@@ -202,10 +202,37 @@ onValue(ref(db, "orders"), (snap) => {
   refreshTop3();
 });
 
+// Feedback Table
+const feedbackTable = document.getElementById("feedbackTable").getElementsByTagName('tbody')[0];
+
+// Fetch feedback data from Firebase
+onValue(ref(db, "demo_feedback"), (snapshot) => {
+  const feedbackData = snapshot.exists() ? snapshot.val() : {};
+  renderFeedbackTable(feedbackData);
+});
+
+// Render feedback data into table
+function renderFeedbackTable(data) {
+  feedbackTable.innerHTML = ''; // Clear existing table rows
+
+  Object.entries(data).forEach(([id, feedback]) => {
+    const row = feedbackTable.insertRow();
+    const stallCell = row.insertCell(0);
+    const ratingCell = row.insertCell(1);
+    const commentCell = row.insertCell(2);
+    const createdAtCell = row.insertCell(3);
+
+    stallCell.textContent = feedback.stall;
+    ratingCell.textContent = feedback.rating;
+    commentCell.textContent = feedback.comment;
+    createdAtCell.textContent = new Date(feedback.createdAt).toLocaleString();
+  });
+}
+
 el.orderFilter?.addEventListener("change", refreshTop3);
 
 
-
+/*Feedback Doughnut Chart*/
 // /* ========= HTML IDs (from your HTML) ========= */
 // const ids = {
 //   // charts

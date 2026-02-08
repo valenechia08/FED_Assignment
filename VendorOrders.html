@@ -126,12 +126,12 @@
       margin-bottom:10px;
     }
     .drawer-actions{
-  margin-top: 10px;
-  display:flex;
-  justify-content:flex-end;
-  gap: 12px;              /* ✅ gap between buttons */
-  flex-wrap: wrap;
-}
+    margin-top: 10px;
+    display:flex;
+    justify-content:flex-end;
+    gap: 12px; 
+    flex-wrap: wrap;
+  }
 
 .btn-lite{
   height: 42px;
@@ -413,176 +413,67 @@
   text-decoration: underline;
 }
 
-  /* ==========================
-   MOBILE / TABLET (<= 992px)
-========================== */
+/* ===========================
+   Mobile View (<= 992px) 
+=========================== */
+/* Mobile View (<= 992px) */
 @media (max-width: 992px) {
-
-  /* Overall spacing */
-  .wrap{
-    max-width: 100%;
-    margin: 0;
-    padding: 0 12px;
-    font-weight:600px;
-  }
-  
-
-  main.contents{
-    padding: 0 8px;
+  /* Hide Items, Subtotal, Order Mode */
+  .row .sub {
+    display: none;
   }
 
-  /* Header: stack title + actions */
-  .orders-head{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap: 10px;
-    padding: 0;
-    margin: 10px 0 6px;
+  /* Show Order ID and Timer */
+  .row .aid,
+  .row .timer {
+    display: block; /* Ensure they are shown */
   }
 
-  .card-title{
-    display:flex;
-
-    font-size: 22px;
+  /* Timer styling for mobile */
+  .timer {
+    font-size: 14px;        /* If timer <=15 */
     font-weight: 900;
+    margin-left: 10px;
+    color: #344054;
   }
 
-  .header-actions{
-    width: 100%;
-    justify-content: flex-end;
+  .timer.overdue {
+    color: #d92d20;         /* If timer> 15 mins */
   }
 
-  /* Make the filter dropdown bigger + full width if you want */
-  #statusFilter{
-    width:180px;
-    max-width: 100%;
-    height: 42px;
-    border-radius: 14px;
-    font-size: 14px;
-    font-weight: 600;
-  }
-
-  #statusFilter option {
-  font-size: 14px;
-  font-weight: 600;
-}
-
-
-  .header-actions{
-    width: fit-content;     /* ✅ shrink to content */
-    display: inline-flex;   /* ✅ shrink-wrap */
-    justify-content: flex-end;
-    margin-left: auto;      /* ✅ push to the right */
-  }
-
-  /* Order list spacing */
-  .list{
-    gap: 12px;
-  }
-
-  /* Each row becomes a card */
-  .row{
-    padding: 16px 16px;
-    gap: 12px;
-    border-radius: 18px;
-    border-bottom: none;
-    align-items: center;
-  }
-
-  /* Icon smaller */
-  .icon{
-    font-size: 34px;
-    margin: 0;
-  }
-
-  /* Main content stack + allow wrapping */
-  .main{
-    flex: 1;
-    min-width: 0;
-  }
-
-  .top{
+  /* Optional: Adjust row structure for better spacing on mobile */
+  .row {
+    padding: 12px 14px;
+    gap: 10px;
     flex-wrap: wrap;
-    row-gap: 6px;
-    column-gap: 10px;
-    align-items: center;
   }
 
-  .aid{
-    font-size: 15px;
-    font-weight: 900;
-  }
-
-  /* The date/time + timer line wraps nicely */
-  .sub {
-  font-size: 14px;
-  font-weight: 700;
-}
-
-
-  .timer{
-    margin-left: 8px;
-    font-size: 14px;
-    font-weight: 900;
-    white-space: nowrap;
-  }
-  .timer.data-end{
-      display:none;
-  }
-  /* Items/subtotal line: wrap and reduce size */
-  .main .sub:nth-of-type(2){
-    font-size: 13px;
-    line-height: 1.35;
-    margin-top: 8px;
-    word-break: break-word;
-  }
-
-  /* Right side stays to the right */
-  .right{
-    flex: 0 0 auto;
+  .row .main {
+    flex: 1;
     display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-left: 6px;
+    flex-direction: column;
+    gap: 6px;
   }
 
-  /* Badge style slightly bigger for touch */
-  .badge{
-    padding: 8px 14px;
-    font-size: 12.5px;
-    font-weight: 900;
-    border-radius: 999px;
-    white-space: nowrap;
+  /* Right side alignment for mobile */
+  .row .right {
+    margin-left: 0;
+    text-align: right;
+    width: 100%;
   }
 
-  .arrow-btn{
-    font-size: 22px;
+  .row .badge {
+    margin-bottom: 8px;
+  }
+
+  /* Optional: Arrow Button for mobile */
+  .arrow-btn {
+    font-size: 18px;
     padding: 6px 8px;
   }
-
-  /* Drawer on mobile: take full width */
-  .drawer-panel{
-    width: 100%;
-    max-width: 100%;
-  }
-
-  /* Toast positioning for mobile */
-  .toast-wrap{
-    bottom: 110px;   /* ⬆ clears bottom nav */
-    left: 12px;
-    right: 12px;
-  }
-
-  .toast{
-    width: 100%;
-  }
-  @keyframes toastIn{
-  from { transform: translateY(16px); opacity: 0; }
-  to   { transform: translateY(0); opacity: 1; }
 }
 
-}
+
     </style>
   </head>
   <body>
@@ -1023,86 +914,91 @@ list.sort((a, b) => {
 
 
   for (const o of list) {
-    const createdAt = Number(o.createdAt || Date.now());
-    const st = normalizeStatus(o.status);
+  const createdAt = Number(o.createdAt || Date.now());
+  const st = normalizeStatus(o.status);
 
-    const endTs =
-      st === "completed" ? Number(o.completedAt || o.updatedAt || 0) :
-      st === "cancelled" ? Number(o.cancelledAt || o.updatedAt || 0) :
-      0;
+  const endTs =
+    st === "completed" ? Number(o.completedAt || o.updatedAt || 0) :
+    st === "cancelled" ? Number(o.cancelledAt || o.updatedAt || 0) :
+    0;
 
-    const customerName =
-      (o.username && String(o.username).trim()) ? String(o.username).trim() : "—";
-    const customerEmail = await getCustomerEmail(o);
+  const customerName =
+    (o.username && String(o.username).trim()) ? String(o.username).trim() : "—";
+  const customerEmail = await getCustomerEmail(o);
 
-    // items for this stall only
-    const stallItems = (Array.isArray(o.items) ? o.items : []).filter(
-  (it) => String(getStall(it)).trim() === STALL_NAME
-);
+  // items for this stall only
+  const stallItems = (Array.isArray(o.items) ? o.items : []).filter(
+    (it) => String(getStall(it)).trim() === STALL_NAME
+  );
 
+  const subtotal = subtotalForItems(stallItems);
 
-    const subtotal = subtotalForItems(stallItems);
+  // Determine if the view is mobile
+  const isMobile = window.innerWidth <= 992;
 
-    // menu item preview lines (max 2 lines)
-    const previewLines = stallItems.slice(0, 2).map(it => {
-      const n = getItemName(it);
-      const q = getQty(it);
-      const p = getPrice(it);
-      return `${n} - ${q} x $${p.toFixed(2)}`;
-    });
-
-    const moreCount = Math.max(0, stallItems.length - 2);
-    const previewText = previewLines.length
-      ? previewLines.join(" • ") + (moreCount ? ` • +${moreCount} more` : "")
-      : "—";
-
-    const row = document.createElement("div");
-    row.className = "row";
-
-    const itemsCount = stallItems.reduce((sum, it) => sum + getQty(it), 0);
-    
-    row.innerHTML = `
-  <div class="icon">🔥</div>
-
-  <div class="main">
-    <!-- LINE 1: Order No + Ordered date/time + timer -->
-    <div class="top">
-      <div class="aid">${o.orderNo || "—"}</div>
-
-      <div class="sub" style="margin:0; font-weight:800; color:#344054;">
-        ${formatTime(createdAt)}
-        <span class="timer"
-        data-created="${createdAt}"
-        data-status="${st}"
-        data-end="${endTs}">
-      </span>
+  // Define the HTML structure
+  let rowHTML = `
+    <div class="main">
+      <!-- LINE 1: Order No + Ordered date/time + timer -->
+      <div class="top">
+        <div class="aid">${o.orderNo || "—"}</div>
+        <div class="sub" style="margin:0; font-weight:800; color:#344054;">
+          ${formatTime(createdAt)}
+          <span class="timer"
+            data-created="${createdAt}"
+            data-status="${st}"
+            data-end="${endTs}">
+          </span>
+        </div>
       </div>
-    </div>
+  `;
 
-    <!-- LINE 2 -->
-    <div class="sub" style="margin-top:8px;">
-      <b>Items:</b> ${itemsCount}
-      &nbsp; • &nbsp; <b>Subtotal:</b> $${subtotal.toFixed(2)}
-      &nbsp; • &nbsp; <b>Order Mode:</b> ${getOrderMode(o)}
-    </div>
-  </div>
-
-  <div class="right">
-    ${badgeHTML(o.status)}
-    <button class="arrow-btn" type="button" title="View details">›</button>
-  </div>
-`;
-
-
-    row.querySelector(".arrow-btn").addEventListener("click", (e) => {
-      e.stopPropagation();
-      openDrawer(o, stallItems, customerName, customerEmail);
-    });
-
-    listEl.appendChild(row);
+  // Show Order Summary on mobile
+  if (isMobile) {
+    rowHTML += `
+      <!-- Order Summary for mobile -->
+      <div class="sub" style="margin-top:8px;">
+        <b>Items:</b> ${stallItems.length} • 
+        <b>Subtotal:</b> $${subtotal.toFixed(2)} • 
+        <b>Order Mode:</b> ${getOrderMode(o)}
+      </div>
+    `;
   }
 
-  startTimers(); // updates all the timers
+  // For larger screens, you can display more details if needed
+  if (!isMobile) {
+    rowHTML += `
+      <div class="sub" style="margin-top:8px;">
+        <b>Items:</b> ${stallItems.length} • 
+        <b>Subtotal:</b> $${subtotal.toFixed(2)} • 
+        <b>Order Mode:</b> ${getOrderMode(o)}
+      </div>
+    `;
+  }
+
+  rowHTML += `
+    </div>
+
+    <div class="right">
+      ${badgeHTML(o.status)}
+      <button class="arrow-btn" type="button" title="View details">›</button>
+    </div>
+  `;
+
+  const row = document.createElement("div");
+  row.className = "row";
+  row.innerHTML = rowHTML;
+
+  row.querySelector(".arrow-btn").addEventListener("click", (e) => {
+    e.stopPropagation();
+    openDrawer(o, stallItems, customerName, customerEmail);
+  });
+
+  listEl.appendChild(row);
+}
+
+startTimers(); // updates all the timers
+ // updates all the timers
 }
 let timerInterval = null;
 

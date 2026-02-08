@@ -28,6 +28,7 @@
 }
 
 body {
+  height: 100vh;
   margin: 0;
   font-family: system-ui, Arial, sans-serif;
   background: var(--bg);
