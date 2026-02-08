@@ -13,10 +13,39 @@
     <link rel="stylesheet" href="Master_page_stylesheet.css" />
 
     <style>
-      
+      /* Prevent any accidental horizontal overflow */
+      html, body {
+        max-width: 100%;
+        overflow-x: hidden;
+      }
+
+      /* Make shared container never exceed screen */
+      .navrectangle .container,
+      .dash-wrap {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      /* Add safe side padding so content doesn't "float" weirdly */
+      .navrectangle .container {
+        padding: 0 16px;
+      }
+
+      .dash-wrap {
+        padding: 22px 16px 40px;
+      }
+
+      /* Important for flex children to shrink instead of pushing width */
+      .top-nav,
+      .kpi-card,
+      section {
+        min-width: 0;
+      }
+
 
       /* ==========================
-         DASHBOARD (CONTENT ONLY)
+         DASHBOARD 
       ========================== */
       :root {
         --bg: #f5f7fb;
@@ -27,6 +56,7 @@
         --text: #0f172a;
         --muted: #64748b;
       }
+      
 
       .dash-wrap {
         width: 90%;
@@ -81,8 +111,24 @@
         color: var(--muted);
         font-weight: 600;
       }
+      .dash-wrap .kpi-sub.info {
+        color: var(--kpi-info);
+      }
+      /* positive performance */
+      .dash-wrap .kpi-sub.success {
+        color: var(--kpi-success);
+      }
 
-      .dash-wrap .kpi-badge {
+      /* warning / needs attention */
+      .dash-wrap .kpi-sub.warning {
+        color: var(--kpi-warning);
+      }
+
+      /* neutral / descriptive */
+      .dash-wrap .kpi-sub.neutral {
+        color: var(--kpi-neutral);
+      }
+            .dash-wrap .kpi-badge {
         flex: 0 0 auto;
         padding: 8px 10px;
         border-radius: 12px;
@@ -187,45 +233,56 @@
       .dash-wrap .donut-wrapper { height: 100%; aspect-ratio: 1 / 1; max-width: 320px; }
 
       .dash-wrap .chart-box--donut canvas { width: 100%; height: 100%; }
-      .dash-wrap .chart-box canvas { width: 100%; height: 100%; }
+      .dash-wrap .chart-box canvas { 
+        width: 100%; 
+        height: 100%;     
+      } 
 
-      @media (max-width: 980px) {
-        .dash-wrap .kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      }
+      
+    /* ==========================
+        MOBILE: FULL-WIDTH ROWS
+      ========================== */
       @media (max-width: 900px) {
+        
+        /* KPI cards: each card = 1 full row */
+        .dash-wrap .kpi-grid {
+          grid-template-columns: 1fr;   /* ✅ one column */
+          gap: 14px;
+        }
+
+        .dash-wrap .kpi-card {
+          width: 100%;
+        }
+
+        /* Main dashboard sections: one per row */
+        .dash-wrap .grid {
+          grid-template-columns: 1fr;   /* ✅ stack sections vertically */
+          gap: 18px;
+        }
+
+        /* Charts scale nicely */
+        .dash-wrap .chart-box {
+          height: 260px;
+        }
+
+        .dash-wrap .chart-box--large {
+          height: 320px;
+        }
+
+        /* Dropdowns not oversized */
         .dash-wrap select {
-          font-size: 12px;
-          height: 30px;
+          width: 100%;
+          font-size: 10px;
+          height: 32px;
         }
 
         .dash-wrap select option {
-          font-size: 11px;        /* 👈 even smaller on mobile */
-          padding: 5px 8px;
+          font-size: 10px;
         }
-        .dash-wrap .grid { grid-template-columns: 1fr; }
-        .dash-wrap .chart-box { height: 260px; }
-        .dash-wrap .chart-box--large { height: 320px; }
       }
-      @media (max-width: 520px) {
-        .dash-wrap .kpi-grid { grid-template-columns: 1fr; }
 
-        /* Stack title + filter nicely */
-        .dash-wrap .card-header {
-          flex-direction: column;
-          align-items: flex-start;
-          gap: 8px;
-        }
 
-        /* Smaller dropdown text (menu + selected) */
-        /* .dash-wrap select,
-        .dash-wrap select option {
-          font-size: 12px;
-        } */
-
-        /* Optional: keep filter from being huge */
-        /* .dash-wrap select { height: 30px; padding: 0 10px; }
-      } */
-      }
+      
     </style>
   </head>
 
@@ -235,7 +292,7 @@
         <div class="top-nav">
           <div class="nav-left">
             <div class="Logo">
-              <img src="images/ShiokLah(cropped).jpeg" alt="Logo" />
+              <img src="/images/ShiokLah(cropped).jpeg" alt="Logo" />
             </div>
           </div>
 
@@ -260,10 +317,13 @@
                 <ul class="dropdown">
                   <li><a href="UserProfile.html">Overview</a></li>
                   <li><a href="Analytics.html">Analytics & Reporting</a></li>
-                  <li><a href="#">Customer Feedback</a></li>
-                  <li><a href="#">Regulatory & Compliance</a></li>
-                  <li><a href="#">Favourites</a></li>
-                  <li><a href="#">Rewards</a></li>
+                  <li>
+                    <a href="Customer_ReviewPage.html">Customer Feedback</a>
+                  </li>
+                  <li><a href="Customer_Favourties.html">Favourites</a></li>
+                  <li>
+                    <a href="Customer Vouchers and Rewards.html">Rewards</a>
+                  </li>
                 </ul>
               </li>
 
@@ -276,12 +336,15 @@
           <div class="nav-right">
             <button class="reserve-btn">Reserve A Table</button>
             <div class="hamburger" id="hamburger">
-              <div></div><div></div><div></div>
+              <div></div>
+              <div></div>
+              <div></div>
             </div>
           </div>
         </div>
       </div>
     </nav>
+
     <div class="nav-overlay" id="navOverlay"></div>
     <hr class="Nav-line" />
 
@@ -407,16 +470,29 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script type="module" src="Master_page_javascript.js"></script>
     <script type="module">
+      
       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
       import {
         getDatabase,
         ref,
         onValue,
-        query,
-        orderByChild,
-        equalTo
+        get,
+        set,
+        update
       } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
+      import {
+        createSalesChart,
+        updateSalesChart,
+        createFeedbackChart,
+        updateFeedbackChart,
+        createHygieneChart,
+        updateHygieneChart
+      } from "./ChartAnalytics.js";  // ✅ path: put charts.js in same folder as Analytics.html
+
+      // ================================
+      // Firebase config
+      // ================================
       const firebaseConfig = {
         apiKey: "AIzaSyCoYoGP4NYJPHqA-kV_swajQ4LSQYdyWV4",
         authDomain: "grp3fedapp.firebaseapp.com",
@@ -430,16 +506,46 @@
       const app = initializeApp(firebaseConfig);
       const db = getDatabase(app);
 
-      // ------- helpers -------
-      const sum = (arr) => arr.reduce((a, b) => a + b, 0);
-      const maxIndex = (arr) => {
-        let idx = 0;
-        for (let i = 1; i < arr.length; i++) if (arr[i] > arr[idx]) idx = i;
-        return idx;
-      };
-      const percentChange = (cur, prev) => (prev === 0 ? 0 : ((cur - prev) / prev) * 100);
-      const fmtPct = (n) => `${n >= 0 ? "+" : ""}${n.toFixed(1)}%`;
+      // ================================
+      // Charts init (Chart.js only)
+      // ================================
+      const salesChart = createSalesChart("salesChart");
+      const feedbackChart = createFeedbackChart("feedbackChart");
+      const hygieneChart = createHygieneChart("hygieneChart");
 
+      // ================================
+      // Helpers
+      // ================================
+      const dayMs = 24 * 60 * 60 * 1000;
+      const sum = (arr) => arr.reduce((a, b) => a + b, 0);
+      const avg = (arr) => (arr.length ? sum(arr) / arr.length : 0);
+
+      function windowStartMs(filter) {
+        const now = Date.now();
+        if (filter === "month") return now - 30 * dayMs;
+        if (filter === "3months") return now - 90 * dayMs;
+        if (filter === "6months") return now - 180 * dayMs;
+        return now - 30 * dayMs;
+      }
+
+      function previousWindowStartMs(filter) {
+        const now = Date.now();
+        if (filter === "month") return now - 60 * dayMs;
+        if (filter === "3months") return now - 180 * dayMs;
+        if (filter === "6months") return now - 360 * dayMs;
+        return now - 60 * dayMs;
+      }
+
+      function inRange(arr, startMs, endMs) {
+        return arr.filter(x => (x.createdAt || 0) >= startMs && (x.createdAt || 0) < endMs);
+      }
+
+      function percentChange(cur, prev) {
+        return prev === 0 ? 0 : ((cur - prev) / prev) * 100;
+      }
+      function fmtPct(n) {
+        return `${n >= 0 ? "+" : ""}${n.toFixed(1)}%`;
+      }
       function setDelta(el, value) {
         if (!el) return;
         el.textContent = fmtPct(value);
@@ -447,47 +553,8 @@
         el.classList.add(value >= 0 ? "up" : "down");
       }
 
-      function getOwnerKey() {
-        const username =
-          sessionStorage.getItem("loggedInUser") ||
-          localStorage.getItem("loggedInUser") ||
-          "";
-
-        return username ? username : (localStorage.getItem("guestId") || "");
-      }
-
-      // --- time windows ---
-      function windowStartMs(filter) {
-        const now = Date.now();
-        const day = 24 * 60 * 60 * 1000;
-
-        if (filter === "month") return now - 30 * day;
-        if (filter === "3months") return now - 90 * day;
-        if (filter === "6months") return now - 180 * day;
-
-        return now - 30 * day;
-      }
-
-      function previousWindowStartMs(filter) {
-        const now = Date.now();
-        const day = 24 * 60 * 60 * 1000;
-
-        // previous period of same length
-        if (filter === "month") return now - 60 * day;     // previous 30 days
-        if (filter === "3months") return now - 180 * day;  // previous 90 days
-        if (filter === "6months") return now - 360 * day;  // previous 180 days
-
-        return now - 60 * day;
-      }
-
-      function ordersInRange(orders, startMs, endMs) {
-        return orders.filter(o => (o.createdAt || 0) >= startMs && (o.createdAt || 0) < endMs);
-      }
-
-      // --- aggregate: top items by qty ---
       function computeTopItems(orders, topN = 3) {
         const counts = new Map();
-
         orders.forEach(order => {
           const items = Array.isArray(order.items) ? order.items : [];
           items.forEach(it => {
@@ -507,64 +574,29 @@
         };
       }
 
-      // ------- Chart init (same style as yours) -------
-      const salesCanvas = document.getElementById("salesChart");
-      const salesChart = new Chart(salesCanvas, {
-        type: "bar",
-        data: { labels: [], datasets: [{ label: "Orders", data: [] }] },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { display: false } },
-          scales: {
-            x: { grid: { display: false } },
-            y: { grid: { color: "rgba(15,23,42,0.06)" }, ticks: { precision: 0 } },
-          },
-        },
+      // ================================
+      // REAL DATA: Orders analytics (do NOT seed)
+      // ================================
+      let ordersCache = [];
+
+      onValue(ref(db, "orders"), (snapshot) => {
+        const data = snapshot.exists() ? snapshot.val() : {};
+        ordersCache = Object.entries(data).map(([id, v]) => ({ id, ...v }));
+        renderSalesAndKPI();
       });
 
-      // ------- MAIN realtime listener -------
-      const ownerKey = getOwnerKey();
-      if (!ownerKey) {
-        // no user/guest -> show 0s
-        document.getElementById("kpiTotalOrders").textContent = "0";
-      } else {
-        const qUserOrders = query(ref(db, "orders"), orderByChild("ownerKey"), equalTo(ownerKey));
+      document.getElementById("salesFilter")?.addEventListener("change", renderSalesAndKPI);
 
-        onValue(qUserOrders, (snapshot) => {
-          const data = snapshot.exists() ? snapshot.val() : {};
-          const orders = Object.entries(data).map(([id, order]) => ({ id, ...order }));
-
-          // update everything whenever Firebase changes
-          renderSalesAndKPI(orders);
-        });
-      }
-
-      // also react when user changes the dropdown filter
-      document.getElementById("salesFilter")?.addEventListener("change", () => {
-        const ownerKey = getOwnerKey();
-        if (!ownerKey) return;
-
-        const qUserOrders = query(ref(db, "orders"), orderByChild("ownerKey"), equalTo(ownerKey));
-        // we already have the onValue listener; simplest is to just recompute from last snapshot
-        // (so we keep a cached copy)
-        // We'll store in window for convenience:
-        renderSalesAndKPI(window.__ordersCache || []);
-      });
-
-      function renderSalesAndKPI(orders) {
-        window.__ordersCache = orders;
-
+      function renderSalesAndKPI() {
         const filter = document.getElementById("salesFilter")?.value || "month";
         const now = Date.now();
 
         const startNow = windowStartMs(filter);
         const startPrev = previousWindowStartMs(filter);
 
-        const current = ordersInRange(orders, startNow, now);
-        const previous = ordersInRange(orders, startPrev, startNow);
+        const current = inRange(ordersCache, startNow, now);
+        const previous = inRange(ordersCache, startPrev, startNow);
 
-        // KPI: total orders (current window)
         const totalOrdersNow = current.length;
         const totalOrdersPrev = previous.length;
         const delta = percentChange(totalOrdersNow, totalOrdersPrev);
@@ -574,19 +606,14 @@
           filter === "month" ? "Last 30 days" : filter === "3months" ? "Last 90 days" : "Last 180 days";
         setDelta(document.getElementById("kpiOrdersDelta"), delta);
 
-        // Sales chart: top items by qty (current window)
-        const top = computeTopItems(current, 3);
+        const top = computeTopItems(current, 3); // ✅ yes this shows top 3
+        updateSalesChart(salesChart, top.labels, top.data);
 
-        salesChart.data.labels = top.labels;
-        salesChart.data.datasets[0].data = top.data;
-        salesChart.update();
-
-        // Insight text under Sales Analytics
         const totalItems = sum(top.data);
         if (top.labels.length) {
-          const idx = maxIndex(top.data);
-          const topName = top.labels[idx];
-          const topVal = top.data[idx];
+          const maxIdx = top.data.indexOf(Math.max(...top.data));
+          const topName = top.labels[maxIdx];
+          const topVal = top.data[maxIdx];
           const share = totalItems ? (topVal / totalItems) * 100 : 0;
 
           document.getElementById("kpiTopItem").textContent = topName;
@@ -603,7 +630,179 @@
           document.getElementById("salesInsightStrong").textContent = "—";
         }
       }
+
+      // ================================
+      // FAKE DATA: Feedback + Hygiene (seed once then read)
+      // ================================
+      const FEEDBACK_PATH = "demo_feedback";
+      const HYGIENE_PATH = "demo_hygiene";
+
+      let feedbackCache = [];
+      let hygieneCache = [];
+
+      document.getElementById("feedbackFilter")?.addEventListener("change", () => renderFeedback());
+      document.getElementById("hygieneFilter")?.addEventListener("change", () => renderHygiene());
+
+      function gradeFromScore(score) {
+        if (score >= 90) return "A";
+        if (score >= 80) return "B";
+        return "C";
+      }
+
+      // deterministic random
+      let __seed = 123456;
+      function rand() {
+        __seed = (1664525 * __seed + 1013904223) % 4294967296;
+        return __seed / 4294967296;
+      }
+      function randInt(min, max) {
+        return Math.floor(rand() * (max - min + 1)) + min;
+      }
+      function pick(arr) {
+        return arr[randInt(0, arr.length - 1)];
+      }
+
+      async function seedDemoDataIfEmpty() {
+        const fbSnap = await get(ref(db, FEEDBACK_PATH));
+        const hySnap = await get(ref(db, HYGIENE_PATH));
+        if (fbSnap.exists() && hySnap.exists()) return;
+
+        const now = Date.now();
+
+        // Feedback variety across last ~8 months
+        const stalls = ["Ah Hock Noodles", "Siti Nasi Lemak", "Muthu Prata", "Xiao Long Bao", "Teochew Fishball"];
+        const comments = ["Very good!", "Okay lah", "Too salty", "Fast service", "Nice portion", "Worth it", "Not hot enough"];
+
+        const feedback = {};
+        for (let i = 0; i < 140; i++) {
+          const daysAgo = randInt(0, 240);
+          const createdAt = now - daysAgo * dayMs - randInt(0, 10) * 60 * 60 * 1000;
+
+          const roll = rand();
+          let rating = 5;
+          if (roll < 0.12) rating = 1;
+          else if (roll < 0.26) rating = 2;
+          else if (roll < 0.48) rating = 3;
+          else if (roll < 0.72) rating = 4;
+
+          const id = `fb_${createdAt}_${i}`;
+          feedback[id] = { stall: pick(stalls), rating, comment: pick(comments), createdAt };
+        }
+
+        // Hygiene monthly for 2024-2026
+        const hygiene = {};
+        [2024, 2025, 2026].forEach((year) => {
+          // ✅ 2026 only Jan + Feb, other years Jan-Dec
+          const maxMonthIndex = (year === 2026) ? 1 : 11; // 0=Jan, 1=Feb, 11=Dec
+
+          for (let month = 0; month <= maxMonthIndex; month++) {
+            const createdAt = new Date(year, month, randInt(10, 20), randInt(9, 18), 0, 0).getTime();
+
+            let base = year === 2024 ? 78 : year === 2025 ? 83 : 86;
+            const score = Math.max(65, Math.min(100, base + randInt(-8, 10) + (month % 3 === 0 ? 4 : 0)));
+
+            const id = `hy_${year}_${String(month + 1).padStart(2, "0")}`;
+            hygiene[id] = { year, month: month + 1, score, grade: gradeFromScore(score), createdAt };
+          }
+        });
+
+
+        await update(ref(db), {
+          [FEEDBACK_PATH]: feedback,
+          [HYGIENE_PATH]: hygiene,
+        });
+      }
+
+      function renderFeedback() {
+        const filter = document.getElementById("feedbackFilter")?.value || "month";
+        const now = Date.now();
+        const start = windowStartMs(filter);
+
+        const scoped = inRange(feedbackCache, start, now);
+        const ratings = scoped.map(x => Number(x.rating || 0)).filter(n => n > 0);
+
+        let pos = 0, neu = 0, neg = 0;
+        scoped.forEach(x => {
+          const r = Number(x.rating || 0);
+          if (r >= 4) pos++;
+          else if (r === 3) neu++;
+          else if (r >= 1) neg++;
+        });
+
+        // update donut chart
+        updateFeedbackChart(feedbackChart, pos, neu, neg);
+
+        // KPI + insight text
+        const avgRating = avg(ratings);
+        document.getElementById("kpiAvgRating").textContent = ratings.length ? avgRating.toFixed(1) : "—";
+        document.getElementById("feedbackInsightText").textContent = "Responses in this period:";
+        document.getElementById("feedbackInsightStrong").textContent = `${scoped.length}`;
+
+        const badge = document.getElementById("kpiRatingBadge");
+        if (!ratings.length) badge.textContent = "—";
+        else if (avgRating >= 4.2) badge.textContent = "Great";
+        else if (avgRating >= 3.6) badge.textContent = "Stable";
+        else badge.textContent = "Needs work";
+      }
+
+      // realtime read fake nodes
+      function attachDemoListeners() {
+        onValue(ref(db, FEEDBACK_PATH), (snap) => {
+          const data = snap.exists() ? snap.val() : {};
+          feedbackCache = Object.entries(data).map(([id, v]) => ({ id, ...v }));
+          renderFeedback();
+        });
+
+        onValue(ref(db, HYGIENE_PATH), (snap) => {
+          const data = snap.exists() ? snap.val() : {};
+          hygieneCache = Object.entries(data).map(([id, v]) => ({ id, ...v }));
+          renderHygiene();
+        });
+      }
+
+      
+      function renderHygiene() {
+        const year = Number(document.getElementById("hygieneFilter")?.value);
+
+        const scores = new Array(12).fill(null);
+
+        hygieneCache
+          .filter(x => Number(x.year) === year)
+          .forEach(x => {
+            const m = Number(x.month);
+            const score = Number(x.score);
+
+            let gradeValue = 1;
+            if (score >= 90) gradeValue = 4;
+            else if (score >= 80) gradeValue = 3;
+            else if (score >= 70) gradeValue = 2;
+
+            scores[m - 1] = gradeValue;
+          });
+
+        updateHygieneChart(hygieneChart, scores);
+
+        // KPI (latest available month)
+        const latest = [...scores].reverse().find(v => v !== null);
+        document.getElementById("kpiInspectScore").textContent = latest
+          ? (latest === 4 ? "A" : latest === 3 ? "B" : latest === 2 ? "C" : "D")
+          : "—";
+
+        document.getElementById("hygieneInsightText").textContent = `Hygiene trend for ${year}`;
+        document.getElementById("hygieneInsightStrong").textContent = "Grades over time";
+      }
+
+
+
+      // Boot
+      (async function boot() {
+        await seedDemoDataIfEmpty();    // ✅ fake data only (feedback/hygiene)
+        attachDemoListeners();         // ✅ read fake nodes
+      })();
     </script>
+
+
+
 
   </body>
 </html>
