@@ -6,6 +6,14 @@
     <title>Rewards Page</title>
     <link rel="stylesheet" href="Master_page_stylesheet.css" />
 
+    <!-- ✅ Kodchasan for NAV -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kodchasan:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
     <style>
       /* RESET */
       * {
@@ -16,7 +24,7 @@
       }
 
       :root {
-        --primary-orange: #e47329;
+        --primary-orange: #ff8c3a;
         --primary-yellow: #ffd400;
         --grey-lock: #eee;
         --grey-text: #888;
@@ -27,7 +35,9 @@
         color: #222;
       }
 
-      /* NAVIGATION */
+      /* =========================
+         NAVIGATION (UPDATED FONT)
+      ========================= */
       .navrectangle {
         background: white;
         position: sticky;
@@ -35,11 +45,13 @@
         z-index: 1000;
         padding: 10px 40px;
         border-bottom: 1px solid #eee;
+
+        font-family: "Kodchasan", Arial, sans-serif;
       }
 
       .top-nav {
         display: grid;
-        grid-template-columns: auto 1fr auto;
+        grid-template-columns: auto 1fr auto auto; /* ✅ logo | menu | reserve | hamburger */
         align-items: center;
         gap: 14px;
       }
@@ -64,8 +76,10 @@
 
       .menu a {
         text-decoration: none;
-        font-weight: 700;
+        font-weight: 800;
+        font-size: 15px; /* ✅ match friend */
         color: #111;
+        font-family: "Kodchasan", Arial, sans-serif;
       }
 
       .menu a:hover {
@@ -96,6 +110,9 @@
         display: block;
         padding: 10px 18px;
         color: #111;
+        font-size: 15px;
+        font-weight: 800;
+        font-family: "Kodchasan", Arial, sans-serif;
       }
 
       .dropdown a:hover {
@@ -106,24 +123,242 @@
         display: block;
       }
 
-      /* hamburger (hidden on desktop) */
+      /* ✅ Reserve a Table button (RESTORED) */
+      .reserve-btn {
+        background: var(--primary-orange);
+        color: white;
+        border: 3px solid var(--primary-orange);
+        padding: 14px 30px;
+        border-radius: 22px;
+        font-weight: 800;
+        font-size: 15px;
+        cursor: pointer;
+        transition: all 0.25s ease;
+        font-family: Arial, Helvetica, sans-serif;
+        white-space: nowrap;
+      }
+
+      .reserve-btn:hover {
+        background: white;
+        color: var(--primary-orange);
+      }
+
+      /* =========================
+         MOBILE DRAWER NAV
+      ========================= */
       .hamburger {
         display: none;
-        width: 44px;
-        height: 44px;
-        border: 1px solid #eee;
-        border-radius: 12px;
-        background: #fff;
-        cursor: pointer;
-        align-items: center;
+        flex-direction: column;
         justify-content: center;
         gap: 5px;
+        cursor: pointer;
+        user-select: none;
       }
+
       .hamburger div {
-        width: 24px;
+        width: 22px;
         height: 2px;
         background: #111;
-        border-radius: 99px;
+        border-radius: 1px;
+      }
+
+      .nav-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.3);
+        display: none;
+        z-index: 1500;
+      }
+      .nav-overlay.show {
+        display: block;
+      }
+
+      /* =========================================================
+         ✅ ADDED: MOBILE VIEW UP TO 992px (RIGHT DRAWER NAV)
+         (didn't touch anything else)
+      ========================================================= */
+      @media (max-width: 992px) {
+        .navrectangle {
+          padding: 10px 18px;
+        }
+
+        .top-nav {
+          grid-template-columns: auto 1fr auto; /* logo | spacer | hamburger */
+        }
+
+        /* hide reserve on tablet/mobile */
+        .reserve-btn {
+          display: none;
+        }
+
+        .hamburger {
+          display: flex;
+          justify-self: end;
+        }
+
+        /* drawer menu */
+        .menu {
+          position: fixed;
+          top: 0;
+          right: 0;
+          height: 100vh;
+          width: min(86vw, 360px);
+          background: #fff;
+
+          padding: 90px 16px 18px;
+          border-left: 1px solid #eee;
+          box-shadow: -18px 0 40px rgba(0, 0, 0, 0.16);
+
+          display: flex;
+          flex-direction: column;
+          align-items: stretch;
+          justify-content: flex-start;
+          gap: 10px;
+
+          transform: translateX(110%);
+          transition: transform 0.25s ease;
+          z-index: 1600;
+        }
+
+        .menu.show {
+          transform: translateX(0);
+        }
+
+        .menu > .menu-item > a {
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          text-align: center;
+
+          padding: 12px 14px;
+          border-radius: 14px;
+
+          color: #9a9a9a;
+          font-weight: 800;
+          font-size: 15px;
+          font-family: "Kodchasan", Arial, sans-serif;
+        }
+
+        /* dropdown becomes stacked sections */
+        .dropdown {
+          position: static;
+          min-width: unset;
+          width: 100%;
+          margin: 6px 0 12px;
+          padding: 10px;
+
+          background: rgba(214, 112, 39, 0.12);
+          border-radius: 14px;
+          box-shadow: none;
+
+          display: block;
+        }
+
+        .dropdown a {
+          border-radius: 12px;
+          text-align: center;
+          padding: 12px 14px;
+        }
+
+        .menu-item:hover .dropdown {
+          display: block;
+        }
+
+        /* rewards grid on tablet */
+        .rewards-container {
+          grid-template-columns: repeat(2, minmax(260px, 1fr));
+        }
+
+        /* promo layout nicer */
+        .promo-right {
+          justify-content: flex-start;
+        }
+        .promo-input {
+          min-width: 220px;
+          width: 100%;
+        }
+      }
+
+      @media (max-width: 700px) {
+        .top-nav {
+          grid-template-columns: auto 1fr auto; /* logo | spacer | hamburger */
+        }
+
+        /* ✅ hide reserve on mobile */
+        .reserve-btn {
+          display: none;
+        }
+
+        .hamburger {
+          display: flex;
+          justify-self: end;
+        }
+
+        .menu {
+          position: fixed;
+          top: 0;
+          right: 0;
+          height: 100vh;
+          width: min(86vw, 360px);
+          background: #fff;
+
+          padding: 90px 16px 18px;
+          border-left: 1px solid #eee;
+          box-shadow: -18px 0 40px rgba(0, 0, 0, 0.16);
+
+          display: flex;
+          flex-direction: column;
+          align-items: stretch;
+          justify-content: flex-start;
+          gap: 10px;
+
+          transform: translateX(110%);
+          transition: transform 0.25s ease;
+          z-index: 1600;
+        }
+
+        .menu.show {
+          transform: translateX(0);
+        }
+
+        .menu > .menu-item > a {
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          text-align: center;
+
+          padding: 12px 14px;
+          border-radius: 14px;
+
+          color: #9a9a9a;
+          font-weight: 800;
+          font-size: 15px;
+          font-family: "Kodchasan", Arial, sans-serif;
+        }
+
+        .dropdown {
+          position: static;
+          min-width: unset;
+          width: 100%;
+          margin: 6px 0 12px;
+          padding: 10px;
+
+          background: rgba(214, 112, 39, 0.12);
+          border-radius: 14px;
+          box-shadow: none;
+
+          display: block;
+        }
+
+        .dropdown a {
+          border-radius: 12px;
+          text-align: center;
+          padding: 12px 14px;
+        }
+
+        .menu-item:hover .dropdown {
+          display: block;
+        }
       }
 
       /* MAIN REWARDS */
@@ -319,7 +554,7 @@
         cursor: not-allowed !important;
       }
 
-      /* POPUP */
+      /* POPUP (existing overlay class) */
       .reward-popup {
         position: fixed;
         inset: 0;
@@ -432,6 +667,18 @@
         cursor: pointer;
       }
 
+      /* MOBILE */
+      @media (max-width: 980px) {
+        .rewards-container {
+          grid-template-columns: repeat(2, minmax(260px, 1fr));
+        }
+      }
+      @media (max-width: 700px) {
+        .rewards-container {
+          grid-template-columns: 1fr;
+        }
+      }
+
       /* TERMS POPUP */
       .terms-card {
         max-width: 780px;
@@ -481,7 +728,9 @@
         font-weight: bold;
       }
 
-      /* Voucher confirm modal (YES/NO) */
+      /* =========================================================
+         Voucher confirm modal (YES/NO)
+      ========================================================= */
       .confirm-actions {
         display: flex;
         gap: 10px;
@@ -505,134 +754,12 @@
         color: #666;
         margin-top: 8px;
       }
-
-      /* =========================
-         MOBILE (your friend's dimensions / drawer)
-      ========================= */
-      @media (max-width: 768px) {
-        .nav-overlay {
-          position: fixed;
-          inset: 0;
-          display: none;
-          background: rgba(0, 0, 0, 0.35);
-          z-index: 2500;
-        }
-        .nav-overlay.show {
-          display: block;
-        }
-
-        .menu {
-          display: none; /* hide desktop menu layout */
-        }
-
-        .hamburger {
-          display: flex; /* show hamburger */
-        }
-        .hamburger div {
-          width: 22px;
-          height: 2px;
-        }
-
-        .Logo img {
-          height: 60px;
-          margin-top: 4px;
-        }
-
-        .navrectangle {
-          margin-top: 40px;
-          position: sticky;
-          top: 0;
-          background: #fff;
-          z-index: 4000;
-          padding: 6px 0;
-        }
-
-        /* drawer menu */
-        #menu.menu {
-          position: fixed;
-          top: 0;
-          right: 0;
-          height: 100vh;
-          width: min(86vw, 360px);
-          background: #fff;
-
-          padding: 86px 16px 18px;
-          border-left: 1px solid #eee;
-          box-shadow: -18px 0 40px rgba(0, 0, 0, 0.16);
-
-          display: flex;
-          flex-direction: column;
-          align-items: stretch;
-          gap: 10px;
-
-          transform: translateX(110%);
-          transition: transform 0.25s ease;
-          z-index: 3000;
-        }
-
-        #menu.menu.show {
-          transform: translateX(0);
-        }
-
-        /* main items */
-        #menu.menu > .menu-item > a {
-          color: #9a9a9a;
-          font-weight: 700;
-          font-size: 15px;
-
-          width: 100%;
-          display: flex;
-          justify-content: center;
-          text-align: center;
-
-          padding: 12px 14px;
-          border-radius: 14px;
-        }
-
-        /* logout */
-        #menu.menu > .menu-item:last-child > a {
-          color: #d93025;
-          font-weight: 800;
-        }
-
-        /* dropdown becomes inline box */
-        .menu-item > .dropdown {
-          position: static;
-          min-width: unset;
-          width: 100%;
-          margin: 6px 0 12px;
-          padding: 10px;
-
-          background: rgba(214, 112, 39, 0.12);
-          border-radius: 14px;
-          box-shadow: none;
-
-          opacity: 1;
-          visibility: visible;
-          transform: none;
-          height: auto;
-          display: block; /* important for mobile */
-        }
-
-        .dropdown a {
-          font-size: 16px;
-          font-weight: 800;
-          padding: 12px 14px;
-          border-radius: 12px;
-          text-align: center;
-        }
-
-        /* rewards cards single column */
-        .rewards-container {
-          grid-template-columns: 1fr;
-        }
-      }
     </style>
   </head>
 
   <body>
-    <!-- mobile overlay -->
-    <div class="nav-overlay" id="navOverlay" aria-hidden="true"></div>
+    <!-- overlay for mobile drawer -->
+    <div class="nav-overlay" id="navOverlay"></div>
 
     <!-- NAVIGATION -->
     <nav class="navrectangle">
@@ -642,7 +769,6 @@
         </div>
 
         <nav>
-          <!-- IMPORTANT: give your menu an ID so mobile drawer works -->
           <ul class="menu" id="menu">
             <li class="menu-item">
               <a href="FED_ASG.html">Home</a>
@@ -676,21 +802,31 @@
               </ul>
             </li>
 
-            <li class="menu-item"><a href="login.html">Log Out</a></li>
+            <li class="menu-item"><a href="SelectRole.html">Log Out</a></li>
           </ul>
         </nav>
 
-        <!-- hamburger -->
+        <!-- ✅ RESTORED Reserve button (change href/page if your filename is different) -->
         <button
+          class="reserve-btn"
+          type="button"
+          onclick="window.location.href = 'Reservation.html'"
+        >
+          Reserve a Table
+        </button>
+
+        <!-- hamburger -->
+        <div
           class="hamburger"
           id="hamburger"
           aria-label="Open menu"
-          type="button"
+          role="button"
+          tabindex="0"
         >
           <div></div>
           <div></div>
           <div></div>
-        </button>
+        </div>
       </header>
     </nav>
 
@@ -723,6 +859,7 @@
       </div>
 
       <div class="rewards-container" id="rewards-grid">
+        <!-- ACTIVE (not grey) vouchers -->
         <div
           class="card"
           data-reward-id="discount-20"
@@ -774,6 +911,7 @@
           <button class="btn use-voucher-btn">Use voucher</button>
         </div>
 
+        <!-- MORE ACTIVE vouchers -->
         <div
           class="card"
           data-reward-id="free-delivery"
@@ -844,7 +982,7 @@
       <div class="popup-card">
         <h3 id="popup-title">You won!</h3>
         <p id="popup-text"></p>
-        <button class="popup-close" id="popup-close">Ok!</button>
+        <button class="popup-close" id="popup-close">Nice!</button>
       </div>
     </div>
 
@@ -921,9 +1059,27 @@
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         /***********************
+         * 🔥 RESET EVERYTHING (UNLOCK ALL)
+         * removes all used/locked states + promo history
+         ***********************/
+        localStorage.removeItem("shiok_used_rewards_v1"); // normal rewards
+        localStorage.removeItem("shiok_used_vouchers_v1"); // vouchers
+        localStorage.removeItem("shiok_applied_promos_v1"); // promo codes (HELLO123 etc)
+        localStorage.removeItem("shiok_earned_rewards_v1"); // lucky spin rewards
+        localStorage.removeItem("shiok_spin_cooldown_v1"); // spin timer
+
+        sessionStorage.removeItem("shiok_applied_voucher_v1"); // applied voucher at checkout
+
+        /***********************
          * IMPORTANT: SET YOUR CHECKOUT PAGE FILENAME HERE
          ***********************/
         const CHECKOUT_PAGE = "OrderSummary.html"; // <-- change if needed
+
+        /***********************
+         * SETTINGS
+         ***********************/
+        const ENABLE_COOLDOWN = true;
+        const COOLDOWN_HOURS = 48;
 
         /***********************
          * STORAGE KEYS
@@ -932,21 +1088,18 @@
         const EARNED_KEY = "shiok_earned_rewards_v1";
         const COOLDOWN_KEY = "shiok_spin_cooldown_v1";
         const PROMO_KEY = "shiok_applied_promos_v1";
+
+        // ✅ OrderSummary reads this
         const APPLIED_VOUCHER_KEY = "shiok_applied_voucher_v1";
+
+        // ✅ remember voucher was consumed/used -> grey out next time
         const VOUCHER_USED_KEY = "shiok_used_vouchers_v1";
 
-        /***********************
-         * COOLDOWN SETTINGS
-         ***********************/
-        const ENABLE_COOLDOWN = true;
-        const COOLDOWN_HOURS = 48;
+        // ✅ checkout total key (your checkout page should save subtotal/total here)
+        const TOTAL_KEY = "shiok_checkout_total_v1";
 
-        /***********************
-         * DEBUG (keep FALSE or vouchers will never stay grey)
-         ***********************/
-        const DEBUG_RESET_USED_VOUCHERS = false;
-        if (DEBUG_RESET_USED_VOUCHERS)
-          localStorage.removeItem(VOUCHER_USED_KEY);
+        // ✅ UNGREY ALL vouchers again (for testing)
+        localStorage.removeItem(VOUCHER_USED_KEY);
 
         const getJSON = (k, fallback) => {
           try {
@@ -959,38 +1112,16 @@
         const setJSON = (k, val) =>
           localStorage.setItem(k, JSON.stringify(val));
 
-        /***********************
-         * MOBILE DRAWER
-         ***********************/
-        const menu = document.getElementById("menu");
-        const hamburger = document.getElementById("hamburger");
-        const overlay = document.getElementById("navOverlay");
-
-        function openMenu() {
-          if (!menu || !overlay) return;
-          menu.classList.add("show");
-          overlay.classList.add("show");
-          overlay.setAttribute("aria-hidden", "false");
-        }
-        function closeMenu() {
-          if (!menu || !overlay) return;
-          menu.classList.remove("show");
-          overlay.classList.remove("show");
-          overlay.setAttribute("aria-hidden", "true");
+        function getCheckoutTotal() {
+          const raw =
+            sessionStorage.getItem(TOTAL_KEY) ||
+            localStorage.getItem(TOTAL_KEY);
+          const n = raw == null ? NaN : Number(raw);
+          return Number.isFinite(n) ? n : NaN;
         }
 
-        if (hamburger)
-          hamburger.addEventListener("click", () => {
-            if (menu.classList.contains("show")) closeMenu();
-            else openMenu();
-          });
-        if (overlay) overlay.addEventListener("click", closeMenu);
-        window.addEventListener("resize", () => {
-          if (window.innerWidth > 768) closeMenu();
-        });
-
         /***********************
-         * POPUP
+         * POPUP (existing)
          ***********************/
         const popup = document.getElementById("reward-popup");
         const popupText = document.getElementById("popup-text");
@@ -1072,7 +1203,7 @@
         }
 
         /***********************
-         * USED (non-voucher "Use now")
+         * USED (persist) for non-voucher "Use now"
          ***********************/
         const usedIds = new Set(getJSON(USED_KEY, []));
 
@@ -1097,9 +1228,25 @@
             if (!card || !id) return;
             if (card.classList.contains("used")) return;
 
+            const minSpend = Number(card.getAttribute("data-voucher-min") || 0);
+            const checkoutTotal = getCheckoutTotal();
+            const totalForCheck = Number.isFinite(checkoutTotal)
+              ? checkoutTotal
+              : 0;
+
+            /* ✅ minimum spend check */
+            if (minSpend > 0 && totalForCheck < minSpend) {
+              showPopup(`You need a minimum spending of $${minSpend}`);
+              return;
+            }
+
+            /* ✅ mark used */
             applyUsedState(card, btn);
             usedIds.add(id);
             setJSON(USED_KEY, Array.from(usedIds));
+
+            /* ✅ ALWAYS go checkout */
+            window.location.href = CHECKOUT_PAGE;
           });
         });
 
@@ -1124,7 +1271,9 @@
           .querySelectorAll(".card[data-voucher='true']")
           .forEach((card) => {
             const id = card.getAttribute("data-reward-id");
-            if (id && usedVoucherIds.has(id)) applyVoucherUsedState(card);
+            if (id && usedVoucherIds.has(id)) {
+              applyVoucherUsedState(card);
+            }
           });
 
         /***********************
@@ -1216,7 +1365,7 @@
         }
 
         /***********************
-         * SPIN COOLDOWN
+         * SPIN COOLDOWN (48h persist)
          ***********************/
         const spinBtn = document.getElementById("lucky-spin");
         const timerEl = document.getElementById("spin-timer");
@@ -1438,7 +1587,7 @@
         });
 
         /***********************
-         * PROMO CODE FEATURE (only MEGA25 + HELLO123)
+         * PROMO CODE FEATURE
          ***********************/
         const promoInput = document.getElementById("promo-input");
         const promoApply = document.getElementById("promo-apply");
@@ -1567,9 +1716,7 @@
           });
         }
 
-        /***********************
-         * ✅ VOUCHER APPLY FLOW (greys out + stores voucher)
-         ***********************/
+        /* Voucher confirm */
         const confirmPopup = document.getElementById("voucher-confirm-popup");
         const confirmText = document.getElementById("voucher-confirm-text");
         const btnYes = document.getElementById("voucher-yes");
@@ -1599,13 +1746,25 @@
         btnYes.addEventListener("click", () => {
           if (!pendingVoucher) return;
 
-          // Save for checkout
+          const minSpend = Number(pendingVoucher.minSpend || 0);
+          const checkoutTotal = getCheckoutTotal();
+          const totalForCheck = Number.isFinite(checkoutTotal)
+            ? checkoutTotal
+            : 0;
+
+          if (minSpend > 0 && totalForCheck < minSpend) {
+            closeConfirm();
+            showPopup(
+              `You can't use this since your items don't add up to $${minSpend}.`,
+            );
+            return;
+          }
+
           sessionStorage.setItem(
             APPLIED_VOUCHER_KEY,
             JSON.stringify(pendingVoucher),
           );
 
-          // Mark voucher as used so it stays grey next time
           if (pendingVoucher.id) {
             usedVoucherIds.add(pendingVoucher.id);
             setJSON(VOUCHER_USED_KEY, Array.from(usedVoucherIds));
@@ -1620,6 +1779,7 @@
             "ShiokLah! Voucher Selected ✅",
             `${pendingVoucher.label} will be applied at checkout.`,
           );
+
           window.location.href = CHECKOUT_PAGE;
         });
 
@@ -1661,6 +1821,37 @@
         }
 
         bindVoucherButtons();
+
+        /* ✅ MOBILE NAV open/close */
+        const hamburger = document.getElementById("hamburger");
+        const menu = document.getElementById("menu");
+        const overlay = document.getElementById("navOverlay");
+
+        if (hamburger && menu && overlay) {
+          const closeMenu = () => {
+            menu.classList.remove("show");
+            overlay.classList.remove("show");
+            document.body.style.overflow = "";
+          };
+
+          hamburger.addEventListener("click", () => {
+            menu.classList.toggle("show");
+            overlay.classList.toggle("show");
+            document.body.style.overflow = menu.classList.contains("show")
+              ? "hidden"
+              : "";
+          });
+
+          overlay.addEventListener("click", closeMenu);
+
+          hamburger.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") hamburger.click();
+          });
+
+          menu.querySelectorAll("a").forEach((a) => {
+            a.addEventListener("click", closeMenu);
+          });
+        }
       });
     </script>
   </body>

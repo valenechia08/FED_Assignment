@@ -4,24 +4,29 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Customer Feedback | ShiokLah!</title>
-    <link rel="stylesheet" href="Master_page_stylesheet.css" />
 
-    <!-- Fonts (same as your project) -->
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Kodchasan:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Kodchasan:wght@200;300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&family=Open+Sans:wght@300..800&family=Roboto:wght@100..900&display=swap"
       rel="stylesheet"
     />
+
+    <!-- ✅ Friend's stylesheet -->
+    <link rel="stylesheet" href="Master_page_stylesheet.css" />
+
+    <!-- (keep if you need it for your feedback objects) -->
     <script src="FeedbackObjects.js"></script>
 
+    <!-- ✅ ONLY feedback page styling (NOT navbar layout) -->
     <style>
       :root {
-        --primary-orange: #e47329;
+        --primary-orange: #ff8c3a;
         --primary-yellow: #ffd400;
         --bg: #fff;
         --text: #222;
@@ -32,6 +37,17 @@
         --radius: 18px;
       }
 
+      /* =========================================================
+         ✅ ADDED (1): REMOVE TOP GAP ABOVE NAV
+         (browser default margin + possible css reset issues)
+      ========================================================= */
+      html,
+      body {
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+
+      /* keep your base */
       * {
         margin: 0;
         padding: 0;
@@ -61,111 +77,32 @@
         color: var(--text);
       }
 
+      /* ensure nav sits flush to top even if stylesheet adds spacing */
+      .navrectangle {
+        margin-top: 0 !important;
+        top: 0 !important;
+      }
+      .navrectangle .container {
+        padding-top: 0 !important;
+      }
+      /* ========================================================= */
+
       /***********************
-       * TOP NAV
+       * ✅ NAV FONT OVERRIDES ONLY
+       * Kodchasan for all nav text EXCEPT reserve button
        ***********************/
-      .topNavBar {
-        position: sticky;
-        top: 0;
-        z-index: 2000;
-        background: #fff;
-        border-bottom: 1px solid var(--line);
-      }
-      .topNavBar .container {
-        width: 92%;
-        max-width: 1200px;
-        margin: auto;
-      }
-      .topNavBar .top-nav {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        height: 70px;
+      .navrectangle,
+      .navrectangle .menu,
+      .navrectangle .menu a,
+      .navrectangle .dropdown a,
+      .navrectangle .menu-item a,
+      .navrectangle .dropdown li,
+      .navrectangle .container {
+        font-family: "Kodchasan", sans-serif !important;
       }
 
-      .topNavBar .nav-left,
-      .topNavBar .nav-right {
-        flex: 0 0 auto;
-      }
-
-      .topNavBar .nav-center {
-        flex: 1;
-        display: flex;
-        justify-content: center;
-      }
-
-      /* ✅ LOGO FIX */
-      .topNavBar .Logo {
-        text-decoration: none;
-        height: 60px;
-        display: flex;
-        align-items: center;
-      }
-      .topNavBar .Logo img {
-        height: 100%;
-        width: auto;
-        display: block;
-      }
-
-      .topNavBar .menu {
-        list-style: none;
-        display: flex;
-        align-items: center;
-        gap: 50px;
-      }
-      .topNavBar .menu a {
-        text-decoration: none;
-        font-weight: 800;
-        color: #111;
-        display: block;
-        padding: 8px 0;
-      }
-      .topNavBar .menu a:hover {
-        color: var(--primary-orange);
-      }
-      .topNavBar .menu-item {
-        position: relative;
-      }
-      .topNavBar .dropdown {
-        position: absolute;
-        top: 130%;
-        left: 0;
-        background: var(--primary-yellow);
-        border-radius: 12px;
-        padding: 10px 0;
-        min-width: 200px;
-        display: none;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-      }
-      .topNavBar .dropdown li {
-        list-style: none;
-      }
-      .topNavBar .dropdown a {
-        padding: 10px 18px;
-        color: #111;
-        font-weight: 700;
-      }
-      .topNavBar .dropdown a:hover {
-        background: rgba(0, 0, 0, 0.08);
-      }
-      .topNavBar .menu-item:hover .dropdown {
-        display: block;
-      }
-
-      /* no reserve button, but keep spacing */
-      .topNavBar .nav-right {
-        width: 60px;
-      }
-
-      @media (max-width: 900px) {
-        .topNavBar .menu {
-          gap: 28px;
-        }
-      }
-      @media (max-width: 700px) {
-        .topNavBar .nav-center {
-          display: none;
-        }
+      .navrectangle .reserve-btn {
+        font-family: Arial, Helvetica, sans-serif !important;
       }
 
       /***********************
@@ -486,6 +423,7 @@
         cursor: pointer;
         font-weight: 800;
       }
+
       .complaint-link {
         text-align: center;
         margin-bottom: 18px;
@@ -503,29 +441,86 @@
       .complaint-link a:hover {
         opacity: 0.7;
       }
+
+      /***********************
+       * ✅ ADDED (2): MOBILE VIEW (ONLY PAGE CONTENT)
+       * (does NOT touch navbar layout / friend css)
+       ***********************/
+      @media (max-width: 920px) {
+        main {
+          width: 92%;
+          margin: 22px auto 70px;
+        }
+        .page-title {
+          font-size: 38px;
+        }
+        .card-inner {
+          padding: 18px;
+        }
+        .stall-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 560px) {
+        main {
+          width: 92%;
+          margin: 18px auto 60px;
+        }
+        .page-title {
+          font-size: 32px;
+          margin-bottom: 14px;
+        }
+        .page-subtitle {
+          margin-bottom: 18px;
+        }
+        .card-inner {
+          padding: 16px;
+        }
+        .stars label {
+          font-size: 30px;
+        }
+        .stall-content {
+          grid-template-columns: 80px 1fr;
+          gap: 10px;
+          padding: 11px;
+        }
+        .stall-thumb {
+          width: 80px;
+          height: 64px;
+          border-radius: 12px;
+        }
+        .stall-meta {
+          flex-wrap: wrap;
+          gap: 8px;
+        }
+        .actions-row {
+          justify-content: stretch;
+        }
+        .submit-btn {
+          width: 100%;
+          padding: 14px 18px;
+          font-size: 16px;
+        }
+      }
     </style>
   </head>
 
   <body>
-    <!-- TOP NAV -->
-    <nav class="topNavBar">
+    <!-- ✅ FRIEND'S NAVBAR (COPIED) -->
+    <nav class="navrectangle">
       <div class="container">
         <div class="top-nav">
-          <!-- ✅ LOGO LEFT (FIXED) -->
           <div class="nav-left">
-            <a href="FED_ASG.html" class="Logo" aria-label="ShiokLah Home">
-              <img src="./images/ShiokLah(cropped).jpeg" alt="ShiokLah Logo" />
-              <!-- If your logo doesn't load, change to:
-              <img src="images/ShiokLah(cropped).jpeg" alt="ShiokLah Logo" />
-              -->
-            </a>
+            <div class="Logo">
+              <img src="/images/ShiokLah(cropped).jpeg" alt="Logo" />
+            </div>
           </div>
 
-          <!-- MENU CENTER -->
           <div class="nav-center">
             <ul class="menu" id="menu">
               <li class="menu-item">
-                <a href="FED_ASG.html">Home</a>
+                <a href="#">Home</a>
                 <ul class="dropdown">
                   <li><a href="FED_ASG.html">Start Order</a></li>
                 </ul>
@@ -539,17 +534,14 @@
               </li>
 
               <li class="menu-item">
-                <a href="UserProfile.html">Profile</a>
+                <a href="#">Profile</a>
                 <ul class="dropdown">
                   <li><a href="UserProfile.html">Overview</a></li>
                   <li><a href="Analytics.html">Analytics & Reporting</a></li>
-                  <li><a href="CustomerFeedback.html">Customer Feedback</a></li>
                   <li>
-                    <a href="Regulatory&Complianceinfo.html"
-                      >Regulatory & Compliance Info</a
-                    >
+                    <a href="Customer_ReviewPage.html">Customer Feedback</a>
                   </li>
-                  <li><a href="#">Favourites</a></li>
+                  <li><a href="Customer_Favourties.html">Favourites</a></li>
                   <li>
                     <a href="Customer Vouchers and Rewards.html">Rewards</a>
                   </li>
@@ -562,26 +554,33 @@
             </ul>
           </div>
 
-          <!-- RIGHT spacer -->
-          <div class="nav-right"></div>
+          <div class="nav-right">
+            <button class="reserve-btn">Reserve A Table</button>
+            <div class="hamburger" id="hamburger">
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+          </div>
         </div>
       </div>
     </nav>
 
+    <div class="nav-overlay" id="navOverlay"></div>
+    <hr class="Nav-line" />
+
+    <!-- ✅ YOUR FEEDBACK PAGE CONTENT (FULL) -->
     <main>
       <h1 class="page-title">Leave Your Feedback</h1>
       <p class="page-subtitle">
         Rate your experience and share your thoughts!✨
       </p>
-      <!-- =========================
-           ✅ ADDED ONLY THIS LINK
-           ========================= -->
+
       <div class="complaint-link">
         <a href="CustomerComplaintForm.html">
           Not satisfied? Write a complaint instead →
         </a>
       </div>
-      <!-- ========================= -->
 
       <section class="card">
         <div class="card-inner">
@@ -769,9 +768,7 @@
                 Submit Feedback
               </button>
             </div>
-            <div class="hint">
-              Front-end demo — connect to your DB/API later.
-            </div>
+            <div class="hint">We appreciate your feedback!</div>
           </div>
         </div>
       </section>
@@ -781,11 +778,18 @@
     <div class="popup" id="popup">
       <div class="popup-card">
         <h4>Thank you! 🧡</h4>
-        <p id="popupMsg">Your feedback has been submitted.</p>
+        <p id="popupMsg">Your feedback has submitted.</p>
         <button id="closePopup">Ok</button>
       </div>
     </div>
+
+    <!-- ✅ FRIEND'S JS -->
+    <script type="module" src="Master_page_javascript.js"></script>
+
+    <!-- keep if you need it -->
     <script src="FeedbackObjects.js"></script>
+
+    <!-- YOUR SUBMIT POPUP SCRIPT (unchanged) -->
     <script>
       const popup = document.getElementById("popup");
       const popupMsg = document.getElementById("popupMsg");
@@ -834,7 +838,6 @@
           "Your feedback has been submitted. Thank you for helping ShiokLah improve!";
         popup.classList.add("show");
 
-        // ✅ ADDED ONLY THIS: auto go back home after submit
         setTimeout(() => {
           window.location.href = "FED_ASG.html";
         }, 1200);

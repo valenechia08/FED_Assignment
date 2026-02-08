@@ -1,0 +1,858 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>ShiokLah! Analytics Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kodchasan:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="Master_page_stylesheet.css" />
+
+    <style>
+      /* Prevent any accidental horizontal overflow */
+      html, body {
+        max-width: 100%;
+        overflow-x: hidden;
+      }
+
+      /* Make shared container never exceed screen */
+      .navrectangle .container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      /* Add safe side padding so content doesn't "float" weirdly */
+      .navrectangle .container {
+        padding: 0 16px;
+      }
+
+    
+
+      /* Important for flex children to shrink instead of pushing width */
+      .top-nav,
+      .kpi-card,
+      section {
+        min-width: 0;
+      }
+
+
+      /* ==========================
+         DASHBOARD 
+      ========================== */
+      :root {
+        --bg: #f5f7fb;
+        --card: #ffffff;
+        --stroke: #e9eef6;
+        --shadow: 0 10px 30px rgba(17, 24, 39, 0.06);
+        --radius: 16px;
+        --text: #0f172a;
+        --muted: #64748b;
+
+        --kpi-info: #2563eb;
+        --kpi-success: #16a34a;
+        --kpi-warning: #d97706;
+        --kpi-neutral: #64748b;
+
+      }
+      
+
+      .dash-wrap {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 22px 0 40px;
+        font-family:"Kodchasan",Arial, Helvetica, sans-serif;
+      }
+
+      .dash-wrap .kpi-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 14px;
+        margin-bottom: 18px;
+      }
+
+      .dash-wrap .kpi-card {
+        background: var(--card);
+        border: 1px solid var(--stroke);
+        border-radius: 14px;
+        box-shadow: var(--shadow);
+        padding: 14px 14px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        min-width: 0;
+      }
+
+      .dash-wrap .kpi-left { min-width: 0; }
+
+      .dash-wrap .kpi-title {
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--muted);
+        margin-bottom: 6px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .dash-wrap .kpi-value {
+        font-size: 22px;
+        font-weight: 800;
+        letter-spacing: -0.2px;
+        line-height: 1.1;
+      }
+
+      .dash-wrap .kpi-sub {
+        margin-top: 4px;
+        font-size: 12px;
+        color: var(--muted);
+        font-weight: 600;
+      }
+      
+      .dash-wrap .kpi-badge {
+        flex: 0 0 auto;
+        padding: 8px 10px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 800;
+        border: 1px solid var(--stroke);
+        background: #f8fafc;
+        color: #0f172a;
+        white-space: nowrap;
+      }
+
+      /*  Positive = Green */
+      .kpi-badge.positive {
+        background: rgba(34, 197, 94, 0.12);
+        border-color: rgba(34, 197, 94, 0.35);
+        color: #14532d;
+      }
+
+      /*  Neutral = Blue */
+      .kpi-badge.neutral {
+        background: rgba(59, 130, 246, 0.12);
+        border-color: rgba(59, 130, 246, 0.35);
+        color: #1e40af;
+      }
+
+      /*  Bad = Red */
+      .kpi-badge.bad {
+        background: rgba(239, 68, 68, 0.12);
+        border-color: rgba(239, 68, 68, 0.35);
+        color: #7f1d1d;
+      }
+
+
+      .dash-wrap .grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+        align-items: stretch;
+      }
+
+      .dash-wrap .full-width { grid-column: 1 / -1; }
+
+      .dash-wrap section {
+        background: var(--card);
+        border: 1px solid var(--stroke);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 18px 18px 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        min-height: 0;
+      }
+
+      .dash-wrap section h2 { margin: 0; font-size: 18px; letter-spacing: -0.2px; }
+
+      .dash-wrap .card-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .dash-wrap .card-tools { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+      .dash-wrap label { font-weight: 700; color: var(--muted); font-size: 13px; }
+
+      .dash-wrap select {
+        height: 34px;
+        padding: 0 12px;
+        border-radius: 10px;
+        border: 1px solid var(--stroke);
+        background: #fff;
+        font-family: "Kodchasan",Arial, Helvetica, sans-serif;
+        font-weight: 600;
+        color: var(--text);
+        outline: none;
+      }
+
+      .dash-wrap select:focus {
+        border-color: rgba(255, 140, 58, 0.45);
+        box-shadow: 0 0 0 4px rgba(255, 140, 58, 0.12);
+      }
+
+      .dash-wrap .card-divider { height: 1px; width: 100%; background: var(--stroke); }
+
+      .dash-wrap .insight {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        flex-wrap: wrap;
+        font-size: 12px;
+        color: var(--muted);
+        font-weight: 700;
+      }
+      .dash-wrap .insight strong { color: var(--text); }
+
+      .dash-wrap .chart-box {
+        position: relative;
+        width: 100%;
+        height: 300px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .dash-wrap .chart-box--large { height: 380px; }
+
+      .dash-wrap .chart-box--donut { display: flex; justify-content: center; align-items: center; }
+      .dash-wrap .donut-wrapper { height: 100%; aspect-ratio: 1 / 1; max-width: 320px; }
+
+      .dash-wrap .chart-box--donut canvas { width: 100%; height: 100%; }
+      .dash-wrap .chart-box canvas { 
+        width: 100%; 
+        height: 100%;     
+      } 
+
+      
+    /* ==========================
+        MOBILE: FULL-WIDTH ROWS
+      ========================== */
+      @media (max-width: 992px) {
+        .dash-wrap{
+          padding:0 16px;
+        }
+        
+        /* KPI cards: each card = 1 full row */
+        .dash-wrap .kpi-grid {
+          grid-template-columns: 1fr;   /* ✅ one column */
+          gap: 14px;
+        }
+
+        .dash-wrap .kpi-card {
+          width: 100%;
+        }
+
+        /* Main dashboard sections: one per row */
+        .dash-wrap .grid {
+          grid-template-columns: 1fr;   /* ✅ stack sections vertically */
+          gap: 18px;
+        }
+
+        /* Charts scale nicely */
+        .dash-wrap .chart-box {
+          height: 260px;
+        }
+
+        .dash-wrap .chart-box--large {
+          height: 320px;
+        }
+
+        /* Dropdowns not oversized */
+        .dash-wrap select {
+          width: 100%;
+          font-size: 10px;
+          height: 32px;
+        }
+
+        .dash-wrap select option {
+          font-size: 10px;
+        }
+      }
+
+
+      
+    </style>
+  </head>
+
+  <body>
+    <nav class="navrectangle">
+      <div class="container">
+        <div class="top-nav">
+          <div class="nav-left">
+            <div class="Logo">
+              <img src="/images/ShiokLah(cropped).jpeg" alt="Logo" />
+            </div>
+          </div>
+
+          <div class="nav-center">
+            <ul class="menu" id="menu">
+              <li class="menu-item">
+                <a href="#">Home</a>
+                <ul class="dropdown">
+                  <li><a href="FED_ASG.html">Start Order</a></li>
+                </ul>
+              </li>
+
+              <li class="menu-item">
+                <a href="#">Order History</a>
+                <ul class="dropdown">
+                  <li><a href="OrderHistory.html">Past Orders</a></li>
+                </ul>
+              </li>
+
+              <li class="menu-item">
+                <a href="#">Profile</a>
+                <ul class="dropdown">
+                  <li><a href="UserProfile.html">Overview</a></li>
+                  <li><a href="Analytics.html">Analytics & Reporting</a></li>
+                  <li>
+                    <a href="Customer_ReviewPage.html">Customer Feedback</a>
+                  </li>
+                  <li><a href="Customer_Favourties.html">Favourites</a></li>
+                  <li>
+                    <a href="Customer Vouchers and Rewards.html">Rewards</a>
+                  </li>
+                </ul>
+              </li>
+
+              <li class="menu-item">
+                <a href="SelectRole.html">Log Out</a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="nav-right">
+            <button class="reserve-btn">Reserve A Table</button>
+            <div class="hamburger" id="hamburger">
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="nav-overlay" id="navOverlay"></div>
+    <hr class="Nav-line" />
+
+    <div class="dash-wrap">
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-left">
+            <div class="kpi-title">Total Orders</div>
+            <div class="kpi-value" id="kpiTotalOrders">—</div>
+            <div class="kpi-sub" id="kpiOrdersSub">This Month</div>
+          </div>
+          <div class="kpi-badge up" id="kpiOrdersDelta">+0%</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-left">
+            <div class="kpi-title">Top Item</div>
+            <div class="kpi-value" id="kpiTopItem">—</div>
+            <div class="kpi-sub" id="kpiTopItemSub">Share: —</div>
+          </div>
+          <div class="kpi-badge neutral" id="kpiTopItemBadge">Hot</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-left">
+            <div class="kpi-title">Avg Rating</div>
+            <div class="kpi-value" id="kpiAvgRating">—</div>
+            <div class="kpi-sub" id="kpiRatingSub">From feedback mix</div>
+          </div>
+          <div class="kpi-badge" id="kpiRatingBadge">—</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-left">
+            <div class="kpi-title">Inspection Score</div>
+            <div class="kpi-value" id="kpiInspectScore">—</div>
+            <div class="kpi-sub" id="kpiInspectSub">Latest period</div>
+          </div>
+          <div class="kpi-badge up" id="kpiInspectDelta">—</div>
+        </div>
+      </div>
+
+      <div class="grid">
+        <section>
+          <div class="card-header">
+            <h2>Sales Analytics</h2>
+            <div class="card-tools">
+              <label for="salesFilter">Filter</label>
+              <select id="salesFilter">
+                <option value="month">This Month</option>
+                <option value="3months">Last 3 Months</option>
+                <option value="6months">Last 6 Months</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="insight">
+            <span id="salesInsightText">—</span>
+            <span><strong id="salesInsightStrong">—</strong></span>
+          </div>
+
+          <div class="card-divider"></div>
+
+          <div class="chart-box">
+            <canvas id="salesChart"></canvas>
+          </div>
+        </section>
+
+        <section>
+          <div class="card-header">
+            <h2>Customer Feedback</h2>
+            <div class="card-tools">
+              <label for="feedbackFilter">Filter by</label>
+              <select id="feedbackFilter">
+                <option value="month">This Month</option>
+                <option value="3months">Last 3 Months</option>
+                <option value="6months">Last 6 Months</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="insight">
+            <span id="feedbackInsightText">—</span>
+            <span><strong id="feedbackInsightStrong">—</strong></span>
+          </div>
+
+          <div class="card-divider"></div>
+
+          <div class="chart-box chart-box--donut">
+            <div class="donut-wrapper">
+              <canvas id="feedbackChart"></canvas>
+            </div>
+          </div>
+        </section>
+
+        <section class="full-width">
+          <div class="card-header">
+            <h2>Hygiene & Inspections</h2>
+            <div class="card-tools">
+              <label for="hygieneFilter">Year</label>
+              <select id="hygieneFilter">
+                <option value="2026">2026</option>
+                <option value="2025">2025</option>
+                <option value="2024">2024</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="insight">
+            <span id="hygieneInsightText">—</span>
+            <span><strong id="hygieneInsightStrong">—</strong></span>
+          </div>
+
+          <div class="card-divider"></div>
+
+          <div class="chart-box chart-box--large">
+            <canvas id="hygieneChart"></canvas>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="module" src="Master_page_javascript.js"></script>
+    <script type="module">
+      
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+      import {
+        getDatabase,
+        ref,
+        onValue,
+        get,
+        update
+      } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+      
+      import {
+        createSalesChart,
+        updateSalesChart,
+        createFeedbackChart,
+        updateFeedbackChart,
+        createHygieneChart,
+        updateHygieneChart
+      } from "./ChartAnalytics.js";  // ✅ path: put charts.js in same folder as Analytics.html
+
+      // ================================
+      // Firebase config
+      // ================================
+      const firebaseConfig = {
+        apiKey: "AIzaSyCoYoGP4NYJPHqA-kV_swajQ4LSQYdyWV4",
+        authDomain: "grp3fedapp.firebaseapp.com",
+        databaseURL: "https://grp3fedapp-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "grp3fedapp",
+        storageBucket: "grp3fedapp.firebasestorage.app",
+        messagingSenderId: "791146838729",
+        appId: "1:791146838729:web:446baee191feeb036e2b18",
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const db = getDatabase(app);
+
+      // ================================
+      // Charts init (Chart.js only)
+      // ================================
+      const salesChart = createSalesChart("salesChart");
+      const feedbackChart = createFeedbackChart("feedbackChart");
+      const hygieneChart = createHygieneChart("hygieneChart");
+
+      // ================================
+      // Helpers
+      // ================================
+
+      const dayMs = 24 * 60 * 60 * 1000;
+      const sum = (arr) => arr.reduce((a, b) => a + b, 0);
+      const avg = (arr) => (arr.length ? sum(arr) / arr.length : 0);
+
+      function windowStartMs(filter) {
+        const now = Date.now();
+        if (filter === "month") return now - 30 * dayMs;
+        if (filter === "3months") return now - 90 * dayMs;
+        if (filter === "6months") return now - 180 * dayMs;
+        return now - 30 * dayMs;
+      }
+
+      function previousWindowStartMs(filter) {
+        const now = Date.now();
+        if (filter === "month") return now - 60 * dayMs;
+        if (filter === "3months") return now - 180 * dayMs;
+        if (filter === "6months") return now - 360 * dayMs;
+        return now - 60 * dayMs;
+      }
+
+      function inRange(arr, startMs, endMs) {
+        return arr.filter(x => (x.createdAt || 0) >= startMs && (x.createdAt || 0) < endMs);
+      }
+
+      function percentChange(cur, prev) {
+        return prev === 0 ? 0 : ((cur - prev) / prev) * 100;
+      }
+      function fmtPct(n) {
+        return `${n >= 0 ? "+" : ""}${n.toFixed(1)}%`;
+      }
+      function setDelta(el, value) {
+        if (!el) return;
+        el.textContent = fmtPct(value);
+        el.classList.remove("up", "down");
+        el.classList.add(value >= 0 ? "up" : "down");
+      }
+
+      function computeTopItems(orders, topN = 3) {
+        const counts = new Map();
+        orders.forEach(order => {
+          const items = Array.isArray(order.items) ? order.items : [];
+          items.forEach(it => {
+            const name = it.item || it.name || "Unknown";
+            const qty = Number(it.qty || 1);
+            counts.set(name, (counts.get(name) || 0) + qty);
+          });
+        });
+
+        const sorted = Array.from(counts.entries()).sort((a, b) => b[1] - a[1]);
+        const top = sorted.slice(0, topN);
+
+        return {
+          labels: top.map(x => x[0]),
+          data: top.map(x => x[1]),
+          all: sorted
+        };
+      }
+
+      // ================================
+      // REAL DATA: Orders analytics (do NOT seed)
+      // ================================
+      let ordersCache = [];
+
+      onValue(ref(db, "orders"), (snapshot) => {
+        const data = snapshot.exists() ? snapshot.val() : {};
+        ordersCache = Object.entries(data).map(([id, v]) => ({ id, ...v }));
+        renderSalesAndKPI();
+      });
+
+      document.getElementById("salesFilter")?.addEventListener("change", renderSalesAndKPI);
+
+      function renderSalesAndKPI() {
+        const filter = document.getElementById("salesFilter")?.value || "month";
+        const now = Date.now();
+
+        const startNow = windowStartMs(filter);
+        const startPrev = previousWindowStartMs(filter);
+
+        const current = inRange(ordersCache, startNow, now);
+        const previous = inRange(ordersCache, startPrev, startNow);
+
+        const totalOrdersNow = current.length;
+        const totalOrdersPrev = previous.length;
+        const delta = percentChange(totalOrdersNow, totalOrdersPrev);
+
+        document.getElementById("kpiTotalOrders").textContent = String(totalOrdersNow);
+        document.getElementById("kpiOrdersSub").textContent =
+          filter === "month" ? "Last 30 days" : filter === "3months" ? "Last 90 days" : "Last 180 days";
+        setDelta(document.getElementById("kpiOrdersDelta"), delta);
+
+        const top = computeTopItems(current, 3); // ✅ yes this shows top 3
+        updateSalesChart(salesChart, top.labels, top.data);
+
+        const totalItems = sum(top.data);
+        if (top.labels.length) {
+          const maxIdx = top.data.indexOf(Math.max(...top.data));
+          const topName = top.labels[maxIdx];
+          const topVal = top.data[maxIdx];
+          const share = totalItems ? (topVal / totalItems) * 100 : 0;
+
+          document.getElementById("kpiTopItem").textContent = topName;
+          document.getElementById("kpiTopItemSub").textContent = `Share: ${share.toFixed(1)}%`;
+          document.getElementById("kpiTopItemBadge").textContent = share >= 45 ? "Hot" : "Steady";
+
+          document.getElementById("salesInsightText").textContent = `Top seller is ${topName} with`;
+          document.getElementById("salesInsightStrong").textContent = `${topVal} items (${share.toFixed(1)}%)`;
+        } else {
+          document.getElementById("kpiTopItem").textContent = "—";
+          document.getElementById("kpiTopItemSub").textContent = "Share: —";
+          document.getElementById("kpiTopItemBadge").textContent = "—";
+          document.getElementById("salesInsightText").textContent = "No orders in this period.";
+          document.getElementById("salesInsightStrong").textContent = "—";
+        }
+      }
+
+      // ================================
+      // FAKE DATA: Feedback + Hygiene (seed once then read)
+      // ================================
+      const FEEDBACK_PATH = "demo_feedback";
+      const HYGIENE_PATH = "demo_hygiene";
+
+      let feedbackCache = [];
+      let hygieneCache = [];
+
+      document.getElementById("feedbackFilter")?.addEventListener("change", () => renderFeedback());
+      document.getElementById("hygieneFilter")?.addEventListener("change", () => renderHygiene());
+
+      function gradeFromScore(score) {
+        if (score >= 90) return "A";
+        if (score >= 80) return "B";
+        return "C";
+      }
+
+      // deterministic random
+      let __seed = 123456;
+      function rand() {
+        __seed = (1664525 * __seed + 1013904223) % 4294967296;
+        return __seed / 4294967296;
+      }
+      function randInt(min, max) {
+        return Math.floor(rand() * (max - min + 1)) + min;
+      }
+      function pick(arr) {
+        return arr[randInt(0, arr.length - 1)];
+      }
+
+      async function seedDemoDataIfEmpty() {
+        const fbSnap = await get(ref(db, FEEDBACK_PATH));
+        const hySnap = await get(ref(db, HYGIENE_PATH));
+        if (fbSnap.exists() && hySnap.exists()) return;
+
+        const now = Date.now();
+
+        // Feedback variety across last ~8 months
+        const stalls = ["Ah Hock Noodles", "Siti Nasi Lemak", "Muthu Prata", "Xiao Long Bao", "Teochew Fishball"];
+        const comments = ["Very good!", "Okay lah", "Too salty", "Fast service", "Nice portion", "Worth it", "Not hot enough"];
+
+        const feedback = {};
+        for (let i = 0; i < 140; i++) {
+          const daysAgo = randInt(0, 240);
+          const createdAt = now - daysAgo * dayMs - randInt(0, 10) * 60 * 60 * 1000;
+
+          const roll = rand();
+          let rating = 5;
+          if (roll < 0.12) rating = 1;
+          else if (roll < 0.26) rating = 2;
+          else if (roll < 0.48) rating = 3;
+          else if (roll < 0.72) rating = 4;
+
+          const id = `fb_${createdAt}_${i}`;
+          feedback[id] = { stall: pick(stalls), rating, comment: pick(comments), createdAt };
+        }
+
+        // Hygiene monthly for 2024-2026
+        const hygiene = {};
+        [2024, 2025, 2026].forEach((year) => {
+          // ✅ 2026 only Jan + Feb, other years Jan-Dec
+          const maxMonthIndex = (year === 2026) ? 1 : 11; // 0=Jan, 1=Feb, 11=Dec
+
+          for (let month = 0; month <= maxMonthIndex; month++) {
+            const createdAt = new Date(year, month, randInt(10, 20), randInt(9, 18), 0, 0).getTime();
+
+            let base = year === 2024 ? 78 : year === 2025 ? 83 : 86;
+            const score = Math.max(65, Math.min(100, base + randInt(-8, 10) + (month % 3 === 0 ? 4 : 0)));
+
+            const id = `hy_${year}_${String(month + 1).padStart(2, "0")}`;
+            hygiene[id] = { year, month: month + 1, score, grade: gradeFromScore(score), createdAt };
+          }
+        });
+
+
+        await update(ref(db), {
+          [FEEDBACK_PATH]: feedback,
+          [HYGIENE_PATH]: hygiene,
+        });
+      }
+
+      
+      function renderFeedback() {
+        const filter = document.getElementById("feedbackFilter")?.value || "month";
+        const now = Date.now();
+        const start = windowStartMs(filter);
+        const startPrev = previousWindowStartMs(filter);
+
+        // ✅ 1 pass split into current + previous
+        const current = [];
+        const prev = [];
+
+        for (const x of feedbackCache) {
+          const t = Number(x.createdAt || 0);
+          if (t >= start && t < now) current.push(x);
+          else if (t >= startPrev && t < start) prev.push(x);
+        }
+
+        const ratings = current.map(x => Number(x.rating || 0)).filter(n => n > 0);
+        const prevRatings = prev.map(x => Number(x.rating || 0)).filter(n => n > 0);
+
+        let pos = 0, neu = 0, neg = 0;
+        for (const x of current) {
+          const r = Number(x.rating || 0);
+          if (r >= 4) pos++;
+          else if (r === 3) neu++;
+          else if (r >= 1) neg++;
+        }
+
+        updateFeedbackChart(feedbackChart, pos, neu, neg);
+
+        const avgRating = avg(ratings);
+        document.getElementById("kpiAvgRating").textContent = ratings.length ? avgRating.toFixed(1) : "—";
+        document.getElementById("feedbackInsightText").textContent = "Responses in this period:";
+        document.getElementById("feedbackInsightStrong").textContent = `${current.length}`;
+
+        const badge = document.getElementById("kpiRatingBadge");
+        badge.classList.remove("positive", "neutral", "bad");
+
+        const prevAvg = avg(prevRatings);
+
+        if (!ratings.length || !prevRatings.length) {
+          badge.textContent = "—";
+        } else if (avgRating > prevAvg) {
+          badge.textContent = "Improving";
+          badge.classList.add("positive");
+        } else if (avgRating < prevAvg) {
+          badge.textContent = "Declining";
+          badge.classList.add("bad");
+        } else {
+          badge.textContent = "Stable";
+          badge.classList.add("neutral");
+        }
+      }
+
+
+      // realtime read fake nodes
+      function attachDemoListeners() {
+        onValue(ref(db, FEEDBACK_PATH), (snap) => {
+          const data = snap.exists() ? snap.val() : {};
+          feedbackCache = Object.entries(data).map(([id, v]) => ({ id, ...v }));
+          renderFeedback();
+        });
+
+        onValue(ref(db, HYGIENE_PATH), (snap) => {
+          const data = snap.exists() ? snap.val() : {};
+          hygieneCache = Object.entries(data).map(([id, v]) => ({ id, ...v }));
+          renderHygiene();
+        });
+      }
+
+      
+      function renderHygiene() {
+        const year = Number(document.getElementById("hygieneFilter")?.value);
+
+        const scores = new Array(12).fill(null);
+
+        hygieneCache
+          .filter(x => Number(x.year) === year)
+          .forEach(x => {
+            const m = Number(x.month);
+            const score = Number(x.score);
+
+            let gradeValue = 1;
+            if (score >= 90) gradeValue = 4;
+            else if (score >= 80) gradeValue = 3;
+            else if (score >= 70) gradeValue = 2;
+
+            scores[m - 1] = gradeValue;
+          });
+
+        updateHygieneChart(hygieneChart, scores);
+
+        // Find latest & previous grades
+        let latestIdx = -1;
+        for (let i = scores.length - 1; i >= 0; i--) {
+          if (scores[i] !== null) { latestIdx = i; break; }
+        }
+        const latest = latestIdx >= 0 ? scores[latestIdx] : null;
+
+        let prevIdx = -1;
+        for (let i = latestIdx - 1; i >= 0; i--) {
+          if (scores[i] !== null) { prevIdx = i; break; }
+        }
+        const previous = prevIdx >= 0 ? scores[prevIdx] : null;
+
+        const badge = document.getElementById("kpiInspectDelta");
+        badge.classList.remove("positive", "neutral", "bad");
+
+        // Show grade letter
+        document.getElementById("kpiInspectScore").textContent =
+          latest === 4 ? "A" :
+          latest === 3 ? "B" :
+          latest === 2 ? "C" : "D";
+
+        if (previous === null) {
+          badge.textContent = "—";
+        } else if (latest > previous) {
+          badge.textContent = "Improving";
+          badge.classList.add("positive");   // green
+        } else if (latest < previous) {
+          badge.textContent = "Declining";
+          badge.classList.add("bad");        // red
+        } else {
+          badge.textContent = "Stable";
+          badge.classList.add("neutral");    // blue
+        }
+
+      }
+
+
+
+      // Boot
+      (async function boot() {
+        await seedDemoDataIfEmpty();    // ✅ fake data only (feedback/hygiene)
+        attachDemoListeners();         // ✅ read fake nodes
+      })();
+    </script>
+
+
+
+
+  </body>
+</html>

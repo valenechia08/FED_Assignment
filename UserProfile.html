@@ -181,6 +181,7 @@
     font-family:"Kodchasan", Arial;
     font-size: 14px;
     min-width: 130px;
+    color:#000;
   }
   .btn:hover{
     transform: translateY(-1px);
@@ -226,15 +227,7 @@
     gap: 16px;
   }
 
-  .tile{
-    position: relative;
-  border: 1px solid rgba(15,23,42,.08);
-  border-radius: 18px;
-  padding: 18px;
-  background: #fff;
-  transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
-  color: #000; /* ✅ make default text black */
-  }
+
   .tile:hover{
     transform: translateY(-2px);
     box-shadow: 0 16px 34px rgba(17,24,39,.10);
@@ -303,12 +296,11 @@
     background: rgba(255,140,58,.35); /* default */
   }
 
-
-  .tile:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 16px 34px rgba(17,24,39,.10);
-    border-color: rgba(255,140,58,.25);
-  }
+  /* Different colours per tile */
+  .tile.fav::before { background: rgba(255,140,58,.55); }     /* orange */
+  .tile.rewards::before { background: rgba(255,212,0,.70); } /* yellow */
+  .tile.insights::before { background: rgba(59,130,246,.45);}/* blue */
+  .tile.support::before { background: rgba(34,197,94,.35); } /* green */
 
   /* Pills (Locked/New/Available) */
   .pill {
@@ -321,12 +313,7 @@
     white-space: nowrap;
   }
 
-  /* Pill variants */
-  .pill.available{
-    background: rgba(34,197,94,.12);
-    border-color: rgba(34,197,94,.22);
-    color: #166534;
-  }
+  
 
   .pill.new{
     background: rgba(59,130,246,.12);
@@ -334,36 +321,45 @@
     color: #1d4ed8;
   }
 
-  .pill.locked{
-    background: rgba(239,68,68,.10);
-    border-color: rgba(239,68,68,.18);
-    color: #7f1d1d;
-  }
-
-  /* Disabled tiles (guest locked) */
-  .tile.disabled{
-    pointer-events: none;  /* cannot click */
-    cursor: not-allowed;
-    opacity: 1;            /* ✅ remove grey effect */
-    filter: none;          /* ✅ remove grey effect */
-    background: #f6f7f8;   /* optional: show disabled look */
-    border-color: rgba(15,23,42,.08);
-  }
-  /* stop hover animation when disabled */
-  .tile.disabled:hover{
-    transform: none;
-    box-shadow: none;
-  }
+ 
   /* Quick Access title + subtitle black */
   .profile-details .details-title h2,
   .profile-details .details-title .hint {
     color: #000;
   }
 
+  /* Favourites (orange) */
+  .tile.fav .pill {
+    background: rgba(255,140,58,.15);
+    border-color: rgba(255,140,58,.45);
+    color: #7c2d12;
+  }
+
+  /* Rewards (yellow) */
+  .tile.rewards .pill {
+    background: rgba(255,212,0,.20);
+    border-color: rgba(255,212,0,.55);
+    color: #713f12;
+  }
+
+  /* Insights (blue) */
+  .tile.insights .pill {
+    background: rgba(59,130,246,.15);
+    border-color: rgba(59,130,246,.45);
+    color: #1e3a8a;
+  }
+
+  /* Support (green) */
+  .tile.support .pill {
+    background: rgba(34,197,94,.15);
+    border-color: rgba(34,197,94,.45);
+    color: #14532d;
+  }
+
   
 
   /* Responsive layout */
-  @media (max-width: 980px){
+  @media (max-width: 992px){
     .profile-shell{
       grid-template-columns: 1fr;
     }
@@ -372,7 +368,7 @@
     }
   }
 
-  @media (max-width: 900px){
+  @media (max-width: 992px){
     main{ padding: 14px 0 44px; }
     .hero-top{ padding: 16px; }
     .hero-body, .profile-details{ padding: 16px; }
@@ -501,7 +497,7 @@
           <div id="guestProfile" style="display:none;">
             <div class="guest-note">
               You are browsing as a <strong>Guest</strong>.<br />
-              Register or log in to unlock full features like rewards, favourites, and analytics.
+              Register or log in to unlock full features like tracking order history.
             </div>
 
             <div class="actions">
@@ -523,7 +519,7 @@
           <a class="tile tile-link fav" id="tileFav" href="Customer_Favourties.html">
             <div class="t-top">
               <div class="t-title">Favourites</div>
-              <div class="pill" id="pillFav">—</div>
+              <div class="pill" id="pillFav">Go</div>
             </div>
             <p>Save your top dishes and reorder faster.</p>
           </a>
@@ -531,7 +527,7 @@
           <a class="tile tile-link rewards" id="tileRewards" href="Customer Vouchers and Rewards.html">
             <div class="t-top">
               <div class="t-title">Rewards</div>
-              <div class="pill" id="pillRewards">—</div>
+              <div class="pill" id="pillRewards">Go</div>
             </div>
             <p>Track vouchers.</p>
           </a>
@@ -562,6 +558,9 @@
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
   import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
+  /* ================================
+    Firebase configuration
+  ================================ */
   const firebaseConfig = {
     apiKey: "AIzaSyCoYoGP4NYJPHqA-kV_swajQ4LSQYdyWV4",
     authDomain: "grp3fedapp.firebaseapp.com",
@@ -575,10 +574,12 @@
   const app = initializeApp(firebaseConfig);
   const db = getDatabase(app);
 
-  const currentUserId = sessionStorage.getItem("currentUserId") || "guest";
+  const currentUserId = sessionStorage.getItem("currentUserId");
 
+  /* ================================
+    Load Profile Page
+  ================================ */
   async function loadUserProfilePage() {
-    // --- UI refs (defined ONCE here) ---
     const profileTitle = document.getElementById("profileTitle");
     const profileSubtitle = document.getElementById("profileSubtitle");
     const badge = document.getElementById("profileBadge");
@@ -587,105 +588,53 @@
     const registeredProfile = document.getElementById("registeredProfile");
     const guestProfile = document.getElementById("guestProfile");
 
-    const pillFav = document.getElementById("pillFav");
-    const pillRewards = document.getElementById("pillRewards");
-
-    const tileFav = document.getElementById("tileFav");
-    const tileRewards = document.getElementById("tileRewards");
-    const tileInsights = document.getElementById("tileInsights");
-
-    // helper: lock/unlock tiles
-    function setLocked(isLocked) {
-      if (!pillFav || !pillRewards || !tileFav || !tileRewards) return;
-
-      if (isLocked) {
-        pillFav.textContent = "Locked";
-        pillFav.className = "pill locked";
-        pillRewards.textContent = "Locked";
-        pillRewards.className = "pill locked";
-
-        tileFav.classList.add("disabled");
-        tileRewards.classList.add("disabled");
-
-        // Insights can stay clickable, or lock it too if you want:
-        // tileInsights?.classList.add("disabled");
-      } else {
-        pillFav.textContent = "Available";
-        pillFav.className = "pill available";
-        pillRewards.textContent = "Available";
-        pillRewards.className = "pill available";
-
-        tileFav.classList.remove("disabled");
-        tileRewards.classList.remove("disabled");
-        // tileInsights?.classList.remove("disabled");
-      }
+    // ---- GUEST (no user id) ----
+    if (!currentUserId) {
+      showGuest();
+      return;
     }
 
     try {
-      const userRef = ref(db, `members/${currentUserId}`);
-      const snapshot = await get(userRef);
+      const snapshot = await get(ref(db, `members/${currentUserId}`));
 
-      // --- GUEST (no record) ---
+      // ---- GUEST (no record) ----
       if (!snapshot.exists()) {
-        profileTitle.textContent = "Guest";
-        profileSubtitle.textContent = "Limited access (guest mode)";
-        badge.textContent = "Guest";
-        badge.classList.remove("registered");
-        badge.classList.add("guest");
-        avatar.textContent = "👤";
-
-        registeredProfile.style.display = "none";
-        guestProfile.style.display = "block";
-
-        setLocked(true);
+        showGuest();
         return;
       }
 
-      const user = snapshot.val() || {};
-      const userType = (user.userType || "").toLowerCase();
+      const user = snapshot.val();
+      const username = user.name || "User";
 
-      // --- REGISTERED ---
-      if (userType === "registered") {
-        const username = user.name || "User";
-        // ✅ show username at the top
-        profileTitle.textContent = username;              // e.g. "John Doe"
-        profileSubtitle.textContent = "Welcome back to ShiokLah!";
+      // ---- REGISTERED USER ----
+      profileTitle.textContent = username;
+      profileSubtitle.textContent = "Welcome back to ShiokLah!";
 
-        badge.textContent = "Registered";
-        badge.classList.remove("guest");
-        badge.classList.add("registered");
-        avatar.textContent = "😄";
+      badge.textContent = "Registered";
+      badge.classList.remove("guest");
+      badge.classList.add("registered");
 
-        registeredProfile.style.display = "block";
-        guestProfile.style.display = "none";
+      avatar.textContent = "😄";
 
-        document.getElementById("userName").textContent = username;
-        document.getElementById("userEmail").textContent = user.email || "—";
+      registeredProfile.style.display = "block";
+      guestProfile.style.display = "none";
 
-        setLocked(false);
-        return;
-      }
+      document.getElementById("userName").textContent = username;
+      document.getElementById("userEmail").textContent = user.email || "—";
 
-      // --- NOT registered (treat as guest) ---
-      profileTitle.textContent = "Guest";
-      profileSubtitle.textContent = "Limited access (guest mode)";
-      badge.textContent = "Guest";
-      badge.classList.remove("registered");
-      badge.classList.add("guest");
-      avatar.textContent = "👤";
-
-      registeredProfile.style.display = "none";
-      guestProfile.style.display = "block";
-
-      setLocked(true);
     } catch (err) {
       console.error("loadUserProfilePage error:", err);
-      // fallback: show guest UI if anything fails
+      showGuest();
+    }
+
+    function showGuest() {
       profileTitle.textContent = "Guest";
       profileSubtitle.textContent = "Limited access (guest mode)";
+
       badge.textContent = "Guest";
       badge.classList.remove("registered");
       badge.classList.add("guest");
+
       avatar.textContent = "👤";
 
       registeredProfile.style.display = "none";
@@ -693,11 +642,11 @@
     }
   }
 
-  // run after DOM is ready
-  document.addEventListener("DOMContentLoaded", () => {
-    loadUserProfilePage();
-  });
-  
+  /* ================================
+    Run after DOM ready
+  ================================ */
+  document.addEventListener("DOMContentLoaded", loadUserProfilePage);
+
 </script>
 
 
