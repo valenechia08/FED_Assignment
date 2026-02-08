@@ -309,8 +309,8 @@
       }
 
       function calcFee(mode, items) {
-        // takeaway packaging fee: $0.30 per item (qty)
-        if (mode === "selfPickup") {
+        // self-pickup packaging fee: $0.30 per item (qty)
+        if (mode === "selfpickup") {
           const qtyTotal = items.reduce(
             (s, it) => s + (Number(it.qty) || 1),
             0,
@@ -333,17 +333,22 @@
         const cartRaw = safeParse(sessionStorage.getItem("cart"), []);
         const items = normalizeItems(cartRaw);
 
-        const mode = (
-          sessionStorage.getItem("orderMode") || "selfPickup"
-        ).toLowerCase();
-        const typeLabel = mode === "dineIn" ? "DineIn" : "Dine-In";
+        const rawMode = sessionStorage.getItem("orderMode") || "Self-Pickup";
+
+        // normalize: lower + remove spaces/hyphens/underscores
+        const mode = rawMode.toLowerCase().replace(/[\s_-]/g, "");
+        console.log("rawMode:", rawMode, "normalized mode:", mode);
+        let typeLabel = "Self-Pickup";
+        if (mode === "dinein") typeLabel = "Dine-In";
+        else if (mode === "selfpickup") typeLabel = "Self-Pickup";
 
         // if you store table in sessionStorage, use it; else default
         const tableOrQueue =
           sessionStorage.getItem("tableOrQueue") || "Table 05";
 
         // realistic values
-        const etaMins = mode === "dineIn" ? 25 : 12;
+        const etaMins = mode === "selfpickup" ? 25 : 12;
+
         const ahead = Math.floor(Math.random() * 6) + 2; // 2-7
 
         const subtotal = calcSubtotal(items);
@@ -379,10 +384,14 @@
         sessionStorage.setItem("lastOrderId", orderId);
 
         // update message
-        if (mode === "selfPickup") {
-          msgEl.textContent = "Your order is ready for collection in ~ 25 mins";
-        } else {
+        // update message (Dine-In vs Self-Pickup)
+        if (mode === "dinein") {
           msgEl.innerHTML = `Please proceed to: <strong>${tableOrQueue}</strong>`;
+        } else if (mode === "selfpickup") {
+          msgEl.textContent = "Please wait for us to prepare your order";
+        } else {
+          // fallback if orderMode is missing/unknown
+          msgEl.textContent = "Please wait for us to prepare your order";
         }
 
         // enable Review button → goes to realtime tracking for THIS exact order
