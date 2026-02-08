@@ -61,7 +61,7 @@ body {
 
 /* ===== BRAND ===== */
 .navrectangle .brand {
-  padding: 18px 10px 10px;
+  padding: 18px 10px 0 0;
   display: flex;
   justify-content: center;
 }
@@ -198,124 +198,6 @@ body {
   gap: 300px;
   padding-top: 10px;
   /* flex-wrap: nowrap; */
-}
-
-
-
-.order.limit {
-  margin-left: 350px;
-  /* white-space: nowrap; */
-}
-
-.limit img {
-  margin-left: 10px;
-  width: 20px;
-  height: auto;
-}
-
-/* .page-header .order.limit {
-  margin-left:200px;
-} */
-
-/* GRID */
-.order.grid {
-  display: grid;
-  /* justify-content: center; */
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;
-  padding-top: 0.5rem;
-  flex-basis: 100%;
-}
-
-/* BOX */
-.order.box {
-  display: flex;
-  justify-content: center;
-  background: white;
-  border-radius: 10px;
-  padding: 1rem;
-  height: 450px;
-  display: flex;
-  flex-direction: column;
-}
-
-.order.limit {
-  color: black;
-}
-
-.order.box h2 {
-  margin-bottom: 0.5rem;
-}
-
-.green {
-  color: green;
-}
-
-.red {
-  color: red;
-}
-
-/* SCROLLABLE CONTENT */
-.order.scroll {
-  overflow-y: auto;
-  flex: 1;
-  padding-right: 5px;
-}
-
-/*Texts*/
-.order.scroll h3 {
-  font-size: 25px;
-}
-
-.order.scroll p,
-.order.limit,
-.timer {
-  font-size: 20px;
-}
-
-
-/* ORDER CARD */
-.order.header {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  margin: 0 0 5px 5px;
-
-}
-
-.order.card {
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 0.8rem;
-  margin-bottom: 0.8rem;
-}
-
-.actions {
-  display: flex;
-  gap: 10px;
-  margin-top: 0.5rem;
-}
-
-.actions button {
-  width: 110px;
-  height: 35px;
-  border-radius: 11px;
-}
-
-.accept {
-  background: #FF7A18;
-  color: white;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 5px;
-}
-
-.reject {
-  background: #7a2d1c;
-  color: white;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 5px;
 }
 
 /*Mobile View*/

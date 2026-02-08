@@ -19,22 +19,19 @@
     /* ====== PAGE LAYOUT ====== */
 
 .page-header {
-  background: transparent;              /* was #ffdfae */
-  box-shadow: 0 4px 12px rgba(16,24,40,.06);  /* less shadow */
-  border-radius: 16px;
-  padding: 16px 18px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 14px;
+  background: none;
+  box-shadow: none;      /* ✅ removes the box look */
+  border-radius: 0;
+  padding: 0;            /* optional: tighter layout */
 }
 
-.title-block h1 {
-  font-size: 22px;
-  margin: 0;
-  font-weight: 600;     /* was 800 */
-  color: #000000;
+.title-block h1{
+  font-size:20px;
+  margin: 10px 0 10px 10px;  /* matches card-title spacing */
+  font-weight:700;
+  color:#344054;
 }
+
 
 .cuisine-dropdown {
   display: flex;
@@ -45,7 +42,7 @@
 .cuisine-dropdown select {
   height: 40px;
   border-radius: 12px;
-  border: 1px solid #7f848d;
+  border: 1px solid #5e6268;
   padding: 0 12px;
   font-weight: 500;
 }
@@ -70,7 +67,6 @@
   margin-top: 16px;
   background: #fff;
   border-radius: 16px;
-  border: 1px solid #eceff5;
   box-shadow: 0 10px 28px rgba(16,24,40,.08);
   overflow: hidden;
 }
@@ -82,8 +78,8 @@
   align-items: center;
   padding: 14px 16px;
   background: #fff7ef;
-  border-bottom: 1px solid #eceff5;
-  color: #000;          /* was #344054 */
+  border-bottom: 1px solid #d5d8dd;
+  color: #000;
   font-weight: 700; 
 }
 
@@ -100,7 +96,7 @@
   align-items: center;
   object-fit: contain; 
   padding: 14px 16px;
-  border-bottom: 1px solid #eceff5;
+  border-bottom: 1px solid #d5d8dd;
   background: #FFDCC5;
 }
 
@@ -112,7 +108,6 @@
   height: 74px;
   border-radius: 12px;
   object-fit: cover;
-  border: 1px solid #eceff5;
 }
 
 .item-name {
@@ -144,21 +139,23 @@
   display: flex;
   justify-content: flex-end;
   gap: 10px;
+  outline: none;
 }
 
 .icon-btn {
+  padding:0;
   display: grid;
   place-items: center;
   cursor: pointer;
-  border-radius: 14px;
   overflow: hidden;
-  background-color: white;
-  border: 1px solid #eceff5;
+  background: transparent;
+  border:none;
+  box-shadow: none;
   transition: transform .08s ease, background .15s ease;
 }
-.icon-btn:hover { background: #f7f8fb; }
+.icon-btn:hover { background: #ffe6d3; }
 .icon-btn:active { transform: scale(.98); }
-.icon-btn img { width: 22px; height: 22px;object-fit: contain;display: block; }
+.icon-btn img { width: 36px; height: 36px;object-fit: contain;display: block; }
 
 /* ====== MODAL FORM ====== */
 .modal {
@@ -255,49 +252,15 @@
   cursor: pointer;
 }
 
-.confirm-btn { background: #ff8c3a; color: #fff; }
+.confirm-btn { background: #FF7A18; color: #fff; }
 .cancel-btn { background: #fff; color: #344054; border: 1px solid #e8ecf3; }
 
-/* ====== RESPONSIVE ====== */
-@media (max-width: 720px){
-  .menu-form{
-    width: min(560px, 94vw);
-    max-height: 90vh;
-  }
-  .image-picker{
-    height: 220px;
-  }
-  .page-header{
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .table-header { display: none; }
-
-  .modal-grid{
-    grid-template-columns: 1fr;
-  }
-
-  .menu-card{
-    grid-template-columns: 90px 1fr;
-    grid-template-areas:
-      "img name"
-      "img price"
-      "actions actions";
-    row-gap: 8px;
-  }
-
-  .menu-card img { grid-area: img; }
-  .menu-card .name-wrap { grid-area: name; }
-  .menu-card .price { grid-area: price; }
-  .menu-card .actions { grid-area: actions; justify-content: flex-start; }
-}
 .create-btn {
   width:36px;
   height:36px;
   border-radius:10px;
   border:none;
-  background:#ff8c3a;
+  background:#FF7A18;
   color:white;
   font-size:20px;
   font-weight:700;
@@ -391,7 +354,40 @@
   opacity: 0.55;
   filter: grayscale(0.2);
 }
+/* ====== RESPONSIVE ====== */
+@media (max-width: 720px){
+  .menu-form{
+    width: min(560px, 94vw);
+    max-height: 90vh;
+  }
+  .image-picker{
+    height: 220px;
+  }
+  .page-header{
+    flex-direction: column;
+    align-items: flex-start;
+  }
 
+  .table-header { display: none; }
+
+  .modal-grid{
+    grid-template-columns: 1fr;
+  }
+
+  .menu-card{
+    grid-template-columns: 90px 1fr;
+    grid-template-areas:
+      "img name"
+      "img price"
+      "actions actions";
+    row-gap: 8px;
+  }
+
+  .menu-card img { grid-area: img; }
+  .menu-card .name-wrap { grid-area: name; }
+  .menu-card .price { grid-area: price; }
+  .menu-card .actions { grid-area: actions; justify-content: flex-start; }
+}
 
     </style>
   </head>
@@ -551,27 +547,6 @@
   </div>
 
   <div class="menu-list" id="menuList">
-
-    <div class="menu-card">
-      <img src="images/Set Meal A Picture.jpg" alt="Set Meal A" />
-      <div class="name-wrap">
-        <div class="item-name">Set Meal A</div>
-        <div class="item-desc">Optional description appears here (nice on desktop)</div>
-      </div>
-      <div class="price">$5.00</div>
-
-      <div class="actions">
-        <button class="icon-btn" type="button" title="Edit">
-          <img src="images/edit.png" alt="Edit">
-        </button>
-        <button class="icon-btn" type="button" title="Delete">
-          <img src="images/delete.png" alt="Delete">
-        </button>
-        <button class="icon-btn" type="button" title="View">
-          <img src="images/view.png" alt="View">
-        </button>
-      </div>
-    </div>
 
   </div>
 </section>
@@ -734,7 +709,7 @@ function renderVendorMenu(menuItems) {
 
       <div class="actions">
         <button class="icon-btn edit-btn" type="button" title="Edit">
-          <img src="images/edit.png" alt="Edit">
+          <img src="images/edit-text.png" alt="Edit">
         </button>
 
         <button class="icon-btn vis-btn" type="button"

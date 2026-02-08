@@ -249,9 +249,9 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!usernameEl) return; // not on this page
 
   const username =
-  sessionStorage.getItem("loggedInUser") ||
-  localStorage.getItem("loggedInUser") ||
-  "";
+    sessionStorage.getItem("loggedInUser") ||
+    localStorage.getItem("loggedInUser") ||
+    "";
 
   usernameEl.textContent = username ? username : "Guest";
   // const username = sessionStorage.getItem("loggedInUser");
@@ -316,8 +316,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-
-
   if (
     path.endsWith("login.html") &&
     sessionStorage.getItem("currentRole") === "officer"
@@ -330,7 +328,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-  /* =========================
+/* =========================
      LOGOUT → CLEAR SESSION
   ========================= */
 document.addEventListener("DOMContentLoaded", () => {
@@ -340,8 +338,10 @@ document.addEventListener("DOMContentLoaded", () => {
   logoutLink.addEventListener("click", (e) => {
     e.preventDefault();
 
-    const wasGuest =
-      !(sessionStorage.getItem("loggedInUser") || localStorage.getItem("loggedInUser"));
+    const wasGuest = !(
+      sessionStorage.getItem("loggedInUser") ||
+      localStorage.getItem("loggedInUser")
+    );
 
     // clear login always
     sessionStorage.removeItem("loggedInUser");
@@ -356,7 +356,6 @@ document.addEventListener("DOMContentLoaded", () => {
     window.location.href = "SelectRole.html";
   });
 });
-
 
 // Verify OTP
 document.addEventListener("DOMContentLoaded", () => {
@@ -491,11 +490,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (e.key === "Enter") registerMember();
     });
   }
-
 });
-
-
-
 
 //LOGOUT & Login
 // Check login
@@ -1190,7 +1185,9 @@ document.addEventListener("DOMContentLoaded", () => {
   hamburger.addEventListener("click", () => {
     menu.classList.toggle("show");
     overlay.classList.toggle("show");
-    document.body.style.overflow = menu.classList.contains("show") ? "hidden" : "";
+    document.body.style.overflow = menu.classList.contains("show")
+      ? "hidden"
+      : "";
   });
 
   overlay.addEventListener("click", () => {
@@ -1200,12 +1197,11 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-
 /* =========================
-   ORDER MODE (pickup/takeaway)
+   ORDER MODE (self-pickup/dine-in)
 ========================= */
 function getOrderMode() {
-  return sessionStorage.getItem("orderMode") || "pickup"; // default
+  return sessionStorage.getItem("orderMode") || "selfPickup"; // default
 }
 function setOrderMode(mode) {
   sessionStorage.setItem("orderMode", mode);
@@ -1240,7 +1236,7 @@ function computeTotals(cart) {
   const mode = getOrderMode();
   const itemsCount = cart.reduce((sum, x) => sum + (x.qty || 1), 0);
 
-  const packaging = mode === "takeaway" ? itemsCount * 0.3 : 0;
+  const packaging = mode === "selfPickup" ? itemsCount * 0.3 : 0;
   const total = Math.max(0, subtotal - voucher + packaging);
 
   return { subtotal, voucher, packaging, total, mode, itemsCount };
@@ -1298,7 +1294,7 @@ function initOrderModeToggle() {
     btns.forEach((b) => b.classList.toggle("active", b.dataset.mode === mode));
 
     const note = document.getElementById("modeNote"); // optional
-    if (note) note.style.display = mode === "takeaway" ? "block" : "none";
+    if (note) note.style.display = mode === "selfPickup" ? "block" : "none";
   }
 
   const saved = getOrderMode();
@@ -1475,7 +1471,7 @@ function renderCart() {
   const packLabel = document.getElementById("packagingLabel");
   const packVal = document.getElementById("packagingVal");
   if (packLabel && packVal) {
-    const showPack = totals.mode === "takeaway";
+    const showPack = totals.mode === "selfPickup";
     packLabel.style.display = showPack ? "block" : "none";
     packVal.style.display = showPack ? "block" : "none";
     packVal.textContent = money(totals.packaging);
@@ -1548,7 +1544,7 @@ async function placeOrderAndSave() {
     username: isGuest ? "" : username,
     createdAt: Date.now(),
     items: cart,
-    orderMode: sessionStorage.getItem("orderMode") || "pickup",
+    orderMode: sessionStorage.getItem("orderMode") || "selfPickup",
     paymentMethod: sessionStorage.getItem("paymentMethod") || "visa",
     status: "Pending",
   };
@@ -1559,7 +1555,6 @@ async function placeOrderAndSave() {
   sessionStorage.setItem("lastOrderNo", orderNo);
   return orderNo;
 }
-
 
 document.addEventListener("DOMContentLoaded", () => {
   renderCart();
@@ -1604,5 +1599,3 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // sessionStorage.removeItem("cart");
 // renderCart();
-
-
