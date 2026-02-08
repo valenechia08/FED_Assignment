@@ -9,6 +9,7 @@
     />
     <link rel="stylesheet" href="Master_page_stylesheet.css" />
     <title>Payment Successful</title>
+
     <style>
       body {
         background: #fff;
@@ -27,6 +28,7 @@
         --primary-yellow: #ffd400;
         --dark-text: #111;
       }
+
       /* Center only the success section under nav */
       main.card h1,
       main.card .check-wrap,
@@ -92,9 +94,7 @@
         transform: translateY(-1px);
       }
 
-      /* =========================
-   RESPONSIVE
-   ========================= */
+      /* RESPONSIVE */
       @media (max-width: 768px) {
         main.card h1 {
           margin-top: 50px;
@@ -116,7 +116,7 @@
         }
       }
 
-      /* MOBILE */
+      /* MOBILE NAV */
       @media (max-width: 768px) {
         .menu {
           display: none;
@@ -144,6 +144,7 @@
 
   <body>
     <main class="card">
+      <!-- NAV (unchanged from your style) -->
       <nav class="navrectangle">
         <div class="container">
           <div class="top-nav">
@@ -202,8 +203,11 @@
           </div>
         </div>
       </nav>
+
       <hr class="Nav-line" />
+
       <h1>Payment Successful</h1>
+
       <!-- Green check icon (SVG) -->
       <div class="check-wrap" aria-hidden="true">
         <svg viewBox="0 0 120 120" width="100%" height="100%">
@@ -226,45 +230,184 @@
         </svg>
       </div>
 
-      <p class="msg" id="orderMsg"></p>
+      <p class="msg" id="orderMsg">Finalizing your order...</p>
 
       <div class="btns">
-        <button class="btn btn-primary" id="reviewBtn">Review order</button>
+        <button class="btn btn-primary" id="reviewBtn" disabled>
+          Review order
+        </button>
         <button class="btn btn-secondary" id="backBtn">Back to homepage</button>
       </div>
     </main>
 
-    <script>
-      sessionStorage.removeItem("cart"); // ✅ wipes all items
-      sessionStorage.removeItem("paymentMethod"); // optional cleanup
+    <!-- ✅ THIS creates a REAL Firebase order and passes the REAL orderId to Order_Tracking -->
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+      import {
+        getDatabase,
+        ref,
+        push,
+        set,
+      } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-database.js";
 
-      const cartCount = document.getElementById("cartCount");
-      if (cartCount) cartCount.textContent = "0";
-      document.getElementById("reviewBtn").addEventListener("click", () => {
-        window.location.href = "Order_Tracking.html";
-      });
+      // === your Firebase project ===
+      const firebaseConfig = {
+        apiKey: "AIzaSyCoYoGP4NYJPHqA-kV_swajQ4LSQYdyWV4",
+        authDomain: "grp3fedapp.firebaseapp.com",
+        databaseURL:
+          "https://grp3fedapp-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "grp3fedapp",
+        storageBucket: "grp3fedapp.firebasestorage.app",
+        messagingSenderId: "791146838729",
+        appId: "1:791146838729:web:446baee191feeb036e2b18",
+      };
 
-      document.getElementById("backBtn").addEventListener("click", () => {
-        window.location.href = "FED_ASG.html";
-      });
-      const mode = sessionStorage.getItem("orderMode") || "pickup";
+      const app = initializeApp(firebaseConfig);
+      const db = getDatabase(app);
+
+      const reviewBtn = document.getElementById("reviewBtn");
+      const backBtn = document.getElementById("backBtn");
       const msgEl = document.getElementById("orderMsg");
 
-      if (mode === "takeaway") {
-        msgEl.textContent = "Your order is ready for collection in ~ 25 mins";
-      } else {
-        msgEl.innerHTML = "Please proceed to: <strong>Table 05</strong>";
+      // ===== helpers =====
+      const pad2 = (n) => String(n).padStart(2, "0");
+      const nowHHMM = () => {
+        const d = new Date();
+        return `${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
+      };
+
+      function safeParse(raw, fallback) {
+        try {
+          return raw ? JSON.parse(raw) : fallback;
+        } catch {
+          return fallback;
+        }
       }
 
-      // =========================
-      // BUTTONS
-      // =========================
-      document.getElementById("reviewBtn").addEventListener("click", () => {
-        window.location.href = "Order_Tracking.html";
+      // supports many cart shapes
+      function normalizeItems(cartRaw) {
+        let arr = [];
+        if (Array.isArray(cartRaw)) arr = cartRaw;
+        else if (cartRaw && typeof cartRaw === "object")
+          arr = Object.values(cartRaw);
+
+        return (arr || [])
+          .map((it) => {
+            const name = it.name ?? it.itemName ?? it.title ?? "Item";
+            const price = Number(it.price ?? it.itemPrice ?? it.cost ?? 0);
+            const qty = Number(it.qty ?? it.quantity ?? it.count ?? 1);
+            return { name, price, qty };
+          })
+          .filter((x) => x.name && Number.isFinite(x.price));
+      }
+
+      function calcSubtotal(items) {
+        return items.reduce((sum, it) => {
+          const q = Number(it.qty) || 1;
+          return sum + (Number(it.price) || 0) * q;
+        }, 0);
+      }
+
+      function calcFee(mode, items) {
+        // takeaway packaging fee: $0.30 per item (qty)
+        if (mode === "takeaway") {
+          const qtyTotal = items.reduce(
+            (s, it) => s + (Number(it.qty) || 1),
+            0,
+          );
+          return Number((qtyTotal * 0.3).toFixed(2));
+        }
+        return 0;
+      }
+
+      function makeOrderNoFromKey(key) {
+        const tail = String(key)
+          .replace(/[^a-zA-Z0-9]/g, "")
+          .slice(-6)
+          .toUpperCase();
+        return `#SL${tail}`;
+      }
+
+      async function createFirebaseOrder() {
+        // IMPORTANT: read cart BEFORE clearing it
+        const cartRaw = safeParse(sessionStorage.getItem("cart"), []);
+        const items = normalizeItems(cartRaw);
+
+        const mode = (
+          sessionStorage.getItem("orderMode") || "pickup"
+        ).toLowerCase();
+        const typeLabel = mode === "takeaway" ? "Takeaway" : "Self-Pickup";
+
+        // if you store table in sessionStorage, use it; else default
+        const tableOrQueue =
+          sessionStorage.getItem("tableOrQueue") || "Table 05";
+
+        // realistic values
+        const etaMins = mode === "takeaway" ? 25 : 12;
+        const ahead = Math.floor(Math.random() * 6) + 2; // 2-7
+
+        const subtotal = calcSubtotal(items);
+        const fee = calcFee(mode, items);
+        const total = Number((subtotal + fee).toFixed(2));
+
+        // create push ID (this becomes -Okv... like your Firebase console)
+        const newRef = push(ref(db, "orders"));
+        const orderId = newRef.key;
+
+        const orderData = {
+          orderNo: makeOrderNoFromKey(orderId),
+          status: "received",
+          type: typeLabel,
+          tableOrQueue,
+          etaMins,
+          ahead,
+          fee,
+          total,
+          stamps: { received: nowHHMM() },
+          items: items.map((x) => ({
+            name: x.name,
+            price: Number(x.price),
+            qty: Number(x.qty) || 1,
+          })),
+          createdAt: Date.now(),
+        };
+
+        // write to DB
+        await set(newRef, orderData);
+
+        // store last order id for convenience
+        sessionStorage.setItem("lastOrderId", orderId);
+
+        // update message
+        if (mode === "takeaway") {
+          msgEl.textContent = "Your order is ready for collection in ~ 25 mins";
+        } else {
+          msgEl.innerHTML = `Please proceed to: <strong>${tableOrQueue}</strong>`;
+        }
+
+        // enable Review button → goes to realtime tracking for THIS exact order
+        reviewBtn.disabled = false;
+        reviewBtn.addEventListener("click", () => {
+          window.location.href = `Order_Tracking.html?orderId=${encodeURIComponent(orderId)}`;
+        });
+
+        // now it is safe to clear cart
+        sessionStorage.removeItem("cart");
+        sessionStorage.removeItem("paymentMethod");
+
+        // optional (doesn't affect Firebase realtime)
+        sessionStorage.setItem("orderStartTime", String(Date.now()));
+        sessionStorage.setItem("orderStatus", "received");
+      }
+
+      backBtn.addEventListener("click", () => {
+        window.location.href = "FED_ASG.html";
       });
 
-      document.getElementById("backBtn").addEventListener("click", () => {
-        window.location.href = "FED_ASG.html";
+      createFirebaseOrder().catch((err) => {
+        console.error(err);
+        msgEl.textContent =
+          "Could not create your order (Firebase error). Check DB rules / internet.";
       });
     </script>
   </body>
