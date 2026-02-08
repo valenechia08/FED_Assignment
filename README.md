@@ -68,6 +68,9 @@ Feature 1 : Add in a description for menu items
 Feature 2 : Create more menus for the other food stalls
 Feature 3 : Add in more food stalls
 
+Valene:
+1.Adding orderID and quantities of food item to Order History 
+2.Making my code more efficient so that the website can run faster
 # Technologies Used
 HTML5 – Page structure and layout
 CSS3 – Styling, layout, and responsive design
