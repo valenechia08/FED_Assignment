@@ -242,7 +242,9 @@
   gap: 10px;
   margin-top: 14px;
 }
-
+.item-desc{
+  width:100%;
+}
 .confirm-btn, .cancel-btn {
   height: 40px;
   padding: 0 14px;
@@ -355,26 +357,31 @@
   filter: grayscale(0.2);
 }
 /* ====== RESPONSIVE ====== */
-@media (max-width: 720px){
-  .menu-form{
+@media (max-width: 992px){
+  /* Mobile adjustments */
+  .menu-form {
     width: min(560px, 94vw);
     max-height: 90vh;
   }
-  .image-picker{
+.item-desc{
+  width:300px;
+}
+  .image-picker {
     height: 220px;
   }
-  .page-header{
+
+  .page-header {
     flex-direction: column;
     align-items: flex-start;
   }
 
   .table-header { display: none; }
 
-  .modal-grid{
+  .modal-grid {
     grid-template-columns: 1fr;
   }
 
-  .menu-card{
+  .menu-card {
     grid-template-columns: 90px 1fr;
     grid-template-areas:
       "img name"
@@ -387,6 +394,19 @@
   .menu-card .name-wrap { grid-area: name; }
   .menu-card .price { grid-area: price; }
   .menu-card .actions { grid-area: actions; justify-content: flex-start; }
+  
+  /* Fix modal and form elements for small screens */
+  .menu-form input,
+  .menu-form textarea {
+    padding: 10px;
+    font-size: 14px;
+  }
+  
+  /* Button for add item */
+  .add-btn {
+    width: 40px;
+    height: 40px;
+  }
 }
 
     </style>
@@ -441,9 +461,9 @@
           <small>Edit Menu</small>
         </div>
 
-        <div class="mobile-nav-item" data-link="VendorProfile.html">
+        <div class="mobile-nav-item" data-link="VendorOrders.html">
           <span>👤</span>
-          <small>Profile</small>
+          <small>Orders</small>
         </div>
       </nav>
     <!--Contents-->
