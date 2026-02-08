@@ -332,7 +332,7 @@
     .btn-ghost{
       background:#fff;
     }
-
+    
     </style>
   </head>
   <body>
@@ -556,7 +556,7 @@
 
       <div class="footer">
         <button class="btn btn-ghost" type="button" id="btnCancel">Cancel</button>
-        <button class="btn btn-primary" type="button" id="btnCreate2" disabled>Create</button>
+        <button class="btn btn-primary" type="button" id="btnCreate2" disabled>Renew</button>
       </div>
     </div>
   </div>
@@ -606,11 +606,22 @@
     return `AG-${Date.now()}-${rand}`;
   }
 
-  function getAgreementStatus(endDateStr) {
-    const end = new Date(endDateStr);
-    const now = new Date();
-    return end >= now ? "active" : "expired"; // keep consistent with filters
+  function getAgreementStatus(endDateStr, startDateStr) {
+  const end = new Date(endDateStr);
+  const start = new Date(startDateStr);
+  const now = new Date();
+
+  // Calculate the difference in months
+  const monthsDiff = (end.getFullYear() - start.getFullYear()) * 12 + end.getMonth() - start.getMonth();
+  
+  // Check if the difference is 6 months or less
+  if (monthsDiff <= 6) {
+    return "pending"; // "pending renewal" if the date difference is less than or equal to 6 months
   }
+
+  // Existing logic: "active" or "expired"
+  return end >= now ? "active" : "expired";
+}
 
   const requiredIds = ["storeLoc","storeAddr","centre","tradeType","rent","startDate","endDate"];
 
@@ -773,46 +784,48 @@
   }
 
   async function onCreate() {
-    if (!validate()) {
-      $("errBox").classList.add("show");
-      return;
-    }
-
-    const AID = isEditMode ? editAID : generateAID();
-    const endDate = $("endDate").value;
-
-    const payload = {
-      AID,
-      storeLocation: $("storeLoc").value.trim(),
-      storeAddress: $("storeAddr").value.trim(),
-      centre: $("centre").value.trim(),
-      tradeType: $("tradeType").value.trim(),
-      rent: Number(($("rent").value || "").trim()),
-      startDate: $("startDate").value,
-      endDate,
-      status: getAgreementStatus(endDate),
-      noteTitle: $("noteTitle").value.trim(),
-      notes: $("notes").value.trim(),
-    };
-
-    const targetRef = ref(db, `members/${username}/rentalAgreements/${AID}`);
-
-    if (isEditMode) {
-      await update(targetRef, {
-        ...payload,
-        updatedAt: Date.now(),
-      });
-      alert("Changes saved successfully ✅");
-    } else {
-      await set(targetRef, {
-        ...payload,
-        createdAt: Date.now(),
-      });
-      alert("Created successfully ✅");
-    }
-
-    window.location.href = "RentalAgreement.html";
+  if (!validate()) {
+    $("errBox").classList.add("show");
+    return;
   }
+
+  const AID = isEditMode ? editAID : generateAID();
+  const endDate = $("endDate").value;
+  const startDate = $("startDate").value; // Getting the start date
+
+  const payload = {
+    AID,
+    storeLocation: $("storeLoc").value.trim(),
+    storeAddress: $("storeAddr").value.trim(),
+    centre: $("centre").value.trim(),
+    tradeType: $("tradeType").value.trim(),
+    rent: Number(($("rent").value || "").trim()),
+    startDate: startDate,
+    endDate: endDate,
+    status: getAgreementStatus(endDate, startDate), // Pass both startDate and endDate
+    noteTitle: $("noteTitle").value.trim(),
+    notes: $("notes").value.trim(),
+  };
+
+  const targetRef = ref(db, `members/${username}/rentalAgreements/${AID}`);
+
+  if (isEditMode) {
+    await update(targetRef, {
+      ...payload,
+      updatedAt: Date.now(),
+    });
+    alert("Changes saved successfully ✅");
+  } else {
+    await set(targetRef, {
+      ...payload,
+      createdAt: Date.now(),
+    });
+    alert("Created successfully ✅");
+  }
+
+  window.location.href = "RentalAgreement.html";
+}
+
 
   $("btnCreate2").addEventListener("click", onCreate);
 

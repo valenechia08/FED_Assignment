@@ -232,59 +232,40 @@
     <!-- Vendor Home -->
      <section class="container vendornav">
       <nav class="navrectangle">
-        <header class="brand">ShiokLah!</header>
+        <header class="brand">
+          <img src="images/ShiokLahTransparent.png" alt="ShiokLah">
+        </header>
 
-        <ul class="navBar">
-          <li>
-            <a href="PerformanceDashboard.html" class="main toggle">
-              📊 Dashboard
-            </a>
-          </li>
+       <ul class="navBar">
+        <li class="main toggle" data-link="PerformanceDashboard.html">
+          <div class="title-row"><img src="images/statisctics.png" data-default="images/statisctics.png"
+      data-active="images/orangestatisctics.png" alt="ShiokLah">Dashboard</div>
+        </li>
+        
+        <li class="main toggle" data-link="VendorEditMenu.html">
+          <div class="title-row"><img src="images/menu (2).png" data-default="images/menu (2).png"
+      data-active="images/orangemenu.png" alt="ShiokLah">Edit Menu</div>
+      </li>
 
-          <!-- <li class="divider"></li> -->
-
-           <li>
-            <a href="VendorEditMenu.html" class="main toggle">
-              🍽️ Edit Menu
-            </a>
-          </li>
-
-          <!-- <li class="divider"></li> -->
-
-          <li class="main toggle ven-profile">
-            <span>👤 Profile</span>
-            <span class="usernameDisplay"></span>
-            <span class="arrow">v</span>
-          </li>
+        <li class="main toggle">
+          <div class="title-row"><img src="images/user.png" data-default="images/user.png"
+      data-active="images/orangeuser.png" alt="ShiokLah">Profile <span class="arrow"><img src="images/down.png" ></span></div>
           <ul class="submenu">
-            <li>
-              <button onclick="window.location.href='StallHygieneGrades.html';" class="subpoint">
-               • Stall Hygiene Grades
-              </button>
-            </li>
-            <li>
-             <button onclick="window.location.href='PerformanceDashboard.html';" class="subpoint">
-               • Performance Dashboard
-              </button>
-            </li>
-            <li>
-              <button onclick="window.location.href='RentalAgreement.html';" class="subpoint">
-              • My Rental Agreements
-              </button>
-            </li>
-
-            <li>
-            <button onclick="window.location.href='CustomerFeedBack.html';" class="subpoint">
-              • Customer Feedback
-              </button>
-            </li>
-            <li class="subpoint settings">• Settings</li>
+            <li><button class="subpoint" data-link="StallHygieneGrades.html">• Hygiene History</button></li>
+            <li><button class="subpoint" data-link="VendorOrders.html">• Orders</button></li>
+            <li><button class="subpoint" data-link="RentalAgreement.html">• Rental Agreements</button></li>
+            <li><button class="subpoint" data-link="CustomerFeedback.html">• Customer Feedback</button></li>
+            <li><button class="subpoint">• Settings</button></li>
           </ul>
+        </li>
 
-          <!-- <li class="divider"></li> -->
-          <li class="subpoint logout">Log out</li>
-        </ul>
-      </nav>
+        <li class="main toggle logout">
+          <button onclick="window.location.href='login.html'" class="subpoint"><img src="images/logout.png" data-default="images/logout.png"
+      data-active="images/orangelogout.png" alt="ShiokLah">Log Out</button>
+        </li>
+      </ul>
+
+    </nav>
 
       <nav class="mobile-nav vendornav">
         <div class="mobile-nav-item active" data-link="FED_ASG.html">
@@ -479,8 +460,8 @@
     agreements.sort((a, b) => (b.updatedAt || b.createdAt || 0) - (a.updatedAt || a.createdAt || 0));
 
     listEl.innerHTML = agreements.length
-      ? agreements.map(renderRow).join("")
-      : `<div style="padding:16px;color:#667085">No rental agreements yet.</div>`;
+  ? agreements.map(ag => render(ag)).join("")
+  : `<div style="padding:16px;color:#667085">No rental agreements yet.</div>`;
   });
   function applyFilter() {
     const v = filterEl.value;
@@ -541,6 +522,110 @@
     // convert object map -> array
     allAgreements = Object.values(data);
     applyFilter();
+  });
+
+
+  //Navigation
+    // Helper: get icon for a main item (normal or logout)
+  function getMainIcon(main) {
+    return main.querySelector(".title-row img") || main.querySelector(".subpoint img");
+  }
+
+  // Reset all active states (except optional keep param)
+  function resetAllActive(keepMain = null) {
+    document.querySelectorAll(".main").forEach(m => {
+      if (m !== keepMain) m.classList.remove("active");
+
+      const ic = getMainIcon(m);
+      if (ic && ic.dataset.default) ic.src = ic.dataset.default;
+
+      // close any submenu
+      const sm = m.querySelector(".submenu");
+      if (sm) sm.style.display = "none";
+    });
+  }
+
+  // MAIN NAV LOGIC
+  document.querySelectorAll(".main").forEach(main => {
+    const icon = getMainIcon(main);
+
+    // Hover icon change (only if not active)
+    if (icon && icon.dataset.active) {
+      main.addEventListener("mouseenter", () => {
+        if (!main.classList.contains("active")) icon.src = icon.dataset.active;
+      });
+
+      main.addEventListener("mouseleave", () => {
+        if (!main.classList.contains("active")) icon.src = icon.dataset.default;
+      });
+    }
+
+    const titleRow = main.querySelector(".title-row");
+    const submenu = main.querySelector(".submenu");
+
+    // If it has submenu (Profile), clicking title toggles open/close
+    if (submenu && titleRow) {
+      titleRow.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const isOpen = main.classList.contains("active");
+
+        // close others first
+        resetAllActive(main);
+
+        // toggle this one
+        if (isOpen) {
+          main.classList.remove("active");
+          submenu.style.display = "none";
+          if (icon && icon.dataset.default) icon.src = icon.dataset.default;
+        } else {
+          main.classList.add("active");
+          submenu.style.display = "block";
+          if (icon && icon.dataset.active) icon.src = icon.dataset.active;
+        }
+      });
+
+      return; // IMPORTANT: don't attach redirect to Profile main item
+    }
+
+    // If it's a normal clickable page (Dashboard/Edit Menu)
+    const link = main.dataset.link;
+    if (link) {
+      main.addEventListener("click", () => {
+        resetAllActive(main);
+        main.classList.add("active");
+        if (icon && icon.dataset.active) icon.src = icon.dataset.active;
+        window.location.href = link;
+      });
+    }
+  });
+
+  // SUBMENU BUTTON REDIRECTS
+  document.querySelectorAll(".subpoint[data-link]").forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      window.location.href = btn.dataset.link;
+    });
+  });
+
+  // ARROW IMAGE HOVER (only where arrow exists)
+  document.querySelectorAll(".title-row").forEach(row => {
+    const arrowImg = row.querySelector(".arrow img");
+    if (!arrowImg) return;
+
+    row.addEventListener("mouseenter", () => {
+      arrowImg.src = "images/orangedown.png";
+    });
+    row.addEventListener("mouseleave", () => {
+      arrowImg.src = "images/down.png";
+    });
+  });
+
+  // Optional: click outside to close dropdown
+  document.addEventListener("click", () => {
+    resetAllActive(null);
   });
 </script>
   </body>
