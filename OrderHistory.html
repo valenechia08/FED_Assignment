@@ -310,7 +310,7 @@
               </li>
 
               <li class="menu-item">
-                <a href="SelectRole.html">Log Out</a>
+                <a href="SelectRole.html" id="logoutLink">Log Out</a>
               </li>
             </ul>
           </div>
@@ -489,53 +489,65 @@
         function renderOrders(ordersArray) {
           if (!orderList) return;
 
-          cachedOrders = [...ordersArray];
+          // ✅ sort newest -> oldest first
+          cachedOrders = [...ordersArray].sort(
+            (a, b) => (b.createdAt || 0) - (a.createdAt || 0)
+          );
 
+          // ✅ then take the first few
           const displayOrders = showAllOrders
             ? cachedOrders
             : cachedOrders.slice(0, PREVIEW_COUNT);
 
           orderList.innerHTML = "";
 
-          displayOrders
-            .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0))
-            .forEach((order) => {
-              const li = document.createElement("li");
+          displayOrders.forEach((order) => {
+            const li = document.createElement("li");
 
-              let title = order.orderNo || "Order";
-              if (Array.isArray(order.items) && order.items.length) {
-                const first = order.items[0]?.item || order.items[0]?.name || "Order";
-                const more = order.items.length - 1;
-                title = more > 0 ? `${first} + ${more} more` : first;
-              }
+            let title = order.orderNo || "Order";
+            if (Array.isArray(order.items) && order.items.length) {
+              const first = order.items[0]?.item || order.items[0]?.name || "Order";
+              const more = order.items.length - 1;
+              title = more > 0 ? `${first} + ${more} more` : first;
+            }
 
-              const cost = computeOrderCost(order);
+            const cost = computeOrderCost(order);
 
-              li.innerHTML = `
-                <div class="order-card">
-                  <span class="dish">🍲 ${title}</span>
-                  <span class="order-right">
-                    <span class="date">${formatDate(order.createdAt)}</span>
-                    <span class="cost">$${Number(cost || 0).toFixed(2)}</span>
-                  </span>
-                </div>
-              `;
+            li.innerHTML = `
+              <div class="order-card">
+                <span class="dish">🍲 ${title}</span>
+                <span class="order-right">
+                  <span class="date">${formatDate(order.createdAt)}</span>
+                  <span class="cost">$${Number(cost || 0).toFixed(2)}</span>
+                </span>
+              </div>
+            `;
 
-              orderList.appendChild(li);
-            });
+            orderList.appendChild(li);
+          });
 
-          // Toggle button visibility & text
+          toggleBtn?.addEventListener("click", () => {
+            showAllOrders = !showAllOrders;
+            renderOrders(cachedOrders);
+          });
+
+
+          // ✅ button logic (DO NOT overwrite inner HTML)
+          const toggleText = toggleBtn?.querySelector(".see-more-text");
+
           if (cachedOrders.length > PREVIEW_COUNT) {
-            toggleBtn.style.display = "inline-block";
-            toggleBtn.textContent = showAllOrders ? "Show Less" : "See More";
+            toggleBtn.style.display = "inline-flex";
+            if (toggleText) {
+              toggleText.textContent = showAllOrders
+                ? "Show Less Orders"
+                : "See More Orders";
+            }
+            toggleBtn.classList.toggle("expanded", showAllOrders);
           } else {
             toggleBtn.style.display = "none";
+            toggleBtn.classList.remove("expanded");
           }
         }
-        toggleBtn?.addEventListener("click", () => {
-          showAllOrders = !showAllOrders;
-          renderOrders(cachedOrders);
-        });
 
 
 
@@ -544,13 +556,31 @@
           sessionStorage.getItem("loggedInUser") ||
           localStorage.getItem("loggedInUser") ||
           "";
+        let ownerKey = "";
 
-        const ownerKey = username ? username : localStorage.getItem("guestId") || "";
+        if (username) {
+          ownerKey = username; // registered
+        } else {
+          // ✅ guest orders were saved with guestId -> use the same key
+          let guestId = localStorage.getItem("guestId");
 
+          // if guestId doesn't exist (first time guest in this browser session)
+          if (!guestId) {
+            guestId = "guest_" + Math.random().toString(36).slice(2, 10);
+            localStorage.setItem("guestId", guestId);
+          }
+
+          ownerKey = guestId;
+        }
+
+        // if still no key, show guest box
         if (!ownerKey) {
           showOnly(guestBox);
           return;
         }
+
+
+
 
         const qUserOrders = query(
           ref(db, "orders"),
