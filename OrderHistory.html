@@ -120,7 +120,7 @@
         }
 
         .order-list li {
-          margin-bottom: 12px;
+          margin-bottom: 3px;
         }
 
         .order-card {
@@ -206,21 +206,32 @@
         /* Extra small devices (phones < 576px) */
         @media (max-width: 576px) {
           .order-box {
-            margin: 20px 10px;
-            padding: 25px 15px;
+            margin: 18px 12px;
+            padding: 24px 16px;
+            border-radius: 20px;
+            box-shadow: 0 10px 26px rgba(0,0,0,0.08);
           }
+
           .order-box h2 {
             font-size: 20px;
+            margin-bottom: 10px;
+            text-align: center;
           }
           .order-box p {
             font-size: 13px;
+            margin-bottom: 14px;
+            text-align: center;
           }
           .order-btn {
             padding: 10px 20px;
             font-size: 13px;
+            width: 100%;
+            max-width: 320px;
+            text-align: center;
           }
           .teaser img {
-            width: 80px;
+            width: 80px; 
+            border-radius: 14px;
           }
           .teaser p {
             font-size: 12px;
@@ -233,45 +244,6 @@
             display: flex;
           }
         }
-        /* ===================== MOBILE FIRST IMPROVEMENTS ===================== */
-
-        /* ===================== MOBILE SIZE TUNING ===================== */
-    
-
-      @media (max-width: 576px) {
-        /* Make your “No orders yet” card look nicer on mobile */
-        .order-box {
-          margin: 18px 12px;
-          padding: 24px 16px;
-          border-radius: 20px;
-          box-shadow: 0 10px 26px rgba(0,0,0,0.08);
-        }
-
-        .order-box h2 {
-          font-size: 20px;
-          margin-bottom: 10px;
-          text-align: center;
-        }
-
-        .order-box p {
-          font-size: 13px;
-          margin-bottom: 14px;
-          text-align: center;
-        }
-
-        .teaser img {
-          width: 92px;
-          border-radius: 14px;
-        }
-
-        .order-btn {
-          width: 100%;
-          max-width: 320px;
-          padding: 12px 16px;
-          font-size: 14px;
-          text-align: center;
-        }
-      }
 
       .order-box{
         display:none;
