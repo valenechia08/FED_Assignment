@@ -226,6 +226,13 @@
   /* small improvement for row click: only arrow opens drawer */
   .row { cursor: default; }
   .arrow-btn { cursor: pointer; }
+  @media (max-width: 992px) {
+  .drawer-body .drow {
+  display: flex;
+  flex-direction: column; /* Stack vertically on mobile */
+  gap: 8px;
+}
+}
     </style>
   </head>
   <body>
@@ -268,7 +275,7 @@
     </nav>
 
       <nav class="mobile-nav vendornav">
-        <div class="mobile-nav-item active" data-link="FED_ASG.html">
+        <div class="mobile-nav-item active" data-link="PerformanceDashboard.html">
           <span>🏠</span>
           <small>Home</small>
         </div>
@@ -278,9 +285,9 @@
           <small>Edit Menu</small>
         </div>
 
-        <div class="mobile-nav-item" data-link="VendorProfile.html">
+        <div class="mobile-nav-item" data-link="VendorOrders.html">
           <span>👤</span>
-          <small>Profile</small>
+          <small>Orders</small>
         </div>
       </nav>
 

@@ -178,7 +178,7 @@ body {
 /*Contents*/
 .contents {
   position: relative;
-  flex: 1;
+  width:fit-content;
   padding: 25px 30px;
   background: #fafafa;
 }
@@ -203,6 +203,11 @@ body {
 
 /*Mobile View*/
 @media (max-width: 992px) {
+  .container{
+    display:flex;
+    flex-direction: column;
+    width:100%;
+  }
   .navrectangle {
     display: none;
   }
@@ -219,7 +224,9 @@ body {
     align-items: center;
     z-index: 1000;
   }
-
+  .contents{
+    max-width:560px;
+  }
   .mobile-nav-item {
     display: flex;
     flex-direction: column;

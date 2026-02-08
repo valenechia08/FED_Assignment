@@ -122,7 +122,7 @@
       gap: 16px;
     }
 
-    /* @media (max-width: 980px){
+    @media (max-width: 980px){
       .content{ grid-template-columns: 1fr; }
     }
 
@@ -162,7 +162,7 @@
       display:grid;
       grid-template-columns: 1fr 1fr;
       gap: 14px;
-    } */
+    }
     @media (max-width: 680px){
       .grid-2{ grid-template-columns: 1fr; }
     }
@@ -332,221 +332,7 @@
     .btn-ghost{
       background:#fff;
     }
-    @media (max-width: 992px) {
-        .row {
-          display: block;
-          padding: 12px;
-        }
-
-        .row .main {
-          margin-top: 8px;
-        }
-
-        .main .sub {
-          font-size: 14px;
-          margin-top: 6px;
-        }
-
-        .top {
-          flex-direction: column;
-          gap: 6px;
-        }
-
-        .right {
-          display: flex;
-          justify-content: space-between;
-        }
-
-        .row .badge {
-          font-size: 12px;
-          padding: 5px 10px;
-        }
-
-        .row .icon {
-          font-size: 18px;
-        }
-
-        .arrow-btn {
-          font-size: 18px;
-          margin-top: 8px;
-        }
-
-        /* Make the filter and add button more accessible */
-        .header-actions select,
-        .add-btn {
-          width: 100%;
-          margin-top: 10px;
-        }
-      }
     
-
-    @media (max-width: 992px) {
-      /* centre the whole page */
-      body{
-        display: flex;
-        justify-content: center;
-      }
-      main-contents{
-        padding:0;
-      }
-      .page{
-        max-width: 100%;
-        margin: 14px auto 90px; /* space for bottom mobile nav */
-        padding: 0 4px;
-      }
-
-      .shell{
-        border-radius: 18px;
-        box-shadow: 0 14px 40px rgba(17,24,39,.08);
-      }
-
-      /* sticky topbar like an app */
-      .topbar{
-        position: sticky;
-        top: 0;
-        z-index: 20;
-        padding: 14px 14px;
-        border-bottom: 1px solid rgba(216,222,233,.9);
-        backdrop-filter: blur(10px);
-      }
-
-      .title{
-        font-size: 17px;
-        line-height: 1.15;
-      }
-      .subtitle{
-        font-size: 12px;
-      }
-
-      /* buttons: bigger tap targets */
-      .actions{ gap: 8px; }
-      .btn{
-        height: 42px;
-        padding: 0 12px;
-        border-radius: 14px;
-        font-size: 13px;
-      }
-      .btn svg{ width: 18px; height: 18px; }
-
-      /* stack: form then preview */
-      .content{
-        grid-template-columns: 1fr !important;
-        padding: 12px 12px 16px;
-        gap: 12px;
-      }
-
-      /* sections feel like cards */
-      .section{
-        border-radius: 16px;
-        overflow: hidden;
-      }
-      .section-hd{
-        padding: 12px 12px;
-      }
-      .section-hd .h{
-        font-size: 12px;
-        letter-spacing: .08em;
-      }
-      .section-hd .p{
-        font-size: 12px;
-      }
-      .section-bd{
-        padding: 12px;
-        gap: 12px;
-      }
-
-      /* single column fields (your .grid-2 already collapses at 680, but do earlier) */
-      .grid-2{
-        grid-template-columns: 1fr !important;
-        gap: 12px;
-      }
-
-      label{
-        font-size: 12px;
-        margin-bottom: 6px;
-      }
-
-      input, select, textarea{
-        border-radius: 14px;
-        padding: 12px 12px;
-        font-size: 15px;
-      }
-
-      /* editor: toolbar stays usable on mobile */
-      .toolbar{
-        gap: 8px;
-        padding: 10px;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-      }
-      .toolbar::-webkit-scrollbar{ display:none; }
-      .tool{
-        width: 38px;
-        height: 38px;
-        border-radius: 12px;
-        flex: 0 0 auto;
-      }
-
-      textarea{
-        min-height: 160px;
-        font-size: 15px;
-      }
-
-      /* preview becomes a neat "summary" section */
-      .preview{
-        gap: 12px;
-      }
-      .mini{
-        border-radius: 16px;
-        padding: 12px;
-      }
-      .mini .mini-title{
-        font-size: 12px;
-        margin-bottom: 8px;
-      }
-      .kv{
-        padding: 10px 0;
-        font-size: 13px;
-      }
-      .k{ font-size: 12px; }
-      .v{ font-size: 13px; }
-
-      /* status pill: full width on mobile */
-      .pill{
-        width: 100% !important;
-        height: 44px;
-        justify-content: center;
-        border-radius: 999px;
-      }
-
-      /* footer becomes sticky bottom action bar */
-      .footer{
-        position: sticky;
-        bottom: 0;
-        z-index: 30;
-        padding: 12px;
-        gap: 10px;
-        backdrop-filter: blur(10px);
-        box-shadow: 0 -10px 30px rgba(17,24,39,.08);
-      }
-      .footer .btn{
-        flex: 1;
-        justify-content: center;
-      }
-      .footer .btn-primary{
-        box-shadow: 0 10px 22px rgba(255,140,58,.28);
-      }
-
-      /* ensure mobile nav doesn’t overlap content */
-      .mobile-nav.vendornav{
-        position: fixed;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        z-index: 999;
-      }
-    }
     </style>
   </head>
   <body>
@@ -583,10 +369,11 @@
       data-active="images/orangelogout.png" alt="ShiokLah">Log Out</button>
         </li>
       </ul>
+
     </nav>
 
       <nav class="mobile-nav vendornav">
-        <div class="mobile-nav-item active" data-link="FED_ASG.html">
+        <div class="mobile-nav-item active" data-link="PerformanceDashboard.html">
           <span>🏠</span>
           <small>Home</small>
         </div>
@@ -596,9 +383,9 @@
           <small>Edit Menu</small>
         </div>
 
-        <div class="mobile-nav-item" data-link="VendorProfile.html">
+        <div class="mobile-nav-item" data-link="VendorOrders.html">
           <span>👤</span>
-          <small>Profile</small>
+          <small>Orders</small>
         </div>
       </nav>
 
@@ -1026,108 +813,7 @@
   updateCharCount();
   validate();
 </script>
-<script>
-  function getMainIcon(main) {
-    return main.querySelector(".title-row img") || main.querySelector(".subpoint img");
-  }
 
-  // Reset all active states (except optional keep param)
-  function resetAllActive(keepMain = null) {
-    document.querySelectorAll(".main").forEach(m => {
-      if (m !== keepMain) m.classList.remove("active");
-
-      const ic = getMainIcon(m);
-      if (ic && ic.dataset.default) ic.src = ic.dataset.default;
-
-      // close any submenu
-      const sm = m.querySelector(".submenu");
-      if (sm) sm.style.display = "none";
-    });
-  }
-
-  // MAIN NAV LOGIC
-  document.querySelectorAll(".main").forEach(main => {
-    const icon = getMainIcon(main);
-
-    // Hover icon change (only if not active)
-    if (icon && icon.dataset.active) {
-      main.addEventListener("mouseenter", () => {
-        if (!main.classList.contains("active")) icon.src = icon.dataset.active;
-      });
-
-      main.addEventListener("mouseleave", () => {
-        if (!main.classList.contains("active")) icon.src = icon.dataset.default;
-      });
-    }
-
-    const titleRow = main.querySelector(".title-row");
-    const submenu = main.querySelector(".submenu");
-
-    // If it has submenu (Profile), clicking title toggles open/close
-    if (submenu && titleRow) {
-      titleRow.addEventListener("click", (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-
-        const isOpen = main.classList.contains("active");
-
-        // close others first
-        resetAllActive(main);
-
-        // toggle this one
-        if (isOpen) {
-          main.classList.remove("active");
-          submenu.style.display = "none";
-          if (icon && icon.dataset.default) icon.src = icon.dataset.default;
-        } else {
-          main.classList.add("active");
-          submenu.style.display = "block";
-          if (icon && icon.dataset.active) icon.src = icon.dataset.active;
-        }
-      });
-
-      return; // IMPORTANT: don't attach redirect to Profile main item
-    }
-
-    // If it's a normal clickable page (Dashboard/Edit Menu)
-    const link = main.dataset.link;
-    if (link) {
-      main.addEventListener("click", () => {
-        resetAllActive(main);
-        main.classList.add("active");
-        if (icon && icon.dataset.active) icon.src = icon.dataset.active;
-        window.location.href = link;
-      });
-    }
-  });
-
-  // SUBMENU BUTTON REDIRECTS
-  document.querySelectorAll(".subpoint[data-link]").forEach(btn => {
-    btn.addEventListener("click", (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      window.location.href = btn.dataset.link;
-    });
-  });
-
-  // ARROW IMAGE HOVER (only where arrow exists)
-  document.querySelectorAll(".title-row").forEach(row => {
-    const arrowImg = row.querySelector(".arrow img");
-    if (!arrowImg) return;
-
-    row.addEventListener("mouseenter", () => {
-      arrowImg.src = "images/orangedown.png";
-    });
-    row.addEventListener("mouseleave", () => {
-      arrowImg.src = "images/down.png";
-    });
-  });
-
-  // Optional: click outside to close dropdown
-  document.addEventListener("click", () => {
-    resetAllActive(null);
-  });
-</script>
     <script type="module" src="Master_page_javascript.js"></script>
   </body>
 </html>
