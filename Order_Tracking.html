@@ -757,7 +757,229 @@
     <!-- ✅ NAV hamburger script -->
     <script type="module" src="Master_page_javascript.js"></script>
 
-    <!-- (rest of your scripts unchanged) -->
-    <!-- ... keep everything after this EXACTLY the same as what you already have ... -->
+    <!-- ✅ REALISTIC FAKE VALUES (visual demo data only) -->
+    <script>
+      // ---------- helper: format time like 11:06 PM ----------
+      function fmtTime(d) {
+        let h = d.getHours();
+        const m = String(d.getMinutes()).padStart(2, "0");
+        const ampm = h >= 12 ? "PM" : "AM";
+        h = h % 12;
+        if (h === 0) h = 12;
+        return `${h}:${m} ${ampm}`;
+      }
+
+      // ---------- demo "realistic" order snapshot ----------
+      const now = new Date();
+
+      // Pretend order was placed 12 minutes ago, started prep 6 minutes ago, ready in ~9 minutes
+      const receivedAt = new Date(now.getTime() - 12 * 60 * 1000);
+      const preparingAt = new Date(now.getTime() - 6 * 60 * 1000);
+      const etaMins = 9; // realistic remaining ETA
+      const readyEtaTime = new Date(now.getTime() + etaMins * 60 * 1000);
+
+      const demo = {
+        trackingId: "SLH-8F3K2A",
+        orderNo: "20483",
+        type: "Dine-in",
+        tableOrQueue: "Table 12",
+        customersAhead: 3,
+        etaMins: etaMins,
+        statusMsg: "Preparing your food...",
+        statusText: "Order being prepared",
+        face: "☺",
+        progressPct: 55, // midway
+        times: {
+          received: fmtTime(receivedAt),
+          preparing: fmtTime(preparingAt),
+          ready: `Est. ${fmtTime(readyEtaTime)}`,
+        },
+        steps: {
+          received: "done",
+          preparing: "active",
+          ready: "",
+        },
+      };
+
+      // ---------- apply values to the UI ----------
+      const warnBox = document.getElementById("warnBox");
+      const warnB = warnBox ? warnBox.querySelector("b") : null;
+      if (warnB) warnB.textContent = demo.trackingId;
+
+      document.getElementById("orderNo").textContent = demo.orderNo;
+      document.getElementById("orderType").textContent = demo.type;
+      document.getElementById("tableOrQueue").textContent = demo.tableOrQueue;
+
+      document.getElementById("minsText").textContent = `${demo.etaMins} mins`;
+      document.getElementById("statusMsg").textContent = demo.statusMsg;
+      document.getElementById("face").textContent = demo.face;
+
+      document.getElementById("aheadPill").textContent =
+        `There are ${demo.customersAhead} customers ahead of you.`;
+
+      document.getElementById("statusText").textContent = demo.statusText;
+
+      const progressBar = document.getElementById("progressBar");
+      if (progressBar) progressBar.style.width = `${demo.progressPct}%`;
+
+      document.getElementById("tReceived").textContent = demo.times.received;
+      document.getElementById("tPreparing").textContent = demo.times.preparing;
+      document.getElementById("tReady").textContent = demo.times.ready;
+
+      // Update step visuals
+      document.querySelectorAll(".step").forEach((stepEl) => {
+        stepEl.classList.remove("done", "active");
+        const key = stepEl.getAttribute("data-step");
+        const state = demo.steps[key] || "";
+        if (state) stepEl.classList.add(state);
+      });
+    </script>
+    <script>
+      /* =========================
+   🎮 MEMORY GAME FULL LOGIC
+   ========================= */
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const playBtn = document.getElementById("playBtn");
+        const modal = document.getElementById("gameModal");
+        const closeBtn = document.getElementById("closeGameBtn");
+        const board = document.getElementById("board");
+        const movesEl = document.getElementById("moves");
+        const matchesEl = document.getElementById("matches");
+        const newGameBtn = document.getElementById("newGameBtn");
+        const hintBtn = document.getElementById("hintBtn");
+        const readyBanner = document.getElementById("readyBanner");
+
+        let first = null;
+        let second = null;
+        let lock = false;
+        let moves = 0;
+        let matches = 0;
+
+        const emojis = ["🍜", "🍟", "🍔", "🍕", "🍣", "🥤", "🍩", "🍗"];
+        let tiles = [];
+
+        /* ======================
+     OPEN / CLOSE MODAL
+  ====================== */
+        playBtn.onclick = () => {
+          modal.classList.add("show");
+          startGame();
+        };
+
+        closeBtn.onclick = () => {
+          modal.classList.remove("show");
+        };
+
+        /* ======================
+     CREATE BOARD
+  ====================== */
+        function startGame() {
+          board.innerHTML = "";
+          moves = 0;
+          matches = 0;
+          movesEl.textContent = 0;
+          matchesEl.textContent = 0;
+
+          first = second = null;
+          lock = false;
+
+          tiles = [...emojis, ...emojis].sort(() => Math.random() - 0.5);
+
+          tiles.forEach((icon) => {
+            const tile = document.createElement("div");
+            tile.className = "tile";
+
+            tile.innerHTML = `
+        <div class="front">${icon}</div>
+        <div class="back">?</div>
+      `;
+
+            tile.dataset.icon = icon;
+
+            tile.onclick = () => flip(tile);
+
+            board.appendChild(tile);
+          });
+        }
+
+        /* ======================
+     FLIP LOGIC
+  ====================== */
+        function flip(tile) {
+          if (lock) return;
+          if (tile.classList.contains("revealed")) return;
+
+          tile.classList.add("revealed");
+
+          if (!first) {
+            first = tile;
+            return;
+          }
+
+          second = tile;
+          moves++;
+          movesEl.textContent = moves;
+
+          if (first.dataset.icon === second.dataset.icon) {
+            first.classList.add("matched");
+            second.classList.add("matched");
+
+            matches++;
+            matchesEl.textContent = matches;
+
+            first = second = null;
+
+            if (matches === emojis.length) {
+              setTimeout(() => {
+                alert("🎉 You finished the game!");
+              }, 300);
+            }
+          } else {
+            lock = true;
+            setTimeout(() => {
+              first.classList.remove("revealed");
+              second.classList.remove("revealed");
+              first = second = null;
+              lock = false;
+            }, 700);
+          }
+        }
+
+        /* ======================
+     NEW GAME
+  ====================== */
+        newGameBtn.onclick = startGame;
+
+        /* ======================
+     HINT
+  ====================== */
+        hintBtn.onclick = () => {
+          const all = [...document.querySelectorAll(".tile:not(.matched)")];
+          all.forEach((t) => t.classList.add("revealed"));
+
+          setTimeout(() => {
+            all.forEach((t) => {
+              if (!t.classList.contains("matched"))
+                t.classList.remove("revealed");
+            });
+          }, 800);
+        };
+
+        /* ======================
+     ORDER READY AUTO CLOSE
+  ====================== */
+
+        // demo: order ready after 20s
+        setTimeout(() => {
+          readyBanner.style.display = "block";
+
+          // close game immediately
+          modal.classList.remove("show");
+
+          alert("🍽 Please collect your food from the counter!");
+        }, 20000);
+      });
+    </script>
   </body>
 </html>

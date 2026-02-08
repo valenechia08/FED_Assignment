@@ -17,10 +17,10 @@ Priscilla:
 NOTE : The flow starts from SelectRole.html
 NOTE : The Javascript for all the html files except for PaymentSuccess.html(inline js) and PaymentFailed.html(inline js) are in Master_page_javascript.js
 User Account Management
-Feature 1 : Users can choose to log in as a patron, vendor or NEA officer, allowing each user to save personalised details such as order history for patrons for future use and bring each user to their respective pages without clashing. Messages will be shown for successful login, user not found and empty fields in username and password. -> Refer to SelectRole.html
-Feature 2 : Vendors can create accounts to manage stalls, menus, and orders, patrons can also create accounts or log in as a guest to order food. Messages will be shown for successful creation of account, taken username, if password does not meet the set rule (Must be 9+ chars with letters & numbers only), if passwords typed do not match, if the username is in an invalid format (can only contain letters, numbers, dot and underscore). This helps to ensure that username and password are in the correct format and that users cannot duplicate accounts sharing the same username. It also allows users to create accounts that can store their information for future use. -> Refer to register.html
+Feature 1 : Users can choose to log in as a patron, vendor or NEA officer, allowing each user to save personalised details such as order history for patrons for future use and bring each user to their respective pages without clashing. -> Refer to SelectRole.html
+Feature 2 : Vendors can create accounts to manage stalls, menus, and orders, patrons can also create accounts or log in as a guest to order food. Messages will be shown for successful creation of account, taken username, if password does not meet the set rule (Must be 9+ chars with letters & numbers only), if passwords typed do not match, if the username is in an invalid format (can only contain letters, numbers, dot and underscore) etc. This helps to ensure that username and password are in the correct format and that users cannot duplicate accounts sharing the same username. It also allows users to create accounts that can store their information for future use. -> Refer to register.html
 Feature 3 :  Vendors, patrons and NEA officers can reset their passwords if they forget it which includes a finding their account page, ensuring that only existing accounts can have their passwords reset. A message will be shown if the account cannot be found. -> Refer to FindAccount.html
-Feature 4: A security verification page after successfully finding the account to ensure that only the respective users can log into their accounts (A code will be sent to their email but for demonstration purpose, an alert is shown instead with the random generated code). There is also a resend code button in case the user did not receive the first code. A message will be shown if the code is incorrect. This helps to verify that only the actual user can change their password and also allows for users to be able to change their password even if they faced issues in receiving the code the first few times. -> Refer to ConfirmAccount.html
+Feature 4: A security verification page after successfully finding the account to ensure that only the respective users can log into their accounts (A code will be sent to their email but for demonstration purposes, an alert is shown instead with the random generated code). There is also a resend code button in case the user did not receive the first code. A message will be shown if the code is incorrect. This helps to verify that only the actual user can change their password and also allows for users to be able to change their password even if they faced issues in receiving the code the first few times. -> Refer to ConfirmAccount.html
 Feature 5: A password reset page at the end. Messages will be shown if the passwords typed in do not match, password field is empty or the password does not meet the set rule (Must be 9+ chars with letters & numbers only). A message will also be shown if password reset was successful. This allows users to have more secure passwords and checks that they know what their password is. It also helps to inform users that their password was reset successfully and they can proceed. -> Refer to ChangePassword.html
 Ordering & Checkout
 Feature 1 : Patrons can view the stalls in the homepage, giving patrons a variety of cuisines and food items to choose from. -> Refer to FED_ASG.html
@@ -28,9 +28,10 @@ Feature 2 : Patrons can filter stalls based on cuisine (Note: Click on the “Ch
 Feature 3 : Patrons can search for stalls using the search bar, allowing for easier navigation of a particular stall. -> Refer to FED_ASG.html
 Feature 4 : Patrons can click on stalls and view their menus. (Note: Only “Banana Leaf Nasi Lemak” & “Boon Lay Fried Carrot Cake & Kway Teow Mee” have menu items), allowing patrons to pick which item they would like to order. (Note: You must be on FED_ASG.html and select a stall from there in order for the menus to load. If you directly open FoodStalls.html, the menus will not load). -> Menus are in FoodStalls.html (Note: FoodStalls.html back button (looks like an arrow) will only work if you were on FED_ASG.html before clicking on the food stall and being redirected to FoodStalls.html).
 Feature 5 : Patrons can add items into their cart and remove them, allowing for more customisation of what items they want to order and in what quantity. -> Refer to FoodStalls.html and OrderSummary.html
-Feature 6 : Patrons can checkout, choose their preferred order type (i.e. self-pickup or dine-in) -> (Refer to OrderSummary.html) and payment success or failure will be displayed. -> (Refer to PaymentSucess.html and PaymentFailed.html) This allows patrons tailor the order type to their own needs and also shows them whether their payment went through or not. (Note: The "Add a card" payment method oes not actually let you add a card and if it is selected, you will be redirected to the payment failed page. The remaining payment methods will all bring you to the payment success page.) (Note: OrderSummary back button (looks like an arrow) will only work if you were on FoodStalls.html before clicking on the cart and being redirected to OrderSummary.html).
+Feature 6 : Patrons can checkout, choose their preferred order type (i.e. self-pickup or dine-in) -> (Refer to OrderSummary.html) and payment success or failure will be displayed. -> (Refer to PaymentSucess.html and PaymentFailed.html) This allows patrons tailor the order type to their own needs and also shows them whether their payment went through or not. (Note: The "Add a card" payment method does not actually let you add a card and if it is selected, you will be redirected to the payment failed page. The remaining payment methods will all bring you to the payment success page.) (Note: OrderSummary back button (looks like an arrow) will only work if you were on FoodStalls.html before clicking on the cart and being redirected to OrderSummary.html).
 Feature 8 : Mobile and desktop view completed for all features.
 
+Valene:
 1. Order History
 Displays users’ past orders retrieved from Firebase Realtime Database
 Shows ordered items, quantities, and timestamps
@@ -61,11 +62,62 @@ Includes a hamburger menu for mobile devices
 Navigation adapts between desktop and mobile layouts
 Ensures usability across devices
 
+
+Ethan:
+Regulatory & Compliance:
+Inspection scheduling and logging by NEA officers
+Record inspection scores, remarks, and hygiene grades
+Display historical hygiene grades for transparency.
+
 # Features to implement in the future
 Priscilla:
 Feature 1 : Add in a description for menu items
 Feature 2 : Create more menus for the other food stalls
 Feature 3 : Add in more food stalls
+
+Aadya:
+Feature 1 : Add a "Go to Favourites" button in my cmenu page so when users like a menu item, they would be able to just directly go to the favourites page without exiting the menu page
+Feature 2 : In each of the menu items in the favourites page, add a "+" and "-" which is linked to cart so if they do want to add their liked item to cart they won't have to go back to the menu to add it. 
+
+
+
+
+<!-- Aadya: 
+Feature 1:	Loyalty programs or discounts  
+1) When Checking out,(OrderSummary.html-> NOT my HTML but I have one part in the order summary page that links to my feature) users are able to see a "Go to Rewards" link under the Subtotal. Once they click that, it would lead them to their Vouchers and Rewards page(Customers Vouchers and Rewards.html)
+2) Users are able to put it valid promo codes. Invalid promo codes would leave an error message(-- Type SAVE45 to see error message). Valid promo codes would immediately lead the user to the check-out page with the some amount deducted according to the promo code(-- Type HELLO123 to see). Once a promo code has been used, users are unable to use it again.
+3) Available vouchers are displayed below the promo code section. Users can use the voucher anytime while they are checking out. If they are able to use the voucher, it would directly lead them to the order summary page again(OrderSummary.html-> NOT my HTML but my fetaure is linked to this HTML), and deduct the total amount according to the voucher. If voucher has a minimum spending criteria and the user does not meet the criteria, an error message will be shown and user won't be able to use the voucher.
+4) Spin the wheel feature. Mainly for users entertainment. Users are only allowed to spin the wheel every 48 hours. When they land on a voucher it would be automatically added in the list of vouchers.
+
+Feature 2: Real-time order tracking
+1) When users have paid for their order, they would be able to see 2 options.(Review Order and Back to Homepage). When users click the Review Order option, they would be directed to their status of order summary(Order_Tracking.html)(the ETA of their food). 
+2) There is also a match the cards game they can play at the bottom while waiting for thier food for their own entertainment 
+
+Feature 3: Feedback submission (ratings + comments) 
+Once users are done with their meals, they are able to give a feedback to the stalls(Customer_ReviewPage.html) and enter their feedback then just submit it. Once they are doen submitting, they would be redirected to the homepage(FED.HTML) again.
+
+
+Feature 4: Likes for individual menu items
+1) When users are in the midst of deciding what they want to order and are indecisive about it, they can easily like the menu items by clicking on the red heart at the bottom of each item. 
+2) The liked items would then be added into the favourites page under Profile in the navigation bar (Customer_Favourties.html)
+
+Feature 5: Notification for promotions
+When customers get new vouchers, they will get a notification pop up at the top of their screen, and the voucher would be added into the list of their vouchers
+
+Feature 6: Complaint submission linked to stalls.
+If users are very dissatisfied with their meals or the environment and service, they can put in a complaint by going into the (Feedback page), there is a link to a complaint form. When users click on the link they would be directed to the complaint form(CustomerComplaintForm.html) where they can put in their details and their complaint. When they submit, they would be directed to the homepage again.
+ 
+-->
+#Features to implement in the future:
+Aadya:
+Feature 1 : Add a "Go to Favourites" button in my cmenu page so when users like a menu item, they would be able to just directly go to the favourites page without exiting the menu page
+Feature 2 : In each of the menu items in the favourites page, add a "+" and "-" which is linked to cart so if they do want to add their liked item to cart they won't have to go back to the menu to add it. 
+
+Valene:
+1.Adding orderID and quantities of food item to Order History 
+2.Making my code more efficient so that the website can run faster\
+
+
 
 # Technologies Used
 HTML5 – Page structure and layout
@@ -91,6 +143,7 @@ Tested responsive layout on desktop and mobile screen sizes
 Tested navigation menu and hamburger menu functionality
 
 Deployment
+GitHub Pages link: https://valenechia08.github.io/FED_Assignment/
 GitHub link: https://github.com/valenechia08/FED_Assignment.git
 Deployment Process:
 Create new Repository, go to Repository Settings then Pages. Select main branch and root folder. Save and access the generated GitHub Pages link.
