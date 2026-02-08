@@ -62,28 +62,14 @@ Includes a hamburger menu for mobile devices
 Navigation adapts between desktop and mobile layouts
 Ensures usability across devices
 
-
 Ethan:
 Regulatory & Compliance:
 Inspection scheduling and logging by NEA officers
 Record inspection scores, remarks, and hygiene grades
 Display historical hygiene grades for transparency.
 
-# Features to implement in the future
-Priscilla:
-Feature 1 : Add in a description for menu items
-Feature 2 : Create more menus for the other food stalls
-Feature 3 : Add in more food stalls
-
 Aadya:
-Feature 1 : Add a "Go to Favourites" button in my cmenu page so when users like a menu item, they would be able to just directly go to the favourites page without exiting the menu page
-Feature 2 : In each of the menu items in the favourites page, add a "+" and "-" which is linked to cart so if they do want to add their liked item to cart they won't have to go back to the menu to add it. 
-
-
-
-
-<!-- Aadya: 
-Feature 1:	Loyalty programs or discounts  
+Feature 1: Loyalty programs or discounts
 1) When Checking out,(OrderSummary.html-> NOT my HTML but I have one part in the order summary page that links to my feature) users are able to see a "Go to Rewards" link under the Subtotal. Once they click that, it would lead them to their Vouchers and Rewards page(Customers Vouchers and Rewards.html)
 2) Users are able to put it valid promo codes. Invalid promo codes would leave an error message(-- Type SAVE45 to see error message). Valid promo codes would immediately lead the user to the check-out page with the some amount deducted according to the promo code(-- Type HELLO123 to see). Once a promo code has been used, users are unable to use it again.
 3) Available vouchers are displayed below the promo code section. Users can use the voucher anytime while they are checking out. If they are able to use the voucher, it would directly lead them to the order summary page again(OrderSummary.html-> NOT my HTML but my fetaure is linked to this HTML), and deduct the total amount according to the voucher. If voucher has a minimum spending criteria and the user does not meet the criteria, an error message will be shown and user won't be able to use the voucher.
@@ -106,16 +92,67 @@ When customers get new vouchers, they will get a notification pop up at the top 
 
 Feature 6: Complaint submission linked to stalls.
 If users are very dissatisfied with their meals or the environment and service, they can put in a complaint by going into the (Feedback page), there is a link to a complaint form. When users click on the link they would be directed to the complaint form(CustomerComplaintForm.html) where they can put in their details and their complaint. When they submit, they would be directed to the homepage again.
- 
--->
-#Features to implement in the future:
+
+Si Ying:
+Edit menu item details, such as the dish’s name, price, estimated waiting time, update menu item’s image etc.
+Delete menu item, customer view will then not be able to see the menu item.
+
+Choose whether menu item will appear in customer’s menu page, for events such as promotions that may require the menu item again. This saves the hassle of recreating a repeated promotion menu item by clicking on the visibility logo. When the vendor toggles the btn, the menu item will habe a lower opacity and will be put to the bottom of the menu item
+Choose whether menu item will appear in customer’s menu page, for events such as promotions that may require the menu item again. This saves the hassle of recreating a repeated promotion menu item
+Edit menu item details, such as the dish’s name, price, estimated waiting time, update menu item’s image etc.
+Delete menu item
+
+Stall performance dashboard.
+Displays number of orders etc, which can be filtered with the dropdown menu
+
+Rental agreement tracking (renewals, changes)
+Vendor can see the rental agreement end date, if the rental agreement is expiring in 6 months or lesser, the status becomes pending renewal. If the end date has passed, the status becomes expired. Otherwise, active. For renewal of rental agreements, the vendor have to key in addr, centre name, comments etc in order to renew rental agreement. 
+
+Digital queue management
+Description:
+
+Choose whether to accept or reject incoming orders, then update whether order is completed or cancel order
+When new orders are sent, the vendor will see a notification of either “#Order00003 is ready for confirmation!”, but only in that page
+
+Feedback
+Description:
+Shows customer’s feedbacks such as complaints to vendor
+Displays number of customers, % of menu items sold and average revenue of the stall owner depending on the time frame selected.
+Time frame is chosen from using the dropdown menu beside the title of the charts shown
+Varying tips to boost sales are recommended depending on the dataset
+
+Digital queue management:
+Choose whether to accept or reject incoming orders, then update whether order is completed or cancel order
+
+Feedback
+Description:
+Shows customer’s feedbacks such as complaints to vendor
+Displays number of customers, % of menu items sold and average revenue of the stall owner depending on the time frame selected.
+Time frame is chosen from using the dropdown menu beside the title of the charts shown
+Varying tips to boost sales are recommended depending on the dataset
+
+Digital queue management:
+Choose whether to accept or reject incoming orders, then update whether order is completed or cancel order
+Real-time notifications (only in that page) for vendors (new orders).
+
+# Features to implement in the future
+Priscilla:
+Feature 1 : Add in a description for menu items.
+Feature 2 : Create more menus for the other food stalls.
+Feature 3 : Add in more food stalls.
+
 Aadya:
-Feature 1 : Add a "Go to Favourites" button in my cmenu page so when users like a menu item, they would be able to just directly go to the favourites page without exiting the menu page
-Feature 2 : In each of the menu items in the favourites page, add a "+" and "-" which is linked to cart so if they do want to add their liked item to cart they won't have to go back to the menu to add it. 
+Feature 1 : Add a "Go to Favourites" button in my cmenu page so when users like a menu item, they would be able to just directly go to the favourites page without exiting the menu page.
+Feature 2 : In each of the menu items in the favourites page, add a "+" and "-" which is linked to cart so if they do want to add their liked item to cart they won't have to go back to the menu to add it.
 
 Valene:
-1.Adding orderID and quantities of food item to Order History 
-2.Making my code more efficient so that the website can run faster\
+1.Adding orderID and quantities of food item to Order History.
+2.Making my code more efficient so that the website can run faster.
+
+Si Ying:
+- Order Limit for Vendors. Vendors can set a limit to orders, and when the order limit has reached, the stall becomes unclickable, and a message will display that the stall has reached max orders
+- Feedback, Shows customer’s feedbacks such as complaints to vendor
+- Notification for when new feedbacks or orders are sent, the vendor will see a notification of either “#Order00003 is ready for confirmation!” or “You have received a feedback!” depending on the scenarios
 
 
 
@@ -134,15 +171,15 @@ CSS
 Javascript
 JSON
 
-#
-Testing
+
+# Testing
 Verified all page’s load correctly without runtime errors
 Tested Firebase real-time data retrieval and updates
 Verified charts update correctly when filters change
 Tested responsive layout on desktop and mobile screen sizes
 Tested navigation menu and hamburger menu functionality
 
-Deployment
+# Deployment
 GitHub Pages link: https://valenechia08.github.io/FED_Assignment/
 GitHub link: https://github.com/valenechia08/FED_Assignment.git
 Deployment Process:
