@@ -259,6 +259,39 @@ body {
   color: #fff;
 }
 
+.fav-btn {
+  position: fixed;
+  bottom: 70px;
+  /* sits above cart pill */
+  right: 16px;
+  padding: 10px 16px;
+  border-radius: 25px;
+  border: none;
+  background: #e47329;
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 12px 28px rgba(255, 140, 58, 0.5);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.fav-btn:hover {
+  transform: translateY(-4px);
+}
+
+.cart-pill {
+  position: fixed;
+  bottom: 18px;
+  right: 18px;
+  padding: 14px 20px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ff8c3a, #ffb703);
+  color: white;
+  font-weight: 600;
+  border: none;
+
+}
+
 /* =========================
    MOBILE TWEAKS
 ========================= */
@@ -314,75 +347,75 @@ body {
   }
 }
 
-    /* ======================================================
+/* ======================================================
      ❤️ INSTAGRAM STYLE HEART (ADD-ON ONLY, NO DELETES)
      This overrides your earlier .heart-btn safely
   ====================================================== */
-  
-    /* layout spacing so heart + plus sit nicely */
-    .menu-actions {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      gap: 10px;
-    }
-  
-    /* override old heart button */
-    .menu-actions .heart-btn {
-      width: 38px;
-      height: 38px;
-      border-radius: 999px;
-      background: #fff;
-      border: none;
-      cursor: pointer;
-      display: grid;
-      place-items: center;
-  
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
-  
-      transition: transform 0.15s ease,
-        background 0.15s ease,
-        box-shadow 0.15s ease;
-  
-      /* override old styles */
-      padding: 0;
-    }
-  
-    /* hover */
-    .menu-actions .heart-btn:hover {
-      background: #f5f5f5;
-      transform: translateY(-1px);
-    }
-  
-    /* click bounce */
-    .menu-actions .heart-btn:active {
-      transform: scale(0.9);
-    }
-  
-    /* heart icon */
-    .menu-actions .heart-icon {
-      font-size: 20px;
-  
-      /* outline look */
-      color: transparent;
-      -webkit-text-stroke: 2px #222;
-  
-      transition: transform 0.15s ease,
-        color 0.15s ease,
-        -webkit-text-stroke 0.15s ease;
-    }
-  
-    /* ❤️ ACTIVE (LIKED) */
-    .menu-actions .heart-btn.active .heart-icon {
-      color: #ff2d55;
-      /* Instagram red */
-      -webkit-text-stroke: 0;
-      transform: scale(1.2);
-    }
-  
-    /* disabled (unavailable items) */
-    .menu-actions .heart-btn:disabled {
-      opacity: 0.35;
-      cursor: not-allowed;
-      box-shadow: none;
-    }
+
+/* layout spacing so heart + plus sit nicely */
+.menu-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+/* override old heart button */
+.menu-actions .heart-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  background: #fff;
+  border: none;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+
+  transition: transform 0.15s ease,
+    background 0.15s ease,
+    box-shadow 0.15s ease;
+
+  /* override old styles */
+  padding: 0;
+}
+
+/* hover */
+.menu-actions .heart-btn:hover {
+  background: #f5f5f5;
+  transform: translateY(-1px);
+}
+
+/* click bounce */
+.menu-actions .heart-btn:active {
+  transform: scale(0.9);
+}
+
+/* heart icon */
+.menu-actions .heart-icon {
+  font-size: 20px;
+
+  /* outline look */
+  color: transparent;
+  -webkit-text-stroke: 2px #222;
+
+  transition: transform 0.15s ease,
+    color 0.15s ease,
+    -webkit-text-stroke 0.15s ease;
+}
+
+/* ❤️ ACTIVE (LIKED) */
+.menu-actions .heart-btn.active .heart-icon {
+  color: #ff2d55;
+  /* Instagram red */
+  -webkit-text-stroke: 0;
+  transform: scale(1.2);
+}
+
+/* disabled (unavailable items) */
+.menu-actions .heart-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  box-shadow: none;
+}
