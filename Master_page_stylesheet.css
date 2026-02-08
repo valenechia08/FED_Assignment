@@ -350,6 +350,13 @@ body {
    MOBILE
 ========================= */
 @media (max-width: 768px) {
+  .nav-overlay {
+    position: fixed;
+    inset: 0;
+    display: none;
+  }
+  .nav-overlay.show { display: block; }
+
   .hello-text{
     margin-top: 8px;
     margin-left: 13px;

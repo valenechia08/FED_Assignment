@@ -155,12 +155,13 @@
     display:flex;
     gap: 12px;
     flex-wrap: wrap;
+    
   }
   .actions a{
     text-decoration:none;
     display:inline-flex;
   }
-
+  
   .btn{
     appearance:none;
     border: 1px solid rgba(15,23,42,.18);
@@ -446,6 +447,7 @@
       </div>
     </div>
   </nav>
+  <div class="nav-overlay" id="navOverlay"></div>
   <hr class="Nav-line" />
 
   <main>
@@ -549,6 +551,7 @@
 
   </main>
 
+<script type="module" src="Master_page_javascript.js"></script>
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
   import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
@@ -687,43 +690,8 @@
   // run after DOM is ready
   document.addEventListener("DOMContentLoaded", () => {
     loadUserProfilePage();
-
-    // NAV dropdowns
-    document.querySelectorAll(".menu-item").forEach((item) => {
-      const link = item.querySelector("a");
-      const dropdown = item.querySelector(".dropdown");
-      if (!dropdown) return;
-
-      link.addEventListener("click", (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        document.querySelectorAll(".menu-item").forEach((i) => {
-          if (i !== item) i.classList.remove("active");
-        });
-        item.classList.toggle("active");
-      });
-    });
-
-    document.addEventListener("click", () => {
-      document.querySelectorAll(".menu-item").forEach((i) => i.classList.remove("active"));
-    });
-
-    const hamburger = document.getElementById("hamburger");
-    const menu = document.getElementById("menu");
-    if (hamburger && menu) {
-      hamburger.addEventListener("click", () => menu.classList.toggle("show"));
-      hamburger.addEventListener("keydown", (e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          menu.classList.toggle("show");
-        }
-      });
-    }
-
-    // logout clears session
-    const logoutBtn = document.getElementById("logoutBtn");
-    logoutBtn?.addEventListener("click", () => sessionStorage.clear());
   });
+  
 </script>
 
 
