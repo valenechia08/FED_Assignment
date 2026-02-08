@@ -31,32 +31,33 @@ Feature 5 : Patrons can add items into their cart and remove them, allowing for 
 Feature 6 : Patrons can checkout, choose their preferred order type (i.e. self-pickup or dine-in) -> (Refer to OrderSummary.html) and payment success or failure will be displayed. -> (Refer to PaymentSucess.html and PaymentFailed.html) This allows patrons tailor the order type to their own needs and also shows them whether their payment went through or not. (Note: The "Add a card" payment method does not actually let you add a card and if it is selected, you will be redirected to the payment failed page. The remaining payment methods will all bring you to the payment success page.) (Note: OrderSummary back button (looks like an arrow) will only work if you were on FoodStalls.html before clicking on the cart and being redirected to OrderSummary.html).
 Feature 8 : Mobile and desktop view completed for all features.
 
+Valene:
 1. Order History
 Displays users’ past orders retrieved from Firebase Realtime Database
 Shows ordered items, quantities, and timestamps
 Updates Orders automatically when user orders
 
-1. Analytics & Reporting
+2. Analytics & Reporting
 Sales Analytics
 Uses real-time order data from Firebase
 Displays top-selling items
 Supports time filters (this month, last 3 months, last 6 months)
 
-1. Customer Feedback Analysis
+3. Customer Feedback Analysis
 Uses simulated feedback data stored in Firebase
 Visualised using a doughnut chart (positive, neutral, negative)
 
-1. Hygiene & Inspection Monitoring
+4. Hygiene & Inspection Monitoring
 Displays hygiene grades (A–D) over time
 Visualised using a line chart
 Filterable by year
 
-1. User Profile
+5. User Profile
 Profile for registered user and guest user
 View personal information of registered users
 Act as a central navigation hub for features (favourites, analytics, rewards, log in and register)
 
-1. Responsive & Mobile Navigation
+6. Responsive & Mobile Navigation
 Includes a hamburger menu for mobile devices
 Navigation adapts between desktop and mobile layouts
 Ensures usability across devices
