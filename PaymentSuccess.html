@@ -338,13 +338,18 @@
         // normalize: lower + remove spaces/hyphens/underscores
         const mode = rawMode.toLowerCase().replace(/[\s_-]/g, "");
         console.log("rawMode:", rawMode, "normalized mode:", mode);
+        let tableOrQueue = null;
         let typeLabel = "Self-Pickup";
-        if (mode === "dinein") typeLabel = "Dine-In";
-        else if (mode === "selfpickup") typeLabel = "Self-Pickup";
+        if (mode === "dinein") {
+          typeLabel = "Dine-In";
+          tableOrQueue = sessionStorage.getItem("tableOrQueue") || "Table 05";
+        } else if (mode === "selfpickup") {
+          typeLabel = "Self-Pickup";
+        }
 
         // if you store table in sessionStorage, use it; else default
-        const tableOrQueue =
-          sessionStorage.getItem("tableOrQueue") || "Table 05";
+        // const tableOrQueue =
+        //   sessionStorage.getItem("tableOrQueue") || "Table 05";
 
         // realistic values
         const etaMins = mode === "selfpickup" ? 25 : 12;
