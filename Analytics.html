@@ -20,8 +20,7 @@
       }
 
       /* Make shared container never exceed screen */
-      .navrectangle .container,
-      .dash-wrap {
+      .navrectangle .container {
         width: 100%;
         max-width: 1200px;
         margin: 0 auto;
@@ -32,9 +31,7 @@
         padding: 0 16px;
       }
 
-      .dash-wrap {
-        padding: 22px 16px 40px;
-      }
+    
 
       /* Important for flex children to shrink instead of pushing width */
       .top-nav,
@@ -55,11 +52,17 @@
         --radius: 16px;
         --text: #0f172a;
         --muted: #64748b;
+
+        --kpi-info: #2563eb;
+        --kpi-success: #16a34a;
+        --kpi-warning: #d97706;
+        --kpi-neutral: #64748b;
+
       }
       
 
       .dash-wrap {
-        width: 90%;
+        width: 100%;
         max-width: 1200px;
         margin: 0 auto;
         padding: 22px 0 40px;
@@ -111,24 +114,8 @@
         color: var(--muted);
         font-weight: 600;
       }
-      .dash-wrap .kpi-sub.info {
-        color: var(--kpi-info);
-      }
-      /* positive performance */
-      .dash-wrap .kpi-sub.success {
-        color: var(--kpi-success);
-      }
-
-      /* warning / needs attention */
-      .dash-wrap .kpi-sub.warning {
-        color: var(--kpi-warning);
-      }
-
-      /* neutral / descriptive */
-      .dash-wrap .kpi-sub.neutral {
-        color: var(--kpi-neutral);
-      }
-            .dash-wrap .kpi-badge {
+      
+      .dash-wrap .kpi-badge {
         flex: 0 0 auto;
         padding: 8px 10px;
         border-radius: 12px;
@@ -140,17 +127,27 @@
         white-space: nowrap;
       }
 
-      .dash-wrap .kpi-badge.up {
+      /*  Positive = Green */
+      .kpi-badge.positive {
         background: rgba(34, 197, 94, 0.12);
-        border-color: rgba(34, 197, 94, 0.25);
-        color: #166534;
+        border-color: rgba(34, 197, 94, 0.35);
+        color: #14532d;
       }
 
-      .dash-wrap .kpi-badge.down {
+      /*  Neutral = Blue */
+      .kpi-badge.neutral {
+        background: rgba(59, 130, 246, 0.12);
+        border-color: rgba(59, 130, 246, 0.35);
+        color: #1e40af;
+      }
+
+      /*  Bad = Red */
+      .kpi-badge.bad {
         background: rgba(239, 68, 68, 0.12);
-        border-color: rgba(239, 68, 68, 0.25);
+        border-color: rgba(239, 68, 68, 0.35);
         color: #7f1d1d;
       }
+
 
       .dash-wrap .grid {
         display: grid;
@@ -365,7 +362,7 @@
             <div class="kpi-value" id="kpiTopItem">—</div>
             <div class="kpi-sub" id="kpiTopItemSub">Share: —</div>
           </div>
-          <div class="kpi-badge" id="kpiTopItemBadge">Hot</div>
+          <div class="kpi-badge neutral" id="kpiTopItemBadge">Hot</div>
         </div>
 
         <div class="kpi-card">
@@ -374,7 +371,7 @@
             <div class="kpi-value" id="kpiAvgRating">—</div>
             <div class="kpi-sub" id="kpiRatingSub">From feedback mix</div>
           </div>
-          <div class="kpi-badge" id="kpiRatingBadge">Stable</div>
+          <div class="kpi-badge" id="kpiRatingBadge">—</div>
         </div>
 
         <div class="kpi-card">
@@ -477,10 +474,9 @@
         ref,
         onValue,
         get,
-        set,
         update
       } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
-
+      
       import {
         createSalesChart,
         updateSalesChart,
@@ -516,6 +512,7 @@
       // ================================
       // Helpers
       // ================================
+
       const dayMs = 24 * 60 * 60 * 1000;
       const sum = (arr) => arr.reduce((a, b) => a + b, 0);
       const avg = (arr) => (arr.length ? sum(arr) / arr.length : 0);
@@ -713,37 +710,60 @@
         });
       }
 
+      
       function renderFeedback() {
         const filter = document.getElementById("feedbackFilter")?.value || "month";
         const now = Date.now();
         const start = windowStartMs(filter);
+        const startPrev = previousWindowStartMs(filter);
 
-        const scoped = inRange(feedbackCache, start, now);
-        const ratings = scoped.map(x => Number(x.rating || 0)).filter(n => n > 0);
+        // ✅ 1 pass split into current + previous
+        const current = [];
+        const prev = [];
+
+        for (const x of feedbackCache) {
+          const t = Number(x.createdAt || 0);
+          if (t >= start && t < now) current.push(x);
+          else if (t >= startPrev && t < start) prev.push(x);
+        }
+
+        const ratings = current.map(x => Number(x.rating || 0)).filter(n => n > 0);
+        const prevRatings = prev.map(x => Number(x.rating || 0)).filter(n => n > 0);
 
         let pos = 0, neu = 0, neg = 0;
-        scoped.forEach(x => {
+        for (const x of current) {
           const r = Number(x.rating || 0);
           if (r >= 4) pos++;
           else if (r === 3) neu++;
           else if (r >= 1) neg++;
-        });
+        }
 
-        // update donut chart
         updateFeedbackChart(feedbackChart, pos, neu, neg);
 
-        // KPI + insight text
         const avgRating = avg(ratings);
         document.getElementById("kpiAvgRating").textContent = ratings.length ? avgRating.toFixed(1) : "—";
         document.getElementById("feedbackInsightText").textContent = "Responses in this period:";
-        document.getElementById("feedbackInsightStrong").textContent = `${scoped.length}`;
+        document.getElementById("feedbackInsightStrong").textContent = `${current.length}`;
 
         const badge = document.getElementById("kpiRatingBadge");
-        if (!ratings.length) badge.textContent = "—";
-        else if (avgRating >= 4.2) badge.textContent = "Great";
-        else if (avgRating >= 3.6) badge.textContent = "Stable";
-        else badge.textContent = "Needs work";
+        badge.classList.remove("positive", "neutral", "bad");
+
+        const prevAvg = avg(prevRatings);
+
+        if (!ratings.length || !prevRatings.length) {
+          badge.textContent = "—";
+        } else if (avgRating > prevAvg) {
+          badge.textContent = "Improving";
+          badge.classList.add("positive");
+        } else if (avgRating < prevAvg) {
+          badge.textContent = "Declining";
+          badge.classList.add("bad");
+        } else {
+          badge.textContent = "Stable";
+          badge.classList.add("neutral");
+        }
       }
+
 
       // realtime read fake nodes
       function attachDemoListeners() {
@@ -782,14 +802,41 @@
 
         updateHygieneChart(hygieneChart, scores);
 
-        // KPI (latest available month)
-        const latest = [...scores].reverse().find(v => v !== null);
-        document.getElementById("kpiInspectScore").textContent = latest
-          ? (latest === 4 ? "A" : latest === 3 ? "B" : latest === 2 ? "C" : "D")
-          : "—";
+        // Find latest & previous grades
+        let latestIdx = -1;
+        for (let i = scores.length - 1; i >= 0; i--) {
+          if (scores[i] !== null) { latestIdx = i; break; }
+        }
+        const latest = latestIdx >= 0 ? scores[latestIdx] : null;
 
-        document.getElementById("hygieneInsightText").textContent = `Hygiene trend for ${year}`;
-        document.getElementById("hygieneInsightStrong").textContent = "Grades over time";
+        let prevIdx = -1;
+        for (let i = latestIdx - 1; i >= 0; i--) {
+          if (scores[i] !== null) { prevIdx = i; break; }
+        }
+        const previous = prevIdx >= 0 ? scores[prevIdx] : null;
+
+        const badge = document.getElementById("kpiInspectDelta");
+        badge.classList.remove("positive", "neutral", "bad");
+
+        // Show grade letter
+        document.getElementById("kpiInspectScore").textContent =
+          latest === 4 ? "A" :
+          latest === 3 ? "B" :
+          latest === 2 ? "C" : "D";
+
+        if (previous === null) {
+          badge.textContent = "—";
+        } else if (latest > previous) {
+          badge.textContent = "Improving";
+          badge.classList.add("positive");   // green
+        } else if (latest < previous) {
+          badge.textContent = "Declining";
+          badge.classList.add("bad");        // red
+        } else {
+          badge.textContent = "Stable";
+          badge.classList.add("neutral");    // blue
+        }
+
       }
 
 
