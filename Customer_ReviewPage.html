@@ -37,6 +37,16 @@
         --radius: 18px;
       }
 
+      /* =========================================================
+         ✅ ADDED (1): REMOVE TOP GAP ABOVE NAV
+         (browser default margin + possible css reset issues)
+      ========================================================= */
+      html,
+      body {
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+
       /* keep your base */
       * {
         margin: 0;
@@ -66,6 +76,16 @@
           var(--bg);
         color: var(--text);
       }
+
+      /* ensure nav sits flush to top even if stylesheet adds spacing */
+      .navrectangle {
+        margin-top: 0 !important;
+        top: 0 !important;
+      }
+      .navrectangle .container {
+        padding-top: 0 !important;
+      }
+      /* ========================================================= */
 
       /***********************
        * ✅ NAV FONT OVERRIDES ONLY
@@ -421,6 +441,68 @@
       .complaint-link a:hover {
         opacity: 0.7;
       }
+
+      /***********************
+       * ✅ ADDED (2): MOBILE VIEW (ONLY PAGE CONTENT)
+       * (does NOT touch navbar layout / friend css)
+       ***********************/
+      @media (max-width: 920px) {
+        main {
+          width: 92%;
+          margin: 22px auto 70px;
+        }
+        .page-title {
+          font-size: 38px;
+        }
+        .card-inner {
+          padding: 18px;
+        }
+        .stall-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 560px) {
+        main {
+          width: 92%;
+          margin: 18px auto 60px;
+        }
+        .page-title {
+          font-size: 32px;
+          margin-bottom: 14px;
+        }
+        .page-subtitle {
+          margin-bottom: 18px;
+        }
+        .card-inner {
+          padding: 16px;
+        }
+        .stars label {
+          font-size: 30px;
+        }
+        .stall-content {
+          grid-template-columns: 80px 1fr;
+          gap: 10px;
+          padding: 11px;
+        }
+        .stall-thumb {
+          width: 80px;
+          height: 64px;
+          border-radius: 12px;
+        }
+        .stall-meta {
+          flex-wrap: wrap;
+          gap: 8px;
+        }
+        .actions-row {
+          justify-content: stretch;
+        }
+        .submit-btn {
+          width: 100%;
+          padding: 14px 18px;
+          font-size: 16px;
+        }
+      }
     </style>
   </head>
 
@@ -696,7 +778,7 @@
     <div class="popup" id="popup">
       <div class="popup-card">
         <h4>Thank you! 🧡</h4>
-        <p id="popupMsg">Your feedback hasพูลmitted.</p>
+        <p id="popupMsg">Your feedback has submitted.</p>
         <button id="closePopup">Ok</button>
       </div>
     </div>
