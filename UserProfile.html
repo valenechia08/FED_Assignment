@@ -370,7 +370,7 @@
     }
   }
 
-  @media (max-width: 520px){
+  @media (max-width: 900px){
     main{ padding: 14px 0 44px; }
     .hero-top{ padding: 16px; }
     .hero-body, .profile-details{ padding: 16px; }
@@ -394,61 +394,65 @@
 
 <body>
   <nav class="navrectangle">
-    <div class="container">
-      <div class="top-nav">
+      <div class="container">
+        <div class="top-nav">
+          <div class="nav-left">
+            <div class="Logo">
+              <img src="/images/ShiokLah(cropped).jpeg" alt="Logo" />
+            </div>
+          </div>
 
-        <div class="nav-left">
-          <div class="Logo">
-            <img src="/images/ShiokLah(cropped).jpeg" alt="Logo" />
+          <div class="nav-center">
+            <ul class="menu" id="menu">
+              <li class="menu-item">
+                <a href="#">Home</a>
+                <ul class="dropdown">
+                  <li><a href="FED_ASG.html">Start Order</a></li>
+                </ul>
+              </li>
+
+              <li class="menu-item">
+                <a href="#">Order History</a>
+                <ul class="dropdown">
+                  <li><a href="OrderHistory.html">Past Orders</a></li>
+                </ul>
+              </li>
+
+              <li class="menu-item">
+                <a href="#">Profile</a>
+                <ul class="dropdown">
+                  <li><a href="UserProfile.html">Overview</a></li>
+                  <li><a href="Analytics.html">Analytics & Reporting</a></li>
+                  <li>
+                    <a href="Customer_ReviewPage.html">Customer Feedback</a>
+                  </li>
+                  <li><a href="Customer_Favourties.html">Favourites</a></li>
+                  <li>
+                    <a href="Customer Vouchers and Rewards.html">Rewards</a>
+                  </li>
+                </ul>
+              </li>
+
+              <li class="menu-item">
+                <a href="SelectRole.html">Log Out</a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="nav-right">
+            <button class="reserve-btn">Reserve A Table</button>
+            <div class="hamburger" id="hamburger">
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
           </div>
         </div>
-
-        <div class="nav-center">
-          <ul class="menu" id="menu">
-            <li class="menu-item">
-              <a href="#">Home</a>
-              <ul class="dropdown">
-                <li><a href="FED_ASG.html">Start Order</a></li>
-              </ul>
-            </li>
-
-            <li class="menu-item">
-              <a href="#">Order History</a>
-              <ul class="dropdown">
-                <li><a href="OrderHistory.html">Past Orders</a></li>
-              </ul>
-            </li>
-
-            <li class="menu-item">
-              <a href="#">Profile</a>
-              <ul class="dropdown">
-                <li><a href="UserProfile.html">Overview</a></li>
-                <li><a href="Analytics.html">Analytics & Reporting</a></li>
-                <li><a href="#">Customer Feedback</a></li>
-                <li><a href="#">Regulatory & Compliance</a></li>
-                <li><a href="#">Favourites</a></li>
-                <li><a href="#">Rewards</a></li>
-              </ul>
-            </li>
-
-            <li class="menu-item">
-              <a href="SelectRole.html" id="logoutBtn">Log Out</a>
-            </li>
-          </ul>
-        </div>
-
-        <div class="nav-right">
-          <button class="reserve-btn">Reserve A Table</button>
-          <div class="hamburger" id="hamburger" aria-label="Open menu" role="button" tabindex="0">
-            <div></div><div></div><div></div>
-          </div>
-        </div>
-
       </div>
-    </div>
-  </nav>
-  <div class="nav-overlay" id="navOverlay"></div>
-  <hr class="Nav-line" />
+    </nav>
+
+    <div class="nav-overlay" id="navOverlay"></div>
+    <hr class="Nav-line" />
 
   <main>
     <div class="profile-shell">
@@ -501,7 +505,7 @@
             </div>
 
             <div class="actions">
-              <a href="login.html"><button class="btn primary" type="button">Log In</button></a>
+              <a href="SelectRole.html"><button class="btn primary" type="button">Log In</button></a>
               <a href="Register.html"><button class="btn" type="button">Register</button></a>
             </div>
           </div>

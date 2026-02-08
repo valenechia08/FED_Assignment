@@ -1198,7 +1198,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /* =========================
-   ORDER MODE (pickup/takeaway)
+   ORDER MODE (self-pickup/dine-in)
 ========================= */
 function getOrderMode() {
   return sessionStorage.getItem("orderMode") || "selfPickup"; // default
@@ -1544,7 +1544,7 @@ async function placeOrderAndSave() {
     username: isGuest ? "" : username,
     createdAt: Date.now(),
     items: cart,
-    orderMode: sessionStorage.getItem("orderMode") || "pickup",
+    orderMode: sessionStorage.getItem("orderMode") || "selfPickup",
     paymentMethod: sessionStorage.getItem("paymentMethod") || "visa",
     status: "Pending",
   };
