@@ -1,4 +1,5 @@
 # FED_Assignment
+ShiokLah! Web Application
 github fed
 
 # Account Credentials:
@@ -30,6 +31,36 @@ Feature 5 : Patrons can add items into their cart and remove them, allowing for 
 Feature 6 : Patrons can checkout, choose their preferred order type (i.e. self-pickup or dine-in) -> (Refer to OrderSummary.html) and payment success or failure will be displayed. -> (Refer to PaymentSucess.html and PaymentFailed.html) This allows patrons tailor the order type to their own needs and also shows them whether their payment went through or not. (Note: The "Add a card" payment method oes not actually let you add a card and if it is selected, you will be redirected to the payment failed page. The remaining payment methods will all bring you to the payment success page.) (Note: OrderSummary back button (looks like an arrow) will only work if you were on FoodStalls.html before clicking on the cart and being redirected to OrderSummary.html).
 Feature 8 : Mobile and desktop view completed for all features.
 
+1. Order History
+Displays users’ past orders retrieved from Firebase Realtime Database
+Shows ordered items, quantities, and timestamps
+Updates Orders automatically when user orders
+
+2. Analytics & Reporting
+Sales Analytics
+Uses real-time order data from Firebase
+Displays top-selling items
+Supports time filters (this month, last 3 months, last 6 months)
+
+3. Customer Feedback Analysis
+Uses simulated feedback data stored in Firebase
+Visualised using a doughnut chart (positive, neutral, negative)
+
+4. Hygiene & Inspection Monitoring
+Displays hygiene grades (A–D) over time
+Visualised using a line chart
+Filterable by year
+
+5. User Profile
+Profile for registered user and guest user
+View personal information of registered users
+Act as a central navigation hub for features (favourites, analytics, rewards, log in and register)
+
+6. Responsive & Mobile Navigation
+Includes a hamburger menu for mobile devices
+Navigation adapts between desktop and mobile layouts
+Ensures usability across devices
+
 # Features to implement in the future
 Priscilla:
 Feature 1 : Add in a description for menu items
@@ -37,13 +68,52 @@ Feature 2 : Create more menus for the other food stalls
 Feature 3 : Add in more food stalls
 
 # Technologies Used
+HTML5 – Page structure and layout
+CSS3 – Styling, layout, and responsive design
+JavaScript (ES Modules) – Application logic and interactivity
+Firebase Realtime Database – Real-time data storage and retrieval
+Chart.js – Data visualisation (bar, doughnut, line charts)
+Responsive Web Design – Desktop and mobile support
+Google Fonts – Custom typography (Kodchasan,Roboto)
+
 Languages used :
 HTML
 CSS
 Javascript
 JSON
 
+#
+Testing
+Verified all page’s load correctly without runtime errors
+Tested Firebase real-time data retrieval and updates
+Verified charts update correctly when filters change
+Tested responsive layout on desktop and mobile screen sizes
+Tested navigation menu and hamburger menu functionality
+
+Deployment
+GitHub link: https://github.com/valenechia08/FED_Assignment.git
+Deployment Process:
+Create new Repository, go to Repository Settings then Pages. Select main branch and root folder. Save and access the generated GitHub Pages link.
+Local Setup:
+Clone the repository in Visual Studio Code and can start creating HTML and java scripts
+Open live server to view HTML files
+Database Setup:
+Firebase Realtime Database – Create project by selecting Realtime Database.
+Store and retrieve users, orders, hygiene grade, feedback, menu, stalls data.
+Update Firebase configuration in the JavaScript files
+Chart JS:
+Charts and analytics load using a public CDN.
+
+
+
+
 # Credits
+Firebase Realtime Database – data storage and real-time updates
+Chart.js – data visualisation library
+Google Fonts – Kodchasan font
+External libraries were loaded using a public CDN for convenience.
+
+
 Google fonts used:
 Roboto
 <link
