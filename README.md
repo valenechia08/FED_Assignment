@@ -158,3 +158,5 @@ Evan. (2019, February 20). 18 Best stalls at Boon Lay Place Food Village - hidde
 Phua, R. (2022b, October 6). Hawker food makes it big in New York. The Business Times. https://www.businesstimes.com.sg/lifestyle/food-drink/hawker-food-makes-it-big-new-york
 
 National Environment Agency. (n.d.). User guide for electronic signing of tenancy agreement (for existing stallholders). National Environment Agency. https://www.nea.gov.sg/docs/default-source/hawker-centres-documents/e-ta-user-guides/user-guide-for-electronic-signing-of-tenancy-agreement-(for-existing-stallholders).pdf
+
+Images and assets (e.g. ShiokLah(cropped).jpeg) were generated using ChatGPT (OpenAI) for educational purposes.
