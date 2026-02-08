@@ -223,10 +223,6 @@
         padding: 10px 0;
         cursor: pointer;
       }
-      .pay-row:hover {
-        background: #fafafa;
-        border-radius: 12px;
-      }
 
       .pay-left {
         display: flex;
@@ -374,7 +370,7 @@
         color: #fff;
         padding: 12px 26px;
         border-radius: 999px;
-        font-weight: 800;
+        font-weight: 700;
       }
 
       /* make totals align right */
@@ -433,6 +429,79 @@
       .voucher-link:hover {
         text-decoration: underline;
       }
+
+      /* =========================
+         ✅ ADDED ONLY: Voucher confirm popup (doesn't touch layout)
+      ========================= */
+      .voucher-modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.35);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 3000;
+        padding: 20px;
+      }
+      .voucher-modal.show {
+        display: flex;
+      }
+      .voucher-card {
+        width: 100%;
+        max-width: 420px;
+        background: #fff;
+        border-radius: 18px;
+        padding: 22px 20px;
+        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+        text-align: left;
+      }
+      .voucher-card h3 {
+        margin: 0 0 8px;
+        color: var(--orange);
+      }
+      .voucher-card p {
+        margin: 0 0 16px;
+        color: #333;
+        line-height: 1.4;
+      }
+      .voucher-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .voucher-actions .btn-secondary {
+        background: #fff;
+        color: var(--orange);
+        border: 2px solid var(--orange);
+        padding: 10px 16px;
+        border-radius: 999px;
+        cursor: pointer;
+        font-weight: 800;
+      }
+      .voucher-actions .btn-primary {
+        background: var(--orange);
+        color: #fff;
+        border: none;
+        padding: 10px 16px;
+        border-radius: 999px;
+        cursor: pointer;
+        font-weight: 900;
+      }
+
+      /* small remove link */
+      .voucher-remove {
+        border: none;
+        background: transparent;
+        color: #c0392b;
+        font-weight: 800;
+        cursor: pointer;
+        padding: 0;
+        margin-left: 10px;
+      }
+      .voucher-remove:hover {
+        text-decoration: underline;
+      }
     </style>
   </head>
 
@@ -449,29 +518,31 @@
           <div class="nav-center">
             <ul class="menu" id="menu">
               <li class="menu-item">
-                <a href="#">Home</a>
+                <a href="FED_ASG.html">Home</a>
                 <ul class="dropdown">
                   <li><a href="FED_ASG.html">Start Order</a></li>
                 </ul>
               </li>
 
               <li class="menu-item">
-                <a href="#">Order History</a>
+                <a href="OrderHistory.html">Order History</a>
                 <ul class="dropdown">
                   <li><a href="OrderHistory.html">Past Orders</a></li>
                 </ul>
               </li>
 
               <li class="menu-item">
-                <a href="#">Profile</a>
+                <a href="UserProfile.html">Profile</a>
                 <ul class="dropdown">
                   <li><a href="UserProfile.html">Overview</a></li>
                   <li><a href="Analytics.html">Analytics & Reporting</a></li>
                   <li>
                     <a href="Customer_ReviewPage.html">Customer Feedback</a>
                   </li>
-                  <li><a href="#">Favourites</a></li>
-                  <li><a href="#">Rewards</a></li>
+                  <li><a href="Customer_Favourties.html">Favourites</a></li>
+                  <li>
+                    <a href="Customer Vouchers and Rewards.html">Rewards</a>
+                  </li>
                 </ul>
               </li>
 
@@ -521,8 +592,18 @@
 
           <div class="label muted">Voucher applied</div>
 
-          <!-- ✅ CHANGED ONLY THIS VALUE TO A LINK -->
+          <!-- ✅ ADDED ONLY: voucherVal span + remove btn; kept your link -->
           <div class="value muted">
+            <span id="voucherVal">No voucher</span>
+            <button
+              id="removeVoucherBtn"
+              class="voucher-remove"
+              style="display: none"
+              type="button"
+            >
+              Remove
+            </button>
+            &nbsp;•&nbsp;
             <a
               href="Customer Vouchers and Rewards.html"
               id="voucherLink"
@@ -547,16 +628,16 @@
           <h3>Order Type</h3>
 
           <div class="mode-toggle" role="tablist" aria-label="Order Type">
-            <button type="button" class="mode-btn" data-mode="pickup">
-              Self-Pickup
+            <button type="button" class="mode-btn" data-mode="dineIn">
+              Dine-In
             </button>
-            <button type="button" class="mode-btn" data-mode="takeaway">
-              Takeaway
+            <button type="button" class="mode-btn" data-mode="selfPickup">
+              Self-Pickup
             </button>
           </div>
 
           <p class="mode-note" id="modeNote" style="display: none">
-            Takeaway packaging fee: <strong>$0.30 per item</strong>
+            Self-Pickup Packaging Fee: <strong>$0.30 per item</strong>
           </p>
         </div>
         <div class="divider"></div>
@@ -590,6 +671,141 @@
       <button class="place-btn" id="placeOrderBtn">Place order</button>
     </div>
 
+    <!-- ✅ ADDED ONLY: Voucher confirm modal (used by Rewards page too if you want) -->
+    <div class="voucher-modal" id="voucherModal" aria-hidden="true">
+      <div
+        class="voucher-card"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="voucherModalTitle"
+      >
+        <h3 id="voucherModalTitle">Use voucher now?</h3>
+        <p id="voucherModalText">
+          Do you want to apply this voucher to your current order?
+        </p>
+        <div class="voucher-actions">
+          <button class="btn-secondary" id="voucherNoBtn" type="button">
+            No
+          </button>
+          <button class="btn-primary" id="voucherYesBtn" type="button">
+            Yes, apply
+          </button>
+        </div>
+      </div>
+    </div>
+
     <script type="module" src="Master_page_javascript.js"></script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const APPLIED_VOUCHER_KEY = "shiok_applied_voucher_v1";
+
+        const voucherValEl = document.getElementById("voucherVal");
+        const removeBtn = document.getElementById("removeVoucherBtn");
+
+        const subtotalEl = document.getElementById("subtotalVal");
+        const totalBreakdownEl = document.getElementById("totalValBreakdown");
+        const totalStickyEl = document.getElementById("totalVal");
+
+        const packagingLabelEl = document.getElementById("packagingLabel");
+        const packagingValEl = document.getElementById("packagingVal");
+
+        if (!subtotalEl || !totalBreakdownEl || !totalStickyEl || !voucherValEl)
+          return;
+
+        const money = (n) => `$${Number(n || 0).toFixed(2)}`;
+        const parseMoney = (txt) => {
+          const n = Number(String(txt || "").replace(/[^0-9.-]/g, ""));
+          return Number.isFinite(n) ? n : 0;
+        };
+
+        function readVoucher() {
+          try {
+            const raw = sessionStorage.getItem(APPLIED_VOUCHER_KEY);
+            return raw ? JSON.parse(raw) : null;
+          } catch {
+            return null;
+          }
+        }
+
+        function clearVoucher() {
+          sessionStorage.removeItem(APPLIED_VOUCHER_KEY);
+        }
+
+        function computeDiscount(subtotal, v) {
+          if (!v) return 0;
+          const minSpend = Number(v.minSpend || 0);
+          if (subtotal < minSpend) return 0;
+
+          if (v.type === "percent") {
+            const pct = Number(v.amount || 0); // 0.2 = 20%
+            return Math.max(0, subtotal * pct);
+          }
+          const fixed = Number(v.amount || 0);
+          return Math.max(0, Math.min(fixed, subtotal));
+        }
+
+        function getPackagingFromUI() {
+          // If your Master JS shows/hides packaging, we just read whatever it already computed.
+          if (!packagingLabelEl || !packagingValEl) return 0;
+          const shown =
+            packagingLabelEl.style.display !== "none" &&
+            packagingValEl.style.display !== "none";
+          if (!shown) return 0;
+          return parseMoney(packagingValEl.textContent);
+        }
+
+        function updateTotals() {
+          const subtotal = parseMoney(subtotalEl.textContent);
+          const packaging = getPackagingFromUI();
+
+          const v = readVoucher();
+          if (!v) {
+            voucherValEl.textContent = "No voucher";
+            if (removeBtn) removeBtn.style.display = "none";
+            // totals remain whatever Master JS calculated
+            return;
+          }
+
+          const discount = computeDiscount(subtotal, v);
+          const total = Math.max(0, subtotal - discount + packaging);
+
+          voucherValEl.textContent = v.label || "Voucher applied";
+          if (removeBtn) removeBtn.style.display = "inline";
+
+          totalBreakdownEl.textContent = money(total);
+          totalStickyEl.textContent = money(total);
+        }
+
+        // Remove button
+        if (removeBtn) {
+          removeBtn.addEventListener("click", () => {
+            clearVoucher();
+            window.location.reload();
+          });
+        }
+
+        // ✅ Run after Master JS finishes building the cart UI:
+        // A few frames is enough, without scanning the whole DOM.
+        let tries = 0;
+        function tryUpdate() {
+          updateTotals();
+          tries++;
+          if (tries < 10) requestAnimationFrame(tryUpdate);
+        }
+        requestAnimationFrame(tryUpdate);
+
+        // ✅ Recalc on plus/minus and mode buttons (cheap + targeted)
+        document.addEventListener("click", (e) => {
+          const btn = e.target.closest("button");
+          if (!btn) return;
+
+          const t = (btn.textContent || "").trim().toLowerCase();
+          const isQty = t === "+" || t === "-";
+          const isMode = btn.classList.contains("mode-btn");
+          if (isQty || isMode) setTimeout(updateTotals, 0);
+        });
+      });
+    </script>
   </body>
 </html>
