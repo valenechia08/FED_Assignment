@@ -34,8 +34,13 @@
       margin: auto;
       margin-top:15px;
     }
-
-
+      .orders-head{
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:12px;
+        padding: 0 10px;
+      }
     .card{
       background:var(--card);
       border:1px solid var(--line);
@@ -98,20 +103,42 @@
       align-items:center;
       gap:18px;
       padding:22px 26px;
-      border-bottom:1px solid var(--line);
+      border-radius:10px;
+      border-bottom:2px solid var(--line);
       cursor:pointer;
     }
+    /* alternating order row colours */
+    .row:nth-child(odd) {
+      background: #ffeadc;
+    }
+
+.row:nth-child(even) {
+  background: #fef7f3;
+}
+
     .row:last-child{border-bottom:none;}
-    .row:hover{background:#fafbff;}
+    .row:hover{background:#ffe6d3;}
 
     .icon{
-      width:38px;
-      height:38px;
       border-radius:12px;
-      background:#f1f3f9;
       display:grid;
       place-items:center;
+      font-size: 40px;
+      margin-bottom:10px;
     }
+    .drawer-actions{
+  margin-top: 10px;
+  display:flex;
+  justify-content:flex-end;
+  gap: 12px;              /* ✅ gap between buttons */
+  flex-wrap: wrap;
+}
+
+.btn-lite{
+  height: 42px;
+  padding: 0 16px;
+  border-radius: 12px;
+}
 
     .main{
       flex:1;
@@ -157,7 +184,7 @@
       font-weight:700;
     }
 
-    .active{background:var(--green-bg);color:var(--green);border:2px solid var(--green)}
+    .badge.active{background:var(--green-bg);color:var(--green);border:2px solid var(--green)}
     .expired{background:var(--red-bg);color:var(--red);border:1.5px solid var(--red)}
     .badge.pending{
   background: #fffab1;
@@ -222,18 +249,44 @@
     height: 40px; padding: 0 14px; border-radius: 12px;
     border: none; background:#ff8c3a; color:#fff; font-weight: 900; cursor:pointer;
   }
+  .btn-accept {
+  background: #039855;
+  color: #fff;
+}
+
+.btn-complete {
+  background: #1a73e8;
+  color: #fff;
+}
+
+.btn-cancel {
+  background: #d92d20;
+  color: #fff;
+}
+
+.btn-ghost {
+  background: #fff;
+  border: 1px solid var(--line);
+  color: #344054;
+}
+
 
   /* small improvement for row click: only arrow opens drawer */
   .row { cursor: default; }
   .arrow-btn { cursor: pointer; }
 
 /* timer beside order id */
-.timer {
-  font-size: 13px;
+.timer{
+  font-size: 16px;        /* If timer <=15 */
   font-weight: 900;
-  color: #344054;
   margin-left: 10px;
+  color: #344054;
 }
+
+.timer.overdue{
+  color: #d92d20;         /* If timer> 15 mins */
+}
+
 
 /* order status badges */
 .badge.pending {
@@ -332,23 +385,23 @@
 
   <main class="contents">
 
-    <div class="card-title">Incoming Orders</div>
+    <div class="orders-head">
+  <div class="card-title">Incoming Orders</div>
 
-    <div class="header-actions">
-      <select id="statusFilter">
-        <option value="all">All Status</option>
-        <option value="pending">Pending</option>
-        <option value="in progress">In Progress</option>
-        <option value="completed">Completed</option>
-        <option value="cancelled">Cancelled</option>
-      </select>
-    </div>
+  <div class="header-actions">
+    <select id="statusFilter">
+      <option value="all">All Status</option>
+      <option value="pending">Pending</option>
+      <option value="in progress">In Progress</option>
+      <option value="completed">Completed</option>
+      <option value="cancelled">Cancelled</option>
+    </select>
+  </div>
+</div>
+
 
     <div class="list" id="orderList"></div>
         <!-- rows will be rendered here -->
-      </div>
-    </section>
-  </div>
    <!-- RIGHT DRAWER (view more) -->
   <aside class="drawer" id="drawer" aria-hidden="true">
     <div class="drawer-overlay" id="drawerOverlay"></div>
@@ -372,16 +425,13 @@
           <div class="dnotes-body" id="dNotes">—</div>
         </div>
 
-        <div class="drawer-actions">
-          <button class="btn-lite" id="editBtn" type="button">Edit</button>
-        </div>
+        <div class="drawer-actions" id="drawerActions"></div>
+
       </div>
     </div>
   </aside>
 </main>
-
-    </section>
-  </main>
+  </section>
   <script>
       const current = location.pathname.split("/").pop(); // e.g. VendorOrders.html
 
@@ -498,7 +548,7 @@ document.querySelectorAll(".main[data-link]").forEach(main => {
   </script>
   <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-  import { getDatabase, ref, onValue, get } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+  import { getDatabase, ref, onValue, get,update } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyCoYoGP4NYJPHqA-kV_swajQ4LSQYdyWV4",
@@ -526,6 +576,21 @@ document.querySelectorAll(".main[data-link]").forEach(main => {
 
   // cache email lookups (so we don't spam Firebase)
   const emailCache = new Map();
+  function normalizeItems(items) {
+  if (!items) return [];
+
+  if (Array.isArray(items)) return items;
+
+  // Firebase object → array
+  if (typeof items === "object") {
+    return Object.entries(items).map(([key, value]) => ({
+      item: key,
+      ...value,
+    }));
+  }
+
+  return [];
+}
 
   function normalizeStatus(s) {
     const v = String(s || "Pending").toLowerCase().trim();
@@ -560,9 +625,25 @@ document.querySelectorAll(".main[data-link]").forEach(main => {
   function getStall(it) {
     return it?.stallName || it?.stall || it?.vendor || it?.restaurantName || "";
   }
-  function getItemName(it) {
-    return it?.menuItem || it?.itemName || it?.name || it?.title || "Item";
+ function getItemName(it) {
+  // Case 1: item name is stored as a string value
+  if (typeof it?.item === "string") return it.item;
+
+  // Case 2: common alternative field names
+  if (typeof it?.menuItem === "string") return it.menuItem;
+  if (typeof it?.itemName === "string") return it.itemName;
+  if (typeof it?.name === "string") return it.name;
+  if (typeof it?.displayName === "string") return it.displayName;
+
+  // Case 3: item name is the KEY itself (Firebase object-style)
+  if (it && typeof it === "object") {
+    const keys = Object.keys(it);
+    if (keys.length === 1) return keys[0];
   }
+
+  return "Item";
+}
+
   function getQty(it) {
     return Number(it?.qty ?? it?.quantity ?? it?.count ?? 1) || 1;
   }
@@ -595,6 +676,9 @@ document.querySelectorAll(".main[data-link]").forEach(main => {
       return "—";
     }
   }
+function getOrderMode(o) {
+  return o?.orderMode || o?.orderType || o?.mode || o?.deliveryMode || "—";
+}
 
   let allOrders = [];
 async function render(list) {
@@ -607,19 +691,52 @@ async function render(list) {
     return;
   }
 
-  // newest first
-  list.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+  // Sort in order of Pending, completed, cancelled
+const isDone = (o) => {
+  const s = normalizeStatus(o.status);
+  return s === "completed" || s === "cancelled";
+};
+
+const rankStatus = (status) => {
+  const s = normalizeStatus(status);
+  if (s === "pending") return 0;
+  if (s === "in progress") return 1;
+  if (s === "cancelled") return 2;
+  if (s === "completed") return 3;
+  return 4;
+};
+
+list.sort((a, b) => {
+  const ra = rankStatus(a.status);
+  const rb = rankStatus(b.status);
+
+  // primary: status order
+  if (ra !== rb) return ra - rb;
+
+  // secondary: newest first within same status
+  return (b.createdAt || 0) - (a.createdAt || 0);
+});
+
+
 
   for (const o of list) {
     const createdAt = Number(o.createdAt || Date.now());
+    const st = normalizeStatus(o.status);
+
+    const endTs =
+      st === "completed" ? Number(o.completedAt || o.updatedAt || 0) :
+      st === "cancelled" ? Number(o.cancelledAt || o.updatedAt || 0) :
+      0;
+
     const customerName =
-      (o.username && String(o.username).trim()) ? String(o.username).trim() : "-";
+      (o.username && String(o.username).trim()) ? String(o.username).trim() : "—";
     const customerEmail = await getCustomerEmail(o);
 
     // items for this stall only
     const stallItems = (Array.isArray(o.items) ? o.items : []).filter(
-      (it) => getStall(it) === STALL_NAME
-    );
+  (it) => String(getStall(it)).trim() === STALL_NAME
+);
+
 
     const subtotal = subtotalForItems(stallItems);
 
@@ -639,35 +756,40 @@ async function render(list) {
     const row = document.createElement("div");
     row.className = "row";
 
+    const itemsCount = stallItems.reduce((sum, it) => sum + getQty(it), 0);
+    
     row.innerHTML = `
-      <div class="icon">🧾</div>
+  <div class="icon">🔥</div>
 
-      <div class="main">
-        <div class="top">
-          <div class="aid">
-            ${o.orderNo || "—"}
-            <span class="timer" data-created="${createdAt}">00:00</span>
-          </div>
-        </div>
+  <div class="main">
+    <!-- LINE 1: Order No + Ordered date/time + timer -->
+    <div class="top">
+      <div class="aid">${o.orderNo || "—"}</div>
 
-        <div class="subline">
-          <span><b>Time:</b> ${formatTime(createdAt)}</span>
-          <span><b>Customer:</b> ${customerName}</span>
-          <span class="email"><b>Email:</b> ${customerEmail}</span>
-        </div>
-
-        <div class="sub">
-          <b>Items:</b> ${previewText}
-          &nbsp; • &nbsp; <b>Subtotal:</b> $${subtotal.toFixed(2)}
-          &nbsp; • &nbsp; <b>Payment:</b> ${o.paymentMethod || "—"}
-        </div>
+      <div class="sub" style="margin:0; font-weight:800; color:#344054;">
+        ${formatTime(createdAt)}
+        <span class="timer"
+        data-created="${createdAt}"
+        data-status="${st}"
+        data-end="${endTs}">
+      </span>
       </div>
+    </div>
 
-      <div class="right">
-        ${badgeHTML(o.status)}
-        <button class="arrow-btn" type="button" title="View details">›</button>
-      </div>
-    `;
+    <!-- LINE 2 -->
+    <div class="sub" style="margin-top:8px;">
+      <b>Items:</b> ${itemsCount}
+      &nbsp; • &nbsp; <b>Subtotal:</b> $${subtotal.toFixed(2)}
+      &nbsp; • &nbsp; <b>Order Mode:</b> ${getOrderMode(o)}
+    </div>
+  </div>
+
+  <div class="right">
+    ${badgeHTML(o.status)}
+    <button class="arrow-btn" type="button" title="View details">›</button>
+  </div>
+`;
+
 
     row.querySelector(".arrow-btn").addEventListener("click", (e) => {
       e.stopPropagation();
@@ -681,33 +803,82 @@ async function render(list) {
 }
 let timerInterval = null;
 
-function pad2(n) { return String(n).padStart(2, "0"); }
+function pad2(n) {
+  return String(n).padStart(2, "0");
+}
 
 function startTimers() {
   if (timerInterval) clearInterval(timerInterval);
 
-  const update = () => {
-    document.querySelectorAll(".timer[data-created]").forEach(el => {
-      const created = Number(el.dataset.created || 0);
-      const diffMs = Math.max(0, Date.now() - created);
-      const totalSec = Math.floor(diffMs / 1000);
-      const mm = Math.floor(totalSec / 60);
-      const ss = totalSec % 60;
-      el.textContent = `${pad2(mm)}:${pad2(ss)}`;
-    });
+  const computeText = (created, endOrNow) => {
+    const diffMs = Math.max(0, endOrNow - created);
+    const totalSec = Math.floor(diffMs / 1000);
+    const mm = Math.floor(totalSec / 60);
+    const ss = totalSec % 60;
+    return `${mm}m ${pad2(ss)}s`;
   };
+
+  const update = () => {
+  document.querySelectorAll(".timer[data-created]").forEach((el) => {
+    const created = Number(el.dataset.created || 0);
+    const status = (el.dataset.status || "").toLowerCase();
+
+    let endTs = Number(el.dataset.end || 0);
+    const isDone = (status === "completed" || status === "cancelled");
+
+    // ✅ If status is done but endTs is missing, freeze at the first moment we see it done
+    if (isDone && (!endTs || isNaN(endTs))) {
+      endTs = Date.now();
+      el.dataset.end = String(endTs); // store it so it stays frozen
+    }
+
+    const endOrNow = isDone ? endTs : Date.now();
+
+    el.textContent = computeText(created, endOrNow);
+
+    // ✅ red after 15 minutes
+    const diffMs = Math.max(0, endOrNow - created);
+    el.classList.toggle("overdue", diffMs >= 15 * 60 * 1000);
+  });
+};
+
+
 
   update();
   timerInterval = setInterval(update, 1000);
 }
 
+
+
+async function updateOrderStatus(orderId, newStatus) {
+  try {
+    const now = Date.now();
+
+    const patch = {
+      status: newStatus,
+      updatedAt: now,
+    };
+
+    // add datetime fields depending on status
+    if (newStatus === "in progress") patch.acceptedAt = now;
+    if (newStatus === "completed") patch.completedAt = now;
+    if (newStatus === "cancelled") patch.cancelledAt = now;
+
+    await update(ref(db, `orders/${orderId}`), patch);
+  } catch (err) {
+    console.error("Failed to update order status", err);
+    alert("Failed to update order.");
+  }
+}
+
+
 function openDrawer(order, stallItems, customerName, customerEmail) {
   const subtotal = subtotalForItems(stallItems);
 
-  $("dTitle").textContent = `Order ${order.orderNo || ""}`;
 
+  $("dTitle").textContent = `Order ${order.orderNo || "—"}`;
   $("dAID").textContent = order.orderNo || "—";
-  $("dLoc").textContent = customerName || "-";
+  $("dLoc").textContent = customerName || "—";
   $("dAddr").textContent = customerEmail || "—";
   $("dTrade").textContent = order.paymentMethod || "—";
   $("dRent").textContent = `$${subtotal.toFixed(2)}`;
@@ -724,11 +895,71 @@ function openDrawer(order, stallItems, customerName, customerEmail) {
       }).join("\n")
     : "—";
 
-  $("editBtn").textContent = "Close";
-  $("editBtn").onclick = closeDrawer;
-
   drawer.classList.add("show");
   drawer.setAttribute("aria-hidden", "false");
+const actionsEl = $("drawerActions");
+actionsEl.innerHTML = "";
+
+const status = normalizeStatus(order.status);
+const orderId = order._key; // ✅ correct firebase id
+
+if (status === "pending") {
+  actionsEl.innerHTML = `
+    <button class="btn-lite btn-accept" type="button">Accept</button>
+    <button class="btn-lite btn-cancel" type="button">Cancel</button>
+  `;
+
+  actionsEl.children[0].onclick = async () => {
+  if (!confirm("Accept this order? Status will change to In Progress.")) return;
+  await updateOrderStatus(orderId, "in progress");
+  closeDrawer();
+};
+
+
+  actionsEl.children[1].onclick = async () => {
+  if (!confirm("Cancel this order? This cannot be undone.")) return;
+  await updateOrderStatus(orderId, "cancelled");
+  closeDrawer();
+};
+
+} 
+else if (status === "in progress") {
+  actionsEl.innerHTML = `
+    <button class="btn-lite btn-complete" type="button">Completed</button>
+    <button class="btn-lite btn-cancel" type="button">Cancel</button>
+  `;
+
+  actionsEl.children[0].onclick = async () => {
+  if (!confirm("Mark this order as Completed?")) return;
+  await updateOrderStatus(orderId, "completed");
+  closeDrawer();
+};
+
+
+  actionsEl.children[1].onclick = async () => {
+  if (!confirm("Cancel this order? This cannot be undone.")) return;
+  await updateOrderStatus(orderId, "cancelled");
+  closeDrawer();
+};
+
+} 
+else {
+  actionsEl.innerHTML = `
+    <button class="btn-lite btn-ghost" type="button" disabled>
+      Order ${status}
+    </button>
+  `;
+}
+const st2 = normalizeStatus(order.status);
+
+if (st2 === "cancelled" && order.cancelledAt) {
+  $("dNotes").textContent += `\n\nCancelled At: ${formatTime(order.cancelledAt)}`;
+}
+if (st2 === "completed" && order.completedAt) {
+  $("dNotes").textContent += `\n\nCompleted At: ${formatTime(order.completedAt)}`;
+}
+drawer.classList.add("show");
+drawer.setAttribute("aria-hidden", "false");
 }
 
 
@@ -751,22 +982,26 @@ function openDrawer(order, stallItems, customerName, customerEmail) {
 
   filterEl.addEventListener("change", applyFilter);
 
-  // ✅ Read orders and keep ONLY those that include Banana Leaf Nasi Lemak items
+  // Read orders and keep ONLY those that include Banana Leaf Nasi Lemak items
   onValue(ref(db, "orders"), (snap) => {
-    const data = snap.val() || {};
-    const orders = Object.values(data).map(o => ({
-      ...o,
-      status: o?.status || "Pending",
-      createdAt: o?.createdAt || Date.now(),
-      items: Array.isArray(o?.items) ? o.items : [],
-    }));
+  const data = snap.val() || {};
 
-    allOrders = orders.filter(o =>
-      o.items.some(it => (it?.stallName || it?.stall || it?.vendor || it?.restaurantName) === STALL_NAME)
-    );
+  const orders = Object.entries(data).map(([key, o]) => ({
+    _key: key, // ✅ keep firebase key
+    ...o,
+    status: o?.status || "Pending",
+    createdAt: (typeof o?.createdAt === "number") ? o.createdAt : Date.now(),
+    items: normalizeItems(o?.items),
+  }));
 
-    applyFilter();
-  });
+  allOrders = orders.filter(o =>
+    o.items.some(it => String(getStall(it)).trim() === STALL_NAME)
+  );
+
+  applyFilter();
+});
+
+
 </script>
     <script type="module" src="Master_page_javascript.js"></script>
   </body>
