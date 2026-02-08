@@ -1,7 +1,7 @@
 # FED_Assignment
 github fed
 
-Account Credentials:
+# Account Credentials:
 Patron
 Username: ben_tan
 Password: abcd12345
@@ -10,9 +10,11 @@ NEA Officer
 Username: james_lee
 Password: abcd123456
 
-Existing features
+# Existing features
 
 Priscilla:
+NOTE : The flow starts from SelectRole.html
+NOTE : The Javascript for all the html files except for PaymentSuccess.html(inline js) and PaymentFailed.html(inline js) are in Master_page_javascript.js
 User Account Management
 Feature 1 : Users can choose to log in as a patron, vendor or NEA officer, allowing each user to save personalised details such as order history for patrons for future use and bring each user to their respective pages without clashing. Messages will be shown for successful login, user not found and empty fields in username and password. -> Refer to SelectRole.html
 Feature 2 : Vendors can create accounts to manage stalls, menus, and orders, patrons can also create accounts or log in as a guest to order food. Messages will be shown for successful creation of account, taken username, if password does not meet the set rule (Must be 9+ chars with letters & numbers only), if passwords typed do not match, if the username is in an invalid format (can only contain letters, numbers, dot and underscore). This helps to ensure that username and password are in the correct format and that users cannot duplicate accounts sharing the same username. It also allows users to create accounts that can store their information for future use. -> Refer to register.html
@@ -27,22 +29,21 @@ Feature 4 : Patrons can click on stalls and view their menus. (Note: Only “Ban
 Feature 5 : Patrons can add items into their cart and remove them, allowing for more customisation of what items they want to order and in what quantity. -> Refer to FoodStalls.html and OrderSummary.html
 Feature 6 : Patrons can checkout, choose their preferred order type (i.e. self-pickup or dine-in) -> (Refer to OrderSummary.html) and payment success or failure will be displayed. -> (Refer to PaymentSucess.html and PaymentFailed.html) This allows patrons tailor the order type to their own needs and also shows them whether their payment went through or not. (Note: The "Add a card" payment method oes not actually let you add a card and if it is selected, you will be redirected to the payment failed page. The remaining payment methods will all bring you to the payment success page.) (Note: OrderSummary back button (looks like an arrow) will only work if you were on FoodStalls.html before clicking on the cart and being redirected to OrderSummary.html).
 Feature 8 : Mobile and desktop view completed for all features.
-NOTE : The Javascript for all the html files except for PaymentSuccess.html(inline js) and PaymentFailed.html(inline js) are in Master_page_javascript.js
 
-Features to implement in the future
+# Features to implement in the future
 Priscilla:
 Feature 1 : Add in a description for menu items
 Feature 2 : Create more menus for the other food stalls
 Feature 3 : Add in more food stalls
 
-Technologies Used
+# Technologies Used
 Languages used :
 HTML
 CSS
 Javascript
 JSON
 
-Credits
+# Credits
 Google fonts used:
 Roboto
 <link
