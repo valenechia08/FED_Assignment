@@ -72,6 +72,12 @@ Aadya:
 Feature 1 : Add a "Go to Favourites" button in my cmenu page so when users like a menu item, they would be able to just directly go to the favourites page without exiting the menu page
 Feature 2 : In each of the menu items in the favourites page, add a "+" and "-" which is linked to cart so if they do want to add their liked item to cart they won't have to go back to the menu to add it. 
 
+Ethan:
+Regulatory & Compliance:
+Inspection scheduling and logging by NEA officers
+Record inspection scores, remarks, and hygiene grades
+Display historical hygiene grades for transparency.
+
 
 <!-- Aadya: 
 Feature 1:	Loyalty programs or discounts  
@@ -134,7 +140,10 @@ If users are very dissatisfied with their meals or the environment and service, 
 
 Valene:
 1.Adding orderID and quantities of food item to Order History 
-2.Making my code more efficient so that the website can run faster
+2.Making my code more efficient so that the website can run faster\
+
+
+
 # Technologies Used
 HTML5 – Page structure and layout
 CSS3 – Styling, layout, and responsive design
