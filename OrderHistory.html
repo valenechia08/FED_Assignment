@@ -17,23 +17,68 @@
     <link rel="stylesheet" href="Master_page_stylesheet.css" />
     <style>
       /* content */
+      /* ==========================
+        See More / Show Less Button
+      ========================== */
+  
+      .see-more-btn {
+        margin: 12px auto 0;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 14px;
+        background: #f1f5f9;          /* soft neutral */
+        color: #334155;               /* slate text */
+        font-family:  Arial,"Kodchasan";
+        font-size: 12px;
+        font-weight: 600;
+        border: 1px solid #e2e8f0;
+        border-radius: 999px;
+        cursor: pointer;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+        transition:
+          background 0.2s ease,
+          transform 0.15s ease,
+          box-shadow 0.15s ease;
+      }
+
+      .see-more-btn:hover {
+        background: #e2e8f0;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      }
+
+      .see-more-btn:active {
+        transform: scale(0.96);
+      }
+
+      .see-more-icon {
+        font-size: 13px;
+        transition: transform 0.25s ease;
+      }
+
+      /* rotate arrow when expanded */
+      .see-more-btn.expanded .see-more-icon {
+        transform: rotate(180deg);
+      }
+
+
       .order-box {
         max-width: 600px;
         margin: 40px auto;
-        padding: 80px 60px;
+        padding: 80px 20px;
         background: #fff8f0;
         border: 2px dashed #ff8c3a;
         border-radius: 18px;
         text-align: center;
         box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-        transition: all 0.3s ease;
       }
 
       .order-box h2 {
         font-size: 28px;
         font-weight: 700;
         color: #ff7a18;
-        margin-bottom: 12px;
+        margin-bottom: 10px;
         font-family: "Montserrat", sans-serif;
       }
 
@@ -132,9 +177,6 @@
         border-radius: 12px;
         padding: 12px 18px;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-        transition:
-          transform 0.2s ease,
-          box-shadow 0.2s ease;
       }
 
       .order-card:hover {
@@ -144,7 +186,7 @@
 
       .order-card .dish {
         font-weight: 600;
-        font-size: 15px;
+        font-size: 14px;
         color: #333;
       }
 
@@ -164,22 +206,11 @@
       .order-card .cost {
         font-size: 13px;
         color: #333;
-        font-weight: 700;
+        font-weight: 600;
       }
-
-      .menu-container {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 20px;
-        justify-content: center;
-      }
-
-  
-  
-  
 
       /* -------------------- MOBILE RESPONSIVE -------------------- */
-      .hamburger {
+      /* .hamburger {
         display: none;
         flex-direction: column;
         gap: 4px;
@@ -190,9 +221,12 @@
         height: 3px;
         background: #111;
         border-radius: 2px;
-      }
+      } */
 
-      @media (max-width: 900px) {
+      @media (max-width: 992px) {
+        .main-content{
+          padding:0 24px;
+        }
         .order-box {
           margin: 18px 12px;
           padding: 24px 16px;
@@ -276,7 +310,7 @@
               </li>
 
               <li class="menu-item">
-                <a href="SelectRole.html">Log Out</a>
+                <a href="SelectRole.html" id="logoutLink">Log Out</a>
               </li>
             </ul>
           </div>
@@ -346,10 +380,12 @@
           />
         </div>
 
-        <div id="menuList" class="menu-container"></div>
-
         <!-- Order History List -->
         <ul id="orderList" class="order-list"></ul>
+        <button id="toggleOrdersBtn" class="see-more-btn">
+          <span class="see-more-text">See More Orders</span>
+          <span class="see-more-icon">▾</span>
+        </button>
 
         <small class="tagline">Keep enjoying your favourites – we’ll save them here!</small>
         <br />
@@ -387,11 +423,6 @@
         appId: "1:791146838729:web:446baee191feeb036e2b18",
       };
 
-      //null check
-      function bind(selector, event, handler) {
-        const el = document.querySelector(selector);
-        if (el) el.addEventListener(event, handler);
-      }
 
       /* ================================
         Initialize Firebase
@@ -424,6 +455,11 @@
                 day: "numeric",
               });
         }
+        
+        const toggleBtn = document.getElementById("toggleOrdersBtn");
+          let showAllOrders = false;
+          const PREVIEW_COUNT = 3; // number of recent orders shown initially
+          let cachedOrders = [];
 
         /* ✅ NEW: calculate total cost safely (uses saved total if you have it, otherwise sums items) */
         function computeOrderCost(order) {
@@ -453,50 +489,98 @@
         function renderOrders(ordersArray) {
           if (!orderList) return;
 
+          // ✅ sort newest -> oldest first
+          cachedOrders = [...ordersArray].sort(
+            (a, b) => (b.createdAt || 0) - (a.createdAt || 0)
+          );
+
+          // ✅ then take the first few
+          const displayOrders = showAllOrders
+            ? cachedOrders
+            : cachedOrders.slice(0, PREVIEW_COUNT);
+
           orderList.innerHTML = "";
 
-          ordersArray
-            .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0))
-            .forEach((order) => {
-              const li = document.createElement("li");
+          displayOrders.forEach((order) => {
+            const li = document.createElement("li");
 
-              // display: first item name if exists, else orderNo
-              let title = order.orderNo || "Order";
-              if (Array.isArray(order.items) && order.items.length) {
-                const first =
-                  order.items[0]?.item || order.items[0]?.name || "Order";
-                const more = order.items.length - 1;
-                title = more > 0 ? `${first} + ${more} more` : first;
-              }
+            let title = order.orderNo || "Order";
+            if (Array.isArray(order.items) && order.items.length) {
+              const first = order.items[0]?.item || order.items[0]?.name || "Order";
+              const more = order.items.length - 1;
+              title = more > 0 ? `${first} + ${more} more` : first;
+            }
 
-              const cost = computeOrderCost(order);
+            const cost = computeOrderCost(order);
 
-              /* ✅ UPDATED: include cost in record */
-              li.innerHTML = `
-                <div class="order-card">
-                  <span class="dish">🍲 ${title}</span>
-                  <span class="order-right">
-                    <span class="date">${formatDate(order.createdAt)}</span>
-                    <span class="cost">$${Number(cost || 0).toFixed(2)}</span>
-                  </span>
-                </div>
-              `;
-              orderList.appendChild(li);
-            });
+            li.innerHTML = `
+              <div class="order-card">
+                <span class="dish">🍲 ${title}</span>
+                <span class="order-right">
+                  <span class="date">${formatDate(order.createdAt)}</span>
+                  <span class="cost">$${Number(cost || 0).toFixed(2)}</span>
+                </span>
+              </div>
+            `;
+
+            orderList.appendChild(li);
+          });
+
+          toggleBtn?.addEventListener("click", () => {
+            showAllOrders = !showAllOrders;
+            renderOrders(cachedOrders);
+          });
+
+
+          // ✅ button logic (DO NOT overwrite inner HTML)
+          const toggleText = toggleBtn?.querySelector(".see-more-text");
+
+          if (cachedOrders.length > PREVIEW_COUNT) {
+            toggleBtn.style.display = "inline-flex";
+            if (toggleText) {
+              toggleText.textContent = showAllOrders
+                ? "Show Less Orders"
+                : "See More Orders";
+            }
+            toggleBtn.classList.toggle("expanded", showAllOrders);
+          } else {
+            toggleBtn.style.display = "none";
+            toggleBtn.classList.remove("expanded");
+          }
         }
+
+
 
         // ✅ logged in user
         const username =
           sessionStorage.getItem("loggedInUser") ||
           localStorage.getItem("loggedInUser") ||
           "";
+        let ownerKey = "";
 
-        const ownerKey = username ? username : localStorage.getItem("guestId") || "";
+        if (username) {
+          ownerKey = username; // registered
+        } else {
+          // ✅ guest orders were saved with guestId -> use the same key
+          let guestId = localStorage.getItem("guestId");
 
+          // if guestId doesn't exist (first time guest in this browser session)
+          if (!guestId) {
+            guestId = "guest_" + Math.random().toString(36).slice(2, 10);
+            localStorage.setItem("guestId", guestId);
+          }
+
+          ownerKey = guestId;
+        }
+
+        // if still no key, show guest box
         if (!ownerKey) {
           showOnly(guestBox);
           return;
         }
+
+
+
 
         const qUserOrders = query(
           ref(db, "orders"),
