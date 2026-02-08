@@ -1,4 +1,5 @@
 <!doctype html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -502,6 +503,24 @@
       .voucher-remove:hover {
         text-decoration: underline;
       }
+
+      /* =========================
+         ✅ ADDED ONLY: Voucher min-spend error message
+      ========================= */
+      .voucher-error {
+        grid-column: 1 / -1;
+        margin-top: 6px;
+        padding: 12px 12px;
+        background: #fff3f3;
+        border: 1px solid #ffd1d1;
+        border-radius: 12px;
+        color: #b00020;
+        font-weight: 800;
+        display: none;
+      }
+      .voucher-error.show {
+        display: block;
+      }
     </style>
   </head>
 
@@ -612,6 +631,9 @@
             >
           </div>
 
+          <!-- ✅ ADDED ONLY: error box for min spend -->
+          <div class="voucher-error" id="voucherError"></div>
+
           <div class="label muted" id="packagingLabel" style="display: none">
             Packaging fee
           </div>
@@ -700,6 +722,9 @@
       document.addEventListener("DOMContentLoaded", () => {
         const APPLIED_VOUCHER_KEY = "shiok_applied_voucher_v1";
 
+        // ✅ ADDED ONLY: store subtotal for Rewards-page min-spend checks
+        const CHECKOUT_TOTAL_KEY = "shiok_checkout_total_v1";
+
         const voucherValEl = document.getElementById("voucherVal");
         const removeBtn = document.getElementById("removeVoucherBtn");
 
@@ -710,6 +735,9 @@
         const packagingLabelEl = document.getElementById("packagingLabel");
         const packagingValEl = document.getElementById("packagingVal");
 
+        // ✅ ADDED ONLY: error element
+        const voucherErrorEl = document.getElementById("voucherError");
+
         if (!subtotalEl || !totalBreakdownEl || !totalStickyEl || !voucherValEl)
           return;
 
@@ -718,6 +746,17 @@
           const n = Number(String(txt || "").replace(/[^0-9.-]/g, ""));
           return Number.isFinite(n) ? n : 0;
         };
+
+        function showVoucherError(msg) {
+          if (!voucherErrorEl) return;
+          voucherErrorEl.textContent = msg || "";
+          voucherErrorEl.classList.add("show");
+        }
+        function clearVoucherError() {
+          if (!voucherErrorEl) return;
+          voucherErrorEl.textContent = "";
+          voucherErrorEl.classList.remove("show");
+        }
 
         function readVoucher() {
           try {
@@ -756,14 +795,41 @@
         }
 
         function updateTotals() {
+          clearVoucherError();
+
           const subtotal = parseMoney(subtotalEl.textContent);
           const packaging = getPackagingFromUI();
 
+          // ✅ ADDED ONLY: keep checkout subtotal for Rewards page
+          try {
+            localStorage.setItem(CHECKOUT_TOTAL_KEY, String(subtotal));
+          } catch {}
+
           const v = readVoucher();
+
           if (!v) {
             voucherValEl.textContent = "No voucher";
             if (removeBtn) removeBtn.style.display = "none";
-            // totals remain whatever Master JS calculated
+            return; // totals remain whatever Master JS calculated
+          }
+
+          const minSpend = Number(v.minSpend || 0);
+
+          // ✅ ADDED ONLY: enforce min spend with on-page error, remove voucher
+          if (minSpend > 0 && subtotal < minSpend) {
+            showVoucherError(
+              `You can't use this since your items don't add up to $${minSpend}.`,
+            );
+
+            clearVoucher();
+
+            voucherValEl.textContent = "No voucher";
+            if (removeBtn) removeBtn.style.display = "none";
+
+            // Reset totals to base (no voucher) so user sees correct total
+            const baseTotal = Math.max(0, subtotal + packaging);
+            totalBreakdownEl.textContent = money(baseTotal);
+            totalStickyEl.textContent = money(baseTotal);
             return;
           }
 

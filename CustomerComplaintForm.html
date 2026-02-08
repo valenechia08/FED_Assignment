@@ -12,10 +12,7 @@
       href="https://fonts.googleapis.com/css2?family=Kodchasan:wght@200;300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&family=Open+Sans:wght@300..800&family=Roboto:wght@100..900&display=swap"
-      rel="stylesheet"
-    />
+
     <link rel="stylesheet" href="Master_page_stylesheet.css" />
     <script src="FeedbackObjects.js"></script>
 
@@ -30,20 +27,16 @@
         --card: #ffffff;
         --shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
         --radius: 18px;
+
+        --nav-h: 86px;
       }
 
+      /* ✅ ENTIRE PAGE DEFAULT FONT = ARIAL */
       * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        font-family:
-          "Montserrat",
-          "Segoe UI",
-          system-ui,
-          -apple-system,
-          Roboto,
-          Arial,
-          sans-serif;
+        font-family: Arial, Helvetica, sans-serif;
       }
 
       body {
@@ -62,13 +55,255 @@
         color: var(--text);
       }
 
-      /* ✅ ONLY CHANGE: NAV FONT */
-      .topNavBar,
-      .topNavBar * {
+      /* =========================
+         NAV BAR (DESKTOP)
+      ========================== */
+      .topNavBar {
+        background: #ffffff;
+        border-bottom: 1px solid var(--line);
+        position: sticky;
+        top: 0;
+        z-index: 2000;
+      }
+
+      /* Make sure nav has a consistent height */
+      .topNavBar .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 10px 24px;
+      }
+
+      .top-nav {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        align-items: center;
+        gap: 14px;
+        min-height: var(--nav-h);
+      }
+
+      /* ✅ NAV TEXT = KODCHASAN (ONLY NAV TEXT) */
+      .menu,
+      .menu a,
+      .dropdown a {
         font-family: "Kodchasan", sans-serif !important;
       }
 
-      /* PAGE */
+      .Logo img {
+        height: 62px;
+        width: auto;
+        display: block;
+      }
+
+      .menu {
+        list-style: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 48px;
+        padding: 0;
+        margin: 0;
+      }
+
+      .menu-item {
+        position: relative;
+      }
+
+      .menu-item > a {
+        text-decoration: none;
+        color: #222;
+        font-weight: 600;
+        font-size: 18px;
+      }
+
+      /* Simple dropdown (works even if Master CSS missing) */
+      .dropdown {
+        position: absolute;
+        top: calc(100% + 10px);
+        left: 50%;
+        transform: translateX(-50%);
+        min-width: 220px;
+        background: #fff;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        border-radius: 12px;
+        box-shadow: 0 14px 30px rgba(0, 0, 0, 0.12);
+        padding: 10px;
+        list-style: none;
+        display: none;
+        z-index: 2100;
+      }
+
+      .dropdown li a {
+        display: block;
+        padding: 10px 12px;
+        border-radius: 10px;
+        text-decoration: none;
+        color: #222;
+        font-weight: 600;
+        font-size: 15px;
+      }
+      .dropdown li a:hover {
+        background: rgba(228, 115, 41, 0.1);
+      }
+
+      .menu-item:hover .dropdown {
+        display: block;
+      }
+
+      /* ✅ Reserve button stays ARIAL */
+      .reserve-btn {
+        font-family: Arial, Helvetica, sans-serif !important;
+        font-weight: 800;
+        font-size: 15px;
+        color: #fff;
+        background: #ff8f3a;
+        border: none;
+        border-radius: 999px;
+        padding: 16px 34px;
+        line-height: 1;
+        cursor: pointer;
+        white-space: nowrap;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .reserve-btn:hover {
+        filter: brightness(0.98);
+      }
+      .reserve-btn:active {
+        transform: translateY(1px);
+      }
+
+      /* Hamburger (hidden on desktop) */
+      .hamburger {
+        display: none;
+        width: 44px;
+        height: 44px;
+        border: 1px solid rgba(0, 0, 0, 0.12);
+        border-radius: 12px;
+        background: #fff;
+        cursor: pointer;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        padding: 10px;
+      }
+      .hamburger span {
+        display: block;
+        height: 2px;
+        width: 100%;
+        background: #222;
+        border-radius: 999px;
+      }
+
+      /* =========================
+         SIDE DRAWER (MOBILE)
+      ========================== */
+      .drawer-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.35);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s ease;
+        z-index: 4000;
+      }
+
+      .drawer {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: min(360px, 92vw);
+        height: 100vh;
+        background: #fff;
+        box-shadow: -20px 0 60px rgba(0, 0, 0, 0.18);
+        transform: translateX(105%);
+        transition: transform 0.25s ease;
+        z-index: 4100;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .drawer-header {
+        padding: 18px 18px 12px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .drawer-title {
+        font-family: "Kodchasan", sans-serif;
+        font-weight: 700;
+        font-size: 18px;
+      }
+
+      .drawer-close {
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        border: 1px solid rgba(0, 0, 0, 0.12);
+        background: #fff;
+        cursor: pointer;
+        font-size: 18px;
+        line-height: 1;
+      }
+
+      .drawer-body {
+        padding: 14px 18px 18px;
+        overflow: auto;
+      }
+
+      .drawer-links {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: grid;
+        gap: 10px;
+      }
+
+      .drawer-links a {
+        font-family: "Kodchasan", sans-serif;
+        font-weight: 650;
+        text-decoration: none;
+        color: #222;
+        display: block;
+        padding: 12px 12px;
+        border-radius: 14px;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        background: #fff;
+      }
+
+      .drawer-links a:hover {
+        background: rgba(228, 115, 41, 0.08);
+        border-color: rgba(228, 115, 41, 0.25);
+      }
+
+      .drawer-divider {
+        height: 1px;
+        background: rgba(0, 0, 0, 0.08);
+        margin: 14px 0;
+      }
+
+      .drawer .reserve-btn {
+        width: 100%;
+        justify-content: center;
+        font-size: 20px;
+        padding: 16px 18px;
+      }
+
+      /* When open */
+      body.drawer-open .drawer-overlay {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      body.drawer-open .drawer {
+        transform: translateX(0);
+      }
+
+      /* =========================
+         PAGE
+      ========================== */
       main {
         width: 92%;
         max-width: 1100px;
@@ -79,8 +314,7 @@
         text-align: center;
         margin-top: 10px;
         margin-bottom: 12px;
-        font-family: Arial, Helvetica, sans-serif;
-        font-weight: 700;
+        font-weight: 800;
         font-size: 44px;
         color: var(--primary-orange);
       }
@@ -89,6 +323,7 @@
         text-align: center;
         color: var(--muted);
         margin-bottom: 26px;
+        font-size: 18px;
       }
 
       .card {
@@ -113,7 +348,7 @@
       }
 
       .section h3 {
-        font-size: 16px;
+        font-size: 18px;
         margin-bottom: 12px;
         color: #222;
       }
@@ -313,7 +548,6 @@
         padding: 10px;
       }
 
-      /* ✅ Added: small preview box (still optional) */
       .evidence-preview {
         margin-top: 10px;
         display: none;
@@ -379,7 +613,6 @@
         font-size: 18px;
         box-shadow: 0 16px 30px rgba(228, 115, 41, 0.25);
       }
-
       .submit-btn:active {
         transform: translateY(1px);
       }
@@ -426,7 +659,7 @@
         font-weight: 800;
       }
 
-      /* ✅ Added: error styling (so markError works nicely) */
+      /* ERROR STYLING */
       .error-field input,
       .error-field select,
       .error-field textarea {
@@ -442,6 +675,47 @@
       }
       .error-msg.show {
         display: block;
+      }
+
+      /* =========================
+         ✅ MOBILE (<= 992px)
+         Hide desktop menu + button
+         Show hamburger + drawer
+      ========================== */
+      @media (max-width: 992px) {
+        .top-nav {
+          grid-template-columns: 1fr auto;
+          justify-items: center;
+          gap: 10px;
+          min-height: 74px;
+        }
+
+        .nav-left {
+          width: 100%;
+          display: flex;
+          justify-content: center;
+        }
+
+        .nav-center {
+          display: none; /* hide desktop menu */
+        }
+
+        .reserve-btn {
+          display: none; /* move reserve into drawer */
+        }
+
+        .hamburger {
+          display: inline-flex;
+          justify-self: end;
+        }
+
+        /* Make title a bit smaller on phones */
+        .page-title {
+          font-size: 34px;
+        }
+        .page-subtitle {
+          font-size: 16px;
+        }
       }
     </style>
   </head>
@@ -497,10 +771,63 @@
             </ul>
           </div>
 
-          <div class="nav-right"></div>
+          <div class="nav-right">
+            <!-- Desktop reserve (hidden on mobile via CSS) -->
+            <button class="reserve-btn" type="button">Reserve A Table</button>
+
+            <!-- Mobile hamburger -->
+            <button
+              class="hamburger"
+              id="hamburger"
+              type="button"
+              aria-label="Open menu"
+            >
+              <span></span><span></span><span></span>
+            </button>
+          </div>
         </div>
       </div>
     </nav>
+
+    <!-- MOBILE DRAWER -->
+    <div class="drawer-overlay" id="drawerOverlay"></div>
+
+    <aside class="drawer" id="drawer" aria-hidden="true">
+      <div class="drawer-header">
+        <div class="drawer-title">Menu</div>
+        <button
+          class="drawer-close"
+          id="drawerClose"
+          type="button"
+          aria-label="Close menu"
+        >
+          ✕
+        </button>
+      </div>
+
+      <div class="drawer-body">
+        <ul class="drawer-links">
+          <li><a href="FED_ASG.html">Home</a></li>
+          <li><a href="OrderHistory.html">Order History</a></li>
+          <li><a href="UserProfile.html">Profile</a></li>
+          <li><a href="Analytics.html">Analytics & Reporting</a></li>
+          <li><a href="CustomerFeedback.html">Customer Feedback</a></li>
+          <li>
+            <a href="Regulatory&Complianceinfo.html"
+              >Regulatory & Compliance Info</a
+            >
+          </li>
+          <li><a href="Customer_Favourties.html">Favourites</a></li>
+          <li><a href="Customer Vouchers and Rewards.html">Rewards</a></li>
+          <li><a href="SelectRole.html">Log Out</a></li>
+        </ul>
+
+        <div class="drawer-divider"></div>
+
+        <!-- Reserve button inside drawer (Arial) -->
+        <button class="reserve-btn" type="button">Reserve A Table</button>
+      </div>
+    </aside>
 
     <main>
       <h1 class="page-title">Submit a Complaint</h1>
@@ -569,8 +896,7 @@
                   <div>
                     <div class="stall-name">Banana Leaf Nasi Lemak</div>
                     <div class="stall-meta">
-                      <span class="mini-star">★</span>
-                      <span>4.0 · Malay</span>
+                      <span class="mini-star">★</span><span>4.0 · Malay</span>
                     </div>
                   </div>
                 </div>
@@ -594,8 +920,7 @@
                       Big Daddy's Chicken &amp; Noodle Stall
                     </div>
                     <div class="stall-meta">
-                      <span class="mini-star">★</span>
-                      <span>4.5 · Others</span>
+                      <span class="mini-star">★</span><span>4.5 · Others</span>
                     </div>
                   </div>
                 </div>
@@ -619,8 +944,7 @@
                       Boon Lay Fried Carrot Cake &amp; Kway Teow Mee
                     </div>
                     <div class="stall-meta">
-                      <span class="mini-star">★</span>
-                      <span>4.2 · Chinese</span>
+                      <span class="mini-star">★</span><span>4.2 · Chinese</span>
                     </div>
                   </div>
                 </div>
@@ -638,8 +962,7 @@
                   <div>
                     <div class="stall-name">Boon Lay Lu Wei</div>
                     <div class="stall-meta">
-                      <span class="mini-star">★</span>
-                      <span>4.2 · Chinese</span>
+                      <span class="mini-star">★</span><span>4.2 · Chinese</span>
                     </div>
                   </div>
                 </div>
@@ -661,8 +984,7 @@
                   <div>
                     <div class="stall-name">I. Mohamed Ismail Food Stall</div>
                     <div class="stall-meta">
-                      <span class="mini-star">★</span>
-                      <span>4.5 · Indian</span>
+                      <span class="mini-star">★</span><span>4.5 · Indian</span>
                     </div>
                   </div>
                 </div>
@@ -726,7 +1048,6 @@
               <input id="evidence" type="file" accept="image/*" />
               <div class="help">✅ Optional</div>
 
-              <!-- ✅ Added preview (optional) -->
               <div class="evidence-preview" id="evidencePreview">
                 <img id="evidenceImg" alt="Evidence preview" />
                 <div class="meta">
@@ -743,22 +1064,22 @@
           <div class="section">
             <h3>What outcome would you like?</h3>
             <div class="chips">
-              <label class="chip">
-                <input type="checkbox" name="outcome" value="Refund" />
-                Refund
-              </label>
-              <label class="chip">
-                <input type="checkbox" name="outcome" value="Replacement" />
-                Replacement
-              </label>
-              <label class="chip">
-                <input type="checkbox" name="outcome" value="Follow-up" />
-                Follow-up / Call me
-              </label>
-              <label class="chip">
-                <input type="checkbox" name="outcome" value="Investigate" />
-                Investigate / Take action
-              </label>
+              <label class="chip"
+                ><input type="checkbox" name="outcome" value="Refund" />
+                Refund</label
+              >
+              <label class="chip"
+                ><input type="checkbox" name="outcome" value="Replacement" />
+                Replacement</label
+              >
+              <label class="chip"
+                ><input type="checkbox" name="outcome" value="Follow-up" />
+                Follow-up / Call me</label
+              >
+              <label class="chip"
+                ><input type="checkbox" name="outcome" value="Investigate" />
+                Investigate / Take action</label
+              >
             </div>
           </div>
 
@@ -792,19 +1113,47 @@
     </div>
 
     <script>
+      /* =========================
+         MOBILE DRAWER LOGIC
+      ========================== */
+      const hamburger = document.getElementById("hamburger");
+      const drawer = document.getElementById("drawer");
+      const drawerOverlay = document.getElementById("drawerOverlay");
+      const drawerClose = document.getElementById("drawerClose");
+
+      function openDrawer() {
+        document.body.classList.add("drawer-open");
+        drawer.setAttribute("aria-hidden", "false");
+      }
+
+      function closeDrawer() {
+        document.body.classList.remove("drawer-open");
+        drawer.setAttribute("aria-hidden", "true");
+      }
+
+      hamburger?.addEventListener("click", openDrawer);
+      drawerClose?.addEventListener("click", closeDrawer);
+      drawerOverlay?.addEventListener("click", closeDrawer);
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeDrawer();
+      });
+
+      /* =========================
+         YOUR EXISTING FORM LOGIC
+      ========================== */
       const submitBtn = document.getElementById("submitBtn");
       const popup = document.getElementById("popup");
       const popupMsg = document.getElementById("popupMsg");
       const closePopup = document.getElementById("closePopup");
 
-      // ✅ Evidence (optional) preview + local save
       const evidenceInput = document.getElementById("evidence");
       const evidencePreview = document.getElementById("evidencePreview");
       const evidenceImg = document.getElementById("evidenceImg");
       const evidenceMeta = document.getElementById("evidenceMeta");
       const removeEvidence = document.getElementById("removeEvidence");
 
-      let evidenceDataUrl = null; // base64 (front-end only)
+      let evidenceDataUrl = null;
 
       function getCheckedValues(selector) {
         return Array.from(document.querySelectorAll(selector))
@@ -834,7 +1183,6 @@
 
         msg.textContent = message;
         msg.classList.add("show");
-
         return field;
       }
 
@@ -867,7 +1215,6 @@
           return;
         }
 
-        // ✅ Front-end-only "upload": convert to base64 (localStorage later)
         const reader = new FileReader();
         reader.onload = () => {
           evidenceDataUrl = reader.result;
@@ -885,8 +1232,6 @@
       });
 
       function saveComplaintToLocalStorage(record) {
-        // ✅ Front-end only: store in localStorage (not a real backend)
-        // Note: localStorage is limited in size; keep images small.
         const key = "shioklah_complaints";
         const existing = JSON.parse(localStorage.getItem(key) || "[]");
         existing.unshift(record);
@@ -905,46 +1250,33 @@
 
         let firstError = null;
 
-        if (!name.value.trim()) {
+        if (!name.value.trim())
           firstError = firstError || markError(name, "Name is required");
-        }
-
-        if (!email.value.trim() || !email.value.includes("@")) {
+        if (!email.value.trim() || !email.value.includes("@"))
           firstError =
             firstError || markError(email, "Valid email is required");
-        }
-
-        if (getCheckedValues('input[name="stalls"]').length === 0) {
+        if (getCheckedValues('input[name="stalls"]').length === 0)
           firstError =
             firstError || markError(stalls, "Please select at least one stall");
-        }
-
-        if (!category.value) {
+        if (!category.value)
           firstError =
             firstError ||
             markError(category, "Please choose a complaint category");
-        }
-
-        if (!details.value.trim() || details.value.trim().length < 10) {
+        if (!details.value.trim() || details.value.trim().length < 10)
           firstError =
             firstError ||
             markError(details, "Please describe the issue (min 10 characters)");
-        }
-
-        if (!consent.checked) {
+        if (!consent.checked)
           firstError =
             firstError ||
             markError(consent, "You must agree before submitting");
-        }
 
         if (firstError) {
           firstError.scrollIntoView({ behavior: "smooth", block: "center" });
-          // ✅ Message now DOES NOT imply photos are required
           showPopup("Please fill in the required fields (photo is optional).");
           return;
         }
 
-        // ✅ Build record (photo optional)
         const record = {
           id: "CMP-" + Date.now(),
           createdAt: new Date().toISOString(),
@@ -959,14 +1291,12 @@
           time: document.getElementById("time").value,
           details: details.value.trim(),
           outcome: getCheckedValues('input[name="outcome"]'),
-          evidenceDataUrl: evidenceDataUrl, // null if no image ✅
+          evidenceDataUrl: evidenceDataUrl,
         };
 
-        // ✅ Save locally (front-end only)
         try {
           saveComplaintToLocalStorage(record);
         } catch (e) {
-          // if localStorage full (usually because big images), still allow submit
           console.warn("Local save failed:", e);
         }
 
@@ -977,9 +1307,6 @@
 
       closePopup.addEventListener("click", () => {
         popup.classList.remove("show");
-        // ✅ After successful submit, go home immediately
-        // If the popup is showing due to validation error, user stays on page.
-        // We can detect success by checking message text:
         if (
           popupMsg.textContent.toLowerCase().includes("complaint submitted")
         ) {
@@ -988,9 +1315,7 @@
       });
 
       popup.addEventListener("click", (e) => {
-        if (e.target === popup) {
-          popup.classList.remove("show");
-        }
+        if (e.target === popup) popup.classList.remove("show");
       });
     </script>
   </body>
