@@ -507,7 +507,8 @@
         localStorage.getItem("loggedInUser") ||
         "";
 
-      const ownerKey = username ? username : sessionStorage.getItem("guestId") || "";
+      const ownerKey = username ? username: (localStorage.getItem("guestId") || "");
+
       if (!ownerKey) {
         showOnly(guestBox);
         return;
@@ -524,7 +525,8 @@
           qUserOrders,
           (snapshot) => {
             if (!snapshot.exists()) {
-              showOnly(firstTimeBox);
+              if (!username) showOnly(guestBox);      // guest but no orders
+              else showOnly(firstTimeBox);            // registered but no orders
               return;
             }
 
