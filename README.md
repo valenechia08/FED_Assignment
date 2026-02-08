@@ -92,6 +92,7 @@ Tested responsive layout on desktop and mobile screen sizes
 Tested navigation menu and hamburger menu functionality
 
 Deployment
+GitHub Pages link: https://valenechia08.github.io/FED_Assignment/
 GitHub link: https://github.com/valenechia08/FED_Assignment.git
 Deployment Process:
 Create new Repository, go to Repository Settings then Pages. Select main branch and root folder. Save and access the generated GitHub Pages link.
