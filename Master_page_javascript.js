@@ -235,10 +235,10 @@ window.getCurrentUsername = function () {
   ).trim();
 };
 
-document.addEventListener("keydown", function (event) {
-  if (event.key === "Enter") {
-    document.getElementById("loginBtn").click();
-  }
+document.addEventListener("keydown", (event) => {
+  if (event.key !== "Enter") return;
+  const btn = document.getElementById("loginBtn");
+  if (btn) btn.click();
 });
 
 // =========================
@@ -248,13 +248,19 @@ document.addEventListener("DOMContentLoaded", () => {
   const usernameEl = document.getElementById("usernameDisplay");
   if (!usernameEl) return; // not on this page
 
-  const username = sessionStorage.getItem("loggedInUser");
+  const username =
+  sessionStorage.getItem("loggedInUser") ||
+  localStorage.getItem("loggedInUser") ||
+  "";
 
-  if (username) {
-    usernameEl.textContent = username;
-  } else {
-    usernameEl.textContent = "Guest";
-  }
+  usernameEl.textContent = username ? username : "Guest";
+  // const username = sessionStorage.getItem("loggedInUser");
+
+  // if (username) {
+  //   usernameEl.textContent = username;
+  // } else {
+  //   usernameEl.textContent = "Guest";
+  // }
 });
 
 async function retrieveAccount() {
@@ -284,16 +290,33 @@ function generateCode() {
 document.addEventListener("DOMContentLoaded", () => {
   const path = window.location.pathname.toLowerCase(); // safer
 
-  if (
-    path.endsWith("login.html") &&
-    sessionStorage.getItem("currentRole") === "patron"
-  ) {
-    const guestDiv = document.getElementById("guestLogin"); // use real DOM call
-    if (guestDiv) {
-      guestDiv.style.display = "block";
-      guestDiv.innerHTML = `<a href="FED_ASG.html">Continue as guest</a>`;
-    }
+  const guestDiv = document.getElementById("guestLogin");
+  if (!guestDiv) return;
+
+  const role = sessionStorage.getItem("currentRole");
+
+  if (path.endsWith("login.html") && role === "patron") {
+    guestDiv.innerHTML = `<button id="continueGuestBtn" type="button">Continue as guest</button>`;
+
+    const btn = document.getElementById("continueGuestBtn");
+    if (!btn) return;
+
+    btn.addEventListener("click", () => {
+      localStorage.removeItem("loggedInUser");
+      sessionStorage.removeItem("loggedInUser");
+      sessionStorage.removeItem("currentUserId");
+
+      let guestId = localStorage.getItem("guestId");
+      if (!guestId) {
+        guestId = "guest_" + Math.random().toString(36).slice(2, 10);
+        localStorage.setItem("guestId", guestId);
+      }
+
+      window.location.href = "FED_ASG.html";
+    });
   }
+
+
 
   if (
     path.endsWith("login.html") &&
@@ -306,25 +329,34 @@ document.addEventListener("DOMContentLoaded", () => {
     if (links) links.classList.add("nea-alignment");
   }
 });
-document.addEventListener("DOMContentLoaded", () => {
+
   /* =========================
      LOGOUT → CLEAR SESSION
   ========================= */
+document.addEventListener("DOMContentLoaded", () => {
   const logoutLink = document.querySelector('a[href="SelectRole.html"]');
+  if (!logoutLink) return;
 
-  if (logoutLink) {
-    logoutLink.addEventListener("click", (e) => {
-      e.preventDefault(); // stop instant redirect
+  logoutLink.addEventListener("click", (e) => {
+    e.preventDefault();
 
-      // 🧹 clear everything for this session
-      sessionStorage.clear();
+    const wasGuest =
+      !(sessionStorage.getItem("loggedInUser") || localStorage.getItem("loggedInUser"));
 
-      // optional cleanup if you used localStorage too
-      localStorage.removeItem("loggedInUser");
-      window.location.href = "SelectRole.html";
-    });
-  }
+    // clear login always
+    sessionStorage.removeItem("loggedInUser");
+    localStorage.removeItem("loggedInUser");
+
+    // clear session stuff
+    sessionStorage.clear();
+
+    // only guests lose guestId
+    if (wasGuest) localStorage.removeItem("guestId");
+
+    window.location.href = "SelectRole.html";
+  });
 });
+
 
 // Verify OTP
 document.addEventListener("DOMContentLoaded", () => {
@@ -459,7 +491,12 @@ document.addEventListener("DOMContentLoaded", () => {
       if (e.key === "Enter") registerMember();
     });
   }
+
 });
+
+
+
+
 //LOGOUT & Login
 // Check login
 // document.addEventListener("DOMContentLoaded", () => {
@@ -1141,27 +1178,28 @@ document.addEventListener("click", (e) => {
     item.classList.remove("active");
   });
 });
-const hamburger = document.getElementById("hamburger");
-const menu = document.getElementById("menu");
-const overlay = document.getElementById("navOverlay");
 
-function openNav() {
-  menu.classList.add("show");
-  if (overlay) overlay.classList.add("show");
-  document.body.style.overflow = "hidden";
-}
+document.addEventListener("DOMContentLoaded", () => {
+  const hamburger = document.getElementById("hamburger");
+  const menu = document.getElementById("menu");
+  const overlay = document.getElementById("navOverlay");
 
-function closeNav() {
-  menu.classList.remove("show");
-  if (overlay) overlay.classList.remove("show");
-  document.body.style.overflow = "";
-}
+  // ✅ If this page doesn't have the mobile nav, do nothing
+  if (!hamburger || !menu || !overlay) return;
 
-hamburger.addEventListener("click", () => {
-  menu.classList.contains("show") ? closeNav() : openNav();
+  hamburger.addEventListener("click", () => {
+    menu.classList.toggle("show");
+    overlay.classList.toggle("show");
+    document.body.style.overflow = menu.classList.contains("show") ? "hidden" : "";
+  });
+
+  overlay.addEventListener("click", () => {
+    menu.classList.remove("show");
+    overlay.classList.remove("show");
+    document.body.style.overflow = "";
+  });
 });
 
-if (overlay) overlay.addEventListener("click", closeNav);
 
 /* =========================
    ORDER MODE (pickup/takeaway)
@@ -1476,7 +1514,7 @@ function renderCart() {
 
 //making guestId
 function getOrCreateGuestId() {
-  let id = localStorage.getItem("guestId");   // ✅ use localStorage
+  let id = localStorage.getItem("guestId");
   if (!id) {
     id = "guest_" + Math.random().toString(36).slice(2, 10);
     localStorage.setItem("guestId", id);
@@ -1484,101 +1522,43 @@ function getOrCreateGuestId() {
   return id;
 }
 
-//Valene's code: still editing
+function generateOrderId() {
+  const rand = Math.floor(1000 + Math.random() * 9000);
+  return `ORD-${rand}`;
+}
 
-//For OrderSummary.html
-// function generateOrderId() {
-//   const rand = Math.floor(1000 + Math.random() * 9000); // 1000–9999
-//   return `ORD-${rand}`;
-// }
+async function placeOrderAndSave() {
+  const cart = getCart();
+  if (!cart.length) return null;
 
-// async function placeOrderAndSave() {
-//   const cart = getCart();
-//   if (!cart.length) return null;
-  
-//   const orderNo = generateOrderId();
-//   // const username = sessionStorage.getItem("loggedInUser");
-//   const username =
-//     sessionStorage.getItem("loggedInUser") ||
-//     localStorage.getItem("loggedInUser") ||
-//     "";
-//   const isGuest = !username;
-  
-//   const ownerKey = isGuest ? getOrCreateGuestId() : username;
+  const orderNo = generateOrderId();
 
-//   const order = {
-//     orderNo,
-//     ownerKey,
-//     userType: isGuest ? "guest" : "registered",
-//     username: isGuest ? "" : username,
-//     createdAt: Date.now(),
-//     items: cart,
-//     orderMode: sessionStorage.getItem("orderMode") || "pickup",
-//     paymentMethod: sessionStorage.getItem("paymentMethod") || "visa",
-//     status: "Pending",
-//   };
+  const username =
+    sessionStorage.getItem("loggedInUser") ||
+    localStorage.getItem("loggedInUser") ||
+    "";
 
-//   sessionStorage.removeItem("guestId"); // ✅ clears guest order identity
-//   sessionStorage.removeItem("cart");
-//   localStorage.removeItem("loggedInUser");
-//   sessionStorage.removeItem("loggedInUser");
-//   // only clear guestId if they are guest
-//   if (isGuest) {
-//     sessionStorage.removeItem("guestId");
-//   }
+  const isGuest = !username;
+  const ownerKey = isGuest ? getOrCreateGuestId() : username;
 
+  const order = {
+    orderNo,
+    ownerKey,
+    userType: isGuest ? "guest" : "registered",
+    username: isGuest ? "" : username,
+    createdAt: Date.now(),
+    items: cart,
+    orderMode: sessionStorage.getItem("orderMode") || "pickup",
+    paymentMethod: sessionStorage.getItem("paymentMethod") || "visa",
+    status: "Pending",
+  };
 
-  // const order = {
-  //   orderNo,
-  //   ownerKey,
-  //   userType: isGuest ? "guest" : "registered",
-  //   username: isGuest ? "" : username,
-  //   createdAt: Date.now(),
-  //   items: cart,
-  //   orderMode: sessionStorage.getItem("orderMode") || "pickup",
-  //   paymentMethod: sessionStorage.getItem("paymentMethod") || "visa",
-  //   status: "Pending",
-  // };
+  const newRef = push(ref(db, "orders"));
+  await set(newRef, order);
 
-  // const newRef = push(ref(db, "orders"));
-  // await set(newRef, order);
-
-  // sessionStorage.setItem("lastOrderNo", orderNo);
-  // return orderNo;
-
-
-  // const ownerKey = isGuest ? getOrCreateGuestId() : username;
-  // const userType = isGuest ? "guest" : "registered";    //check user is guest or registered
-  // const order = {
-  //   orderNo,
-  //   ownerKey,          // ✅ used for lookup
-  //   userType,          // guest / registered
-  //   username: isGuest ? "" : username, 
-  //   createdAt: Date.now(),
-  //   items: cart,
-  //   orderMode: sessionStorage.getItem("orderMode") || "pickup",
-  //   paymentMethod: sessionStorage.getItem("paymentMethod") || "visa",
-  //   status: "Pending",
-  // };
-
-
-
-  // const order = {
-  //   orderNo: orderNo,
-  //   username: username,
-  //   createdAt: Date.now(),
-  //   items: cart,
-  //   orderMode: sessionStorage.getItem("orderMode") || "pickup",
-  //   paymentMethod: sessionStorage.getItem("paymentMethod") || "visa",
-  //   status: "Pending",
-  // };
-
-  // ✅ safest: push under /orders
-  // const newRef = push(ref(db, "orders"));
-  // await set(newRef, order);
-
-  // sessionStorage.setItem("lastOrderNo", orderNo);
-  // return orderNo;
+  sessionStorage.setItem("lastOrderNo", orderNo);
+  return orderNo;
+}
 
 
 document.addEventListener("DOMContentLoaded", () => {

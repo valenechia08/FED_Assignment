@@ -282,6 +282,7 @@
         </div>
       </div>
     </nav>
+    <div class="nav-overlay" id="navOverlay"></div>
     <hr class="Nav-line" />
 
     <div class="dash-wrap">
@@ -404,254 +405,205 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-      /* ========= Helper functions for insights ========= */
-      function sum(arr) { return arr.reduce((a, b) => a + b, 0); }
-      function maxIndex(arr) {
+    <script type="module" src="Master_page_javascript.js"></script>
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+      import {
+        getDatabase,
+        ref,
+        onValue,
+        query,
+        orderByChild,
+        equalTo
+      } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyCoYoGP4NYJPHqA-kV_swajQ4LSQYdyWV4",
+        authDomain: "grp3fedapp.firebaseapp.com",
+        databaseURL: "https://grp3fedapp-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "grp3fedapp",
+        storageBucket: "grp3fedapp.firebasestorage.app",
+        messagingSenderId: "791146838729",
+        appId: "1:791146838729:web:446baee191feeb036e2b18",
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const db = getDatabase(app);
+
+      // ------- helpers -------
+      const sum = (arr) => arr.reduce((a, b) => a + b, 0);
+      const maxIndex = (arr) => {
         let idx = 0;
         for (let i = 1; i < arr.length; i++) if (arr[i] > arr[idx]) idx = i;
         return idx;
-      }
-      function percentChange(current, previous) {
-        if (previous === 0) return 0;
-        return ((current - previous) / previous) * 100;
-      }
-      function fmtPct(n) { const sign = n >= 0 ? "+" : ""; return `${sign}${n.toFixed(1)}%`; }
+      };
+      const percentChange = (cur, prev) => (prev === 0 ? 0 : ((cur - prev) / prev) * 100);
+      const fmtPct = (n) => `${n >= 0 ? "+" : ""}${n.toFixed(1)}%`;
+
       function setDelta(el, value) {
+        if (!el) return;
         el.textContent = fmtPct(value);
         el.classList.remove("up", "down");
         el.classList.add(value >= 0 ? "up" : "down");
       }
 
-      /* ========= NAV JS (dropdown + hamburger) ========= */
-      document.querySelectorAll(".menu-item > a").forEach((a) => {
-        a.addEventListener("click", (e) => {
-          const item = a.parentElement;
-          const dropdown = item.querySelector(".dropdown");
-          if (dropdown) {
-            e.preventDefault();
-            document.querySelectorAll(".menu-item").forEach((i) => {
-              if (i !== item) i.classList.remove("active");
-            });
-            item.classList.toggle("active");
-          }
-        });
-      });
+      function getOwnerKey() {
+        const username =
+          sessionStorage.getItem("loggedInUser") ||
+          localStorage.getItem("loggedInUser") ||
+          "";
 
-      const hamburger = document.getElementById("hamburger");
-      const menu = document.getElementById("menu");
-      if (hamburger && menu) {
-        hamburger.addEventListener("click", () => menu.classList.toggle("show"));
+        return username ? username : (localStorage.getItem("guestId") || "");
       }
 
-      /* ========= Data by filter ========= */
-      const salesDataByFilter = {
-        month:  { labels: ["Chicken Rice", "Laksa", "Hokkien Mee"], data: [50, 40, 12] },
-        "3months": { labels: ["Chicken Rice", "Laksa", "Hokkien Mee"], data: [150, 120, 40] },
-        "6months": { labels: ["Chicken Rice", "Laksa", "Hokkien Mee"], data: [300, 250, 90] }
-      };
+      // --- time windows ---
+      function windowStartMs(filter) {
+        const now = Date.now();
+        const day = 24 * 60 * 60 * 1000;
 
-      const feedbackDataByFilter = {
-        month:    [3.4, 11.4, 22.7, 34.1, 28.4],
-        "3months":[8.2, 5.1, 30.6, 35.7, 20.4],
-        "6months":[2.3, 17.2, 23, 34.5, 23]
-      };
+        if (filter === "month") return now - 30 * day;
+        if (filter === "3months") return now - 90 * day;
+        if (filter === "6months") return now - 180 * day;
 
-      /* ========= HYGIENE DATA (by year) ========= */
-      const gradeMap = ["", "D", "C", "B", "A"]; // 1-4 -> D-A
-      const hygieneDataByYear = {
-        2026: { labels: ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"], data: [3,3,2,3,4,4,3,3,4,4,4,3] },
-        2025: { labels: ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"], data: [2,2,2,3,3,3,2,2,3,4,4,3] },
-        2024: { labels: ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"], data: [1,2,2,2,3,3,2,3,3,3,4,3] }
-      };
+        return now - 30 * day;
+      }
 
-      /* ========= Charts ========= */
-      const salesChart = new Chart(document.getElementById("salesChart"), {
+      function previousWindowStartMs(filter) {
+        const now = Date.now();
+        const day = 24 * 60 * 60 * 1000;
+
+        // previous period of same length
+        if (filter === "month") return now - 60 * day;     // previous 30 days
+        if (filter === "3months") return now - 180 * day;  // previous 90 days
+        if (filter === "6months") return now - 360 * day;  // previous 180 days
+
+        return now - 60 * day;
+      }
+
+      function ordersInRange(orders, startMs, endMs) {
+        return orders.filter(o => (o.createdAt || 0) >= startMs && (o.createdAt || 0) < endMs);
+      }
+
+      // --- aggregate: top items by qty ---
+      function computeTopItems(orders, topN = 3) {
+        const counts = new Map();
+
+        orders.forEach(order => {
+          const items = Array.isArray(order.items) ? order.items : [];
+          items.forEach(it => {
+            const name = it.item || it.name || "Unknown";
+            const qty = Number(it.qty || 1);
+            counts.set(name, (counts.get(name) || 0) + qty);
+          });
+        });
+
+        const sorted = Array.from(counts.entries()).sort((a, b) => b[1] - a[1]);
+        const top = sorted.slice(0, topN);
+
+        return {
+          labels: top.map(x => x[0]),
+          data: top.map(x => x[1]),
+          all: sorted
+        };
+      }
+
+      // ------- Chart init (same style as yours) -------
+      const salesCanvas = document.getElementById("salesChart");
+      const salesChart = new Chart(salesCanvas, {
         type: "bar",
-        data: {
-          labels: salesDataByFilter.month.labels,
-          datasets: [{
-            label: "Orders",
-            data: salesDataByFilter.month.data,
-            backgroundColor: ["#FF8C3A", "#FFD400", "#66B2FF"]
-          }]
-        },
+        data: { labels: [], datasets: [{ label: "Orders", data: [] }] },
         options: {
           responsive: true,
           maintainAspectRatio: false,
           plugins: { legend: { display: false } },
           scales: {
             x: { grid: { display: false } },
-            y: { grid: { color: "rgba(15,23,42,0.06)" }, ticks: { precision: 0 } }
-          }
-        }
-      });
-
-      const feedbackChart = new Chart(document.getElementById("feedbackChart"), {
-        type: "doughnut",
-        data: {
-          labels: ["1★", "2★", "3★", "4★", "5★"],
-          datasets: [{
-            data: feedbackDataByFilter.month,
-            backgroundColor: ["#ff4d4d", "#ff944d", "#ffd11a", "#99cc00", "#33cc33"],
-            borderWidth: 2,
-            borderColor: "#ffffff"
-          }]
+            y: { grid: { color: "rgba(15,23,42,0.06)" }, ticks: { precision: 0 } },
+          },
         },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          cutout: "68%",
-          plugins: {
-            legend: {
-              position: "top",
-              labels: { boxWidth: 14, boxHeight: 10, padding: 16 }
-            }
-          }
-        }
       });
 
-      const defaultYear = "2026";
+      // ------- MAIN realtime listener -------
+      const ownerKey = getOwnerKey();
+      if (!ownerKey) {
+        // no user/guest -> show 0s
+        document.getElementById("kpiTotalOrders").textContent = "0";
+      } else {
+        const qUserOrders = query(ref(db, "orders"), orderByChild("ownerKey"), equalTo(ownerKey));
 
-      // ✅ STRAIGHT LINES: set tension to 0 (no curve)
-      const hygieneChart = new Chart(document.getElementById("hygieneChart"), {
-        type: "line",
-        data: {
-          labels: hygieneDataByYear[defaultYear].labels,
-          datasets: [{
-            label: "Hygiene Grade",
-            data: hygieneDataByYear[defaultYear].data,
-            borderColor: "#FF8C3A",
-            tension: 0,          /* <-- straight line */
-            cubicInterpolationMode: "default",
-            fill: false,
-            pointRadius: 4,
-            pointHoverRadius: 6
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { display: true } },
-          scales: {
-            x: { grid: { display: false } },
-            y: {
-              min: 1,
-              max: 4,
-              title: { display: true, text: "Hygiene Grade" },
-              ticks: {
-                stepSize: 1,
-                callback: (value) => gradeMap[value]
-              },
-              grid: { color: "rgba(15,23,42,0.06)" }
-            }
-          }
-        }
-      });
+        onValue(qUserOrders, (snapshot) => {
+          const data = snapshot.exists() ? snapshot.val() : {};
+          const orders = Object.entries(data).map(([id, order]) => ({ id, ...order }));
 
-      /* ========= KPI + Insights updater ========= */
-      function updateKPIsAndInsights() {
-        const salesFilter = document.getElementById("salesFilter").value;
-        const feedbackFilter = document.getElementById("feedbackFilter").value;
-        const hygieneYear = document.getElementById("hygieneFilter").value;
-
-        // --- Sales KPIs
-        const salesNow = salesDataByFilter[salesFilter].data;
-        const salesPrev =
-          salesFilter === "month" ? salesDataByFilter["3months"].data
-          : salesFilter === "3months" ? salesDataByFilter["6months"].data
-          : salesDataByFilter["3months"].data;
-
-        const totalOrdersNow = sum(salesNow);
-        const totalOrdersPrev = sum(salesPrev);
-        const ordersDelta = percentChange(totalOrdersNow, totalOrdersPrev);
-
-        const idxTop = maxIndex(salesNow);
-        const topName = salesDataByFilter[salesFilter].labels[idxTop];
-        const topVal = salesNow[idxTop];
-        const topShare = (topVal / totalOrdersNow) * 100;
-
-        document.getElementById("kpiTotalOrders").textContent = totalOrdersNow.toLocaleString();
-        document.getElementById("kpiOrdersSub").textContent =
-          salesFilter === "month" ? "This Month"
-          : salesFilter === "3months" ? "Last 3 Months"
-          : "Last 6 Months";
-        setDelta(document.getElementById("kpiOrdersDelta"), ordersDelta);
-
-        document.getElementById("kpiTopItem").textContent = topName;
-        document.getElementById("kpiTopItemSub").textContent = `Share: ${topShare.toFixed(1)}%`;
-        document.getElementById("kpiTopItemBadge").textContent = topShare >= 45 ? "Hot" : "Steady";
-
-        document.getElementById("salesInsightText").textContent = `Top seller is ${topName} with`;
-        document.getElementById("salesInsightStrong").textContent = `${topVal} orders (${topShare.toFixed(1)}%)`;
-
-        // --- Feedback KPIs
-        const fb = feedbackDataByFilter[feedbackFilter];
-        const totalFb = sum(fb);
-        const avgRating = (1*fb[0] + 2*fb[1] + 3*fb[2] + 4*fb[3] + 5*fb[4]) / totalFb;
-        const positiveShare = ((fb[3] + fb[4]) / totalFb) * 100;
-        const avgLabel = `${avgRating.toFixed(2)}★`;
-
-        document.getElementById("kpiAvgRating").textContent = avgLabel;
-        document.getElementById("kpiRatingSub").textContent = `4★–5★ share: ${positiveShare.toFixed(1)}%`;
-        document.getElementById("kpiRatingBadge").textContent =
-          positiveShare >= 60 ? "Strong" : positiveShare >= 45 ? "Okay" : "Needs work";
-
-        document.getElementById("feedbackInsightText").textContent = `Positive feedback (4★–5★) is`;
-        document.getElementById("feedbackInsightStrong").textContent = `${positiveShare.toFixed(1)}%`;
-
-        // --- Hygiene KPIs (year)
-        const h = hygieneDataByYear[hygieneYear].data;
-        const latest = h[h.length - 1];
-        const first = h[0];
-
-        document.getElementById("kpiInspectScore").textContent = gradeMap[latest];
-        document.getElementById("kpiInspectSub").textContent = `Year ${hygieneYear}`;
-
-        let trendText = "Same";
-        let trendUp = true;
-        if (latest > first) { trendText = "Improved"; trendUp = true; }
-        else if (latest < first) { trendText = "Dropped"; trendUp = false; }
-
-        const deltaEl = document.getElementById("kpiInspectDelta");
-        deltaEl.textContent = trendText;
-        deltaEl.classList.remove("up", "down");
-        deltaEl.classList.add(trendUp ? "up" : "down");
-
-        const best = Math.max(...h);
-        document.getElementById("hygieneInsightText").textContent = `Best grade in ${hygieneYear} is`;
-        document.getElementById("hygieneInsightStrong").textContent =
-          `${gradeMap[best]} (latest: ${gradeMap[latest]})`;
+          // update everything whenever Firebase changes
+          renderSalesAndKPI(orders);
+        });
       }
 
-      /* ========= Filter handlers ========= */
-      document.getElementById("salesFilter").addEventListener("change", function () {
-        const pack = salesDataByFilter[this.value];
-        salesChart.data.labels = pack.labels;
-        salesChart.data.datasets[0].data = pack.data;
+      // also react when user changes the dropdown filter
+      document.getElementById("salesFilter")?.addEventListener("change", () => {
+        const ownerKey = getOwnerKey();
+        if (!ownerKey) return;
+
+        const qUserOrders = query(ref(db, "orders"), orderByChild("ownerKey"), equalTo(ownerKey));
+        // we already have the onValue listener; simplest is to just recompute from last snapshot
+        // (so we keep a cached copy)
+        // We'll store in window for convenience:
+        renderSalesAndKPI(window.__ordersCache || []);
+      });
+
+      function renderSalesAndKPI(orders) {
+        window.__ordersCache = orders;
+
+        const filter = document.getElementById("salesFilter")?.value || "month";
+        const now = Date.now();
+
+        const startNow = windowStartMs(filter);
+        const startPrev = previousWindowStartMs(filter);
+
+        const current = ordersInRange(orders, startNow, now);
+        const previous = ordersInRange(orders, startPrev, startNow);
+
+        // KPI: total orders (current window)
+        const totalOrdersNow = current.length;
+        const totalOrdersPrev = previous.length;
+        const delta = percentChange(totalOrdersNow, totalOrdersPrev);
+
+        document.getElementById("kpiTotalOrders").textContent = String(totalOrdersNow);
+        document.getElementById("kpiOrdersSub").textContent =
+          filter === "month" ? "Last 30 days" : filter === "3months" ? "Last 90 days" : "Last 180 days";
+        setDelta(document.getElementById("kpiOrdersDelta"), delta);
+
+        // Sales chart: top items by qty (current window)
+        const top = computeTopItems(current, 3);
+
+        salesChart.data.labels = top.labels;
+        salesChart.data.datasets[0].data = top.data;
         salesChart.update();
-        updateKPIsAndInsights();
-      });
 
-      document.getElementById("feedbackFilter").addEventListener("change", function () {
-        feedbackChart.data.datasets[0].data = feedbackDataByFilter[this.value];
-        feedbackChart.update();
-        updateKPIsAndInsights();
-      });
+        // Insight text under Sales Analytics
+        const totalItems = sum(top.data);
+        if (top.labels.length) {
+          const idx = maxIndex(top.data);
+          const topName = top.labels[idx];
+          const topVal = top.data[idx];
+          const share = totalItems ? (topVal / totalItems) * 100 : 0;
 
-      document.getElementById("hygieneFilter").addEventListener("change", function () {
-        const year = this.value;
-        const pack = hygieneDataByYear[year];
-        hygieneChart.data.labels = pack.labels;
-        hygieneChart.data.datasets[0].data = pack.data;
-        hygieneChart.update();
-        updateKPIsAndInsights();
-      });
+          document.getElementById("kpiTopItem").textContent = topName;
+          document.getElementById("kpiTopItemSub").textContent = `Share: ${share.toFixed(1)}%`;
+          document.getElementById("kpiTopItemBadge").textContent = share >= 45 ? "Hot" : "Steady";
 
-      // Initial render
-      document.getElementById("hygieneFilter").value = defaultYear;
-      updateKPIsAndInsights();
-      
+          document.getElementById("salesInsightText").textContent = `Top seller is ${topName} with`;
+          document.getElementById("salesInsightStrong").textContent = `${topVal} items (${share.toFixed(1)}%)`;
+        } else {
+          document.getElementById("kpiTopItem").textContent = "—";
+          document.getElementById("kpiTopItemSub").textContent = "Share: —";
+          document.getElementById("kpiTopItemBadge").textContent = "—";
+          document.getElementById("salesInsightText").textContent = "No orders in this period.";
+          document.getElementById("salesInsightStrong").textContent = "—";
+        }
+      }
     </script>
+
   </body>
 </html>
