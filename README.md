@@ -64,15 +64,19 @@ Ensures usability across devices
 
 Ethan:
 Regulatory & Compliance:
+
 Inspection scheduling and logging by NEA officers
 View a list of inspections that are slated as upcoming and/or completed months ago, with filters
 
 Record inspection scores, remarks, and hygiene grades
+
 The most recent inspection can accept data in a web form per stall and determine their hygiene grade to be issued, based on several factors rated in percentages
+
 Cleanliness, Handling and Efficiency
 The average percentage for the stall sets the hygiene grade (A, B, C) based on a percentage range
 
-Display historical hygiene grades for transparency
+Display historical hygiene grades for transparency 
+
 Previous inspections with historical stalls' hygiene grades and ratings can be viewed
 
 Aadya:
